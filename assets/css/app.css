@@ -571,6 +571,26 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .norm-link { text-decoration-style: dotted; text-underline-offset: 2px; font-weight: inherit; }
 .norm-link:hover { text-decoration-style: solid; }
 
+/* Jahreskreis (R5): 12-Monats-Timeline im Nachschlag. Das SVG skaliert
+   über den Kartenrahmen; auf schmalen Geräten scrollt es horizontal. */
+.jahreskreis { overflow-x: auto; margin: var(--bw-abstand, 16px) 0 8px; }
+.jahreskreis-svg { display: block; min-width: 860px; width: 100%; height: auto; }
+.jahreskreis-svg text { font-family: var(--bw-font-sans); fill: var(--bw-schwarz); }
+.jk-monat { font-size: 12px; fill: var(--bw-grau-700); }
+.jk-monat--jetzt { font-weight: 700; fill: var(--bw-schwarz); }
+.jk-gruppe { font-size: 13px; font-weight: 700; }
+.jk-label { font-size: 12px; }
+.jk-legende { margin-top: 0; }
+.jk-listentitel { margin: 14px 0 4px; font-size: 1.02rem; }
+.jk-liste { margin: 0 0 8px; padding-left: 20px; }
+.jk-liste li { margin: 0 0 8px; }
+@media print { .jahreskreis { overflow: visible; } .jahreskreis-svg { min-width: 0; } }
+
+/* Ergebnisfläche des Fahrplan-Rechners: Tabelle statt Fließtext. */
+.rechner-ergebnis--plan { padding: 10px 12px; }
+.rechner-ergebnis--plan:empty { display: none; }
+.rechner-ergebnis--plan .tabellen-rahmen { margin: 4px 0 8px; }
+
 /* Querverweise zwischen Artikeln ([[artikel-id]], D1): innenliegende
    Links im Fließtext — gestrichelt unterstrichen, im Druck neutraler Text. */
 .querlink { color: inherit; font-weight: 600; text-decoration: underline; text-decoration-style: dashed; text-underline-offset: 3px; text-decoration-thickness: 1px; }

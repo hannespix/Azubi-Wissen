@@ -1629,6 +1629,7 @@
       h += '<h2 id="nt-' + esc(k.id) + '">' + esc(k.titel) + "</h2>";
       if (k.kurz) h += '<p class="bw-klein">' + fmtInline(k.kurz) + "</p>";
       if (k.rechner) h += rechnerHtml(k.rechner);
+      if (k.jahreskreis) h += jahreskreisHtml(k.jahreskreis);
       if (k.tabelle) {
         h += '<div class="tabellen-rahmen"><table class="bw-table"><thead><tr>' +
           k.tabelle.spalten.map(function (s) { return "<th scope=\"col\">" + esc(s) + "</th>"; }).join("") +
@@ -1712,8 +1713,22 @@
         '<div class="bw-field"><label for="rt-prozent">Teilzeitanteil</label><select id="rt-prozent">' +
         [50, 60, 70, 75, 80].map(function (p) { return '<option value="' + p + '"' + (p === 75 ? " selected" : "") + ">" + p + " % der Vollzeit</option>"; }).join("") +
         "</select></div>";
+    } else if (art === "fahrplan") {
+      h += '<div class="bw-field"><label for="rp-beginn">Ausbildungsbeginn</label><input type="date" id="rp-beginn" value="' + jahr + '-09-01"></div>' +
+        '<div class="bw-field"><label for="rp-dauer">Dauer</label><select id="rp-dauer">' +
+        [[24, "24 Monate (verkürzt)"], [30, "30 Monate"], [36, "36 Monate (Regelfall)"], [42, "42 Monate"]].map(function (o) {
+          return '<option value="' + o[0] + '"' + (o[0] === 36 ? " selected" : "") + ">" + o[1] + "</option>";
+        }).join("") + "</select></div>" +
+        '<div class="bw-field"><label for="rp-probezeit">Probezeit</label><select id="rp-probezeit">' +
+        [1, 2, 3, 4].map(function (n) { return '<option value="' + n + '"' + (n === 4 ? " selected" : "") + ">" + n + " Monat" + (n > 1 ? "e" : "") + "</option>"; }).join("") +
+        "</select></div>" +
+        '<div class="bw-field"><label for="rp-geb">Geburtsdatum (optional, für Jugendschutz-Fristen)</label><input type="date" id="rp-geb"></div>';
     }
-    h += "</div>" + '<p class="rechner-ergebnis" id="re-' + esc(art) + '" role="status" aria-live="polite"></p>';
+    if (art === "fahrplan") {
+      h += "</div>" + '<div class="rechner-ergebnis rechner-ergebnis--plan" id="re-fahrplan" role="status" aria-live="polite"></div>';
+    } else {
+      h += "</div>" + '<p class="rechner-ergebnis" id="re-' + esc(art) + '" role="status" aria-live="polite"></p>';
+    }
     return h;
   }
 
@@ -1773,7 +1788,120 @@
       ziel.innerHTML = "<strong>" + neu + " Monate</strong> Gesamtdauer (" + lesbar + ") bei " + prozent +
         " % Teilzeit — rechnerisch " + rechnerisch + " Monate, höchstens das Anderthalbfache (" + maximal +
         " Monate, § 7a BBiG). Endtermin auf den nächsten sinnvollen Prüfungstermin legen.";
+    } else if (art === "fahrplan") {
+      var fb = wert("#rp-beginn");
+      if (!fb) { ziel.innerHTML = '<p>Ausbildungsbeginn eingeben — der Fahrplan erscheint sofort.</p>'; return; }
+      var fDauer = parseInt(wert("#rp-dauer"), 10) || 36;
+      var fProbe = parseInt(wert("#rp-probezeit"), 10) || 4;
+      var fGeb = wert("#rp-geb");
+      var fStart = new Date(fb);
+      function plusMonate(d, m, minusTag) {
+        var x = new Date(d);
+        x.setMonth(x.getMonth() + m);
+        if (minusTag) x.setDate(x.getDate() - 1);
+        return x;
+      }
+      function de(d) { return d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" }); }
+      var fEnde = plusMonate(fStart, fDauer, true);
+      var zeilen = [];
+      zeilen.push(["[[eintragung|Vertrag einreichen & Eintragung]]", "vor Beginn — unverzüglich nach Vertragsschluss", "§ 36 BBiG"]);
+      var jugendlich = false;
+      if (fGeb) {
+        var fG = new Date(fGeb);
+        var f18 = new Date(fG); f18.setFullYear(f18.getFullYear() + 18);
+        jugendlich = f18 > fStart;
+        if (jugendlich) {
+          zeilen.push(["[[jugendliche|Ärztliche Erstuntersuchung]] (Bescheinigung höchstens 14 Monate alt)", "vor Beginn", "§ 32 JArbSchG"]);
+        }
+      }
+      zeilen.push(["**Ausbildungsbeginn**", de(fStart), "§ 11 BBiG (Niederschrift vorher)"]);
+      zeilen.push(["[[probezeit|Ende der Probezeit]] (" + fProbe + " Monate)", de(plusMonate(fStart, fProbe, true)), "§ 20 BBiG"]);
+      if (jugendlich) {
+        var fFrist = plusMonate(fStart, 14, true);
+        var f18b = new Date(new Date(fGeb)); f18b.setFullYear(f18b.getFullYear() + 18);
+        if (f18b <= fFrist) {
+          zeilen.push(["[[jugendliche|Erste Nachuntersuchung]]", "entfällt — 18. Geburtstag am " + de(f18b), "§ 33 JArbSchG"]);
+        } else {
+          zeilen.push(["[[jugendliche|Erste Nachuntersuchung]] — Erinnerung ab", de(plusMonate(fStart, 9, false)), "§ 33 JArbSchG"]);
+          zeilen.push(["[[jugendliche|Nachuntersuchung]] spätestens nachweisen (sonst Beschäftigungsverbot)", de(fFrist), "§ 33 JArbSchG"]);
+        }
+      }
+      var fMitte = plusMonate(fStart, Math.floor(fDauer / 2), false);
+      zeilen.push(["[[zwischenpruefung|Zwischenprüfung]] (etwa zur Ausbildungsmitte)", "ca. " + fMitte.toLocaleDateString("de-DE", { month: "long", year: "numeric" }), "§ 48 BBiG"]);
+      zeilen.push(["[[abschlusspruefung|Anmeldung zur Abschlussprüfung]] (durch den Betrieb)", "Termine der zuständigen Stelle beachten", "§ 43 BBiG"]);
+      zeilen.push(["[[freistellung|Tag vor der schriftlichen Abschlussprüfung]]: bezahlt frei", "je nach Prüfungstermin", "§ 15 BBiG · § 10 JArbSchG"]);
+      zeilen.push(["[[ende-uebernahme|Ohne Übernahme: arbeitsuchend melden]]", "spätestens " + de(plusMonate(fEnde, -3, false)), "§ 38 SGB III"]);
+      zeilen.push(["[[ende-uebernahme|Vertragliches Ausbildungsende]]", de(fEnde), "§ 21 BBiG"]);
+      var tabelle = '<div class="tabellen-rahmen"><table class="bw-table"><thead><tr>' +
+        "<th scope=\"col\">Station</th><th scope=\"col\">Termin</th><th scope=\"col\">Grundlage</th></tr></thead><tbody>" +
+        zeilen.map(function (z) {
+          return "<tr><td>" + fmtInline(z[0]) + "</td><td>" + fmtInline(z[1]) + "</td><td>" + fmtInline(z[2]) + "</td></tr>";
+        }).join("") + "</tbody></table></div>";
+      ziel.innerHTML = tabelle +
+        '<p class="bw-klein bw-leise">Mit bestandener Abschlussprüfung endet die Ausbildung schon mit Bekanntgabe des Ergebnisses (§ 21 Abs. 2 BBiG). Verkürzung, Teilzeit und Verlängerung verschieben die Termine — Änderungen laufen über die zuständige Stelle.</p>';
     }
+  }
+
+  // Jahreskreis (R5): 12-Monats-Timeline als eigenes SVG nach den
+  // Infografik-Regeln des Landes-CD — Grau als Basis, Gelb ausschließlich
+  // für den aktuellen Monat (mit dunkler Outline), Fixtermine als Rauten.
+  // Die vollständigen Informationen stehen barrierefrei in der Liste darunter.
+  function jahreskreisHtml(gruppen) {
+    var labelW = 252, mB = 62, W = labelW + 12 * mB;
+    var kopf = 30, zH = 30;
+    var zeilen = 0;
+    gruppen.forEach(function (g) { zeilen += 1 + g.eintraege.length; });
+    var H = kopf + zeilen * zH + 10;
+    var jetztM = new Date().getMonth(); // 0-basiert
+    var MON = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
+    function mx(monat, anteil) { return labelW + (monat - 1 + (anteil || 0)) * mB; }
+    var s = '<div class="jahreskreis"><svg class="jahreskreis-svg" viewBox="0 0 ' + W + " " + H +
+      '" aria-hidden="true" focusable="false">';
+    // Monatsraster
+    for (var m = 0; m <= 12; m++) {
+      s += '<line x1="' + (labelW + m * mB) + '" y1="' + (kopf - 8) + '" x2="' + (labelW + m * mB) + '" y2="' + (H - 6) + '" stroke="var(--bw-grau-200)" stroke-width="1"></line>';
+    }
+    // aktueller Monat: gelbe Spalte mit dunkler Outline (einziger Farbwert)
+    s += '<rect x="' + (labelW + jetztM * mB) + '" y="' + (kopf - 8) + '" width="' + mB + '" height="' + (H - kopf + 2) + '" fill="var(--bw-gelb)" opacity="0.28"></rect>' +
+      '<rect x="' + (labelW + jetztM * mB) + '" y="' + (kopf - 8) + '" width="' + mB + '" height="' + (H - kopf + 2) + '" fill="none" stroke="var(--bw-schwarz)" stroke-width="1"></rect>';
+    for (m = 0; m < 12; m++) {
+      s += '<text x="' + (labelW + m * mB + mB / 2) + '" y="' + (kopf - 12) + '" text-anchor="middle" class="jk-monat' + (m === jetztM ? " jk-monat--jetzt" : "") + '">' + MON[m] + "</text>";
+    }
+    // Zeilen
+    var y = kopf;
+    gruppen.forEach(function (g, gi) {
+      y += zH;
+      s += '<text x="2" y="' + (y - 10) + '" class="jk-gruppe">' + esc(g.g) + "</text>";
+      g.eintraege.forEach(function (e) {
+        y += zH;
+        s += '<text x="14" y="' + (y - 10) + '" class="jk-label">' + esc(e.t) + "</text>";
+        var farbe = gi % 2 ? "var(--bw-cat-2)" : "var(--bw-cat-1)";
+        var bh = e.laufend ? 7 : 14;
+        var by = y - 10 - bh - (e.laufend ? 2 : 0);
+        if (e.von && e.bis) {
+          var segmente = e.von <= e.bis ? [[e.von, e.bis]] : [[e.von, 12], [1, e.bis]];
+          segmente.forEach(function (seg) {
+            s += '<rect x="' + (mx(seg[0]) + 2) + '" y="' + by + '" width="' + ((seg[1] - seg[0] + 1) * mB - 4) +
+              '" height="' + bh + '" rx="4" fill="' + farbe + '" stroke="var(--bw-chart-outline)" stroke-width="1"></rect>';
+          });
+        }
+        (e.fixe || []).forEach(function (f) {
+          var cx = mx(f.m, Math.min(1, (f.tag || 15) / 31)), cy = y - 17;
+          s += '<path d="M ' + cx + " " + (cy - 6) + " L " + (cx + 5) + " " + cy + " L " + cx + " " + (cy + 6) + " L " + (cx - 5) + " " + cy + ' Z" fill="var(--bw-schwarz)"></path>';
+        });
+      });
+    });
+    s += "</svg></div>";
+    s += '<p class="bw-klein bw-leise jk-legende">Balken = Orientierungszeitraum · Raute = Fixtermin · gelbe Spalte = aktueller Monat. Verbindlich sind die jährlich veröffentlichten Termine und Einladungen der zuständigen Stelle.</p>';
+    // Barrierefreie Liste mit allen Details
+    gruppen.forEach(function (g) {
+      s += '<h3 class="jk-listentitel">' + esc(g.g) + "</h3><ul class=\"jk-liste\">";
+      g.eintraege.forEach(function (e) {
+        s += "<li><strong>" + esc(e.t) + "</strong> — " + esc(e.zeit) + "<br>" + fmtInline(e.info) + "</li>";
+      });
+      s += "</ul>";
+    });
+    return s;
   }
 
   function nachschlagVerhalten(root, params) {
