@@ -601,3 +601,7 @@ a.chip { display: inline-block; }
   font: inherit;
 }
 .platzhalter-felder select:disabled { color: var(--bw-text-leise); background: var(--bw-grau-50); }
+
+/* Browserleiste ist jetzt weiß (theme-color) — als Markenakzent trägt der
+   Header stattdessen eine schmale gelbe Unterkante (BaWü-Element). */
+.app-header { border-bottom: 3px solid var(--bw-gelb); }
