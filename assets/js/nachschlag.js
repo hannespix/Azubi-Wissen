@@ -94,6 +94,60 @@
         kurz: "Reguläre Dauer und Teilzeitanteil wählen — die verlängerte Gesamtdauer nach § 7a BBiG erscheint sofort (Verlängerung höchstens auf das Anderthalbfache).",
         stichworte: ["teilzeitrechner", "rechner", "teilzeit berechnen", "dauer", "verlaengerung teilzeit"],
         recht: "§ 7a BBiG", artikel: ["teilzeit-verkuerzung"], quellen: [] },
+      { id: "fahrplan", rechner: "fahrplan", titel: "Ausbildungsfahrplan — alle Termine auf einen Blick",
+        kurz: "Beginn, Dauer und Probezeit eingeben (Geburtsdatum optional) — der Rechner erstellt die chronologische Terminliste der Ausbildung: Probezeit-Ende, Untersuchungsfristen für Minderjährige, Zwischenprüfung, Meldungen und Vertragsende. Jede Station verlinkt Artikel und Rechtsgrundlage.",
+        stichworte: ["fahrplan", "terminplan", "zeitplan", "fristen berechnen", "ausbildungsverlauf", "termine", "kalender"],
+        recht: "§§ 20, 21, 43, 48 BBiG · §§ 32, 33 JArbSchG", artikel: ["probezeit", "jugendliche", "abschlusspruefung"], quellen: [] },
+
+      /* ---- Jahreskreis der Ausbildungsberatung (R5) —
+             wiederkehrende Orientierungszeiträume; verbindlich sind die
+             jährlich veröffentlichten Termine der zuständigen Stelle. ---- */
+      { id: "jahreskreis", titel: "Jahreskreis der Ausbildungsberatung — das wiederkehrende Jahr",
+        kurz: "Die Fixpunkte und Arbeitsschwerpunkte der Ausbildungsberatung und der zuständigen Stelle im Jahresverlauf: Prüfungsrunden, Schulbesuche, Anerkennungstermine, Gremien und Jahreswechsel-Aufgaben. Zeiträume ohne festes Datum sind als grobe Orientierung markiert — verbindlich sind die jährlich veröffentlichten Termine und Einladungen.",
+        stichworte: ["jahreskreis", "jahresplan", "timeline", "jahrestermine", "wiederkehrend", "planung", "aufgabenausschuss", "prueferschulung", "schulbesuch"],
+        recht: "§§ 37 ff., 43, 48, 76, 79 BBiG", artikel: ["ausbildungsberatung", "zustaendige-stelle", "abschlusspruefung"], quellen: [],
+        jahreskreis: [
+          { g: "Prüfungswesen", eintraege: [
+            { t: "Anmeldung Sommer-Abschlussprüfung", von: 1, bis: 2, zeit: "Januar–Februar",
+              info: "Die Betriebe melden an; die [[abschlusspruefung|Zulassungsvoraussetzungen]] früh gegenchecken (Berichtsheft! Zwischenprüfung! Eintragung!)." },
+            { t: "Zwischenprüfungen", von: 2, bis: 4, zeit: "Februar–April",
+              info: "[[zwischenpruefung|Zwischenprüfungen]] etwa zur Ausbildungsmitte — Einladung durch die zuständige Stelle; schwache Ergebnisse nachfassen." },
+            { t: "Zulassung & Berichtsheftkontrolle", von: 3, bis: 4, zeit: "März–April",
+              info: "Zulassungsentscheidung nach § 43 BBiG: [[berichtsheft|Ausbildungsnachweise]], Fehlzeiten und Verträge prüfen; Wackelkandidaten früh ansprechen ([[teilzeit-verkuerzung|Verlängerung]] statt Nichtzulassung)." },
+            { t: "Prüferschulungen", von: 3, bis: 5, zeit: "Frühjahr (vor den Prüfungsrunden)",
+              info: "Schulung und Berufung der Prüferinnen und Prüfer (§§ 39–40 BBiG) — Neubesetzungen rechtzeitig anstoßen." },
+            { t: "Sommer-Abschlussprüfung", von: 6, bis: 8, zeit: "Juni–August",
+              info: "Hauptprüfungszeitraum (schriftlich + praktisch). Der Arbeitstag vor der schriftlichen Prüfung ist bezahlt frei ([[freistellung|§ 15 BBiG]])." },
+            { t: "Freisprechung & Zeugnisse", von: 7, bis: 9, zeit: "Juli–September",
+              info: "Prüfungszeugnisse, Freisprechungsfeiern, [[ende-uebernahme|Übernahmegespräche]] — und Nachvermittlung für Unversorgte." },
+            { t: "Wiederholungs-/Winterprüfungen", von: 11, bis: 1, zeit: "November–Januar (wo angeboten)",
+              info: "Wiederholungstermine für [[nichtbestehen|nicht bestandene Prüfungen]] — Verlängerungsverlangen und Anmeldung sicherstellen." },
+            { t: "Aufgabenausschüsse", von: 10, bis: 1, zeit: "Oktober–Januar",
+              info: "Erstellung und Beschluss der Prüfungsaufgaben für die kommenden Runden — Fachleute aus Betrieben und Schulen wirken mit." }
+          ] },
+          { g: "Schulen & Klassen", eintraege: [
+            { t: "Besuch der Eingangsklassen", von: 9, bis: 11, zeit: "September–November",
+              info: "Die Ausbildungsberatung stellt sich in den ersten Klassen vor: Rechte & Pflichten, [[berichtsheft|Berichtsheftführung]], Ansprechwege — der wichtigste Frühkontakt zu den neuen Azubis." },
+            { t: "Besuch der Abschlussklassen", von: 1, bis: 3, zeit: "Januar–März",
+              info: "In den Abschlussklassen wird die [[abschlusspruefung|Abschlussprüfung]] erklärt: Ablauf, Hilfsmittel, Bewertung, Nachteilsausgleich — rechtzeitig vor der Anmeldefrist." },
+            { t: "Schulkooperation & Klassenbildung", von: 7, bis: 10, zeit: "Juli–Oktober",
+              info: "Abstimmung mit den [[berufsschulpflicht|Berufsschulen]]: Klassenbildung, Blockpläne, Fahrtwege, Meldung der neuen Ausbildungsverhältnisse." }
+          ] },
+          { g: "Verträge & Betriebe", eintraege: [
+            { t: "Anerkennung neuer Ausbildungsbetriebe", fixe: [{ m: 4, tag: 20 }, { m: 9, tag: 20 }], zeit: "Anträge bis 20. April bzw. 20. September",
+              info: "Fixtermine für [[ausbilder|Anerkennungsanträge]]: bis **20. April** (Frühsommertermin) bzw. **20. September** (Herbsttermin) — mit Betriebsbesichtigung einplanen." },
+            { t: "Vertrags- & Eintragungswelle", von: 5, bis: 9, zeit: "Mai–September",
+              info: "Hauptwelle der neuen Verträge vor Ausbildungsbeginn: [[eintragung|Eintragung]], Vollständigkeit, [[jugendliche|Erstuntersuchungen]], Vergütungs-Check." },
+            { t: "Betriebsbesuche & Beratung", von: 10, bis: 2, laufend: true, zeit: "ganzjährig, Schwerpunkt Winterhalbjahr",
+              info: "[[ausbildungsberatung|Überwachen & Beraten]] läuft das ganze Jahr — Besuchsschwerpunkte liegen außerhalb der Saisonspitzen." }
+          ] },
+          { g: "Jahreswechsel", eintraege: [
+            { t: "Neue MiAV-Werte & Vergütungscheck", von: 10, bis: 12, fixe: [{ m: 1, tag: 1 }], zeit: "Oktober–Dezember, Anpassung zum 1. Januar",
+              info: "Bekanntmachung der neuen [[mindestverguetung|Mindestausbildungsvergütung]] im Bundesanzeiger prüfen; Staffeln und Musterverträge zum Jahreswechsel anpassen." },
+            { t: "Berufsbildungsstatistik", von: 1, bis: 3, fixe: [{ m: 12, tag: 31 }], zeit: "Stichtag 31. Dezember, Meldung Januar–März",
+              info: "Erhebung zur Berufsbildungsstatistik (§§ 87 ff. BBiG) — Datenbestand der [[zustaendige-stelle|zuständigen Stelle]] zum Stichtag aufbereiten und melden." }
+          ] }
+        ] },
 
       { id: "fachrichtungen", titel: "Die 7 Fachrichtungen im Gartenbau — Eigenheiten",
         kurz: "Gärtner/in wird in sieben Fachrichtungen ausgebildet (GärtnAusbV); die Fachwerker-Ausbildung (§ 66 BBiG) gibt es in denselben Bereichen. Betrieblicher Ausbildungsplan je Fachrichtung im Download-Center.",

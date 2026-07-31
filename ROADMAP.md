@@ -121,7 +121,26 @@
   Verlängerungsende nach § 21 Abs. 3), Teilzeitrechner (§ 7a mit
   1,5-fach-Kappung); über die Palette findbar („urlaubsrechner" …).
   *(PR #22)*
-- **R5 Weitere Module** — Vorschläge aus den Reviews, dann Umsetzung.
+- **R5 Weitere Module: Fahrplan & Jahreskreis** ✅ — (1) **Ausbildungs-
+  fahrplan-Rechner** im Nachschlag: Beginn, Dauer, Probezeit und
+  optional Geburtsdatum → chronologische Terminliste (Eintragung,
+  Probezeitende, Jugendschutz-Untersuchungsfristen mit
+  Entfällt-ab-18-Logik, Zwischenprüfungs-Fenster, Arbeitsuchend-Meldung
+  3 Monate vor Ende, Vertragsende) — jede Station mit Artikel-Querlink
+  und verlinkter Rechtsgrundlage. (2) **Jahreskreis der Ausbildungs-
+  beratung** (Auftrag 31.07.): 12-Monats-SVG-Timeline nach den
+  Infografik-Regeln (Grau-Basis, Gelb nur für den aktuellen Monat mit
+  Outline, Rauten für Fixtermine 20.04./20.09./31.12./01.01.) mit
+  16 wiederkehrenden Stationen in 4 Gruppen — Prüfungswesen (Anmeldung,
+  Zwischenprüfungen, Zulassung/Berichtsheftkontrolle, Prüferschulungen,
+  Sommer-/Winterprüfung, Freisprechung, Aufgabenausschüsse), Schulen
+  (Besuche der Eingangs- und Abschlussklassen, Klassenbildung),
+  Verträge & Betriebe, Jahreswechsel (MiAV-Check, Statistik-Stichtag);
+  Zeiträume ohne Fixdatum ausdrücklich als Orientierung markiert;
+  vollständige barrierefreie Detailliste mit Querlinks. Tests: mini_r5
+  (22) + Regressionen (Zähler aktualisiert) grün. *(PR #30)*
+- **R6 Notenrechner & Bestehensregeln** — Abschlussprüfung: Gewichtung,
+  Bestehen, mündliche Ergänzungsprüfung (offen)
 
 ## Ausbau v4: Alle grünen Berufe — Auftrag 31.07.2026
 
