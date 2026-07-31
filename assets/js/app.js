@@ -77,6 +77,8 @@
     gbfwvo: ["fachwerker", "gartenbaufachwerkerverordnung"], reza: ["rehabilitationspadagogische zusatzqualifikation"],
     reha: ["rehabilitation", "rehabilitationstrager"], bbw: ["berufsbildungswerk", "besondere einrichtung"],
     arbeitsagentur: ["agentur arbeit"], asa: ["assistierte ausbildung"],
+    bav: ["berufsausbildungsvertrag", "vertrag", "vordruck"], vordruck: ["formular"],
+    formulare: ["formular"], antrag: ["formular", "antrag"], download: ["formular", "datei", "pdf"],
     zeugnisse: ["zeugnis"], arbeitszeugnis: ["zeugnis"],
     hilfe: ["beratung", "unterstutzung"], mobbing: ["konflikt"], streit: ["konflikt"], arger: ["konflikt", "probleme"]
   };
@@ -160,6 +162,57 @@
       });
     });
   })();
+
+  // Suchindex über Formulare/Quellen (falls quellen.js geladen ist)
+  var QINDEX = [];
+  (function bauenQuellen() {
+    var Q = window.QUELLEN;
+    if (!Q) return;
+    Q.eintraege.forEach(function (e) {
+      QINDEX.push({
+        eintrag: e,
+        felder: [
+          [norm(e.titel), 5],
+          [norm((e.stichworte || []).join(" ")), 4],
+          [norm(e.beschreibung || ""), 1.5],
+          [norm(e.herausgeber || "") + " " + norm(e.typ), 1]
+        ]
+      });
+    });
+  })();
+
+  function suchenQuellen(q, limit) {
+    var tokens = norm(q).split(" ").filter(function (t) { return t && !STOP[t]; });
+    if (!tokens.length) tokens = norm(q).split(" ").filter(Boolean);
+    if (!tokens.length) return [];
+    var treffer = [];
+    QINDEX.forEach(function (rec) {
+      var summe = 0;
+      for (var t = 0; t < tokens.length; t++) {
+        var alts = tokenAlternativen(tokens[t]);
+        var best = 0;
+        for (var f = 0; f < rec.felder.length; f++) {
+          for (var x = 0; x < alts.length; x++) {
+            var sc = tokenScore(alts[x], rec.felder[f][0]);
+            if (sc) best = Math.max(best, sc * rec.felder[f][1] * (x ? 0.8 : 1));
+          }
+        }
+        if (!best) { summe = 0; break; }
+        summe += best;
+      }
+      if (summe > 0) treffer.push({ eintrag: rec.eintrag, score: summe });
+    });
+    treffer.sort(function (a, b) { return b.score - a.score; });
+    return treffer.slice(0, limit || 4).map(function (t) { return t.eintrag; });
+  }
+
+  var TYP_NAME = { formular: "Formular", merkblatt: "Merkblatt", plan: "Ausbildungsplan", gesetz: "Gesetz", link: "Link", portal: "Portal", video: "Video" };
+  function quelleZiel(e) {
+    // In der Einzeldatei-Auslieferung liegen die PDF-Dateien nicht bei —
+    // dort führt der Eintrag direkt zur Online-Quelle.
+    if (e.datei && !window.EINZELDATEI) return { href: e.datei, extern: false };
+    return { href: e.url, extern: true };
+  }
 
   // Füllwörter, die für das Ranking ignoriert werden (außer die Anfrage
   // besteht nur aus solchen Wörtern).
@@ -247,7 +300,12 @@
       else if (e.key === "Enter") {
         e.preventDefault();
         var ziel = palEintraege[palAuswahl] || palEintraege[0];
-        if (ziel) { location.hash = ziel.getAttribute("data-ziel"); paletteSchliessen(); }
+        if (ziel) {
+          var anker = ziel.querySelector("a");
+          if (anker && !ziel.getAttribute("data-ziel")) anker.click();
+          else if (ziel.getAttribute("data-ziel")) location.hash = ziel.getAttribute("data-ziel");
+          paletteSchliessen();
+        }
       } else if (e.key === "Escape") { paletteSchliessen(); }
     });
   }
@@ -307,6 +365,18 @@
           html += eintrag("#/wissen?thema=" + th.id, S.highlight(th.titel, q), esc(th.kurz), "Thema");
         });
       }
+      var qerg = suchenQuellen(q, 4);
+      if (qerg.length) {
+        html += '<li class="palette__gruppe" role="presentation">Formulare &amp; Dateien</li>';
+        qerg.forEach(function (e) {
+          var z = quelleZiel(e);
+          html += '<li class="palette__eintrag" role="option" aria-selected="false">' +
+            '<a href="' + esc(z.href) + '" target="_blank" rel="noopener">' +
+            '<span class="wo">' + esc(TYP_NAME[e.typ] || e.typ) + (z.extern ? " ↗" : "") + "</span>" +
+            '<span class="titel">' + S.highlight(e.titel, q) + "</span>" +
+            '<span class="schnipsel">' + esc(e.herausgeber + (e.stand ? " · Stand " + e.stand : "")) + "</span></a></li>";
+        });
+      }
       if (erg.artikel.length) {
         html += '<li class="palette__gruppe" role="presentation">Artikel</li>';
         erg.artikel.forEach(function (r) {
@@ -319,7 +389,7 @@
           html += eintrag("#/artikel/" + r.id + "?faq=" + r.faqIndex, S.highlight(r.titel, q), schnipsel(r.kurz, erg.tokens), "FAQ");
         });
       }
-      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length) {
+      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length) {
         html = '<li class="palette__leer" role="presentation">Kein Treffer für „' + esc(q) + '“.<br>' +
           '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(q) + '" data-schliessen-nach>Frage dem Assistenten stellen</a></li>';
       }
@@ -387,6 +457,10 @@
       haupt.innerHTML = viewWissen(r.params);
       wissenVerhalten(haupt, r.params);
       titel = "Wissensdatenbank — Azubi-Wissen";
+    } else if (view === "quellen") {
+      haupt.innerHTML = viewQuellen(r.params);
+      quellenVerhalten(haupt, r.params);
+      titel = "Formulare & Quellen — Azubi-Wissen";
     } else if (view === "assistent") {
       if (window.AzubiAssistent) { window.AzubiAssistent.renderView(haupt, r.params); }
       else haupt.innerHTML = platzhalter("KI-Assistent", "Der lokale Assistent wird im nächsten Ausbauschritt eingebaut.");
@@ -617,6 +691,21 @@
         }).join("") + "</ul>";
     }
 
+    var passende = (window.QUELLEN ? window.QUELLEN.eintraege : []).filter(function (e) {
+      return (e.artikel || []).indexOf(a.id) >= 0;
+    });
+    if (passende.length) {
+      h += '<h2>Formulare &amp; Links zum Thema</h2><ul class="quellen-liste">';
+      passende.forEach(function (e) {
+        var z = quelleZiel(e);
+        h += '<li><a href="' + esc(z.href) + '" target="_blank" rel="noopener">' +
+          '<span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span> " +
+          esc(e.titel) + (z.extern ? ' <span class="bw-leise">↗ online</span>' : "") + "</a>" +
+          '<span class="bw-klein bw-leise"> — ' + esc(e.herausgeber) + "</span></li>";
+      });
+      h += "</ul>";
+    }
+
     if (window.LokalDB) {
       h += '<div class="notiz"><h2>Eigene Notiz</h2>' +
         '<div class="bw-card"><label for="artikel-notiz">Notiz zu diesem Artikel (bleibt lokal auf diesem Gerät)</label>' +
@@ -709,6 +798,72 @@
       if (d) { d.open = true; setTimeout(function () { d.scrollIntoView({ block: "center" }); }, 0); }
     }
     inhaltZeigen();
+  }
+
+  /* ---------------- Ansicht: Formulare & Quellen ------------------- */
+  var TYP_FILTER = ["formular", "plan", "gesetz", "merkblatt", "portal", "video", "link"];
+
+  function viewQuellen(params) {
+    var aktiv = params.typ || "";
+    var h = "<h1>Formulare &amp; Quellen</h1>" +
+      '<p class="bw-unterzeile">Amtliche Vordrucke, Gesetze und geprüfte externe Angebote — durchsuchbar auch über die globale Suche (Strg+K)</p>';
+    if (window.EINZELDATEI) {
+      h += '<div class="bw-hinweis"><p><strong>Einzeldatei-Version:</strong> Die PDF-Dateien liegen dieser Datei nicht bei — die Einträge öffnen die jeweilige Online-Quelle. Im Ordner-/Intranet-Betrieb stehen alle Dateien lokal bereit.</p></div>';
+    }
+    h += '<div class="bw-search" style="max-width:34rem"><label for="qq" class="bw-skip-link">Quellen filtern</label>' +
+      '<input id="qq" type="search" placeholder="Filtern: BAV, Urlaub, Ausbildungsplan …" aria-label="Quellen filtern">' +
+      '<button type="button" aria-label="Suchen">' + ICON.suche + "</button></div>";
+    h += '<ul class="chipzeile" role="group" aria-label="Nach Typ filtern">' +
+      '<li><button class="chip" data-qtyp="" aria-pressed="' + (!aktiv) + '">Alle</button></li>';
+    TYP_FILTER.forEach(function (t) {
+      h += '<li><button class="chip" data-qtyp="' + t + '" aria-pressed="' + (aktiv === t) + '">' + TYP_NAME[t] + "</button></li>";
+    });
+    h += "</ul>";
+    h += '<ul class="karten" id="quellen-liste"></ul>' +
+      '<p class="leer" id="quellen-leer" hidden>Kein Eintrag passt zu Filter und Suchbegriff.</p>' +
+      '<p class="stand-hinweis">Lokale Dateien: Herkunft und Stand je Datei in <code>formulare/QUELLEN.md</code>. ' +
+      "Externe Einträge (↗) öffnen Angebote der jeweiligen öffentlichen Stelle — im reinen Offline-Betrieb nicht erreichbar. Stand der Sammlung: " + esc(window.QUELLEN ? window.QUELLEN.stand : "") + ".</p>";
+    return h;
+  }
+
+  function quellenVerhalten(root, params) {
+    var aktiv = params.typ || "";
+    var eingabe = $("#qq", root);
+    var liste = $("#quellen-liste", root);
+    var leer = $("#quellen-leer", root);
+    var alle = window.QUELLEN ? window.QUELLEN.eintraege : [];
+
+    function zeigen() {
+      var q = eingabe.value.trim();
+      var eintraege = q ? suchenQuellen(q, 100) : alle.slice();
+      if (aktiv) eintraege = eintraege.filter(function (e) { return e.typ === aktiv; });
+      liste.innerHTML = eintraege.map(function (e) {
+        var z = quelleZiel(e);
+        var aktion = z.extern
+          ? '<a class="bw-btn bw-btn--sekundaer" href="' + esc(z.href) + '" target="_blank" rel="noopener">Öffnen ↗</a>'
+          : '<a class="bw-btn" href="' + esc(z.href) + '" target="_blank">PDF öffnen</a>' +
+            ' <a class="chip chip--frage" href="' + esc(e.url) + '" target="_blank" rel="noopener">Quelle online ↗</a>';
+        return '<li class="karte"><span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span>" +
+          '<h3 style="margin-top:var(--bw-space-1)">' + (q ? S.highlight(e.titel, q) : esc(e.titel)) + "</h3>" +
+          "<p>" + esc(e.beschreibung || "") + "</p>" +
+          '<p class="bw-klein bw-leise">' + esc(e.herausgeber) + (e.stand ? " · Stand " + esc(e.stand) : "") + "</p>" +
+          '<span class="meta">' + aktion + "</span></li>";
+      }).join("");
+      leer.hidden = eintraege.length > 0;
+    }
+
+    root.querySelectorAll(".chip[data-qtyp]").forEach(function (c) {
+      c.addEventListener("click", function () {
+        aktiv = c.getAttribute("data-qtyp");
+        root.querySelectorAll(".chip[data-qtyp]").forEach(function (x) {
+          x.setAttribute("aria-pressed", String(x === c));
+        });
+        history.replaceState(null, "", "#/quellen" + (aktiv ? "?typ=" + aktiv : ""));
+        zeigen();
+      });
+    });
+    eingabe.addEventListener("input", zeigen);
+    zeigen();
   }
 
   /* ---------------- Start ------------------------------------------ */

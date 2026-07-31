@@ -108,6 +108,10 @@ def main():
     # 1) Alle lokalen Stylesheets inline (mit base64-Fonts/-Assets)
     html = inline_stylesheets(html, ROOT)
 
+    # 1b) Einzeldatei-Kennung: Die App blendet damit lokale Datei-Downloads
+    #     aus (Formulare liegen der Einzeldatei nicht bei) und verlinkt online.
+    html = html.replace("</head>", "<script>window.EINZELDATEI=true;</script></head>", 1)
+
     # 2) Manifest-Link entfernen (Offline-Einzeldatei braucht kein PWA-Manifest)
     html = re.sub(r'\s*<link[^>]+rel=["\']manifest["\'][^>]*>', "", html)
 
