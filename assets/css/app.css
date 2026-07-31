@@ -29,6 +29,7 @@ kbd.kbd {
 /* ===================== Startseite ================================= */
 .hero { display: grid; grid-template-columns: 1fr auto; gap: var(--bw-space-4); align-items: center; margin-bottom: var(--bw-space-4); }
 .hero__stoerer { align-self: start; }
+.hero__stoerer .bw-stoerer { border: 2px solid var(--bw-schwarz); } /* Gelb auf Weiß braucht dunkle Kontur (CI) */
 @media (max-width: 640px) { .hero { grid-template-columns: 1fr; } .hero__stoerer { display: none; } }
 
 .suchfeld-gross {
@@ -41,6 +42,7 @@ kbd.kbd {
 .suchfeld-gross:hover { background: var(--bw-grau-50); }
 .suchfeld-gross svg { width: 22px; height: 22px; flex: none; color: var(--bw-text); }
 .suchfeld-gross .kbd { margin-left: auto; }
+@media (max-width: 640px) { .suchfeld-gross .kbd { display: none; } }
 
 .kacheln { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--bw-space-2); margin: var(--bw-space-3) 0; padding: 0; list-style: none; }
 .kachel {
