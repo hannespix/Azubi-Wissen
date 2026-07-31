@@ -3423,9 +3423,11 @@ window.VORLAGEN = {
   function oeffnen() {
     if (bereit) return bereit;
     bereit = new Promise(function (aufloesen) {
-      if (!window.indexedDB) { fallback = true; aufloesen(null); return; }
+      var idb = null;
+      try { idb = window.indexedDB; } catch (e) { /* Zugriff kann in Sonderfällen werfen */ }
+      if (!idb) { fallback = true; aufloesen(null); return; }
       var antrag;
-      try { antrag = indexedDB.open(DB_NAME, VERSION); }
+      try { antrag = idb.open(DB_NAME, VERSION); }
       catch (e) { fallback = true; aufloesen(null); return; }
       antrag.onupgradeneeded = function () {
         var d = antrag.result;
@@ -3460,7 +3462,11 @@ window.VORLAGEN = {
         return wert;
       }
       return new Promise(function (aufloesen, ablehnen) {
-        var tx = db.transaction(store, "readwrite");
+        // db.transaction wirft synchron, wenn der Store fehlt (z. B. bei
+        // gemischt gecachten Skriptständen) — sauber als Fehler melden.
+        var tx;
+        try { tx = db.transaction(store, "readwrite"); }
+        catch (e) { ablehnen(new Error("Speichern fehlgeschlagen — lokale Datenbank passt nicht zum Skriptstand. Seite mit Strg+F5 neu laden.")); return; }
         tx.objectStore(store).put(wert);
         tx.oncomplete = function () { aufloesen(wert); };
         tx.onerror = function () { ablehnen(tx.error); };
@@ -3472,7 +3478,9 @@ window.VORLAGEN = {
     return oeffnen().then(function () {
       if (fallback) return lsLesen(store)[id] || null;
       return new Promise(function (aufloesen) {
-        var antrag = db.transaction(store).objectStore(store).get(id);
+        var antrag;
+        try { antrag = db.transaction(store).objectStore(store).get(id); }
+        catch (e) { aufloesen(null); return; }
         antrag.onsuccess = function () { aufloesen(antrag.result || null); };
         antrag.onerror = function () { aufloesen(null); };
       });
@@ -3486,7 +3494,9 @@ window.VORLAGEN = {
         return Object.keys(o).map(function (k) { return o[k]; });
       }
       return new Promise(function (aufloesen) {
-        var antrag = db.transaction(store).objectStore(store).getAll();
+        var antrag;
+        try { antrag = db.transaction(store).objectStore(store).getAll(); }
+        catch (e) { aufloesen([]); return; }
         antrag.onsuccess = function () { aufloesen(antrag.result || []); };
         antrag.onerror = function () { aufloesen([]); };
       });
@@ -3500,7 +3510,9 @@ window.VORLAGEN = {
         return;
       }
       return new Promise(function (aufloesen) {
-        var tx = db.transaction(store, "readwrite");
+        var tx;
+        try { tx = db.transaction(store, "readwrite"); }
+        catch (e) { aufloesen(); return; }
         tx.objectStore(store).delete(id);
         tx.oncomplete = function () { aufloesen(); };
         tx.onerror = function () { aufloesen(); };
@@ -4096,7 +4108,22 @@ window.VORLAGEN = {
     if (erstLauf) { rendernJetzt(); return Promise.resolve(); }
     return mitUebergang(rendernJetzt);
   }
+  // Fangnetz: Ein Fehler in einer Ansicht darf die Seite nie leer lassen.
   function rendernJetzt() {
+    try { rendernAnsicht(); }
+    catch (fehler) {
+      var haupt = $("#inhalt");
+      if (haupt) {
+        haupt.innerHTML = "<h1>Azubi-Wissen</h1>" +
+          '<div class="bw-hinweis bw-hinweis--fehler"><p><strong>Diese Ansicht konnte nicht aufgebaut werden.</strong> ' +
+          'Bitte die Seite neu laden (Strg+F5). Bleibt der Fehler, hilft die Browser-Konsole bei der Ursache.</p></div>' +
+          '<p><a class="bw-btn" href="#/">Zur Startseite</a></p>';
+      }
+      if (window.console && console.error) console.error("Azubi-Wissen Renderfehler:", fehler);
+      erstLauf = false;
+    }
+  }
+  function rendernAnsicht() {
     var r = parseHash();
     var haupt = $("#inhalt");
     var view = r.pfad[0] || "start";
@@ -5605,9 +5632,13 @@ window.VORLAGEN = {
       b.addEventListener("click", function () { paletteOeffnen(); });
     });
     window.addEventListener("hashchange", rendern);
-    // Eigene Inhalte zuerst aus der lokalen Datenbank laden, damit Zähler,
-    // Suche und Download-Baum ab dem ersten Rendern vollständig sind.
-    eigeneLaden().then(rendern, rendern);
+    // Sofort rendern — die Startseite darf nie auf die lokale Datenbank
+    // warten (eine langsame/blockierte IndexedDB ließ sonst die Seite leer).
+    rendern();
+    // Eigene Inhalte danach nachladen; nur neu rendern, wenn es welche gibt.
+    eigeneLaden().then(function () {
+      if (EIGENE.artikel.length || EIGENE.dokumente.length) rendern();
+    }, function () { /* ohne lokale Datenbank läuft das Tool trotzdem */ });
   }
   // Erst rendern, wenn alle Modul-Skripte (Assistent, Export) geladen sind.
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
@@ -6326,7 +6357,9 @@ window.VORLAGEN = {
 // Einzeldatei und nicht unter file:// — dort läuft das Tool auch so offline).
 if ("serviceWorker" in navigator && location.protocol !== "file:" && !window.EINZELDATEI) {
   window.addEventListener("load", function () {
-    navigator.serviceWorker.register("./sw.js").catch(function () { /* Ohne SW läuft die Seite normal weiter. */ });
+    navigator.serviceWorker.register("./sw.js")
+      .then(function (reg) { if (reg && reg.update) reg.update(); }) // neue Version sofort prüfen
+      .catch(function () { /* Ohne SW läuft die Seite normal weiter. */ });
   });
 }
 </script>
