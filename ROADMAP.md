@@ -146,9 +146,14 @@
   Textfelder schlagen die letzten 8 Werte vor (datalist, gemerkt beim
   Kopieren/Versenden) und bleiben vorlagenübergreifend vorbelegt;
   Externenprüfungs-Vorlage auf [BERUF] generalisiert. *(PR #20)*
-- **G3 Inhalte generalisieren** — Artikel/Nachschlag/Checklisten auf alle
-  Berufe erweitern (Vergütungs-/Urlaubstabellen je Sparte, berufsspezifische
-  Quellen und Formulare).
+- **G3 Inhalte je Beruf vertiefen** ✅ — Berufe-Detail mit drei neuen
+  Aktionen: Verordnung (Landwirt: verifizierter gesetze-im-internet-Link,
+  Gärtner: lokales PDF, übrige: Regelungs-Übersicht Bildungsserver Agrar),
+  BERUFENET-Suchlink je Beruf, **„E-Mail-Vorlagen für diesen Beruf"**
+  (übernimmt den Beruf automatisch in die Vorlagen, verwirft unpassende
+  Fachrichtung); zwei neue Quellen (Bildungsserver Agrar,
+  BW-Rechtsgrundlagen Agrarbereich); Vergütungs-/Urlaubs-Fußnoten
+  berufsübergreifend präzisiert. *(PR #24)*
 - **G4 RP-Look** ✅ — Kopfzeile im Design von rp.baden-wuerttemberg.de
   (Screenshot-Auftrag): vollgelber Header mit schwarzem Logo und schwarzen
   Symbolen, gestaffeltes Menü-Icon, aktiver Punkt mit schwarzem Marker;

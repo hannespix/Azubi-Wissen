@@ -355,6 +355,19 @@ window.QUELLEN = {
     stichworte: ["Berufsschule", "Anmeldung", "Schulstandort", "Edith-Stein", "Hohenheim"],
     artikel: ["berufsschulpflicht", "eintragung"] },
 
+  { id: "bildungsserver-agrar", titel: "Bildungsserver Agrar — Ausbildung in den grünen Berufen",
+    typ: "portal", herausgeber: "aid/BZL (Bundesinformationszentrum Landwirtschaft)", stand: "laufend",
+    datei: null, url: "https://www.bildungsserveragrar.de/bildungswege/ausbildung/",
+    beschreibung: "Zentrale Ausbildungsinfos für alle grünen Berufe: Ausbildungsordnungen und rechtliche Regelungen, Berufsprofile, Regelungen für Ausbilder/innen und Auszubildende.",
+    stichworte: ["Bildungsserver", "Agrar", "Ausbildungsordnung", "Regelungen", "alle Berufe"],
+    artikel: ["zustaendige-stelle", "ausbilder"] },
+  { id: "lw-bw-rechtsgrundlagen", titel: "Rechtsgrundlagen der Berufsbildung im Agrarbereich (BW)",
+    typ: "link", herausgeber: "Infodienst Landwirtschaft BW", stand: "laufend",
+    datei: null, url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Rechtsgrundlagen_1/Berufsbildung+im+Agrarbereich",
+    beschreibung: "Landesrechtliche Grundlagen und Zuständigkeitsregelungen der Berufsbildung für alle Agrarberufe in Baden-Württemberg.",
+    stichworte: ["Rechtsgrundlagen", "Landesrecht", "Zuständigkeit", "Agrarbereich"],
+    artikel: ["zustaendige-stelle"] },
+
   /* ---- Recherche-Runde 2 (R1): RP Karlsruhe, LRA Karlsruhe, KMK/BiBB ---- */
   { id: "rp-unterlagen-ausbildende", titel: "Unterlagen für Ausbildungsbetriebe (zentrale RP-Seite)",
     typ: "portal", herausgeber: "Regierungspräsidien BW", stand: "laufend",
