@@ -139,8 +139,20 @@
   Zeiträume ohne Fixdatum ausdrücklich als Orientierung markiert;
   vollständige barrierefreie Detailliste mit Querlinks. Tests: mini_r5
   (22) + Regressionen (Zähler aktualisiert) grün. *(PR #30)*
-- **R6 Notenrechner & Bestehensregeln** — Abschlussprüfung: Gewichtung,
-  Bestehen, mündliche Ergänzungsprüfung (offen)
+- **R6 Notenrechner & Bestehensregeln** ✅ — Auftrag 31.07.: Wie kommen
+  die Prüfungsnoten zustande? Neuer Artikel **„Noten & Bestehen: So wird
+  die Abschlussprüfung gewertet"** (39. Artikel) mit Rechenweg,
+  Beispielrechnung, Ergänzungsprüfungs-Kapitel und
+  Fachrichtungs-Hinweis — amtlich belegt aus § 9 Abs. 5–7 GärtnAusbV
+  (Systematik in allen 7 Fachrichtungen identisch, § 11 gegengeprüft).
+  Neuer **Notenrechner** im Schnellnachschlag: Gewichtungs-Schaubild
+  (Praxis 60 % = 5 Aufgaben à 12 %, Fächer 40 % = 4 Fächer à 10 %,
+  CI-konform in Grau mit Outline), 9 Notenfelder, live gerechnetes
+  Gesamtergebnis mit ✓/✗-Bestehens-Checkliste (beide Blöcke + Gesamt
+  ausreichend, keine Sechs, höchstens eine Fünf) und automatischem
+  Hinweis auf die mündliche Ergänzungsprüfung (§ 9 Abs. 5: Antrag,
+  Fachwahl durch Prüfling, Gewichtung 2:1) samt Beispielrechnung.
+  Tests: mini_r6 (19) + alle Regressionen grün. *(PR #31)*
 
 ## Ausbau v4: Alle grünen Berufe — Auftrag 31.07.2026
 

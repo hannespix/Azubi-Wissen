@@ -851,6 +851,44 @@ window.WISSEN = {
   },
 
   {
+    id: "ap-noten",
+    thema: "schule-pruefung",
+    titel: "Noten & Bestehen: So wird die Abschlussprüfung gewertet",
+    kurz: "Die Gärtner-Abschlussprüfung besteht aus fünf praktischen Aufgaben (60 %) und vier Prüfungsfächern (40 %). Bestanden ist, wer in beiden Teilen und im Gesamtergebnis mindestens ausreichend ist — keine Sechs, höchstens eine Fünf.",
+    stichworte: ["Noten", "Notenberechnung", "Bestehen", "Bestehensregeln", "Gewichtung", "durchgefallen", "wie viele Fünfen", "mündliche Ergänzungsprüfung", "Nachprüfung", "Schnitt", "Prüfungsergebnis", "Prozent"],
+    recht: [
+      { n: "§ 9 Abs. 5–7 GärtnAusbV", t: "Ergänzungsprüfung, Gewichtung, Bestehen (je Fachrichtung: §§ 9–15)" },
+      { n: "§ 37 BBiG", t: "Abschlussprüfung, Wiederholung" },
+      { n: "§ 21 Abs. 2 BBiG", t: "Ende mit Bestehen" }
+    ],
+    fakten: [
+      "**Zwei Blöcke:** die **praktische Prüfung** (fünf komplexe Aufgaben mit Prüfungsgespräch) zählt **60 %**, die **Prüfungsfächer** (ein mündliches, drei schriftliche) zählen **40 %** des Gesamtergebnisses.",
+      "**Innerhalb der Blöcke zählt alles gleich:** jede der 5 Aufgaben mit einem Fünftel des Praxisblocks (= je 12 % vom Gesamt), jedes der 4 Fächer mit einem Viertel des Fächerblocks (= je 10 %).",
+      "**Bestanden**, wenn Gesamtergebnis, Praxisblock **und** Fächerblock jeweils mindestens **ausreichend** sind (§ 9 Abs. 7 GärtnAusbV).",
+      "**Nicht bestanden**, wenn auch nur **ein** Bestandteil (Aufgabe oder Fach) **ungenügend** ist — oder **zwei** Bestandteile **mangelhaft** sind. Kurz: **keine Sechs, höchstens eine Fünf.**",
+      "**Mündliche Ergänzungsprüfung** (ca. 15 Minuten): möglich in **einem** schriftlich mit mangelhaft bewerteten Fach, wenn höchstens zwei Fächer mangelhaft sind und sie den Ausschlag für das Bestehen geben kann — das Fach **wählt der Prüfling**; die schriftliche Note zählt dann **doppelt**, die mündliche einfach.",
+      "Der **Notenrechner im Schnellnachschlag** rechnet Gewichtung und Bestehensregeln automatisch durch."
+    ],
+    abschnitte: [
+      { t: "Der Rechenweg Schritt für Schritt", d: 2, text: "1. **Praxisblock:** Durchschnitt der fünf Aufgabennoten bilden (alle gleichgewichtet).\n2. **Fächerblock:** Durchschnitt der vier Fachnoten bilden — mündliches Fach (z. B. Kulturführung, im GaLaBau: Landschaftsgärtnerische Arbeiten), Pflanzenkenntnisse, Betriebliche Zusammenhänge, Wirtschafts- und Sozialkunde.\n3. **Gesamtergebnis:** Praxisblock × 0,6 + Fächerblock × 0,4.\n4. **Bestehens-Check:** Gesamt, Praxisblock und Fächerblock mindestens ausreichend? Keine Sechs? Höchstens eine Fünf?\n\n**Beispiel:** Aufgaben 2, 3, 3, 2, 4 → Praxisblock 2,8. Fächer 3, 4, 3, 2 → Fächerblock 3,0. Gesamt: 2,8 × 0,6 + 3,0 × 0,4 = **2,88** — bestanden.\n\nVerbindlich bewertet der **Prüfungsausschuss**; der Rechenweg dient der Orientierung und der Erklärung in den [[abschlusspruefung|Abschlussklassen]]." },
+      { t: "Die mündliche Ergänzungsprüfung", d: 2, text: "Sie ist die „letzte Chance“ für **schriftliche** Fächer (§ 9 Abs. 5 GärtnAusbV):\n\n- Voraussetzung: **höchstens zwei** schriftliche Fächer mangelhaft, die übrigen mindestens ausreichend — und die Ergänzung kann für das Bestehen **den Ausschlag geben**.\n- Der Prüfling **beantragt** sie (oder der Ausschuss setzt sie an) und **wählt das Fach** selbst.\n- Dauer etwa **15 Minuten**; die neue Fachnote entsteht aus **schriftlich doppelt, mündlich einfach**.\n\n**Beispiel:** schriftlich 5, mündlich 3 → (5 + 5 + 3) ÷ 3 = **4,33** — aus dem Mangelhaft wird ein Ausreichend, die Fünf ist getilgt.\n\nFür die **praktischen Aufgaben** gibt es keine Ergänzungsprüfung — dort hilft nur die [[nichtbestehen|Wiederholung]]." },
+      { t: "Gilt das für alle grünen Berufe?", d: 3, text: "Die Zahlen oben stammen aus der **GärtnAusbV** und gelten für alle sieben Gärtner-Fachrichtungen gleich (§§ 9–15: identische Systematik, nur das mündliche Fach heißt je Fachrichtung anders). Andere grüne Berufe regeln Prüfungsteile, Gewichtung und Bestehen in ihrer **eigenen Ausbildungsordnung** — die Volltexte stehen im Download-Center unter „Ausbildungsordnungen der grünen Berufe“. Für die [[fw-inhalte-pruefung|Fachwerkerprüfung]] gilt die GBFWVO mit eigener, praxisorientierter Gewichtung. Die Grundregeln des BBiG (zweimalige [[nichtbestehen|Wiederholung]], Prüfungszeugnis, gebührenfrei) gelten überall." }
+    ],
+    rollen: {
+      azubi: "Merk dir die Kurzformel: **Praxis 60, Fächer 40, keine Sechs, höchstens eine Fünf.** Steht nach der schriftlichen Prüfung eine Fünf im Raum, frag aktiv nach der mündlichen Ergänzungsprüfung — sie ist dein Recht, wenn sie das Bestehen retten kann, und du wählst das Fach.",
+      betrieb: "Nutzen Sie die Gewichtung für die Prüfungsvorbereitung: Die praktischen Aufgaben zählen 60 % — gezieltes Üben der Arbeitsverfahren bringt mehr als reine Theorie-Paukerei. Ein Blick in die Fächer der eigenen Fachrichtung (§§ 9–15 GärtnAusbV) lohnt sich.",
+      beratung: "Die Bestehensregeln sind der Kern jedes Abschlussklassen-Besuchs: Rechenweg an der Tafel, Ergänzungsprüfung erklären (Antrag! Fachwahl! 2:1!), Ängste nehmen. Bei knappen Ergebnissen auf das Protokoll und die Ausschlag-Formulierung des § 9 Abs. 5 achten."
+    },
+    faq: [
+      { f: "Wie viele Fünfen darf ich in der Abschlussprüfung haben?", a: "Höchstens eine — sobald zwei Bestandteile (praktische Aufgaben oder Prüfungsfächer zusammengezählt) mangelhaft sind, ist die Prüfung nicht bestanden. Eine einzige ungenügende Leistung führt immer zum Nichtbestehen (§ 9 Abs. 7 GärtnAusbV)." },
+      { f: "Wann bekomme ich eine mündliche Ergänzungsprüfung?", a: "Wenn höchstens zwei schriftliche Fächer mangelhaft und die übrigen mindestens ausreichend sind — und die Ergänzung das Bestehen noch retten kann. Du beantragst sie, wählst das Fach selbst und wirst etwa 15 Minuten geprüft; die schriftliche Note zählt doppelt, die mündliche einfach (§ 9 Abs. 5 GärtnAusbV)." },
+      { f: "Zählt die Zwischenprüfung in die Abschlussnote?", a: "Nein — die [[zwischenpruefung|Zwischenprüfung]] ist Zulassungsvoraussetzung, ihr Ergebnis fließt aber nicht in die Abschlussnote ein. Auch Berufsschulnoten zählen nicht hinein; sie können aber z. B. für die vorzeitige Zulassung herangezogen werden." },
+      { f: "Was passiert, wenn ich einen Teil nicht bestehe?", a: "Die Prüfung ist als Ganzes nicht bestanden — du kannst sie [[nichtbestehen|zweimal wiederholen]], und bereits mindestens ausreichende Prüfungsteile können dir nach der Prüfungsordnung angerechnet werden. Dein Ausbildungsverhältnis verlängert sich auf Verlangen bis zur nächsten Wiederholungsprüfung." }
+    ],
+    verwandt: ["abschlusspruefung", "nichtbestehen", "zwischenpruefung"]
+  },
+
+  {
     id: "nichtbestehen",
     thema: "schule-pruefung",
     titel: "Prüfung nicht bestanden — und jetzt?",
