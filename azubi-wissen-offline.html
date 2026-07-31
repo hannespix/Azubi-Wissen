@@ -899,6 +899,22 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .rechner-ergebnis--plan:empty { display: none; }
 .rechner-ergebnis--plan .tabellen-rahmen { margin: 4px 0 8px; }
 
+/* Merkliste & Karten-Druck (R7): Stern- und Druckknopf im Kartenkopf,
+   aktiver Stern gelb mit dunkler Kontur (Gelb-Regel). */
+.karten-kopf { display: flex; align-items: flex-start; gap: 6px; }
+.karten-kopf h2 { flex: 1 1 auto; margin-right: 4px; }
+.merk-knopf svg, .druck-knopf svg { width: 20px; height: 20px; }
+.merk-knopf--aktiv svg polygon { fill: var(--bw-gelb); stroke: var(--bw-schwarz); }
+.artikel-aktionen .merk-knopf { align-self: center; }
+@media print {
+  .merk-knopf, .druck-knopf { display: none !important; }
+  body.druck-nur-karte > *:not(main) { display: none !important; }
+  body.druck-nur-karte #inhalt > *:not(.karte--druckziel) { display: none !important; }
+  body.druck-nur-karte .karte--druckziel { display: block !important; border: none; }
+  body.druck-nur-karte .karte--druckziel .rechner-form { display: none !important; }
+  body.druck-nur-karte .assistent-stoerer { display: none !important; }
+}
+
 /* Notenrechner (R6): Gewichtungs-Schaubild + Bestehens-Checkliste. */
 .noten-schaubild { overflow-x: auto; margin: 8px 0 4px; }
 .noten-svg { display: block; min-width: 480px; width: 100%; max-width: 640px; height: auto; }
@@ -4243,6 +4259,8 @@ window.VORLAGEN = {
     return null;
   }
   var ICON = {
+    stern: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2.6 15.1 8.9 22 9.9 17 14.8 18.2 21.7 12 18.4 5.8 21.7 7 14.8 2 9.9 8.9 8.9"></polygon></svg>',
+    drucker: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>',
     suche: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
     buch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
@@ -4767,7 +4785,11 @@ window.VORLAGEN = {
   }
   // Fangnetz: Ein Fehler in einer Ansicht darf die Seite nie leer lassen.
   function rendernJetzt() {
-    try { rendernAnsicht(); }
+    try {
+      rendernAnsicht();
+      var wurzel = $("#inhalt");
+      if (wurzel) { merkVerhalten(wurzel); druckVerhalten(wurzel); }
+    }
     catch (fehler) {
       var haupt = $("#inhalt");
       if (haupt) {
@@ -4881,6 +4903,67 @@ window.VORLAGEN = {
     } catch (e) {}
   }
 
+  /* ---------------- Merkliste (R7) ---------------------------------
+     Häufig gebrauchte Inhalte per Stern merken — lokal gespeichert
+     (localStorage "aw.merkliste"), Schnellzugriff auf der Startseite. */
+  function merklisteLesen() {
+    try { return JSON.parse(localStorage.getItem("aw.merkliste") || "[]"); } catch (e) { return []; }
+  }
+  function merklisteSchreiben(liste) {
+    try { localStorage.setItem("aw.merkliste", JSON.stringify(liste.slice(0, 40))); } catch (e) {}
+  }
+  function istGemerkt(ziel) {
+    return merklisteLesen().some(function (e) { return e && e.ziel === ziel; });
+  }
+  function merklisteUmschalten(ziel, titel, wo) {
+    var liste = merklisteLesen();
+    var ohne = liste.filter(function (e) { return e && e.ziel !== ziel; });
+    var neu = ohne.length === liste.length;
+    if (neu) ohne.unshift({ ziel: ziel, titel: titel, wo: wo });
+    merklisteSchreiben(ohne);
+    return neu;
+  }
+  function merkKnopf(ziel, titel, wo) {
+    var aktiv = istGemerkt(ziel);
+    return '<button type="button" class="bw-iconbtn merk-knopf' + (aktiv ? " merk-knopf--aktiv" : "") +
+      '" data-merk-ziel="' + esc(ziel) + '" data-merk-titel="' + esc(titel) + '" data-merk-wo="' + esc(wo) +
+      '" aria-pressed="' + (aktiv ? "true" : "false") + '" aria-label="Merken" title="' +
+      (aktiv ? "Von der Merkliste entfernen" : "Auf die Merkliste setzen") + '">' + ICON.stern + "</button>";
+  }
+  function merkVerhalten(root) {
+    root.querySelectorAll("[data-merk-ziel]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var aktiv = merklisteUmschalten(b.getAttribute("data-merk-ziel"),
+          b.getAttribute("data-merk-titel"), b.getAttribute("data-merk-wo"));
+        b.classList.toggle("merk-knopf--aktiv", aktiv);
+        b.setAttribute("aria-pressed", aktiv ? "true" : "false");
+        b.title = aktiv ? "Von der Merkliste entfernen" : "Auf die Merkliste setzen";
+      });
+    });
+  }
+  // Karten-Druck (R7): druckt genau eine Nachschlag-Karte als A4-Handout.
+  function druckVerhalten(root) {
+    root.querySelectorAll("[data-druck-karte]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var karte = document.getElementById("n-" + b.getAttribute("data-druck-karte"));
+        if (!karte) return;
+        document.body.classList.add("druck-nur-karte");
+        karte.classList.add("karte--druckziel");
+        var fertig = false;
+        function aufraeumen() {
+          if (fertig) return;
+          fertig = true;
+          document.body.classList.remove("druck-nur-karte");
+          karte.classList.remove("karte--druckziel");
+          window.removeEventListener("afterprint", aufraeumen);
+        }
+        window.addEventListener("afterprint", aufraeumen);
+        window.print();
+        setTimeout(aufraeumen, 1500);
+      });
+    });
+  }
+
   /* ---------------- Ansicht: Start --------------------------------- */
   var HAEUFIG = [
     { a: "urlaub", faq: 0, text: "Wie viele Urlaubstage habe ich?" },
@@ -4912,6 +4995,15 @@ window.VORLAGEN = {
       '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
       '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
       "</div>";
+
+    var gemerkt = merklisteLesen();
+    if (gemerkt.length) {
+      h += '<h2>Merkliste</h2><ul class="chipzeile" id="start-merkliste">';
+      gemerkt.forEach(function (e) {
+        h += '<li><a class="chip" href="' + esc(e.ziel) + '"><span class="bw-leise">' + esc(e.wo) + ":</span> " + esc(e.titel) + "</a></li>";
+      });
+      h += '</ul><p class="bw-klein bw-leise">Merken und Entfernen über den Stern am Artikel bzw. an der Nachschlag-Karte — lokal auf diesem Gerät gespeichert.</p>';
+    }
 
     var zuletzt = zuletztLesen();
     if (zuletzt.length) {
@@ -5133,6 +5225,7 @@ window.VORLAGEN = {
     h += '<div class="artikel-aktionen">' +
       '<a class="bw-btn bw-btn--gelb" href="#/export?artikel=' + a.id + '">Als PDF exportieren</a>' +
       '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(a.titel + "?") + '">Frage dazu stellen</a>' +
+      merkKnopf("#/artikel/" + a.id, a.titel, "Artikel") +
       "</div>";
     return h;
   }
@@ -5747,7 +5840,10 @@ window.VORLAGEN = {
 
     N.karten.forEach(function (k) {
       h += '<section class="nachschlag-karte bw-card" id="n-' + esc(k.id) + '" aria-labelledby="nt-' + esc(k.id) + '" tabindex="-1">';
-      h += '<h2 id="nt-' + esc(k.id) + '">' + esc(k.titel) + "</h2>";
+      h += '<div class="karten-kopf"><h2 id="nt-' + esc(k.id) + '">' + esc(k.titel) + "</h2>" +
+        merkKnopf("#/nachschlag?karte=" + k.id, k.titel.split(" — ")[0], "Nachschlag") +
+        '<button type="button" class="bw-iconbtn druck-knopf" data-druck-karte="' + esc(k.id) +
+        '" title="Karte drucken (A4-Handout)" aria-label="Karte drucken">' + ICON.drucker + "</button></div>";
       if (k.kurz) h += '<p class="bw-klein">' + fmtInline(k.kurz) + "</p>";
       if (k.rechner) h += rechnerHtml(k.rechner);
       if (k.jahreskreis) h += jahreskreisHtml(k.jahreskreis);
