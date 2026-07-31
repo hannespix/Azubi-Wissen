@@ -187,7 +187,14 @@ immer verlinken; Querlinks zwischen Artikeln.
   JArbSchG, elektronischer Ausbildungsnachweis). Neuer Dauertest
   smoke_d2: alle 38 Artikel rendern in Stufe 3 fehlerfrei, alle
   Querlink-Ziele existieren. *(PR #26)*
-- **D3 Artikel-Tranche 2** — Vergütung, Arbeitszeit, Schule & Prüfung (offen)
+- **D3 Artikel-Tranche 2** ✅ — 10 Artikel der Themen Vergütung, 
+  Arbeitszeit/Urlaub und Schule/Prüfung vertieft: ~34 weitere Querlinks
+  (u. a. Zulassungsvoraussetzungen der Abschlussprüfung komplett
+  verlinkt, Überstunden ↔ Arbeitszeitgrenzen, Schlechtwetter ↔ Urlaub),
+  3 neue FAQ (MiAV-Erhöhung gilt nicht rückwirkend, Lohnsteuer,
+  Sachbezugsgrenzen) und neuer Abschnitt „Urlaubsentgelt ist nicht
+  Urlaubsgeld". Bestand: 90 Querlink-Verwendungen auf 29 Ziele,
+  smoke_d2 komplett grün. *(PR #27)*
 - **D4 Artikel-Tranche 3** — Konflikte/Ende, Beratung, Fachwerker (offen)
 - **D5 Datensätze** — Glossar, Nachschlag, Checklisten, Berufe, Vorlagen (offen)
 
