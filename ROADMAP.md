@@ -109,8 +109,14 @@
   Desktop-Navigation (nowrap + adaptive Suchknopf-Breite), Fokus-Rahmen
   auf Überschriften nach Routenwechsel, unterstrichene und bei Umbruch
   fragmentierte Chips. *(PR #17)*
-- **R4 Rechner-Module** — Urlaubsanspruch (Alter/Eintritt), Vergütung
-  (Beginnjahr/Tarif), Fristen (Probezeit-Ende, Verlängerung), Teilzeit-Dauer.
+- **R4 Rechner-Module** ✅ — vier interaktive Rechner im Schnellnachschlag
+  mit Live-Ergebnis (gelbes Ergebnisfeld mit dunkler Kontur, aria-live):
+  Urlaubsrechner (Geburtsdatum → Werktage nach JArbSchG/BUrlG +
+  Arbeitstage), Vergütungsrechner (Beginnjahr × Ausbildungsjahr →
+  Mindestvergütung), Fristenrechner (Probezeit-Ende, spätestes
+  Verlängerungsende nach § 21 Abs. 3), Teilzeitrechner (§ 7a mit
+  1,5-fach-Kappung); über die Palette findbar („urlaubsrechner" …).
+  *(PR #22)*
 - **R5 Weitere Module** — Vorschläge aus den Reviews, dann Umsetzung.
 
 ## Ausbau v4: Alle grünen Berufe — Auftrag 31.07.2026

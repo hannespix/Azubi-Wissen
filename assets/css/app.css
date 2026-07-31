@@ -658,3 +658,20 @@ a.chip { display: inline-block; }
 .assistent-stoerer:hover { transform: translateX(-3px); box-shadow: var(--schatten-3); }
 .assistent-stoerer:active { transform: translateX(-1px) scale(0.98); }
 @media print { .assistent-stoerer { display: none; } }
+
+/* ================== Rechner (R4) ================================== */
+.rechner-form { display: grid; grid-template-columns: 1fr 1fr; gap: var(--bw-space-2); margin: var(--bw-space-2) 0; }
+@media (max-width: 640px) { .rechner-form { grid-template-columns: 1fr; } }
+.rechner-form select, .rechner-form input[type="date"] {
+  width: 100%; padding: 0.55em 0.7em; font: inherit;
+  border: 1px solid var(--bw-grau-300); border-radius: var(--bw-radius);
+  background: var(--bw-weiss); color: var(--bw-text);
+}
+/* Ergebnis = der EINE hervorgehobene Wert: Gelb mit dunkler Kontur (CI). */
+.rechner-ergebnis {
+  margin: var(--bw-space-2) 0 0; padding: var(--bw-space-2) var(--bw-space-3);
+  background: var(--bw-gelb); color: var(--bw-schwarz);
+  border: 1.5px solid var(--bw-schwarz); border-radius: 12px;
+  max-width: 75ch;
+}
+.rechner-ergebnis:empty { display: none; }
