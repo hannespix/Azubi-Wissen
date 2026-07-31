@@ -45,8 +45,30 @@
       return "<p>" + inline(b).replace(/\n/g, "<br>") + "</p>";
     }).join("");
     function inline(s) {
-      return esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      return normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"));
     }
+  }
+
+  // §§-Verlinkung (M11): Normzitate im bereits escapten Text mit den lokal
+  // vendorten Gesetzes-PDFs verknüpfen — z. B. „§ 20 BBiG",
+  // „§§ 10, 11 und 36 BBiG", „§ 21 Abs. 3 BBiG". Unbekannte Werke
+  // (etwa SGB III) bleiben unverlinkt.
+  var GESETZ_QUELLE = {
+    BBiG: "gesetz-bbig", JArbSchG: "gesetz-jarbschg", ArbZG: "gesetz-arbzg",
+    BUrlG: "gesetz-burlg", EntgFG: "gesetz-entgfg", "GärtnAusbV": "gesetz-gaertnausbv",
+    GBFWVO: "gesetz-gbfwvo"
+  };
+  var NORM_RE = /(§§?\s?\d+[a-z]?(?:(?:,\s?|\s?und\s?|\s?bis\s?)\d+[a-z]?)*(?:\s?Abs\.\s?\d+)?(?:\s?Nr\.\s?\d+)?(?:\s?Satz\s?\d+)?(?:\s?ff\.)?\s)(BBiG|JArbSchG|ArbZG|BUrlG|EntgFG|GärtnAusbV|GBFWVO)\b/g;
+  function normVerlinken(htmlText) {
+    if (!window.QUELLEN) return htmlText;
+    return String(htmlText).replace(NORM_RE, function (ganz, para, gesetz) {
+      var e = null;
+      window.QUELLEN.eintraege.forEach(function (x) { if (x.id === GESETZ_QUELLE[gesetz]) e = x; });
+      if (!e) return ganz;
+      var z = quelleZiel(e);
+      return '<a class="norm-link" href="' + esc(z.href) + '" target="_blank" rel="noopener" title="' +
+        esc(gesetz) + " öffnen" + (z.extern ? " (online)" : " (PDF)") + '">' + para + gesetz + "</a>";
+    });
   }
   // Eigene Inhalte (lokal angelegte Artikel/Dokumente) — Cache über LokalDB,
   // wird bei init() geladen und nach jeder Änderung aktualisiert.
@@ -480,6 +502,16 @@
             '<span class="schnipsel">' + esc(c.kurz || "") + "</span></a></li>";
         });
       }
+      var gerg = suchenGlossar(q, 2);
+      if (gerg.length) {
+        html += '<li class="palette__gruppe" role="presentation">Glossar</li>';
+        gerg.forEach(function (g) {
+          html += '<li class="palette__eintrag" role="option" aria-selected="false" data-ziel="#/glossar?b=' + g.id + '">' +
+            '<a href="#/glossar?b=' + g.id + '"><span class="wo">Begriff</span>' +
+            '<span class="titel">' + S.highlight(g.b, q) + "</span>" +
+            '<span class="schnipsel">' + esc(g.k.slice(0, 90)) + " …</span></a></li>";
+        });
+      }
       if (erg.artikel.length) {
         html += '<li class="palette__gruppe" role="presentation">Artikel</li>';
         erg.artikel.forEach(function (r) {
@@ -492,7 +524,7 @@
           html += eintrag("#/artikel/" + r.id + "?faq=" + r.faqIndex, S.highlight(r.titel, q), schnipsel(r.kurz, erg.tokens), "FAQ");
         });
       }
-      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length && !cerg.length) {
+      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length && !cerg.length && !gerg.length) {
         html = '<li class="palette__leer" role="presentation">Kein Treffer für „' + esc(q) + '“.<br>' +
           '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(q) + '" data-schliessen-nach>Frage dem Assistenten stellen</a></li>';
       }
@@ -586,6 +618,10 @@
       haupt.innerHTML = viewChecklisten(r.params);
       checklistenVerhalten(haupt, r.params);
       titel = "Checklisten — Azubi-Wissen";
+    } else if (view === "glossar") {
+      haupt.innerHTML = viewGlossar();
+      glossarVerhalten(haupt, r.params);
+      titel = "Glossar — Azubi-Wissen";
     } else if (view === "eigene") {
       haupt.innerHTML = viewEigene();
       eigeneVerhalten(haupt, r.params);
@@ -667,6 +703,7 @@
       '<a class="schnellkarte" href="#/checklisten">' + ICON.check + "<span><h3>Checklisten</h3><p>Erstberatung, Eintragung, Betriebsbesuch, AP-Anmeldung — abhaken, drucken, ablegen.</p></span></a>" +
       '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
       '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
+      '<a class="schnellkarte" href="#/glossar">' + ICON.buch + "<span><h3>Glossar</h3><p>Fachbegriffe von 80-Prozent-Regel bis Zwischenprüfung — kurz erklärt und verlinkt.</p></span></a>" +
       '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
       '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
       '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
@@ -831,7 +868,7 @@
       h += '<div class="recht-box bw-card">';
       if ((a.recht || []).length) {
         h += "<strong>Rechtsgrundlagen</strong><ul>" +
-          a.recht.map(function (r) { return '<li><span class="norm">' + esc(r.n) + "</span> — " + esc(r.t) + "</li>"; }).join("") +
+          a.recht.map(function (r) { return '<li><span class="norm">' + normVerlinken(esc(r.n)) + "</span> — " + esc(r.t) + "</li>"; }).join("") +
           "</ul>";
       }
       if (a.quelle) h += '<p class="bw-klein bw-leise" style="margin:var(--bw-space-2) 0 0">Quelle: ' + esc(a.quelle) + "</p>";
@@ -896,7 +933,7 @@
     return h;
   }
   function fmtInline(s) {
-    return esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    return normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"));
   }
 
   function artikelVerhalten(root, a, params) {
@@ -1411,7 +1448,7 @@
       }
       if (k.fussnote) h += '<p class="bw-klein bw-leise">' + esc(k.fussnote) + "</p>";
       var chips = "";
-      if (k.recht) chips += '<span class="etikett etikett--recht">' + esc(k.recht) + "</span>";
+      if (k.recht) chips += '<span class="etikett etikett--recht">' + normVerlinken(esc(k.recht)) + "</span>";
       (k.artikel || []).forEach(function (id) {
         var a = artikelVon(id);
         if (a) chips += '<a class="chip chip--frage" href="#/artikel/' + esc(id) + '">' + esc(a.titel) + "</a>";
@@ -1651,6 +1688,117 @@
       d.innerHTML = '<div class="blatt">' + dh + "</div>";
       window.print();
     });
+  }
+
+  /* ---------------- Ansicht: Glossar ------------------------------- */
+  var GINDEX = [];
+  (function bauenGlossar() {
+    var G = window.GLOSSAR;
+    if (!G) return;
+    G.begriffe.forEach(function (b) {
+      GINDEX.push({
+        begriff: b,
+        felder: [
+          [norm(b.b), 5],
+          [norm((b.stichworte || []).join(" ")), 4],
+          [norm(b.k), 1.5]
+        ]
+      });
+    });
+  })();
+
+  function suchenGlossar(q, limit) {
+    var tokens = norm(q).split(" ").filter(function (t) { return t && !STOP[t]; });
+    if (!tokens.length) return [];
+    var treffer = [];
+    GINDEX.forEach(function (rec) {
+      var summe = 0;
+      for (var t = 0; t < tokens.length; t++) {
+        var alts = tokenAlternativen(tokens[t]);
+        var best = 0;
+        for (var f = 0; f < rec.felder.length; f++) {
+          for (var x = 0; x < alts.length; x++) {
+            var sc = tokenScore(alts[x], rec.felder[f][0]);
+            if (sc) best = Math.max(best, sc * rec.felder[f][1] * (x ? 0.8 : 1));
+          }
+        }
+        if (!best) { summe = 0; break; }
+        summe += best;
+      }
+      if (summe > 0) treffer.push({ begriff: rec.begriff, score: summe });
+    });
+    treffer.sort(function (a, b) { return b.score - a.score; });
+    return treffer.slice(0, limit || 2).map(function (t) { return t.begriff; });
+  }
+
+  function viewGlossar() {
+    var G = window.GLOSSAR;
+    if (!G) return platzhalter("Glossar", "Glossar-Modul nicht geladen.");
+    var h = "<h1>Glossar</h1>" +
+      '<p class="bw-unterzeile">' + G.begriffe.length + " Fachbegriffe der Ausbildung — kurz erklärt, mit Verweisen in die Wissensbasis</p>";
+    h += '<div class="bw-search" style="max-width:34rem"><label for="gq" class="bw-skip-link">Begriffe filtern</label>' +
+      '<input id="gq" type="search" placeholder="Begriff filtern … (tipptolerant)" aria-label="Begriffe filtern">' +
+      '<button type="button" aria-label="Suchen">' + ICON.suche + "</button></div>";
+    h += '<div id="glossar-liste"></div>';
+    h += '<p class="stand-hinweis">Stand: ' + esc(G.stand) + ".</p>";
+    return h;
+  }
+
+  function glossarListe(filterQ) {
+    var G = window.GLOSSAR;
+    var begriffe = G.begriffe.slice().sort(function (a, b) { return a.b.localeCompare(b.b, "de"); });
+    if (filterQ) {
+      var tokens = norm(filterQ).split(" ").filter(Boolean);
+      begriffe = begriffe.filter(function (b) {
+        var hay = norm(b.b + " " + (b.stichworte || []).join(" ") + " " + b.k);
+        return tokens.every(function (tok) {
+          return tokenAlternativen(tok).some(function (al) { return tokenScore(al, hay) > 0; });
+        });
+      });
+    }
+    if (!begriffe.length) return '<p class="leer">Kein Begriff passt zum Filter.</p>';
+    var h = "", buchstabe = "";
+    begriffe.forEach(function (b) {
+      var anfang = b.b.charAt(0).toUpperCase();
+      if (/\d/.test(anfang)) anfang = "0–9";
+      if (anfang !== buchstabe) {
+        if (buchstabe) h += "</dl>";
+        buchstabe = anfang;
+        h += '<h2 class="glossar-buchstabe">' + esc(buchstabe) + '</h2><dl class="glossar">';
+      }
+      var chips = "";
+      (b.artikel || []).forEach(function (id) {
+        var a = artikelVon(id);
+        if (a) chips += '<a class="chip chip--frage" href="#/artikel/' + esc(id) + '">' + esc(a.titel) + "</a>";
+      });
+      if (b.quelle && window.QUELLEN) {
+        var e = null;
+        window.QUELLEN.eintraege.forEach(function (x) { if (x.id === b.quelle) e = x; });
+        if (e) {
+          var z = quelleZiel(e);
+          chips += '<a class="chip" href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : ' target="_blank" rel="noopener"') + ">" + esc(e.titel) + (z.extern ? " ↗" : "") + "</a>";
+        }
+      }
+      h += '<dt id="g-' + esc(b.id) + '" tabindex="-1">' + esc(b.b) + "</dt>" +
+        "<dd>" + normVerlinken(esc(b.k)) + (chips ? '<span class="chipzeile-frei">' + chips + "</span>" : "") + "</dd>";
+    });
+    h += "</dl>";
+    return h;
+  }
+
+  function glossarVerhalten(root, params) {
+    var eingabe = $("#gq", root), ziel = $("#glossar-liste", root);
+    function zeigen() { mitUebergang(zeigenJetzt); }
+    function zeigenJetzt() { ziel.innerHTML = glossarListe(eingabe.value.trim()); }
+    eingabe.addEventListener("input", zeigen);
+    zeigenJetzt();
+    if (params.b) {
+      var dt = $("#g-" + params.b, root);
+      if (dt) {
+        dt.classList.add("glossar-ziel");
+        setTimeout(function () { dt.scrollIntoView({ block: "center" }); dt.focus({ preventScroll: true }); }, 0);
+      }
+    }
   }
 
   /* ---------------- Ansicht: Eigene Inhalte ------------------------ */

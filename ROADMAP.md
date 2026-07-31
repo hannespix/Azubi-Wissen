@@ -81,10 +81,32 @@
   Eintragung, Betriebsbesuch, AP-Anmeldung — abhaken mit Fortschrittsbalken,
   Notiz je Vorgang, Stand lokal gespeichert (IndexedDB v3), Druck/PDF für
   die Akte, in Suche/Palette integriert. *(PR #14)*
-- **M11 Glossar & §§-Verlinkung** — Kurzglossar; Normzitate im Text automatisch
-  mit Artikeln verknüpfen.
+- **M11 Glossar & §§-Verlinkung** ✅ — `#/glossar` mit 29 Begriffen
+  (A–Z, tipptoleranter Filter, Deep-Links, Verweise auf Artikel/Quellen);
+  Normzitate wie „§ 21 Abs. 3 BBiG" werden in Artikeln, FAQ, Rechtsboxen
+  und Nachschlagkarten automatisch mit den lokalen Gesetzes-PDFs verlinkt.
+  Dazu Mobile-Korrekturen: deckendes Hamburger-Menü (Backdrop-Filter-
+  Verschachtelung), Touch-Navigation, Suchfeld-Überlauf. *(PR #15)*
 - **Kontaktverzeichnis** — bewusst zurückgestellt: personenbezogene Daten
   gehören nicht in dieses Repo.
+
+## Perfektionierung (v3) — Auftrag 31.07.2026
+
+> „Überarbeite, verlinke und verbessere alle Inhalte … eigene Reviews
+> (inhaltlich, UI, Erweiterungsvorschläge) … PR für PR."
+
+- **R1 Inhalts-Recherche 2** — RP Karlsruhe (zuständige Stelle Nordbaden)
+  und Landratsamt Karlsruhe auswerten; ergänzend BiBB-Umsetzungshilfe,
+  KMK-Rahmenlehrplan, Budget für Ausbildung; neue Quellen/Formulare
+  einpflegen.
+- **R2 Inhalts-Review & Querverlinkung** — alle 38+ Artikel: verwandt-Links
+  vervollständigen, Artikel↔Quellen↔Vorlagen↔Checklisten verknüpfen,
+  Typografie/Fakten prüfen.
+- **R3 UI-Review** — eigener Screenshot-Durchgang mobil/desktop je Ansicht,
+  Befunde fixen.
+- **R4 Rechner-Module** — Urlaubsanspruch (Alter/Eintritt), Vergütung
+  (Beginnjahr/Tarif), Fristen (Probezeit-Ende, Verlängerung), Teilzeit-Dauer.
+- **R5 Weitere Module** — Vorschläge aus den Reviews, dann Umsetzung.
 
 ## Dauerpflege
 

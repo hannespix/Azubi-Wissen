@@ -821,6 +821,64 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .cl-punkt:has(input:checked) label { color: var(--bw-text-leise); text-decoration: line-through; text-decoration-thickness: 1px; }
 .cl-punkt:has(input:checked) label .bw-klein { text-decoration: none; }
 
+/* ============== Mobile-Feinschliff (Korrekturen) ================== */
+/* Suchfelder: Eingabe füllt die Zeile, Knopf bleibt im Rahmen —
+   behebt das überlaufende Filterfeld auf schmalen Bildschirmen. */
+.bw-search { width: 100%; }
+.bw-search input[type="search"] { flex: 1 1 auto; min-width: 0; width: 100%; }
+.bw-search button { flex: none; }
+
+/* Mobiles Menü: DECKEND statt Glas — ein backdrop-filter auf dem Header
+   schaltet den Blur seiner Kinder ab (Backdrop-Root), das Panel wäre nur
+   durchscheinend und der Footer schimmerte durch. Dazu: große Tap-Flächen,
+   durchgehende Trennlinien, gelber Marker für den aktiven Punkt. */
+@media (max-width: 800px) {
+  .bw-nav__panel {
+    background: var(--bw-weiss);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border: 0; border-top: 1px solid var(--glas-linie);
+    border-radius: 0 0 var(--radius-gross) var(--radius-gross);
+    box-shadow: var(--schatten-3);
+    padding: var(--bw-space-1) 0 var(--bw-space-2);
+    max-height: calc(100dvh - 72px); overflow-y: auto;
+    z-index: 45;
+  }
+  .bw-nav__panel .bw-nav__links a {
+    display: block; padding: 0.9em var(--bw-rand);
+    border-bottom: 1px solid var(--bw-grau-100);
+    border-left: 4px solid transparent;
+    font-weight: 700; text-decoration: none;
+    transition: background-color var(--dauer-1) linear, border-color var(--dauer-1) linear;
+  }
+  .bw-nav__panel .bw-nav__links li:last-child a { border-bottom: 0; }
+  .bw-nav__panel .bw-nav__links a:active { background: var(--bw-grau-100); }
+  .bw-nav__panel .bw-nav__links a[aria-current="page"] {
+    border-left-color: var(--bw-gelb);
+    background: var(--bw-grau-50);
+  }
+}
+/* Footer nie über schwebenden Flächen */
+.bw-footer { position: relative; z-index: 0; }
+
+/* ================== Glossar (M11) ================================= */
+.glossar-buchstabe {
+  font-family: var(--bw-font-sans); font-size: var(--bw-fs-klein);
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--bw-text-leise);
+  border-bottom: 1px solid var(--bw-grau-200); padding-bottom: 4px;
+  margin: var(--bw-space-4) 0 var(--bw-space-2);
+}
+.glossar { margin: 0; }
+.glossar dt { font-weight: 700; margin-top: var(--bw-space-2); scroll-margin-top: 96px; }
+.glossar dd { margin: 2px 0 var(--bw-space-2); max-width: 75ch; color: var(--bw-text); }
+.glossar dd .chipzeile-frei { margin-top: var(--bw-space-1); }
+.glossar dt.glossar-ziel {
+  background: var(--bw-gelb); outline: 1.5px solid var(--bw-schwarz);
+  display: inline-block; padding: 0.1em 0.4em; border-radius: 6px;
+}
+.norm-link { text-decoration-style: dotted; text-underline-offset: 2px; font-weight: inherit; }
+.norm-link:hover { text-decoration-style: solid; }
+
 </style>
 <script>window.EINZELDATEI=true;</script></head>
 <body>
@@ -3174,6 +3232,108 @@ window.VORLAGEN = {
 
 </script>
 <script>
+// glossar.js — Kurzglossar der Ausbildungsberatung (grüne Berufe).
+// Begriffe knapp erklärt, mit Verweisen auf Artikel und Quellen des Tools.
+// Fachlicher Stand entspricht der Wissensbasis (wissen.js).
+(function () {
+  "use strict";
+
+  window.GLOSSAR = {
+    stand: "31.07.2026",
+    begriffe: [
+      { id: "achtzig-prozent-regel", b: "80-Prozent-Regel",
+        k: "Nicht tarifgebundene Betriebe dürfen die Ausbildungsvergütung höchstens 20 % unter dem einschlägigen Branchentarif ansetzen — und nie unter der gesetzlichen Mindestvergütung (§ 17 BBiG).",
+        stichworte: ["verguetung", "tarif", "80"], artikel: ["mindestverguetung"] },
+      { id: "abschlusspruefung", b: "Abschlussprüfung",
+        k: "Staatliche Prüfung am Ende der Ausbildung vor dem Prüfungsausschuss der zuständigen Stelle; zweimal wiederholbar (§ 37 BBiG). Zulassung setzt u. a. Zwischenprüfung und geführtes Berichtsheft voraus.",
+        stichworte: ["pruefung", "ap"], artikel: ["abschlusspruefung"] },
+      { id: "aktenvermerk", b: "Aktenvermerk",
+        k: "Interne, sachliche Dokumentation eines Beratungs- oder Aufsichtsvorgangs (wer, wann, was, Ergebnis, weiteres Vorgehen) — im Tool unter „Export & Vermerk“ strukturiert erstellbar.",
+        stichworte: ["vermerk", "dokumentation"], artikel: ["aktenvermerk"] },
+      { id: "anrechnung", b: "Anrechnung (Berufsschulzeit)",
+        k: "Berufsschulunterricht einschließlich Pausen und Wegezeiten wird auf die betriebliche Ausbildungszeit angerechnet (§ 15 BBiG); vor Unterricht ab 9 Uhr dürfen Jugendliche nicht beschäftigt werden.",
+        stichworte: ["berufsschule", "freistellung"], artikel: ["freistellung", "berufsschulpflicht"] },
+      { id: "asa-flex", b: "Assistierte Ausbildung (AsA flex)",
+        k: "Förderinstrument der Agentur für Arbeit: Stütz- und Förderunterricht, sozialpädagogische Begleitung und Betriebs-Coaching während einer regulären Ausbildung — oft die Alternative vor einem Wechsel in § 66.",
+        stichworte: ["foerderung", "asa", "arbeitsagentur"], artikel: ["foerderung"], quelle: "ba-asa" },
+      { id: "ausbildungsberatung", b: "Ausbildungsberatung",
+        k: "Gesetzliche Aufgabe der zuständigen Stelle (§ 76 BBiG): berät Betriebe, Ausbilder/innen und Azubis, überwacht die Ausbildung und wirkt auf Mängelbeseitigung hin.",
+        stichworte: ["beratung", "aufsicht"], artikel: ["ausbildungsberatung"] },
+      { id: "ausbildungsgeld", b: "Ausbildungsgeld",
+        k: "Leistung des Reha-Trägers (statt Vergütung durch den Betrieb) bei bestimmten Fachwerker-Modellen über Bildungsträger/BBW — Höhe und Bezug ergeben sich aus dem Förderbescheid.",
+        stichworte: ["fachwerker", "reha", "foerderung"], artikel: ["fw-modelle", "foerderung"], quelle: "ba-ausbildungsgeld" },
+      { id: "ausbildungsnachweis", b: "Ausbildungsnachweis (Berichtsheft)",
+        k: "Schriftlicher oder elektronischer Nachweis des Ausbildungsverlaufs; wird während der Arbeitszeit geführt, vom Betrieb regelmäßig geprüft und ist Zulassungsvoraussetzung zur Abschlussprüfung (§§ 13, 43 BBiG).",
+        stichworte: ["berichtsheft"], artikel: ["berichtsheft"] },
+      { id: "ausbildungsordnung", b: "Ausbildungsordnung (GärtnAusbV)",
+        k: "Rechtsverordnung, die Berufsbild, Ausbildungsrahmenplan und Prüfungsanforderungen für Gärtner/innen in sieben Fachrichtungen festlegt.",
+        stichworte: ["gaertnausbv", "verordnung", "fachrichtung"], quelle: "gesetz-gaertnausbv" },
+      { id: "bab", b: "Berufsausbildungsbeihilfe (BAB)",
+        k: "Zuschuss der Agentur für Arbeit zu Lebensunterhalt und Fahrtkosten, wenn Azubis nicht bei den Eltern wohnen können und die Vergütung nicht reicht — rechtzeitig vor Beginn beantragen.",
+        stichworte: ["foerderung", "geld"], artikel: ["foerderung"], quelle: "ba-bab" },
+      { id: "bav", b: "Berufsausbildungsvertrag (BAV)",
+        k: "Der Vertrag zwischen Betrieb und Azubi (bei Minderjährigen mit gesetzlicher Vertretung), vor Beginn schriftlich niederzulegen und unverzüglich zur Eintragung einzureichen (§§ 10, 11, 36 BBiG). Ausfüllbarer Vordruck im Download-Center.",
+        stichworte: ["vertrag", "vordruck"], artikel: ["ausbildungsvertrag"], quelle: "bav" },
+      { id: "berufsschulpflicht", b: "Berufsschulpflicht",
+        k: "Auszubildende sind bis zum Ende des Schuljahres, in dem sie 18 werden, berufsschulpflichtig (in BW); der Betrieb muss anmelden, freistellen und die Zeit anrechnen.",
+        stichworte: ["schule"], artikel: ["berufsschulpflicht"] },
+      { id: "eintragung", b: "Eintragung (Verzeichnis)",
+        k: "Aufnahme des Ausbildungsverhältnisses in das Verzeichnis der zuständigen Stelle (§§ 34 ff. BBiG) — Voraussetzung sind vollständige Unterlagen, Eignung und rechtskonformer Vertrag.",
+        stichworte: ["verzeichnis", "vertrag"], artikel: ["eintragung"] },
+      { id: "eignungsuntersuchung", b: "Eignungsuntersuchung (§ 66)",
+        k: "Feststellung des Reha-Trägers, dass ein Regelberuf nicht in Betracht kommt und eine Ausbildung nach § 66 BBiG geeignet ist; ohne schriftliches Ergebnis keine Eintragung eines Fachwerker-Vertrags (§ 3 GBFWVO).",
+        stichworte: ["fachwerker", "reha", "eignung"], artikel: ["fw-weg"] },
+      { id: "externenpruefung", b: "Externenprüfung",
+        k: "Zulassung zur Abschlussprüfung ohne Ausbildungsverhältnis nach § 45 Abs. 2 BBiG — in der Regel bei mindestens dem Anderthalbfachen der Ausbildungszeit an einschlägiger Berufspraxis (Gärtner: 4,5 Jahre).",
+        stichworte: ["quereinstieg", "pruefung extern"], artikel: ["abschlusspruefung"] },
+      { id: "fachwerker", b: "Fachwerker/in (Fachpraktiker/in)",
+        k: "Ausbildung nach § 66 BBiG für Menschen mit Behinderung, wenn ein Regelberuf nicht in Betracht kommt — im Gartenbau geregelt durch die GBFWVO, in denselben sieben Fachrichtungen wie Gärtner/in.",
+        stichworte: ["66", "behinderung"], artikel: ["fw-grundlagen"] },
+      { id: "freistellung", b: "Freistellung",
+        k: "Pflicht des Betriebs, Azubis für Berufsschule, Prüfungen und bestimmte Prüfungsvorbereitung ohne Entgeltminderung freizustellen (§ 15 BBiG); für Jugendliche gelten zusätzliche Schutzregeln.",
+        stichworte: ["berufsschule", "pruefung"], artikel: ["freistellung"] },
+      { id: "mindestverguetung", b: "Mindestausbildungsvergütung",
+        k: "Gesetzliche Untergrenze der Ausbildungsvergütung (§ 17 BBiG), abhängig vom Jahr des Ausbildungsbeginns, mit Aufschlägen von 18/35/40 % in den Folgejahren — aktuelle Werte im Schnellnachschlag.",
+        stichworte: ["miav", "verguetung", "tariftabelle"], artikel: ["mindestverguetung"] },
+      { id: "nachteilsausgleich", b: "Nachteilsausgleich",
+        k: "Anpassung der Prüfungsbedingungen (z. B. Zeitverlängerung, Hilfsmittel, gesonderter Raum) für Menschen mit Behinderung oder Beeinträchtigung (§ 65 BBiG) — rechtzeitig mit aktuellem Nachweis beantragen.",
+        stichworte: ["pruefung", "behinderung"], artikel: ["abschlusspruefung", "fw-grundlagen"] },
+      { id: "probezeit", b: "Probezeit",
+        k: "Pflichtbestandteil jedes Ausbildungsverhältnisses: mindestens ein, höchstens vier Monate (§ 20 BBiG); währenddessen kann beidseitig jederzeit fristlos schriftlich gekündigt werden.",
+        stichworte: ["kuendigung", "beginn"], artikel: ["probezeit"] },
+      { id: "reza", b: "ReZA",
+        k: "Rehabilitationspädagogische Zusatzqualifikation für Ausbilder/innen — Voraussetzung für die betriebliche Fachwerkerausbildung; alternativ Kooperation mit einem Träger, der sie vorhält.",
+        stichworte: ["fachwerker", "ausbilder"], artikel: ["fw-betrieb"] },
+      { id: "stopppunkte", b: "Stopppunkte (Fachwerker)",
+        k: "Vier Punkte aus der Handreichung, bei denen der Weg in die Fachwerkerausbildung angehalten wird: kein schriftliches Eignungsergebnis, kein gesicherter Ausbildungsplatz, ReZA/Unterstützung ungeklärt, Finanzierung nur „in Aussicht“.",
+        stichworte: ["fachwerker", "verfahren"], artikel: ["fw-weg"] },
+      { id: "svlfg", b: "SVLFG",
+        k: "Sozialversicherung für Landwirtschaft, Forsten und Gartenbau — Träger der Unfallversicherung; liefert Unterweisungshilfen, Checklisten und Betriebsanweisungen für den Arbeitsschutz.",
+        stichworte: ["arbeitsschutz", "unfall"], quelle: "svlfg-unterweisung" },
+      { id: "teilzeitausbildung", b: "Teilzeitausbildung",
+        k: "Verkürzung der täglichen oder wöchentlichen Ausbildungszeit auf bis zu 50 % (§ 7a BBiG); die Gesamtdauer verlängert sich entsprechend, höchstens um das Anderthalbfache — kein besonderer Grund mehr nötig.",
+        stichworte: ["teilzeit", "kind", "pflege"], artikel: ["teilzeit-verkuerzung"] },
+      { id: "ueba", b: "ÜBA (überbetriebliche Ausbildung)",
+        k: "Ergänzende Lehrgänge außerhalb des Betriebs, die vorgeschriebene Inhalte sichern (im Gartenbau je nach Fachrichtung); Teilnahme ist Teil der Ausbildung und wird angerechnet.",
+        stichworte: ["lehrgang"], artikel: ["ausbildungspflicht"] },
+      { id: "verlaengerung", b: "Verlängerung der Ausbildung",
+        k: "Bei nicht bestandener Abschlussprüfung verlängert sich das Ausbildungsverhältnis auf Verlangen des Azubis bis zur nächstmöglichen Wiederholungsprüfung, höchstens um ein Jahr (§ 21 Abs. 3 BBiG).",
+        stichworte: ["nichtbestehen", "wiederholung"], artikel: ["nichtbestehen"] },
+      { id: "werktag", b: "Werktag vs. Arbeitstag",
+        k: "Das Urlaubsrecht rechnet in Werktagen (Montag–Samstag): 24 Werktage = 4 Wochen = 20 Arbeitstage in der 5-Tage-Woche. Tarifverträge rechnen oft direkt in Arbeitstagen.",
+        stichworte: ["urlaub"], artikel: ["urlaub"] },
+      { id: "zustaendige-stelle", b: "Zuständige Stelle",
+        k: "Für die grünen Berufe in Südbaden: das Regierungspräsidium Freiburg — führt das Verzeichnis, überwacht und berät, organisiert Prüfungen und erlässt Regelungen (§§ 71 ff. BBiG).",
+        stichworte: ["rp", "kammer"], artikel: ["zustaendige-stelle"] },
+      { id: "zwischenpruefung", b: "Zwischenprüfung",
+        k: "Pflicht-Lernstandskontrolle etwa zur Ausbildungsmitte (§ 48 BBiG); die Teilnahme — nicht das Ergebnis — ist Zulassungsvoraussetzung für die Abschlussprüfung.",
+        stichworte: ["pruefung", "mitte"], artikel: ["zwischenpruefung"] }
+    ]
+  };
+})();
+
+</script>
+<script>
 // lokaldb.js — Lokale Datenbank im Browser (IndexedDB, Fallback localStorage).
 // Speichert Nutzerdaten des Werkzeugs: Aktenvermerke, Notizen sowie eigene
 // Artikel und Dokumente. Alles bleibt auf diesem Gerät — keine Übertragung,
@@ -3325,8 +3485,30 @@ window.VORLAGEN = {
       return "<p>" + inline(b).replace(/\n/g, "<br>") + "</p>";
     }).join("");
     function inline(s) {
-      return esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      return normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"));
     }
+  }
+
+  // §§-Verlinkung (M11): Normzitate im bereits escapten Text mit den lokal
+  // vendorten Gesetzes-PDFs verknüpfen — z. B. „§ 20 BBiG",
+  // „§§ 10, 11 und 36 BBiG", „§ 21 Abs. 3 BBiG". Unbekannte Werke
+  // (etwa SGB III) bleiben unverlinkt.
+  var GESETZ_QUELLE = {
+    BBiG: "gesetz-bbig", JArbSchG: "gesetz-jarbschg", ArbZG: "gesetz-arbzg",
+    BUrlG: "gesetz-burlg", EntgFG: "gesetz-entgfg", "GärtnAusbV": "gesetz-gaertnausbv",
+    GBFWVO: "gesetz-gbfwvo"
+  };
+  var NORM_RE = /(§§?\s?\d+[a-z]?(?:(?:,\s?|\s?und\s?|\s?bis\s?)\d+[a-z]?)*(?:\s?Abs\.\s?\d+)?(?:\s?Nr\.\s?\d+)?(?:\s?Satz\s?\d+)?(?:\s?ff\.)?\s)(BBiG|JArbSchG|ArbZG|BUrlG|EntgFG|GärtnAusbV|GBFWVO)\b/g;
+  function normVerlinken(htmlText) {
+    if (!window.QUELLEN) return htmlText;
+    return String(htmlText).replace(NORM_RE, function (ganz, para, gesetz) {
+      var e = null;
+      window.QUELLEN.eintraege.forEach(function (x) { if (x.id === GESETZ_QUELLE[gesetz]) e = x; });
+      if (!e) return ganz;
+      var z = quelleZiel(e);
+      return '<a class="norm-link" href="' + esc(z.href) + '" target="_blank" rel="noopener" title="' +
+        esc(gesetz) + " öffnen" + (z.extern ? " (online)" : " (PDF)") + '">' + para + gesetz + "</a>";
+    });
   }
   // Eigene Inhalte (lokal angelegte Artikel/Dokumente) — Cache über LokalDB,
   // wird bei init() geladen und nach jeder Änderung aktualisiert.
@@ -3760,6 +3942,16 @@ window.VORLAGEN = {
             '<span class="schnipsel">' + esc(c.kurz || "") + "</span></a></li>";
         });
       }
+      var gerg = suchenGlossar(q, 2);
+      if (gerg.length) {
+        html += '<li class="palette__gruppe" role="presentation">Glossar</li>';
+        gerg.forEach(function (g) {
+          html += '<li class="palette__eintrag" role="option" aria-selected="false" data-ziel="#/glossar?b=' + g.id + '">' +
+            '<a href="#/glossar?b=' + g.id + '"><span class="wo">Begriff</span>' +
+            '<span class="titel">' + S.highlight(g.b, q) + "</span>" +
+            '<span class="schnipsel">' + esc(g.k.slice(0, 90)) + " …</span></a></li>";
+        });
+      }
       if (erg.artikel.length) {
         html += '<li class="palette__gruppe" role="presentation">Artikel</li>';
         erg.artikel.forEach(function (r) {
@@ -3772,7 +3964,7 @@ window.VORLAGEN = {
           html += eintrag("#/artikel/" + r.id + "?faq=" + r.faqIndex, S.highlight(r.titel, q), schnipsel(r.kurz, erg.tokens), "FAQ");
         });
       }
-      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length && !cerg.length) {
+      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length && !cerg.length && !gerg.length) {
         html = '<li class="palette__leer" role="presentation">Kein Treffer für „' + esc(q) + '“.<br>' +
           '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(q) + '" data-schliessen-nach>Frage dem Assistenten stellen</a></li>';
       }
@@ -3866,6 +4058,10 @@ window.VORLAGEN = {
       haupt.innerHTML = viewChecklisten(r.params);
       checklistenVerhalten(haupt, r.params);
       titel = "Checklisten — Azubi-Wissen";
+    } else if (view === "glossar") {
+      haupt.innerHTML = viewGlossar();
+      glossarVerhalten(haupt, r.params);
+      titel = "Glossar — Azubi-Wissen";
     } else if (view === "eigene") {
       haupt.innerHTML = viewEigene();
       eigeneVerhalten(haupt, r.params);
@@ -3947,6 +4143,7 @@ window.VORLAGEN = {
       '<a class="schnellkarte" href="#/checklisten">' + ICON.check + "<span><h3>Checklisten</h3><p>Erstberatung, Eintragung, Betriebsbesuch, AP-Anmeldung — abhaken, drucken, ablegen.</p></span></a>" +
       '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
       '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
+      '<a class="schnellkarte" href="#/glossar">' + ICON.buch + "<span><h3>Glossar</h3><p>Fachbegriffe von 80-Prozent-Regel bis Zwischenprüfung — kurz erklärt und verlinkt.</p></span></a>" +
       '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
       '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
       '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
@@ -4111,7 +4308,7 @@ window.VORLAGEN = {
       h += '<div class="recht-box bw-card">';
       if ((a.recht || []).length) {
         h += "<strong>Rechtsgrundlagen</strong><ul>" +
-          a.recht.map(function (r) { return '<li><span class="norm">' + esc(r.n) + "</span> — " + esc(r.t) + "</li>"; }).join("") +
+          a.recht.map(function (r) { return '<li><span class="norm">' + normVerlinken(esc(r.n)) + "</span> — " + esc(r.t) + "</li>"; }).join("") +
           "</ul>";
       }
       if (a.quelle) h += '<p class="bw-klein bw-leise" style="margin:var(--bw-space-2) 0 0">Quelle: ' + esc(a.quelle) + "</p>";
@@ -4176,7 +4373,7 @@ window.VORLAGEN = {
     return h;
   }
   function fmtInline(s) {
-    return esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    return normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"));
   }
 
   function artikelVerhalten(root, a, params) {
@@ -4691,7 +4888,7 @@ window.VORLAGEN = {
       }
       if (k.fussnote) h += '<p class="bw-klein bw-leise">' + esc(k.fussnote) + "</p>";
       var chips = "";
-      if (k.recht) chips += '<span class="etikett etikett--recht">' + esc(k.recht) + "</span>";
+      if (k.recht) chips += '<span class="etikett etikett--recht">' + normVerlinken(esc(k.recht)) + "</span>";
       (k.artikel || []).forEach(function (id) {
         var a = artikelVon(id);
         if (a) chips += '<a class="chip chip--frage" href="#/artikel/' + esc(id) + '">' + esc(a.titel) + "</a>";
@@ -4931,6 +5128,117 @@ window.VORLAGEN = {
       d.innerHTML = '<div class="blatt">' + dh + "</div>";
       window.print();
     });
+  }
+
+  /* ---------------- Ansicht: Glossar ------------------------------- */
+  var GINDEX = [];
+  (function bauenGlossar() {
+    var G = window.GLOSSAR;
+    if (!G) return;
+    G.begriffe.forEach(function (b) {
+      GINDEX.push({
+        begriff: b,
+        felder: [
+          [norm(b.b), 5],
+          [norm((b.stichworte || []).join(" ")), 4],
+          [norm(b.k), 1.5]
+        ]
+      });
+    });
+  })();
+
+  function suchenGlossar(q, limit) {
+    var tokens = norm(q).split(" ").filter(function (t) { return t && !STOP[t]; });
+    if (!tokens.length) return [];
+    var treffer = [];
+    GINDEX.forEach(function (rec) {
+      var summe = 0;
+      for (var t = 0; t < tokens.length; t++) {
+        var alts = tokenAlternativen(tokens[t]);
+        var best = 0;
+        for (var f = 0; f < rec.felder.length; f++) {
+          for (var x = 0; x < alts.length; x++) {
+            var sc = tokenScore(alts[x], rec.felder[f][0]);
+            if (sc) best = Math.max(best, sc * rec.felder[f][1] * (x ? 0.8 : 1));
+          }
+        }
+        if (!best) { summe = 0; break; }
+        summe += best;
+      }
+      if (summe > 0) treffer.push({ begriff: rec.begriff, score: summe });
+    });
+    treffer.sort(function (a, b) { return b.score - a.score; });
+    return treffer.slice(0, limit || 2).map(function (t) { return t.begriff; });
+  }
+
+  function viewGlossar() {
+    var G = window.GLOSSAR;
+    if (!G) return platzhalter("Glossar", "Glossar-Modul nicht geladen.");
+    var h = "<h1>Glossar</h1>" +
+      '<p class="bw-unterzeile">' + G.begriffe.length + " Fachbegriffe der Ausbildung — kurz erklärt, mit Verweisen in die Wissensbasis</p>";
+    h += '<div class="bw-search" style="max-width:34rem"><label for="gq" class="bw-skip-link">Begriffe filtern</label>' +
+      '<input id="gq" type="search" placeholder="Begriff filtern … (tipptolerant)" aria-label="Begriffe filtern">' +
+      '<button type="button" aria-label="Suchen">' + ICON.suche + "</button></div>";
+    h += '<div id="glossar-liste"></div>';
+    h += '<p class="stand-hinweis">Stand: ' + esc(G.stand) + ".</p>";
+    return h;
+  }
+
+  function glossarListe(filterQ) {
+    var G = window.GLOSSAR;
+    var begriffe = G.begriffe.slice().sort(function (a, b) { return a.b.localeCompare(b.b, "de"); });
+    if (filterQ) {
+      var tokens = norm(filterQ).split(" ").filter(Boolean);
+      begriffe = begriffe.filter(function (b) {
+        var hay = norm(b.b + " " + (b.stichworte || []).join(" ") + " " + b.k);
+        return tokens.every(function (tok) {
+          return tokenAlternativen(tok).some(function (al) { return tokenScore(al, hay) > 0; });
+        });
+      });
+    }
+    if (!begriffe.length) return '<p class="leer">Kein Begriff passt zum Filter.</p>';
+    var h = "", buchstabe = "";
+    begriffe.forEach(function (b) {
+      var anfang = b.b.charAt(0).toUpperCase();
+      if (/\d/.test(anfang)) anfang = "0–9";
+      if (anfang !== buchstabe) {
+        if (buchstabe) h += "</dl>";
+        buchstabe = anfang;
+        h += '<h2 class="glossar-buchstabe">' + esc(buchstabe) + '</h2><dl class="glossar">';
+      }
+      var chips = "";
+      (b.artikel || []).forEach(function (id) {
+        var a = artikelVon(id);
+        if (a) chips += '<a class="chip chip--frage" href="#/artikel/' + esc(id) + '">' + esc(a.titel) + "</a>";
+      });
+      if (b.quelle && window.QUELLEN) {
+        var e = null;
+        window.QUELLEN.eintraege.forEach(function (x) { if (x.id === b.quelle) e = x; });
+        if (e) {
+          var z = quelleZiel(e);
+          chips += '<a class="chip" href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : ' target="_blank" rel="noopener"') + ">" + esc(e.titel) + (z.extern ? " ↗" : "") + "</a>";
+        }
+      }
+      h += '<dt id="g-' + esc(b.id) + '" tabindex="-1">' + esc(b.b) + "</dt>" +
+        "<dd>" + normVerlinken(esc(b.k)) + (chips ? '<span class="chipzeile-frei">' + chips + "</span>" : "") + "</dd>";
+    });
+    h += "</dl>";
+    return h;
+  }
+
+  function glossarVerhalten(root, params) {
+    var eingabe = $("#gq", root), ziel = $("#glossar-liste", root);
+    function zeigen() { mitUebergang(zeigenJetzt); }
+    function zeigenJetzt() { ziel.innerHTML = glossarListe(eingabe.value.trim()); }
+    eingabe.addEventListener("input", zeigen);
+    zeigenJetzt();
+    if (params.b) {
+      var dt = $("#g-" + params.b, root);
+      if (dt) {
+        dt.classList.add("glossar-ziel");
+        setTimeout(function () { dt.scrollIntoView({ block: "center" }); dt.focus({ preventScroll: true }); }, 0);
+      }
+    }
   }
 
   /* ---------------- Ansicht: Eigene Inhalte ------------------------ */

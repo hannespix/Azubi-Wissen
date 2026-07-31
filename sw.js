@@ -19,6 +19,7 @@ var KERN = [
   "./assets/js/vorlagen.js",
   "./assets/js/nachschlag.js",
   "./assets/js/checklisten.js",
+  "./assets/js/glossar.js",
   "./assets/js/lokaldb.js",
   "./assets/js/app.js",
   "./assets/js/assistent.js",

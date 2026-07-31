@@ -512,3 +512,61 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .cl-punkt label .bw-klein { display: block; margin-top: 2px; }
 .cl-punkt:has(input:checked) label { color: var(--bw-text-leise); text-decoration: line-through; text-decoration-thickness: 1px; }
 .cl-punkt:has(input:checked) label .bw-klein { text-decoration: none; }
+
+/* ============== Mobile-Feinschliff (Korrekturen) ================== */
+/* Suchfelder: Eingabe füllt die Zeile, Knopf bleibt im Rahmen —
+   behebt das überlaufende Filterfeld auf schmalen Bildschirmen. */
+.bw-search { width: 100%; }
+.bw-search input[type="search"] { flex: 1 1 auto; min-width: 0; width: 100%; }
+.bw-search button { flex: none; }
+
+/* Mobiles Menü: DECKEND statt Glas — ein backdrop-filter auf dem Header
+   schaltet den Blur seiner Kinder ab (Backdrop-Root), das Panel wäre nur
+   durchscheinend und der Footer schimmerte durch. Dazu: große Tap-Flächen,
+   durchgehende Trennlinien, gelber Marker für den aktiven Punkt. */
+@media (max-width: 800px) {
+  .bw-nav__panel {
+    background: var(--bw-weiss);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border: 0; border-top: 1px solid var(--glas-linie);
+    border-radius: 0 0 var(--radius-gross) var(--radius-gross);
+    box-shadow: var(--schatten-3);
+    padding: var(--bw-space-1) 0 var(--bw-space-2);
+    max-height: calc(100dvh - 72px); overflow-y: auto;
+    z-index: 45;
+  }
+  .bw-nav__panel .bw-nav__links a {
+    display: block; padding: 0.9em var(--bw-rand);
+    border-bottom: 1px solid var(--bw-grau-100);
+    border-left: 4px solid transparent;
+    font-weight: 700; text-decoration: none;
+    transition: background-color var(--dauer-1) linear, border-color var(--dauer-1) linear;
+  }
+  .bw-nav__panel .bw-nav__links li:last-child a { border-bottom: 0; }
+  .bw-nav__panel .bw-nav__links a:active { background: var(--bw-grau-100); }
+  .bw-nav__panel .bw-nav__links a[aria-current="page"] {
+    border-left-color: var(--bw-gelb);
+    background: var(--bw-grau-50);
+  }
+}
+/* Footer nie über schwebenden Flächen */
+.bw-footer { position: relative; z-index: 0; }
+
+/* ================== Glossar (M11) ================================= */
+.glossar-buchstabe {
+  font-family: var(--bw-font-sans); font-size: var(--bw-fs-klein);
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--bw-text-leise);
+  border-bottom: 1px solid var(--bw-grau-200); padding-bottom: 4px;
+  margin: var(--bw-space-4) 0 var(--bw-space-2);
+}
+.glossar { margin: 0; }
+.glossar dt { font-weight: 700; margin-top: var(--bw-space-2); scroll-margin-top: 96px; }
+.glossar dd { margin: 2px 0 var(--bw-space-2); max-width: 75ch; color: var(--bw-text); }
+.glossar dd .chipzeile-frei { margin-top: var(--bw-space-1); }
+.glossar dt.glossar-ziel {
+  background: var(--bw-gelb); outline: 1.5px solid var(--bw-schwarz);
+  display: inline-block; padding: 0.1em 0.4em; border-radius: 6px;
+}
+.norm-link { text-decoration-style: dotted; text-underline-offset: 2px; font-weight: inherit; }
+.norm-link:hover { text-decoration-style: solid; }
