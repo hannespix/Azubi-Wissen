@@ -178,7 +178,15 @@ immer verlinken; Querlinks zwischen Artikeln.
   „Ausbildungsordnungen der grünen Berufe" (14 Einträge) und 9 weiteren
   Gesetzes-Quellen; drei dünne FAQ-Bestände ergänzt. Tests: mini_d1 (20)
   + Regressionen G2/R4/G3/Start grün. *(PR #25)*
-- **D2 Artikel-Tranche 1** — Vertrag & Pflichten vertiefen (offen)
+- **D2 Artikel-Tranche 1** ✅ — 14 Artikel der Themen Vertrag,
+  Azubi-Pflichten und Betriebs-Pflichten vertieft: rund 30 neue
+  Querlinks im Fließtext, 8 neue FAQ (u. a. fehlende Eintragung,
+  Probezeit-Anrechnung, JArbSchG ab 18, Wegezeiten Schule,
+  Kostenklauseln), 3 neue Abschnitte (Änderungsverträge im laufenden
+  Verhältnis, Schutzregeln für unter 18-Jährige mit §§ 22/23/29/47
+  JArbSchG, elektronischer Ausbildungsnachweis). Neuer Dauertest
+  smoke_d2: alle 38 Artikel rendern in Stufe 3 fehlerfrei, alle
+  Querlink-Ziele existieren. *(PR #26)*
 - **D3 Artikel-Tranche 2** — Vergütung, Arbeitszeit, Schule & Prüfung (offen)
 - **D4 Artikel-Tranche 3** — Konflikte/Ende, Beratung, Fachwerker (offen)
 - **D5 Datensätze** — Glossar, Nachschlag, Checklisten, Berufe, Vorlagen (offen)
