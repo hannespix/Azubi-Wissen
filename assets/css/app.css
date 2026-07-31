@@ -254,3 +254,20 @@ kbd.kbd {
 .quellen-liste a { text-decoration: none; }
 .quellen-liste a:hover { text-decoration: underline; }
 .karte .meta .bw-btn { padding: 0.35em 0.8em; font-size: var(--bw-fs-klein); }
+
+/* ===================== E-Mail-Vorlagen ============================ */
+.vorlage-raster { display: grid; grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr); gap: var(--bw-space-4); align-items: start; }
+@media (max-width: 800px) { .vorlage-raster { grid-template-columns: 1fr; } }
+.platzhalter-felder { display: grid; gap: var(--bw-space-1); }
+#v-text { font-family: var(--bw-font-sans); line-height: 1.5; }
+
+/* ===================== Download-Baum ============================== */
+.baum details { border: var(--bw-border); border-radius: var(--bw-radius); background: var(--bw-weiss); margin-bottom: var(--bw-space-1); }
+.baum details details { border-left: 3px solid var(--bw-grau-200); border-top: 0; border-right: 0; border-bottom: 0; border-radius: 0; margin: 0 0 var(--bw-space-1) var(--bw-space-3); }
+.baum summary { cursor: pointer; font-weight: 700; padding: var(--bw-space-2) var(--bw-space-3); list-style: none; display: flex; align-items: center; gap: var(--bw-space-1); min-height: 44px; }
+.baum summary::-webkit-details-marker { display: none; }
+.baum summary::before { content: "▸"; transition: transform .12s ease; }
+.baum details[open] > summary::before { transform: rotate(90deg); }
+.baum-liste { list-style: none; margin: 0; padding: 0 var(--bw-space-3) var(--bw-space-2); display: grid; gap: 0.4em; }
+.baum-liste a { text-decoration: none; }
+.baum-liste a:hover { text-decoration: underline; }

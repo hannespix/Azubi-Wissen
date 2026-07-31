@@ -563,6 +563,23 @@ kbd.kbd {
 .quellen-liste a:hover { text-decoration: underline; }
 .karte .meta .bw-btn { padding: 0.35em 0.8em; font-size: var(--bw-fs-klein); }
 
+/* ===================== E-Mail-Vorlagen ============================ */
+.vorlage-raster { display: grid; grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr); gap: var(--bw-space-4); align-items: start; }
+@media (max-width: 800px) { .vorlage-raster { grid-template-columns: 1fr; } }
+.platzhalter-felder { display: grid; gap: var(--bw-space-1); }
+#v-text { font-family: var(--bw-font-sans); line-height: 1.5; }
+
+/* ===================== Download-Baum ============================== */
+.baum details { border: var(--bw-border); border-radius: var(--bw-radius); background: var(--bw-weiss); margin-bottom: var(--bw-space-1); }
+.baum details details { border-left: 3px solid var(--bw-grau-200); border-top: 0; border-right: 0; border-bottom: 0; border-radius: 0; margin: 0 0 var(--bw-space-1) var(--bw-space-3); }
+.baum summary { cursor: pointer; font-weight: 700; padding: var(--bw-space-2) var(--bw-space-3); list-style: none; display: flex; align-items: center; gap: var(--bw-space-1); min-height: 44px; }
+.baum summary::-webkit-details-marker { display: none; }
+.baum summary::before { content: "▸"; transition: transform .12s ease; }
+.baum details[open] > summary::before { transform: rotate(90deg); }
+.baum-liste { list-style: none; margin: 0; padding: 0 var(--bw-space-3) var(--bw-space-2); display: grid; gap: 0.4em; }
+.baum-liste a { text-decoration: none; }
+.baum-liste a:hover { text-decoration: underline; }
+
 </style>
 <script>window.EINZELDATEI=true;</script></head>
 <body>
@@ -580,7 +597,8 @@ kbd.kbd {
         <ul class="bw-nav__links">
           <li><a href="#/">Start</a></li>
           <li><a href="#/wissen">Wissensdatenbank</a></li>
-          <li><a href="#/quellen">Formulare</a></li>
+          <li><a href="#/vorlagen">Vorlagen</a></li>
+          <li><a href="#/downloads">Downloads</a></li>
           <li><a href="#/assistent">KI-Assistent</a></li>
           <li><a href="#/export">Export &amp; Vermerk</a></li>
         </ul>
@@ -2530,6 +2548,168 @@ window.QUELLEN = {
 
 </script>
 <script>
+// vorlagen.js — E-Mail- und Schreibvorlagen der zuständigen Stelle /
+// Ausbildungsberatung. Platzhalter stehen in [ECKIGEN KLAMMERN] und werden
+// in der Vorlagen-Ansicht per Formular gefüllt. `anhaenge` verweist auf
+// Einträge aus quellen.js (Formulare, die typischerweise beigelegt werden).
+// PFLEGE: Texte fachlich prüfen wie Wissensartikel; Stand unten aktualisieren.
+window.VORLAGEN = {
+  stand: "31.07.2026",
+  kategorien: [
+    { id: "vertrag",   titel: "Vertragsangelegenheiten" },
+    { id: "pruefung",  titel: "Prüfungen & Externenprüfung" },
+    { id: "beratung",  titel: "Beratungsalltag" }
+  ],
+  vorlagen: [
+
+  /* ================= Vertragsangelegenheiten ======================= */
+  { id: "vertragsunterlagen",
+    kategorie: "vertrag",
+    titel: "Vertragsunterlagen an Betrieb versenden",
+    betreff: "Ihre Ausbildungsvertragsunterlagen — [BERUF], Beginn [AUSBILDUNGSBEGINN]",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nvielen Dank für Ihre Nachricht. Für den Abschluss des Berufsausbildungsvertrags ([BERUF], Fachrichtung [FACHRICHTUNG], Ausbildungsbeginn [AUSBILDUNGSBEGINN]) erhalten Sie anbei:\n\n- den ausfüllbaren Berufsausbildungsvertrag (BAV) mit Hinweisen zur Einreichung\n- den betrieblichen Ausbildungsplan Ihrer Fachrichtung (als Vertragsanlage)\n- das Infoblatt für Auszubildende\n\nBitte reichen Sie den vollständig ausgefüllten und von allen Beteiligten unterschriebenen Vertrag **vor Ausbildungsbeginn** in allen Ausfertigungen bei uns ein. Bei minderjährigen Auszubildenden denken Sie bitte an die Unterschriften der gesetzlichen Vertreter und die ärztliche Erstuntersuchung (§ 32 JArbSchG).\n\nBei Fragen zum Ausfüllen helfen wir gerne weiter.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Anlagen je nach Fachrichtung wählen; bei Teilzeit zusätzlich auf § 7a BBiG und die angepasste Vergütung hinweisen.",
+    anhaenge: ["bav", "bav-hinweise", "infoblatt-azubi"],
+    stichworte: ["Vertragsunterlagen", "BAV versenden", "neuer Vertrag", "Unterlagen anfordern"],
+    artikel: ["ausbildungsvertrag", "eintragung"] },
+
+  { id: "vertragsaenderung",
+    kategorie: "vertrag",
+    titel: "Vertragsänderung bestätigen / Unterlagen anfordern",
+    betreff: "Änderung des Ausbildungsverhältnisses [AZUBI_NAME] — [AENDERUNG]",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nSie möchten das Ausbildungsverhältnis von [AZUBI_NAME] ändern ([AENDERUNG], z. B. Verkürzung, Verlängerung, Teilzeit, Ausbilderwechsel).\n\nBitte verwenden Sie dafür den beigefügten „Antrag auf Änderung der Eintragung“ und reichen Sie ihn unterschrieben von Betrieb und Auszubildender/Auszubildendem (bei Minderjährigen zusätzlich gesetzliche Vertreter) bei uns ein. Für eine **Verkürzung** fügen Sie bitte die Nachweise bei (z. B. Schulabschluss, Vorbildung); über den Antrag entscheiden wir nach Aktenlage und melden uns bei Rückfragen.\n\nDie Änderung wird mit der Eintragung in das Verzeichnis wirksam; Sie erhalten eine Bestätigung.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Bei Verlängerung nach nicht bestandener Prüfung genügt das Verlangen der/des Auszubildenden (§ 21 Abs. 3 BBiG) — Formulierung dann entsprechend anpassen.",
+    anhaenge: ["bav-aenderung"],
+    stichworte: ["Vertragsänderung", "Verkürzung", "Verlängerung", "Teilzeit", "Ausbilderwechsel"],
+    artikel: ["teilzeit-verkuerzung", "eintragung"] },
+
+  { id: "vertragsverlaengerung-pruefung",
+    kategorie: "vertrag",
+    titel: "Verlängerung nach nicht bestandener Abschlussprüfung",
+    betreff: "Verlängerung des Ausbildungsverhältnisses [AZUBI_NAME] bis zur Wiederholungsprüfung",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\n[AZUBI_NAME] hat die Abschlussprüfung am [PRUEFUNGSDATUM] nicht bestanden und die Verlängerung des Ausbildungsverhältnisses verlangt.\n\nZur Rechtslage: Auf Verlangen der/des Auszubildenden verlängert sich das Berufsausbildungsverhältnis **bis zur nächstmöglichen Wiederholungsprüfung, höchstens um ein Jahr** (§ 21 Abs. 3 BBiG). Eine Zustimmung des Betriebs ist nicht erforderlich; die Vergütung ist mindestens in Höhe des letzten Ausbildungsjahres weiterzuzahlen.\n\nWir haben die Verlängerung bis zum [NEUES_ENDE] im Verzeichnis vermerkt. Die Anmeldung zur Wiederholungsprüfung erfolgt über den Betrieb; bereits bestandene Prüfungsteile können nach der Prüfungsordnung angerechnet werden.\n\nFür die gezielte Vorbereitung empfehlen wir ein Gespräch mit der Berufsschule und ggf. Stützunterricht (AsA flex der Agentur für Arbeit).\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Fristen der nächsten Wiederholungsprüfung konkret nennen, sobald Termine feststehen.",
+    anhaenge: ["bav-aenderung"],
+    stichworte: ["Verlängerung", "nicht bestanden", "Wiederholungsprüfung", "§ 21"],
+    artikel: ["nichtbestehen", "teilzeit-verkuerzung"] },
+
+  { id: "aufloesungsvertrag",
+    kategorie: "vertrag",
+    titel: "Auflösung/Aufhebung des Ausbildungsverhältnisses — Unterlagen & Hinweise",
+    betreff: "Auflösung des Ausbildungsverhältnisses [AZUBI_NAME] — weitere Schritte",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nSie haben uns die beabsichtigte einvernehmliche Auflösung des Ausbildungsverhältnisses von [AZUBI_NAME] zum [DATUM_ENDE] mitgeteilt.\n\nBitte beachten Sie:\n\n- Verwenden Sie für die Meldung an uns den beigefügten Vordruck „Abmeldung/Auflösung eines Berufsausbildungsverhältnisses“ (von beiden Seiten unterschrieben, bei Minderjährigen auch gesetzliche Vertreter).\n- Regeln Sie im Aufhebungsvertrag Resturlaub, Zeugnis (§ 16 BBiG) und die Herausgabe des Ausbildungsnachweises.\n- Bei einem **Betriebswechsel** wird die bisherige Ausbildungszeit angerechnet; der neue Vertrag über die Restzeit ist vor Fortsetzung zur Eintragung einzureichen.\n- Ohne gesicherten Anschluss empfehlen wir der/dem Auszubildenden die frühzeitige Meldung bei der Agentur für Arbeit; unsere Ausbildungsberatung unterstützt bei der Suche nach einem Anschlussbetrieb.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Bei Konfliktlagen aktiv Beratung/Vermittlung anbieten, bevor aufgelöst wird.",
+    anhaenge: ["bav-abmeldung"],
+    stichworte: ["Auflösung", "Aufhebungsvertrag", "Abmeldung", "Betriebswechsel"],
+    artikel: ["aufhebung", "kuendigung"] },
+
+  { id: "fehlende-unterlagen",
+    kategorie: "vertrag",
+    titel: "Erinnerung: fehlende Unterlagen zur Eintragung",
+    betreff: "Eintragung [AZUBI_NAME] — es fehlen noch Unterlagen",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nvielen Dank für die Einreichung des Berufsausbildungsvertrags für [AZUBI_NAME]. Für die Eintragung fehlen uns noch:\n\n- [FEHLENDE_UNTERLAGEN]\n\nBitte reichen Sie die Unterlagen bis zum [FRIST] nach — gerne per E-Mail als PDF oder postalisch. Die Eintragung (und damit u. a. die spätere Prüfungszulassung) können wir erst nach Vollständigkeit vornehmen.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Typisch fehlen: ärztliche Erstuntersuchung (Minderjährige), Unterschrift eines Elternteils, betrieblicher Ausbildungsplan, Ausbildereignungs-Nachweis.",
+    anhaenge: ["bav-hinweise"],
+    stichworte: ["fehlende Unterlagen", "Erinnerung", "Nachreichen", "Eintragung"],
+    artikel: ["eintragung", "jugendliche"] },
+
+  /* ================= Prüfungen & Externenprüfung =================== */
+  { id: "ap-anmeldung",
+    kategorie: "pruefung",
+    titel: "Anmeldung zur Abschlussprüfung — Information an Betriebe",
+    betreff: "Abschlussprüfung [PRUEFUNGSTERMIN]: Anmeldung Ihrer Auszubildenden",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nfür die Abschlussprüfung [PRUEFUNGSTERMIN] bitten wir um Anmeldung Ihrer Auszubildenden bis zum [ANMELDESCHLUSS].\n\nZur Zulassung sind erforderlich (§ 43 BBiG):\n\n- zurückgelegte Ausbildungszeit (bzw. Vertragsende innerhalb von zwei Monaten nach dem Prüfungstermin)\n- Teilnahme an der Zwischenprüfung\n- ordnungsgemäß geführte und gegengezeichnete Ausbildungsnachweise\n- eingetragenes Ausbildungsverhältnis\n\nBitte prüfen Sie insbesondere den Stand des Ausbildungsnachweises frühzeitig. Anträge auf **Nachteilsausgleich** (§ 65 BBiG) sind mit der Anmeldung zu stellen und ärztlich zu belegen. Der Arbeitstag unmittelbar vor der schriftlichen Abschlussprüfung sowie die Prüfungstage sind bezahlt freizustellen (§ 15 BBiG).\n\nDie Einladung mit Ort und Ablauf erhalten die Prüflinge rechtzeitig vor dem Termin.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Termin- und Fristfelder je Durchgang pflegen; Hinweis auf Pflanzenlisten der Fachrichtung ergänzen, wo passend.",
+    anhaenge: ["pflanzenlisten"],
+    stichworte: ["Anmeldung Abschlussprüfung", "Prüfungsanmeldung", "Zulassung", "Fristen"],
+    artikel: ["abschlusspruefung", "freistellung"] },
+
+  { id: "externenpruefung",
+    kategorie: "pruefung",
+    titel: "Externenprüfung (§ 45 Abs. 2 BBiG): Ablauf, Zulassung & Literatur",
+    betreff: "Ihre Anfrage zur Externenprüfung als Gärtner/in — Ablauf und Unterlagen",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nvielen Dank für Ihr Interesse an der Abschlussprüfung im Beruf Gärtner/in (Fachrichtung [FACHRICHTUNG]) ohne vorherige Ausbildung — der sogenannten Externenprüfung.\n\n**Zulassung (§ 45 Abs. 2 BBiG):** Zugelassen wird, wer nachweislich mindestens das **Anderthalbfache der Ausbildungszeit** (bei 3 Jahren Ausbildung also 4,5 Jahre) einschlägig im Beruf tätig war. Berücksichtigungsfähig sind auch nachgewiesene einschlägige Tätigkeiten im Ausland sowie in Teilen anrechenbare schulische Bildungsgänge; über die Zulassung entscheiden wir im Einzelfall nach Aktenlage.\n\n**So gehen Sie vor:**\n1. Formlosen Zulassungsantrag mit lückenlosem Tätigkeitsnachweis (Arbeitszeugnisse, Arbeitgeberbescheinigungen mit Tätigkeitsbeschreibung, Lebenslauf) bei uns einreichen — bitte bis [ANTRAGSFRIST] für den Termin [PRUEFUNGSTERMIN].\n2. Nach positiver Zulassung erhalten Sie die Anmeldeunterlagen und die Einladung.\n3. Die Prüfung entspricht der regulären Abschlussprüfung: **praktische Aufgaben** (inkl. Pflanzenkenntnisse) und **schriftliche Bereiche** (Fachtheorie, Wirtschafts- und Sozialkunde).\n\n**Vorbereitung/Literatur (Auswahl):**\n- Ausbildungsordnung mit Rahmenplan (GärtnAusbV) — kostenlos als PDF\n- die **Pflanzenlisten** Ihrer Fachrichtung (Grundlage der Pflanzenkenntnis-Prüfung)\n- gängige Berufsschul-Standardwerke des Gartenbaus (z. B. die Ulmer-Lehrbuchreihe „Der Gärtner“ bzw. das Grundlagenwerk Ihrer Fachrichtung); die berufsbildenden Schulen beraten zu aktuellen Auflagen\n- alte Prüfungsaufgaben/Übungsmaterial, soweit von der Schule angeboten\n\nBei Bedarf beraten wir gerne persönlich — auch zu Vorbereitungskursen und zum realistischen Zeitplan.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Fristen/Termine je Prüfungsdurchgang einsetzen; bei offensichtlich fehlenden Zeiten früh auf Nachqualifizierungswege (Umschulung, Teilzeitausbildung) hinweisen.",
+    anhaenge: ["gesetz-gaertnausbv", "pflanzenlisten"],
+    stichworte: ["Externenprüfung", "extern", "§ 45", "ohne Ausbildung", "Zulassung", "Literatur", "Quereinstieg"],
+    artikel: ["abschlusspruefung", "zustaendige-stelle"] },
+
+  { id: "pruefung-nachteilsausgleich",
+    kategorie: "pruefung",
+    titel: "Nachteilsausgleich: Rückmeldung zu Antrag",
+    betreff: "Ihr Antrag auf Nachteilsausgleich — [AZUBI_NAME]",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nvielen Dank für den Antrag auf Nachteilsausgleich für [AZUBI_NAME] zur Prüfung am [PRUEFUNGSTERMIN].\n\nDamit wir angemessene Maßnahmen festlegen können (§ 65 BBiG), benötigen wir eine aktuelle ärztliche oder psychologische Stellungnahme, die die **funktionale Einschränkung in der Prüfungssituation** beschreibt (z. B. verlangsamtes Schreiben, Konzentrationsspannen) — eine Diagnose allein genügt nicht. Bitte reichen Sie den Nachweis bis [FRIST] nach.\n\nMögliche Maßnahmen sind insbesondere Zeitverlängerung, zusätzliche Pausen, Hilfsmittel oder Assistenz; die fachlichen Anforderungen bleiben unverändert. Sie erhalten von uns einen schriftlichen Bescheid.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Bei Fachwerker-Prüfungen gilt der Nachteilsausgleich nach GBFWVO entsprechend.",
+    anhaenge: [],
+    stichworte: ["Nachteilsausgleich", "Antrag", "Prüfung", "Behinderung", "Zeitverlängerung"],
+    artikel: ["foerderung", "fw-inhalte-pruefung", "abschlusspruefung"] },
+
+  /* ================= Beratungsalltag ================================ */
+  { id: "interesse-gaertner",
+    kategorie: "beratung",
+    titel: "Interesse an einer Gärtnerausbildung (Fachrichtung)",
+    betreff: "Ihre Anfrage: Ausbildung Gärtner/in, Fachrichtung [FACHRICHTUNG]",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nschön, dass Sie sich für die Ausbildung zur Gärtnerin/zum Gärtner in der Fachrichtung [FACHRICHTUNG] interessieren!\n\n**Der Weg in die Ausbildung:**\n1. **Praktikum** im Wunschbereich — der beste Realitätscheck und oft der Türöffner (Vordruck Praktikantenvertrag anbei).\n2. **Ausbildungsbetrieb finden:** Anerkannte Betriebe Ihrer Region nennen wir Ihnen gerne; auch die Jobbörse der Agentur für Arbeit und die Betriebe selbst helfen weiter.\n3. **Vertrag schließen:** Der Betrieb reicht den Berufsausbildungsvertrag bei uns zur Eintragung ein — die Unterlagen und den betrieblichen Ausbildungsplan Ihrer Fachrichtung finden Sie anbei bzw. in unserem Formularbereich.\n\n**Gut zu wissen:** Die Ausbildung dauert 3 Jahre (Verkürzung z. B. mit Abitur möglich), Berufsschule je nach Region als Teilzeit- oder Blockunterricht, Vergütung mindestens nach Tarif/Mindestausbildungsvergütung. Zur Fachrichtung [FACHRICHTUNG] beraten wir Sie gerne auch telefonisch zu Besonderheiten, Betrieben und Schulstandorten.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Passenden Ausbildungsplan der Fachrichtung als Anhang wählen; regionale Schulstandorte ergänzen.",
+    anhaenge: ["praktikantenvertrag", "bav", "ba-berufetv"],
+    stichworte: ["Interesse", "Gärtnerausbildung", "Fachrichtung", "Berufswunsch", "Einstieg"],
+    artikel: ["ausbildungsvertrag", "zustaendige-stelle"] },
+
+  { id: "interesse-fachwerker",
+    kategorie: "beratung",
+    titel: "Interesse an einer Fachwerkerausbildung (§ 66 BBiG)",
+    betreff: "Ihre Anfrage: Fachwerkerausbildung im Gartenbau",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nvielen Dank für Ihre Anfrage zur Fachwerkerausbildung im Gartenbau.\n\nDie Fachwerkerausbildung ist eine **dreijährige Berufsausbildung nach § 66 BBiG** für Menschen, für die wegen Art und Schwere einer Behinderung eine Ausbildung im anerkannten Beruf Gärtner/in nicht in Betracht kommt. Wichtig zu wissen:\n\n- **Erster Schritt ist immer die Reha-Beratung der Agentur für Arbeit:** Sie prüft mit einer Eignungsuntersuchung, ob die Fachwerkerausbildung der richtige Weg ist — ohne dieses schriftliche Ergebnis dürfen wir keinen Vertrag eintragen. Vorrangig wird geprüft, ob die reguläre Gärtnerausbildung mit Unterstützung (z. B. Stützunterricht, Nachteilsausgleich, Teilzeit) möglich ist.\n- Danach klären wir gemeinsam **Ausbildungsmodell** (Betrieb, Bildungsträger oder besondere Einrichtung), Fachrichtung, Berufsschule und Finanzierung.\n- Betriebe benötigen für die Fachwerkerausbildung eine besondere Eignung (rehabilitationspädagogische Qualifikation oder gesicherte Unterstützung) — dazu beraten wir Betriebe gerne.\n\nBitte vereinbaren Sie als nächsten Schritt einen Termin bei der Berufsberatung/Reha-Beratung Ihrer Agentur für Arbeit [AGENTUR_ORT]. Parallel stehen wir für alle Fragen rund um Betriebe, Verfahren und Vertrag zur Verfügung.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Keine Eignungszusagen machen — die Entscheidung liegt beim Reha-Träger. Bei Betrieben zusätzlich auf ReZA/Kooperation eingehen.",
+    anhaenge: ["ba-reha", "gesetz-gbfwvo"],
+    stichworte: ["Fachwerker", "Interesse", "§ 66", "Reha", "Behinderung", "Anfrage"],
+    artikel: ["fw-grundlagen", "fw-weg"] },
+
+  { id: "teilzeitausbildung",
+    kategorie: "beratung",
+    titel: "Interesse an einer Teilzeitausbildung (§ 7a BBiG)",
+    betreff: "Ihre Anfrage: Ausbildung in Teilzeit",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\ngerne informieren wir Sie über die Ausbildung in Teilzeit.\n\n**Das Wichtigste:**\n- Teilzeit ist seit 2020 **für alle** möglich — ein besonderer Grund ist nicht mehr erforderlich (§ 7a BBiG).\n- Die tägliche oder wöchentliche Ausbildungszeit kann um **bis zu 50 %** reduziert werden; die Gesamtdauer verlängert sich entsprechend, höchstens auf das Anderthalbfache.\n- Die **Vergütung** darf entsprechend der Kürzung angepasst werden; Berufsschule (oft Blockunterricht) und überbetriebliche Lehrgänge laufen in der Regel in vollem Umfang weiter — das planen wir gemeinsam realistisch.\n- Die Teilzeitvereinbarung wird im Berufsausbildungsvertrag festgehalten und bei uns eingetragen; eine spätere Umstellung eines laufenden Vertrags ist über den Änderungsantrag möglich.\n\nWenn Sie bereits einen Betrieb im Blick haben, sprechen Sie das Modell dort offen an — viele Betriebe haben gute Erfahrungen gemacht. Gerne unterstützen wir das Gespräch mit Informationen oder vermitteln Kontakte.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Bei Teilzeit wegen Kinderbetreuung/Pflege auf die Vorlage „Ausbildung mit Kind“ und Förderleistungen verweisen.",
+    anhaenge: ["bav", "bav-aenderung"],
+    stichworte: ["Teilzeit", "Teilzeitausbildung", "§ 7a", "reduzierte Stunden"],
+    artikel: ["teilzeit-verkuerzung"] },
+
+  { id: "ausbildung-mit-kind",
+    kategorie: "beratung",
+    titel: "Ausbildung mit Kind — Möglichkeiten & Unterstützung",
+    betreff: "Ihre Anfrage: Ausbildung mit Kind",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\neine Ausbildung mit Kind ist gut machbar — viele Auszubildende gehen diesen Weg erfolgreich. Die wichtigsten Bausteine:\n\n- **Teilzeitausbildung (§ 7a BBiG):** Reduzierung der täglichen/wöchentlichen Zeit um bis zu 50 % — das gängige Modell für Eltern. Die Gesamtdauer verlängert sich entsprechend.\n- **Finanzielle Unterstützung:** Berufsausbildungsbeihilfe (BAB) inklusive Zuschlägen für Kinderbetreuung, Kindergeld, ggf. Wohngeld und Leistungen für Bildung und Teilhabe. Die Agentur für Arbeit berät und nimmt Anträge online entgegen — bitte **vor Ausbildungsbeginn** stellen.\n- **Betreuung & Schule:** Blockunterricht und Betreuungszeiten früh zusammen planen; Schulen und Betriebe finden hier fast immer Lösungen. Fehlzeiten wegen Erkrankung des Kindes sind über die gesetzlichen Regelungen abgesichert.\n- **Schutzrechte:** Während Schwangerschaft und Elternzeit gelten Mutterschutz und besonderer Kündigungsschutz auch in der Ausbildung; die Ausbildung kann für Elternzeit unterbrochen und danach fortgesetzt werden.\n\nGerne besprechen wir Ihre konkrete Situation ([SITUATION]) persönlich und helfen bei der Suche nach einem teilzeitoffenen Betrieb.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Individuelle Leistungsansprüche nicht zusagen — auf BAB-Rechner und Beratung der Agentur verweisen.",
+    anhaenge: ["ba-bab", "bav"],
+    stichworte: ["Kind", "Eltern", "Ausbildung mit Kind", "Teilzeit", "BAB", "alleinerziehend"],
+    artikel: ["teilzeit-verkuerzung", "sachbezuege-sozialvers"] },
+
+  { id: "berichtsheft-erinnerung",
+    kategorie: "beratung",
+    titel: "Erinnerung an Ausbildungsnachweis (Betrieb & Azubi)",
+    betreff: "Ausbildungsnachweis [AZUBI_NAME]: bitte auf Stand bringen",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nim Rahmen von [ANLASS, z. B. der Prüfungsvorbereitung / eines Beratungsgesprächs] ist aufgefallen, dass der Ausbildungsnachweis von [AZUBI_NAME] größere Lücken aufweist.\n\nZur Erinnerung: Der Nachweis ist **während der Ausbildungszeit** zu führen (§ 14 Abs. 2 BBiG), von der Ausbilderin/dem Ausbilder **regelmäßig durchzusehen** und ist **Zulassungsvoraussetzung** für die Abschlussprüfung (§ 43 Abs. 1 Nr. 2 BBiG).\n\nBitte holen Sie die fehlenden Einträge zeitnah gemeinsam nach — stichwortartige Wocheneinträge genügen — und stellen Sie die regelmäßige Führung sicher. Bei Fragen zur Form (auch digital möglich) helfen wir gerne.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Bei wiederholten Lücken Betriebsgespräch anbieten; Hinweis auf digitale Berichtsheft-Portale kann helfen.",
+    anhaenge: ["berichtsheft-gaertner"],
+    stichworte: ["Berichtsheft", "Erinnerung", "Ausbildungsnachweis", "Lücken", "Mahnung"],
+    artikel: ["berichtsheft"] },
+
+  { id: "betriebsbesuch-ankuendigung",
+    kategorie: "beratung",
+    titel: "Ankündigung eines Beratungs-/Betriebsbesuchs",
+    betreff: "Terminvorschlag: Besuch der Ausbildungsberatung am [TERMIN]",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nim Rahmen unserer Aufgaben nach § 76 BBiG (Beratung und Überwachung der Berufsausbildung) möchten wir Ihren Ausbildungsbetrieb besuchen und schlagen den [TERMIN] um [UHRZEIT] vor.\n\nThemen des Besuchs:\n\n- Stand der Ausbildung ([AZUBI_NAME]) und betrieblicher Ausbildungsplan\n- Ausbildungsnachweise (bitte bereithalten)\n- [WEITERE_THEMEN]\n\nDer Besuch dient in erster Linie der Unterstützung — bringen Sie gerne Ihre Fragen mit (Förderinstrumente, Prüfungen, Vertragsfragen). Sollte der Termin nicht passen, melden Sie sich einfach für eine Alternative.\n\nMit freundlichen Grüßen\n[EIGENER_NAME]\n[ORGANISATIONSEINHEIT]",
+    hinweise: "Bei anlassbezogenen Besuchen (Beschwerde) Ton neutral halten und keine Vorverurteilung transportieren.",
+    anhaenge: [],
+    stichworte: ["Betriebsbesuch", "Termin", "Ankündigung", "§ 76"],
+    artikel: ["ausbildungsberatung"] }
+
+  ]
+};
+
+</script>
+<script>
 // lokaldb.js — Lokale Datenbank im Browser (IndexedDB, Fallback localStorage).
 // Speichert Nutzerdaten des Werkzeugs: Aktenvermerke und eigene Notizen.
 // Alles bleibt auf diesem Gerät — keine Übertragung, funktioniert offline
@@ -3009,6 +3189,16 @@ window.QUELLEN = {
             '<span class="schnipsel">' + esc(e.herausgeber + (e.stand ? " · Stand " + e.stand : "")) + "</span></a></li>";
         });
       }
+      var verg = suchenVorlagen(q, 3);
+      if (verg.length) {
+        html += '<li class="palette__gruppe" role="presentation">E-Mail-Vorlagen</li>';
+        verg.forEach(function (v) {
+          html += '<li class="palette__eintrag" role="option" aria-selected="false" data-ziel="#/vorlagen?id=' + v.id + '">' +
+            '<a href="#/vorlagen?id=' + v.id + '"><span class="wo">Vorlage</span>' +
+            '<span class="titel">' + S.highlight(v.titel, q) + "</span>" +
+            '<span class="schnipsel">' + esc(v.betreff) + "</span></a></li>";
+        });
+      }
       if (erg.artikel.length) {
         html += '<li class="palette__gruppe" role="presentation">Artikel</li>';
         erg.artikel.forEach(function (r) {
@@ -3021,7 +3211,7 @@ window.QUELLEN = {
           html += eintrag("#/artikel/" + r.id + "?faq=" + r.faqIndex, S.highlight(r.titel, q), schnipsel(r.kurz, erg.tokens), "FAQ");
         });
       }
-      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length) {
+      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length) {
         html = '<li class="palette__leer" role="presentation">Kein Treffer für „' + esc(q) + '“.<br>' +
           '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(q) + '" data-schliessen-nach>Frage dem Assistenten stellen</a></li>';
       }
@@ -3089,6 +3279,14 @@ window.QUELLEN = {
       haupt.innerHTML = viewWissen(r.params);
       wissenVerhalten(haupt, r.params);
       titel = "Wissensdatenbank — Azubi-Wissen";
+    } else if (view === "vorlagen") {
+      haupt.innerHTML = viewVorlagen(r.params);
+      vorlagenVerhalten(haupt, r.params);
+      titel = "E-Mail-Vorlagen — Azubi-Wissen";
+    } else if (view === "downloads") {
+      haupt.innerHTML = viewDownloads();
+      downloadsVerhalten(haupt);
+      titel = "Download-Center — Azubi-Wissen";
     } else if (view === "quellen") {
       haupt.innerHTML = viewQuellen(r.params);
       quellenVerhalten(haupt, r.params);
@@ -3164,8 +3362,10 @@ window.QUELLEN = {
     h += "</ul>";
 
     h += '<div class="schnellzeile">' +
-      '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen aus der Wissensdatenbank, komplett offline.</p></span></a>" +
-      '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themenbereiche als PDF für Beratung, Betriebe oder Azubis — und Vermerke strukturiert erstellen.</p></span></a>" +
+      '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
+      '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
+      '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
+      '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
       "</div>";
 
     h += '<p class="stand-hinweis">' + esc(W.hinweis) + " Stand: " + esc(W.stand) + ".</p>";
@@ -3495,6 +3695,284 @@ window.QUELLEN = {
       });
     });
     eingabe.addEventListener("input", zeigen);
+    zeigen();
+  }
+
+  /* ---------------- Ansicht: E-Mail-Vorlagen ----------------------- */
+  var VINDEX = [];
+  (function bauenVorlagen() {
+    var V = window.VORLAGEN;
+    if (!V) return;
+    V.vorlagen.forEach(function (v) {
+      VINDEX.push({
+        vorlage: v,
+        felder: [
+          [norm(v.titel), 5],
+          [norm((v.stichworte || []).join(" ")), 4],
+          [norm(v.betreff), 2],
+          [norm(v.text), 1]
+        ]
+      });
+    });
+  })();
+
+  function suchenVorlagen(q, limit) {
+    var tokens = norm(q).split(" ").filter(function (t) { return t && !STOP[t]; });
+    if (!tokens.length) tokens = norm(q).split(" ").filter(Boolean);
+    if (!tokens.length) return [];
+    var treffer = [];
+    VINDEX.forEach(function (rec) {
+      var summe = 0;
+      for (var t = 0; t < tokens.length; t++) {
+        var alts = tokenAlternativen(tokens[t]);
+        var best = 0;
+        for (var f = 0; f < rec.felder.length; f++) {
+          for (var x = 0; x < alts.length; x++) {
+            var sc = tokenScore(alts[x], rec.felder[f][0]);
+            if (sc) best = Math.max(best, sc * rec.felder[f][1] * (x ? 0.8 : 1));
+          }
+        }
+        if (!best) { summe = 0; break; }
+        summe += best;
+      }
+      if (summe > 0) treffer.push({ vorlage: rec.vorlage, score: summe });
+    });
+    treffer.sort(function (a, b) { return b.score - a.score; });
+    return treffer.slice(0, limit || 3).map(function (t) { return t.vorlage; });
+  }
+
+  function platzhalterVon(v) {
+    var m = (v.betreff + " " + v.text).match(/\[([A-ZÄÖÜ_]+)\]/g) || [];
+    var seen = {}, aus = [];
+    m.forEach(function (x) {
+      var k = x.slice(1, -1);
+      if (!seen[k]) { seen[k] = 1; aus.push(k); }
+    });
+    return aus;
+  }
+  function werteLesen() {
+    try { return JSON.parse(localStorage.getItem("aw.vorlagenwerte") || "{}"); } catch (e) { return {}; }
+  }
+  function werteSchreiben(w) {
+    try { localStorage.setItem("aw.vorlagenwerte", JSON.stringify(w)); } catch (e) {}
+  }
+  function vorlageFuellen(text, werte) {
+    // **Fett**-Auszeichnung entfernen — E-Mails sind Reintext.
+    return text.replace(/\*\*/g, "").replace(/\[([A-ZÄÖÜ_]+)\]/g, function (_, k) {
+      return (werte[k] || "").trim() || "[" + k + "]";
+    });
+  }
+
+  function viewVorlagen(params) {
+    var V = window.VORLAGEN;
+    if (!V) return platzhalter("E-Mail-Vorlagen", "Vorlagenmodul nicht geladen.");
+    if (params.id) {
+      var v = null;
+      V.vorlagen.forEach(function (x) { if (x.id === params.id) v = x; });
+      if (!v) return platzhalter("Vorlage nicht gefunden", "Zurück zur Übersicht: #/vorlagen");
+      return viewVorlageDetail(v);
+    }
+    var aktiv = params.kat || "";
+    var h = "<h1>E-Mail-Vorlagen</h1>" +
+      '<p class="bw-unterzeile">Formulierungsvorlagen für den Alltag der zuständigen Stelle — Platzhalter ausfüllen, kopieren, versenden</p>';
+    h += '<ul class="chipzeile" role="group" aria-label="Nach Kategorie filtern">' +
+      '<li><button class="chip" data-vkat="" aria-pressed="' + (!aktiv) + '">Alle</button></li>';
+    V.kategorien.forEach(function (k) {
+      h += '<li><button class="chip" data-vkat="' + k.id + '" aria-pressed="' + (aktiv === k.id) + '">' + esc(k.titel) + "</button></li>";
+    });
+    h += "</ul>";
+    h += '<ul class="karten" id="vorlagen-liste"></ul>';
+    h += '<p class="stand-hinweis">Vorlagen sind Formulierungshilfen — vor Versand fachlich prüfen und anpassen. Stand: ' + esc(V.stand) + ".</p>";
+    return h;
+  }
+
+  function vorlagenVerhalten(root, params) {
+    if (params.id) { vorlageDetailVerhalten(root, params); return; }
+    var V = window.VORLAGEN;
+    var aktiv = params.kat || "";
+    var liste = $("#vorlagen-liste", root);
+    function zeigen() {
+      var vs = V.vorlagen.filter(function (v) { return !aktiv || v.kategorie === aktiv; });
+      liste.innerHTML = vs.map(function (v) {
+        var kat = V.kategorien.filter(function (k) { return k.id === v.kategorie; })[0];
+        return '<li class="karte"><a class="karte__link" href="#/vorlagen?id=' + v.id + '">' +
+          '<span class="etikett">' + esc(kat ? kat.titel : "") + "</span>" +
+          '<h3 style="margin-top:var(--bw-space-1)">' + esc(v.titel) + "</h3>" +
+          "<p>" + esc(v.betreff) + "</p></a></li>";
+      }).join("");
+    }
+    root.querySelectorAll(".chip[data-vkat]").forEach(function (c) {
+      c.addEventListener("click", function () {
+        aktiv = c.getAttribute("data-vkat");
+        root.querySelectorAll(".chip[data-vkat]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === c)); });
+        history.replaceState(null, "", "#/vorlagen" + (aktiv ? "?kat=" + aktiv : ""));
+        zeigen();
+      });
+    });
+    zeigen();
+  }
+
+  function viewVorlageDetail(v) {
+    var werte = werteLesen();
+    var ph = platzhalterVon(v);
+    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/vorlagen">E-Mail-Vorlagen</a></nav>';
+    h += "<h1>" + esc(v.titel) + "</h1>";
+    if (v.hinweise) h += '<div class="bw-hinweis"><p><strong>Hinweis:</strong> ' + esc(v.hinweise) + "</p></div>";
+    h += '<div class="vorlage-raster">';
+    h += '<section aria-label="Platzhalter"><h2>Platzhalter</h2><div class="platzhalter-felder">';
+    ph.forEach(function (k) {
+      var label = k.replace(/_/g, " ").toLowerCase();
+      label = label.charAt(0).toUpperCase() + label.slice(1);
+      h += '<div class="bw-field"><label for="ph-' + k + '">' + esc(label) + "</label>" +
+        '<input id="ph-' + k + '" data-ph="' + k + '" value="' + esc(werte[k] || "") + '"></div>';
+    });
+    h += "</div></section>";
+    h += '<section aria-label="Vorschau"><h2>Vorschau</h2>' +
+      '<div class="bw-field"><label for="v-betreff">Betreff</label><input id="v-betreff" readonly></div>' +
+      '<div class="bw-field"><label for="v-text">Text</label><textarea id="v-text" rows="18" readonly></textarea></div>' +
+      '<div class="export-aktionen">' +
+      '<button class="bw-btn" id="v-kopieren" type="button">Text kopieren</button>' +
+      '<button class="bw-btn bw-btn--sekundaer" id="v-betreff-kopieren" type="button">Betreff kopieren</button>' +
+      '<a class="bw-btn bw-btn--sekundaer" id="v-mailto" href="#">Im E-Mail-Programm öffnen</a>' +
+      '<span class="bw-klein bw-leise" id="v-status" role="status"></span></div></section>';
+    h += "</div>";
+    if ((v.anhaenge || []).length && window.QUELLEN) {
+      h += "<h2>Empfohlene Anhänge</h2><ul class=\"quellen-liste\">";
+      v.anhaenge.forEach(function (id) {
+        var e = null;
+        window.QUELLEN.eintraege.forEach(function (x) { if (x.id === id) e = x; });
+        if (!e) return;
+        var z = quelleZiel(e);
+        h += '<li><a href="' + esc(z.href) + '" target="_blank" rel="noopener"><span class="etikett">' +
+          esc(TYP_NAME[e.typ] || e.typ) + "</span> " + esc(e.titel) + (z.extern ? ' <span class="bw-leise">↗ online</span>' : "") + "</a></li>";
+      });
+      h += "</ul>";
+    }
+    if ((v.artikel || []).length) {
+      h += '<h2>Fachlicher Hintergrund</h2><ul class="chipzeile">' +
+        v.artikel.map(function (id) {
+          var a = artikelVon(id);
+          return a ? '<li><a class="chip chip--frage" href="#/artikel/' + id + '">' + esc(a.titel) + "</a></li>" : "";
+        }).join("") + "</ul>";
+    }
+    return h;
+  }
+
+  function vorlageDetailVerhalten(root, params) {
+    var V = window.VORLAGEN;
+    var v = null;
+    V.vorlagen.forEach(function (x) { if (x.id === params.id) v = x; });
+    if (!v) return;
+    var betreffFeld = $("#v-betreff", root), textFeld = $("#v-text", root), status = $("#v-status", root);
+
+    function aktualisieren() {
+      var werte = werteLesen();
+      root.querySelectorAll("[data-ph]").forEach(function (i) { werte[i.getAttribute("data-ph")] = i.value; });
+      werteSchreiben(werte);
+      betreffFeld.value = vorlageFuellen(v.betreff, werte);
+      textFeld.value = vorlageFuellen(v.text, werte);
+      $("#v-mailto", root).setAttribute("href",
+        "mailto:?subject=" + encodeURIComponent(betreffFeld.value) + "&body=" + encodeURIComponent(textFeld.value));
+    }
+    function kopieren(text, meldung) {
+      function ok() { status.textContent = meldung; }
+      function fallback() { textFeld.select(); document.execCommand && document.execCommand("copy"); ok(); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(ok, fallback);
+      } else fallback();
+    }
+    root.querySelectorAll("[data-ph]").forEach(function (i) { i.addEventListener("input", aktualisieren); });
+    $("#v-kopieren", root).addEventListener("click", function () { kopieren(textFeld.value, "Text kopiert."); });
+    $("#v-betreff-kopieren", root).addEventListener("click", function () { kopieren(betreffFeld.value, "Betreff kopiert."); });
+    aktualisieren();
+  }
+
+  /* ---------------- Ansicht: Download-Center ----------------------- */
+  function downloadBaum() {
+    var E = window.QUELLEN ? window.QUELLEN.eintraege : [];
+    function nach(f) { return E.filter(f); }
+    return [
+      { titel: "Verträge & Anträge", eintraege: nach(function (e) { return e.typ === "formular"; }) },
+      { titel: "Betriebliche Ausbildungspläne", kinder: [
+        { titel: "Gärtner/in (7 Fachrichtungen)", eintraege: nach(function (e) { return e.id.indexOf("plan-gaertner-") === 0; }) },
+        { titel: "Fachwerker/in (7 Fachrichtungen)", eintraege: nach(function (e) { return e.id.indexOf("plan-fachwerker-") === 0; }) }
+      ] },
+      { titel: "Tabellen & Merkblätter", eintraege: nach(function (e) { return e.typ === "merkblatt"; }) },
+      { titel: "Gesetze & Verordnungen", eintraege: nach(function (e) { return e.typ === "gesetz" || e.id.indexOf("gesetz-") === 0; }) },
+      { titel: "Prüfung, Berufsschule & Berichtsheft", eintraege: nach(function (e) {
+        return ["pflanzenlisten", "schule-anmeldungen", "berichtsheft-gaertner", "berichtsheft-galabau"].indexOf(e.id) >= 0; }) },
+      { titel: "Förderung & Arbeitsagentur", eintraege: nach(function (e) { return e.id.indexOf("ba-") === 0; }) },
+      { titel: "Arbeitsschutz (SVLFG)", eintraege: nach(function (e) { return e.id.indexOf("svlfg") === 0; }) },
+      { titel: "Portale der zuständigen Stelle", eintraege: nach(function (e) { return e.id.indexOf("rp-") === 0; }) }
+    ];
+  }
+
+  function baumKnoten(knoten, filterTokens) {
+    function passt(e) {
+      if (!filterTokens.length) return true;
+      var hay = norm(e.titel + " " + (e.stichworte || []).join(" ") + " " + (e.beschreibung || ""));
+      return filterTokens.every(function (tok) {
+        return tokenAlternativen(tok).some(function (al) { return tokenScore(al, hay) > 0; });
+      });
+    }
+    var eintraege = (knoten.eintraege || []).filter(passt);
+    var kinderHtml = "", kinderAnzahl = 0;
+    (knoten.kinder || []).forEach(function (k) {
+      var sub = baumKnoten(k, filterTokens);
+      kinderHtml += sub.html;
+      kinderAnzahl += sub.anzahl;
+    });
+    var anzahl = eintraege.length + kinderAnzahl;
+    if (!anzahl) return { html: "", anzahl: 0 };
+    var offen = filterTokens.length ? " open" : "";
+    var h = "<details" + offen + "><summary>" + esc(knoten.titel) +
+      ' <span class="etikett">' + anzahl + "</span></summary>";
+    if (eintraege.length) {
+      h += '<ul class="baum-liste">' + eintraege.map(function (e) {
+        var z = quelleZiel(e);
+        return '<li><a href="' + esc(z.href) + '" target="_blank" rel="noopener">' + esc(e.titel) +
+          (z.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>" +
+          '<span class="bw-klein bw-leise"> — ' + esc(e.herausgeber) + (e.stand ? ", Stand " + esc(e.stand) : "") + "</span></li>";
+      }).join("") + "</ul>";
+    }
+    h += kinderHtml + "</details>";
+    return { html: h, anzahl: anzahl };
+  }
+
+  function viewDownloads() {
+    var h = "<h1>Download-Center</h1>" +
+      '<p class="bw-unterzeile">Alle Dokumente und geprüften Quellen — thematisch sortiert</p>';
+    if (window.EINZELDATEI) {
+      h += '<div class="bw-hinweis"><p><strong>Einzeldatei-Version:</strong> Einträge öffnen die jeweilige Online-Quelle; im Ordner-/Intranet-Betrieb liegen die Dateien lokal bei.</p></div>';
+    }
+    h += '<div class="bw-search" style="max-width:34rem"><label for="dq" class="bw-skip-link">Downloads filtern</label>' +
+      '<input id="dq" type="search" placeholder="Filtern: BAV, Urlaub, Gesetz …" aria-label="Downloads filtern">' +
+      '<button type="button" aria-label="Suchen">' + ICON.suche + "</button></div>" +
+      '<p class="bw-klein"><button class="chip" id="baum-auf" type="button">Alle aufklappen</button> ' +
+      '<button class="chip" id="baum-zu" type="button">Alle zuklappen</button></p>' +
+      '<div class="baum" id="download-baum"></div>' +
+      '<p class="stand-hinweis">Lokale Dateien mit Herkunftsnachweis in <code>formulare/QUELLEN.md</code>; Einträge mit ↗ öffnen externe Angebote öffentlicher Stellen.</p>';
+    return h;
+  }
+
+  function downloadsVerhalten(root) {
+    var eingabe = $("#dq", root), ziel = $("#download-baum", root);
+    function zeigen() {
+      var tokens = norm(eingabe.value).split(" ").filter(function (t) { return t && !STOP[t]; });
+      var html = "", gesamt = 0;
+      downloadBaum().forEach(function (k) {
+        var sub = baumKnoten(k, tokens);
+        html += sub.html; gesamt += sub.anzahl;
+      });
+      ziel.innerHTML = gesamt ? html : '<p class="leer">Kein Dokument passt zum Filter.</p>';
+    }
+    eingabe.addEventListener("input", zeigen);
+    $("#baum-auf", root).addEventListener("click", function () {
+      root.querySelectorAll(".baum details").forEach(function (d) { d.open = true; });
+    });
+    $("#baum-zu", root).addEventListener("click", function () {
+      root.querySelectorAll(".baum details").forEach(function (d) { d.open = false; });
+    });
     zeigen();
   }
 

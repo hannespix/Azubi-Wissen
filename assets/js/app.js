@@ -377,6 +377,16 @@
             '<span class="schnipsel">' + esc(e.herausgeber + (e.stand ? " · Stand " + e.stand : "")) + "</span></a></li>";
         });
       }
+      var verg = suchenVorlagen(q, 3);
+      if (verg.length) {
+        html += '<li class="palette__gruppe" role="presentation">E-Mail-Vorlagen</li>';
+        verg.forEach(function (v) {
+          html += '<li class="palette__eintrag" role="option" aria-selected="false" data-ziel="#/vorlagen?id=' + v.id + '">' +
+            '<a href="#/vorlagen?id=' + v.id + '"><span class="wo">Vorlage</span>' +
+            '<span class="titel">' + S.highlight(v.titel, q) + "</span>" +
+            '<span class="schnipsel">' + esc(v.betreff) + "</span></a></li>";
+        });
+      }
       if (erg.artikel.length) {
         html += '<li class="palette__gruppe" role="presentation">Artikel</li>';
         erg.artikel.forEach(function (r) {
@@ -389,7 +399,7 @@
           html += eintrag("#/artikel/" + r.id + "?faq=" + r.faqIndex, S.highlight(r.titel, q), schnipsel(r.kurz, erg.tokens), "FAQ");
         });
       }
-      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length) {
+      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length) {
         html = '<li class="palette__leer" role="presentation">Kein Treffer für „' + esc(q) + '“.<br>' +
           '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(q) + '" data-schliessen-nach>Frage dem Assistenten stellen</a></li>';
       }
@@ -457,6 +467,14 @@
       haupt.innerHTML = viewWissen(r.params);
       wissenVerhalten(haupt, r.params);
       titel = "Wissensdatenbank — Azubi-Wissen";
+    } else if (view === "vorlagen") {
+      haupt.innerHTML = viewVorlagen(r.params);
+      vorlagenVerhalten(haupt, r.params);
+      titel = "E-Mail-Vorlagen — Azubi-Wissen";
+    } else if (view === "downloads") {
+      haupt.innerHTML = viewDownloads();
+      downloadsVerhalten(haupt);
+      titel = "Download-Center — Azubi-Wissen";
     } else if (view === "quellen") {
       haupt.innerHTML = viewQuellen(r.params);
       quellenVerhalten(haupt, r.params);
@@ -532,8 +550,10 @@
     h += "</ul>";
 
     h += '<div class="schnellzeile">' +
-      '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen aus der Wissensdatenbank, komplett offline.</p></span></a>" +
-      '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themenbereiche als PDF für Beratung, Betriebe oder Azubis — und Vermerke strukturiert erstellen.</p></span></a>" +
+      '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
+      '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
+      '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
+      '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
       "</div>";
 
     h += '<p class="stand-hinweis">' + esc(W.hinweis) + " Stand: " + esc(W.stand) + ".</p>";
@@ -863,6 +883,284 @@
       });
     });
     eingabe.addEventListener("input", zeigen);
+    zeigen();
+  }
+
+  /* ---------------- Ansicht: E-Mail-Vorlagen ----------------------- */
+  var VINDEX = [];
+  (function bauenVorlagen() {
+    var V = window.VORLAGEN;
+    if (!V) return;
+    V.vorlagen.forEach(function (v) {
+      VINDEX.push({
+        vorlage: v,
+        felder: [
+          [norm(v.titel), 5],
+          [norm((v.stichworte || []).join(" ")), 4],
+          [norm(v.betreff), 2],
+          [norm(v.text), 1]
+        ]
+      });
+    });
+  })();
+
+  function suchenVorlagen(q, limit) {
+    var tokens = norm(q).split(" ").filter(function (t) { return t && !STOP[t]; });
+    if (!tokens.length) tokens = norm(q).split(" ").filter(Boolean);
+    if (!tokens.length) return [];
+    var treffer = [];
+    VINDEX.forEach(function (rec) {
+      var summe = 0;
+      for (var t = 0; t < tokens.length; t++) {
+        var alts = tokenAlternativen(tokens[t]);
+        var best = 0;
+        for (var f = 0; f < rec.felder.length; f++) {
+          for (var x = 0; x < alts.length; x++) {
+            var sc = tokenScore(alts[x], rec.felder[f][0]);
+            if (sc) best = Math.max(best, sc * rec.felder[f][1] * (x ? 0.8 : 1));
+          }
+        }
+        if (!best) { summe = 0; break; }
+        summe += best;
+      }
+      if (summe > 0) treffer.push({ vorlage: rec.vorlage, score: summe });
+    });
+    treffer.sort(function (a, b) { return b.score - a.score; });
+    return treffer.slice(0, limit || 3).map(function (t) { return t.vorlage; });
+  }
+
+  function platzhalterVon(v) {
+    var m = (v.betreff + " " + v.text).match(/\[([A-ZÄÖÜ_]+)\]/g) || [];
+    var seen = {}, aus = [];
+    m.forEach(function (x) {
+      var k = x.slice(1, -1);
+      if (!seen[k]) { seen[k] = 1; aus.push(k); }
+    });
+    return aus;
+  }
+  function werteLesen() {
+    try { return JSON.parse(localStorage.getItem("aw.vorlagenwerte") || "{}"); } catch (e) { return {}; }
+  }
+  function werteSchreiben(w) {
+    try { localStorage.setItem("aw.vorlagenwerte", JSON.stringify(w)); } catch (e) {}
+  }
+  function vorlageFuellen(text, werte) {
+    // **Fett**-Auszeichnung entfernen — E-Mails sind Reintext.
+    return text.replace(/\*\*/g, "").replace(/\[([A-ZÄÖÜ_]+)\]/g, function (_, k) {
+      return (werte[k] || "").trim() || "[" + k + "]";
+    });
+  }
+
+  function viewVorlagen(params) {
+    var V = window.VORLAGEN;
+    if (!V) return platzhalter("E-Mail-Vorlagen", "Vorlagenmodul nicht geladen.");
+    if (params.id) {
+      var v = null;
+      V.vorlagen.forEach(function (x) { if (x.id === params.id) v = x; });
+      if (!v) return platzhalter("Vorlage nicht gefunden", "Zurück zur Übersicht: #/vorlagen");
+      return viewVorlageDetail(v);
+    }
+    var aktiv = params.kat || "";
+    var h = "<h1>E-Mail-Vorlagen</h1>" +
+      '<p class="bw-unterzeile">Formulierungsvorlagen für den Alltag der zuständigen Stelle — Platzhalter ausfüllen, kopieren, versenden</p>';
+    h += '<ul class="chipzeile" role="group" aria-label="Nach Kategorie filtern">' +
+      '<li><button class="chip" data-vkat="" aria-pressed="' + (!aktiv) + '">Alle</button></li>';
+    V.kategorien.forEach(function (k) {
+      h += '<li><button class="chip" data-vkat="' + k.id + '" aria-pressed="' + (aktiv === k.id) + '">' + esc(k.titel) + "</button></li>";
+    });
+    h += "</ul>";
+    h += '<ul class="karten" id="vorlagen-liste"></ul>';
+    h += '<p class="stand-hinweis">Vorlagen sind Formulierungshilfen — vor Versand fachlich prüfen und anpassen. Stand: ' + esc(V.stand) + ".</p>";
+    return h;
+  }
+
+  function vorlagenVerhalten(root, params) {
+    if (params.id) { vorlageDetailVerhalten(root, params); return; }
+    var V = window.VORLAGEN;
+    var aktiv = params.kat || "";
+    var liste = $("#vorlagen-liste", root);
+    function zeigen() {
+      var vs = V.vorlagen.filter(function (v) { return !aktiv || v.kategorie === aktiv; });
+      liste.innerHTML = vs.map(function (v) {
+        var kat = V.kategorien.filter(function (k) { return k.id === v.kategorie; })[0];
+        return '<li class="karte"><a class="karte__link" href="#/vorlagen?id=' + v.id + '">' +
+          '<span class="etikett">' + esc(kat ? kat.titel : "") + "</span>" +
+          '<h3 style="margin-top:var(--bw-space-1)">' + esc(v.titel) + "</h3>" +
+          "<p>" + esc(v.betreff) + "</p></a></li>";
+      }).join("");
+    }
+    root.querySelectorAll(".chip[data-vkat]").forEach(function (c) {
+      c.addEventListener("click", function () {
+        aktiv = c.getAttribute("data-vkat");
+        root.querySelectorAll(".chip[data-vkat]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === c)); });
+        history.replaceState(null, "", "#/vorlagen" + (aktiv ? "?kat=" + aktiv : ""));
+        zeigen();
+      });
+    });
+    zeigen();
+  }
+
+  function viewVorlageDetail(v) {
+    var werte = werteLesen();
+    var ph = platzhalterVon(v);
+    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/vorlagen">E-Mail-Vorlagen</a></nav>';
+    h += "<h1>" + esc(v.titel) + "</h1>";
+    if (v.hinweise) h += '<div class="bw-hinweis"><p><strong>Hinweis:</strong> ' + esc(v.hinweise) + "</p></div>";
+    h += '<div class="vorlage-raster">';
+    h += '<section aria-label="Platzhalter"><h2>Platzhalter</h2><div class="platzhalter-felder">';
+    ph.forEach(function (k) {
+      var label = k.replace(/_/g, " ").toLowerCase();
+      label = label.charAt(0).toUpperCase() + label.slice(1);
+      h += '<div class="bw-field"><label for="ph-' + k + '">' + esc(label) + "</label>" +
+        '<input id="ph-' + k + '" data-ph="' + k + '" value="' + esc(werte[k] || "") + '"></div>';
+    });
+    h += "</div></section>";
+    h += '<section aria-label="Vorschau"><h2>Vorschau</h2>' +
+      '<div class="bw-field"><label for="v-betreff">Betreff</label><input id="v-betreff" readonly></div>' +
+      '<div class="bw-field"><label for="v-text">Text</label><textarea id="v-text" rows="18" readonly></textarea></div>' +
+      '<div class="export-aktionen">' +
+      '<button class="bw-btn" id="v-kopieren" type="button">Text kopieren</button>' +
+      '<button class="bw-btn bw-btn--sekundaer" id="v-betreff-kopieren" type="button">Betreff kopieren</button>' +
+      '<a class="bw-btn bw-btn--sekundaer" id="v-mailto" href="#">Im E-Mail-Programm öffnen</a>' +
+      '<span class="bw-klein bw-leise" id="v-status" role="status"></span></div></section>';
+    h += "</div>";
+    if ((v.anhaenge || []).length && window.QUELLEN) {
+      h += "<h2>Empfohlene Anhänge</h2><ul class=\"quellen-liste\">";
+      v.anhaenge.forEach(function (id) {
+        var e = null;
+        window.QUELLEN.eintraege.forEach(function (x) { if (x.id === id) e = x; });
+        if (!e) return;
+        var z = quelleZiel(e);
+        h += '<li><a href="' + esc(z.href) + '" target="_blank" rel="noopener"><span class="etikett">' +
+          esc(TYP_NAME[e.typ] || e.typ) + "</span> " + esc(e.titel) + (z.extern ? ' <span class="bw-leise">↗ online</span>' : "") + "</a></li>";
+      });
+      h += "</ul>";
+    }
+    if ((v.artikel || []).length) {
+      h += '<h2>Fachlicher Hintergrund</h2><ul class="chipzeile">' +
+        v.artikel.map(function (id) {
+          var a = artikelVon(id);
+          return a ? '<li><a class="chip chip--frage" href="#/artikel/' + id + '">' + esc(a.titel) + "</a></li>" : "";
+        }).join("") + "</ul>";
+    }
+    return h;
+  }
+
+  function vorlageDetailVerhalten(root, params) {
+    var V = window.VORLAGEN;
+    var v = null;
+    V.vorlagen.forEach(function (x) { if (x.id === params.id) v = x; });
+    if (!v) return;
+    var betreffFeld = $("#v-betreff", root), textFeld = $("#v-text", root), status = $("#v-status", root);
+
+    function aktualisieren() {
+      var werte = werteLesen();
+      root.querySelectorAll("[data-ph]").forEach(function (i) { werte[i.getAttribute("data-ph")] = i.value; });
+      werteSchreiben(werte);
+      betreffFeld.value = vorlageFuellen(v.betreff, werte);
+      textFeld.value = vorlageFuellen(v.text, werte);
+      $("#v-mailto", root).setAttribute("href",
+        "mailto:?subject=" + encodeURIComponent(betreffFeld.value) + "&body=" + encodeURIComponent(textFeld.value));
+    }
+    function kopieren(text, meldung) {
+      function ok() { status.textContent = meldung; }
+      function fallback() { textFeld.select(); document.execCommand && document.execCommand("copy"); ok(); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(ok, fallback);
+      } else fallback();
+    }
+    root.querySelectorAll("[data-ph]").forEach(function (i) { i.addEventListener("input", aktualisieren); });
+    $("#v-kopieren", root).addEventListener("click", function () { kopieren(textFeld.value, "Text kopiert."); });
+    $("#v-betreff-kopieren", root).addEventListener("click", function () { kopieren(betreffFeld.value, "Betreff kopiert."); });
+    aktualisieren();
+  }
+
+  /* ---------------- Ansicht: Download-Center ----------------------- */
+  function downloadBaum() {
+    var E = window.QUELLEN ? window.QUELLEN.eintraege : [];
+    function nach(f) { return E.filter(f); }
+    return [
+      { titel: "Verträge & Anträge", eintraege: nach(function (e) { return e.typ === "formular"; }) },
+      { titel: "Betriebliche Ausbildungspläne", kinder: [
+        { titel: "Gärtner/in (7 Fachrichtungen)", eintraege: nach(function (e) { return e.id.indexOf("plan-gaertner-") === 0; }) },
+        { titel: "Fachwerker/in (7 Fachrichtungen)", eintraege: nach(function (e) { return e.id.indexOf("plan-fachwerker-") === 0; }) }
+      ] },
+      { titel: "Tabellen & Merkblätter", eintraege: nach(function (e) { return e.typ === "merkblatt"; }) },
+      { titel: "Gesetze & Verordnungen", eintraege: nach(function (e) { return e.typ === "gesetz" || e.id.indexOf("gesetz-") === 0; }) },
+      { titel: "Prüfung, Berufsschule & Berichtsheft", eintraege: nach(function (e) {
+        return ["pflanzenlisten", "schule-anmeldungen", "berichtsheft-gaertner", "berichtsheft-galabau"].indexOf(e.id) >= 0; }) },
+      { titel: "Förderung & Arbeitsagentur", eintraege: nach(function (e) { return e.id.indexOf("ba-") === 0; }) },
+      { titel: "Arbeitsschutz (SVLFG)", eintraege: nach(function (e) { return e.id.indexOf("svlfg") === 0; }) },
+      { titel: "Portale der zuständigen Stelle", eintraege: nach(function (e) { return e.id.indexOf("rp-") === 0; }) }
+    ];
+  }
+
+  function baumKnoten(knoten, filterTokens) {
+    function passt(e) {
+      if (!filterTokens.length) return true;
+      var hay = norm(e.titel + " " + (e.stichworte || []).join(" ") + " " + (e.beschreibung || ""));
+      return filterTokens.every(function (tok) {
+        return tokenAlternativen(tok).some(function (al) { return tokenScore(al, hay) > 0; });
+      });
+    }
+    var eintraege = (knoten.eintraege || []).filter(passt);
+    var kinderHtml = "", kinderAnzahl = 0;
+    (knoten.kinder || []).forEach(function (k) {
+      var sub = baumKnoten(k, filterTokens);
+      kinderHtml += sub.html;
+      kinderAnzahl += sub.anzahl;
+    });
+    var anzahl = eintraege.length + kinderAnzahl;
+    if (!anzahl) return { html: "", anzahl: 0 };
+    var offen = filterTokens.length ? " open" : "";
+    var h = "<details" + offen + "><summary>" + esc(knoten.titel) +
+      ' <span class="etikett">' + anzahl + "</span></summary>";
+    if (eintraege.length) {
+      h += '<ul class="baum-liste">' + eintraege.map(function (e) {
+        var z = quelleZiel(e);
+        return '<li><a href="' + esc(z.href) + '" target="_blank" rel="noopener">' + esc(e.titel) +
+          (z.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>" +
+          '<span class="bw-klein bw-leise"> — ' + esc(e.herausgeber) + (e.stand ? ", Stand " + esc(e.stand) : "") + "</span></li>";
+      }).join("") + "</ul>";
+    }
+    h += kinderHtml + "</details>";
+    return { html: h, anzahl: anzahl };
+  }
+
+  function viewDownloads() {
+    var h = "<h1>Download-Center</h1>" +
+      '<p class="bw-unterzeile">Alle Dokumente und geprüften Quellen — thematisch sortiert</p>';
+    if (window.EINZELDATEI) {
+      h += '<div class="bw-hinweis"><p><strong>Einzeldatei-Version:</strong> Einträge öffnen die jeweilige Online-Quelle; im Ordner-/Intranet-Betrieb liegen die Dateien lokal bei.</p></div>';
+    }
+    h += '<div class="bw-search" style="max-width:34rem"><label for="dq" class="bw-skip-link">Downloads filtern</label>' +
+      '<input id="dq" type="search" placeholder="Filtern: BAV, Urlaub, Gesetz …" aria-label="Downloads filtern">' +
+      '<button type="button" aria-label="Suchen">' + ICON.suche + "</button></div>" +
+      '<p class="bw-klein"><button class="chip" id="baum-auf" type="button">Alle aufklappen</button> ' +
+      '<button class="chip" id="baum-zu" type="button">Alle zuklappen</button></p>' +
+      '<div class="baum" id="download-baum"></div>' +
+      '<p class="stand-hinweis">Lokale Dateien mit Herkunftsnachweis in <code>formulare/QUELLEN.md</code>; Einträge mit ↗ öffnen externe Angebote öffentlicher Stellen.</p>';
+    return h;
+  }
+
+  function downloadsVerhalten(root) {
+    var eingabe = $("#dq", root), ziel = $("#download-baum", root);
+    function zeigen() {
+      var tokens = norm(eingabe.value).split(" ").filter(function (t) { return t && !STOP[t]; });
+      var html = "", gesamt = 0;
+      downloadBaum().forEach(function (k) {
+        var sub = baumKnoten(k, tokens);
+        html += sub.html; gesamt += sub.anzahl;
+      });
+      ziel.innerHTML = gesamt ? html : '<p class="leer">Kein Dokument passt zum Filter.</p>';
+    }
+    eingabe.addEventListener("input", zeigen);
+    $("#baum-auf", root).addEventListener("click", function () {
+      root.querySelectorAll(".baum details").forEach(function (d) { d.open = true; });
+    });
+    $("#baum-zu", root).addEventListener("click", function () {
+      root.querySelectorAll(".baum details").forEach(function (d) { d.open = false; });
+    });
     zeigen();
   }
 
