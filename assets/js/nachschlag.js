@@ -99,6 +99,11 @@
         stichworte: ["fahrplan", "terminplan", "zeitplan", "fristen berechnen", "ausbildungsverlauf", "termine", "kalender"],
         recht: "§§ 20, 21, 43, 48 BBiG · §§ 32, 33 JArbSchG", artikel: ["probezeit", "jugendliche", "abschlusspruefung"], quellen: [] },
 
+      { id: "rechner-noten", rechner: "noten", titel: "Notenrechner — Bestehe ich die Abschlussprüfung?",
+        kurz: "Die neun Teilnoten eingeben — der Rechner gewichtet nach der GärtnAusbV (Praxis 60 %, Fächer 40 %), prüft alle Bestehensregeln und zeigt, wann die mündliche Ergänzungsprüfung möglich ist. Orientierung für Beratung und Abschlussklassen; verbindlich wertet der Prüfungsausschuss.",
+        stichworte: ["notenrechner", "rechner", "noten berechnen", "bestehen", "durchgefallen", "gewichtung", "ergänzungsprüfung", "schnitt"],
+        recht: "§ 9 Abs. 5–7 GärtnAusbV", artikel: ["ap-noten", "abschlusspruefung"], quellen: [] },
+
       /* ---- Jahreskreis der Ausbildungsberatung (R5) —
              wiederkehrende Orientierungszeiträume; verbindlich sind die
              jährlich veröffentlichten Termine der zuständigen Stelle. ---- */

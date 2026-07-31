@@ -1723,8 +1723,35 @@
         [1, 2, 3, 4].map(function (n) { return '<option value="' + n + '"' + (n === 4 ? " selected" : "") + ">" + n + " Monat" + (n > 1 ? "e" : "") + "</option>"; }).join("") +
         "</select></div>" +
         '<div class="bw-field"><label for="rp-geb">Geburtsdatum (optional, für Jugendschutz-Fristen)</label><input type="date" id="rp-geb"></div>';
+    } else if (art === "noten") {
+      // Gewichtungs-Schaubild (Grau-Basis, Outline, keine Deko) + 9 Notenfelder
+      h = '<div class="noten-schaubild" aria-hidden="true"><svg viewBox="0 0 600 92" class="noten-svg">' +
+        '<rect x="1" y="8" width="358" height="34" rx="4" fill="var(--bw-cat-1)" stroke="var(--bw-chart-outline)" stroke-width="1"></rect>' +
+        [1, 2, 3, 4].map(function (i) { return '<line x1="' + (1 + i * 71.6) + '" y1="9" x2="' + (1 + i * 71.6) + '" y2="41" stroke="var(--bw-chart-outline)" stroke-width="1"></line>'; }).join("") +
+        '<rect x="363" y="8" width="236" height="34" rx="4" fill="var(--bw-cat-2)" stroke="var(--bw-chart-outline)" stroke-width="1"></rect>' +
+        [1, 2, 3].map(function (i) { return '<line x1="' + (363 + i * 59) + '" y1="9" x2="' + (363 + i * 59) + '" y2="41" stroke="var(--bw-chart-outline)" stroke-width="1"></line>'; }).join("") +
+        '<text x="180" y="30" text-anchor="middle" class="noten-svg-label">Praktische Prüfung — 60 %</text>' +
+        '<text x="481" y="30" text-anchor="middle" class="noten-svg-label">Prüfungsfächer — 40 %</text>' +
+        '<text x="180" y="62" text-anchor="middle" class="noten-svg-klein">5 Aufgaben mit Prüfungsgespräch · je 12 % vom Gesamt</text>' +
+        '<text x="481" y="62" text-anchor="middle" class="noten-svg-klein">1 mündliches + 3 schriftliche Fächer · je 10 %</text>' +
+        '<text x="300" y="84" text-anchor="middle" class="noten-svg-klein">Bestanden: Gesamt, Praxis und Fächer mindestens ausreichend — keine Sechs, höchstens eine Fünf</text>' +
+        "</svg></div>" + h;
+      function notenFeld(id, label) {
+        return '<div class="bw-field"><label for="' + id + '">' + label + '</label><select id="' + id + '">' +
+          [1, 2, 3, 4, 5, 6].map(function (n) { return '<option value="' + n + '"' + (n === 3 ? " selected" : "") + ">" + n + "</option>"; }).join("") +
+          "</select></div>";
+      }
+      h += '<p class="bw-klein"><strong>Praktische Prüfung</strong> — Noten der fünf Aufgaben:</p>';
+      for (var na = 1; na <= 5; na++) h += notenFeld("no-a" + na, "Aufgabe " + na);
+      h += '<p class="bw-klein"><strong>Prüfungsfächer</strong> — Fachbezeichnungen je Fachrichtung (§§ 9–15 GärtnAusbV):</p>' +
+        notenFeld("no-f1", "Mündliches Fach (z. B. Kulturführung)") +
+        notenFeld("no-f2", "Pflanzenkenntnisse (schriftlich)") +
+        notenFeld("no-f3", "Betriebliche Zusammenhänge (schriftlich)") +
+        notenFeld("no-f4", "Wirtschafts- und Sozialkunde (schriftlich)");
     }
-    if (art === "fahrplan") {
+    if (art === "noten") {
+      h += "</div>" + '<div class="rechner-ergebnis rechner-ergebnis--plan" id="re-noten" role="status" aria-live="polite"></div>';
+    } else if (art === "fahrplan") {
       h += "</div>" + '<div class="rechner-ergebnis rechner-ergebnis--plan" id="re-fahrplan" role="status" aria-live="polite"></div>';
     } else {
       h += "</div>" + '<p class="rechner-ergebnis" id="re-' + esc(art) + '" role="status" aria-live="polite"></p>';
@@ -1839,6 +1866,38 @@
         }).join("") + "</tbody></table></div>";
       ziel.innerHTML = tabelle +
         '<p class="bw-klein bw-leise">Mit bestandener Abschlussprüfung endet die Ausbildung schon mit Bekanntgabe des Ergebnisses (§ 21 Abs. 2 BBiG). Verkürzung, Teilzeit und Verlängerung verschieben die Termine — Änderungen laufen über die zuständige Stelle.</p>';
+    } else if (art === "noten") {
+      var aufgaben = [1, 2, 3, 4, 5].map(function (i) { return parseInt(wert("#no-a" + i), 10); });
+      var faecher = [1, 2, 3, 4].map(function (i) { return parseInt(wert("#no-f" + i), 10); });
+      var alle = aufgaben.concat(faecher);
+      function schnitt(arr) { return arr.reduce(function (a, b) { return a + b; }, 0) / arr.length; }
+      function nde(x) { return x.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+      var praxis = schnitt(aufgaben), block = schnitt(faecher);
+      var gesamt = praxis * 0.6 + block * 0.4;
+      var sechsen = alle.filter(function (n) { return n === 6; }).length;
+      var fuenfen = alle.filter(function (n) { return n === 5; }).length;
+      var regeln = [
+        ["Gesamtergebnis mindestens ausreichend (besser als 4,5): " + nde(gesamt), gesamt < 4.5],
+        ["Praxisblock mindestens ausreichend: " + nde(praxis), praxis < 4.5],
+        ["Fächerblock mindestens ausreichend: " + nde(block), block < 4.5],
+        ["keine ungenügende Leistung (Note 6)", sechsen === 0],
+        ["höchstens eine mangelhafte Leistung (Note 5) — aktuell: " + fuenfen, fuenfen <= 1]
+      ];
+      var bestanden = regeln.every(function (r) { return r[1]; });
+      var hx = '<p class="noten-gesamt"><strong>Gesamtergebnis: ' + nde(gesamt) + "</strong> (Praxis " + nde(praxis) +
+        " × 60 % + Fächer " + nde(block) + ' × 40 %) — <strong>' + (bestanden ? "bestanden" : "nicht bestanden") + "</strong></p>";
+      hx += '<ul class="noten-regeln">' + regeln.map(function (r) {
+        return '<li class="' + (r[1] ? "regel--ok" : "regel--verfehlt") + '">' + (r[1] ? "✓" : "✗") + " " + r[0] + "</li>";
+      }).join("") + "</ul>";
+      // Mündliche Ergänzungsprüfung (§ 9 Abs. 5): nur schriftliche Fächer (f2–f4)
+      var schriftlich = faecher.slice(1);
+      var schrFuenfen = schriftlich.filter(function (n) { return n === 5; }).length;
+      var schrRestOk = schriftlich.every(function (n) { return n === 5 || n <= 4; }) && faecher[0] <= 4;
+      if (!bestanden && schrFuenfen >= 1 && schrFuenfen <= 2 && schriftlich.every(function (n) { return n !== 6; }) && schrRestOk && sechsen === 0) {
+        hx += '<p class="bw-klein"><strong>Mündliche Ergänzungsprüfung prüfen (§ 9 Abs. 5 GärtnAusbV):</strong> In einem der mangelhaften schriftlichen Fächer ist auf Antrag eine etwa 15-minütige Ergänzungsprüfung möglich, wenn sie den Ausschlag für das Bestehen geben kann — das Fach wählt der Prüfling. Die neue Fachnote entsteht aus schriftlich doppelt + mündlich einfach: aus 5 und mündlich 3 wird z. B. (5 + 5 + 3) ÷ 3 = 4,33.</p>';
+      }
+      hx += '<p class="bw-klein bw-leise">Rechenweg nach § 9 Abs. 6–7 GärtnAusbV (alle Fachrichtungen; mündliches Fach je Fachrichtung, z. B. Kulturführung oder Landschaftsgärtnerische Arbeiten). Orientierungswert — verbindlich bewertet der Prüfungsausschuss. Details im Artikel „Noten &amp; Bestehen“.</p>';
+      ziel.innerHTML = hx;
     }
   }
 

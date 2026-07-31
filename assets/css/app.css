@@ -591,6 +591,17 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .rechner-ergebnis--plan:empty { display: none; }
 .rechner-ergebnis--plan .tabellen-rahmen { margin: 4px 0 8px; }
 
+/* Notenrechner (R6): Gewichtungs-Schaubild + Bestehens-Checkliste. */
+.noten-schaubild { overflow-x: auto; margin: 8px 0 4px; }
+.noten-svg { display: block; min-width: 480px; width: 100%; max-width: 640px; height: auto; }
+.noten-svg text { font-family: var(--bw-font-sans); fill: var(--bw-schwarz); }
+.noten-svg-label { font-size: 14px; font-weight: 700; }
+.noten-svg-klein { font-size: 11px; fill: var(--bw-grau-700); }
+.noten-gesamt { margin: 0 0 6px; }
+.noten-regeln { list-style: none; margin: 0 0 8px; padding: 0; }
+.noten-regeln li { margin: 2px 0; }
+.noten-regeln .regel--verfehlt { font-weight: 600; }
+
 /* Querverweise zwischen Artikeln ([[artikel-id]], D1): innenliegende
    Links im Fließtext — gestrichelt unterstrichen, im Druck neutraler Text. */
 .querlink { color: inherit; font-weight: 600; text-decoration: underline; text-decoration-style: dashed; text-underline-offset: 3px; text-decoration-thickness: 1px; }
