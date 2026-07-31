@@ -591,6 +591,22 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .rechner-ergebnis--plan:empty { display: none; }
 .rechner-ergebnis--plan .tabellen-rahmen { margin: 4px 0 8px; }
 
+/* Merkliste & Karten-Druck (R7): Stern- und Druckknopf im Kartenkopf,
+   aktiver Stern gelb mit dunkler Kontur (Gelb-Regel). */
+.karten-kopf { display: flex; align-items: flex-start; gap: 6px; }
+.karten-kopf h2 { flex: 1 1 auto; margin-right: 4px; }
+.merk-knopf svg, .druck-knopf svg { width: 20px; height: 20px; }
+.merk-knopf--aktiv svg polygon { fill: var(--bw-gelb); stroke: var(--bw-schwarz); }
+.artikel-aktionen .merk-knopf { align-self: center; }
+@media print {
+  .merk-knopf, .druck-knopf { display: none !important; }
+  body.druck-nur-karte > *:not(main) { display: none !important; }
+  body.druck-nur-karte #inhalt > *:not(.karte--druckziel) { display: none !important; }
+  body.druck-nur-karte .karte--druckziel { display: block !important; border: none; }
+  body.druck-nur-karte .karte--druckziel .rechner-form { display: none !important; }
+  body.druck-nur-karte .assistent-stoerer { display: none !important; }
+}
+
 /* Notenrechner (R6): Gewichtungs-Schaubild + Bestehens-Checkliste. */
 .noten-schaubild { overflow-x: auto; margin: 8px 0 4px; }
 .noten-svg { display: block; min-width: 480px; width: 100%; max-width: 640px; height: auto; }

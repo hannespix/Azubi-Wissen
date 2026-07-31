@@ -153,6 +153,16 @@
   Hinweis auf die mündliche Ergänzungsprüfung (§ 9 Abs. 5: Antrag,
   Fachwahl durch Prüfling, Gewichtung 2:1) samt Beispielrechnung.
   Tests: mini_r6 (19) + alle Regressionen grün. *(PR #31)*
+- **R7 Merkliste & Karten-Druck** ✅ — (1) **Merkliste**: Stern an
+  jedem Artikel (Aktionszeile) und jeder Nachschlag-Karte; gemerkte
+  Inhalte erscheinen als eigene Sektion oben auf der Startseite
+  (lokal in `aw.merkliste`, max. 40 Einträge, aria-pressed,
+  aktiver Stern gelb mit dunkler Kontur). (2) **„Karte drucken"**
+  an jeder Nachschlag-Karte: druckt genau diese Karte als sauberes
+  A4-Handout (Jahreskreis, Fahrplan, Notenrechner-Ergebnis …) —
+  Formulare und Navigation werden im Druck ausgeblendet, für
+  Schulbesuche und Beratungsgespräche. Tests: mini_r7 (14) + alle
+  Regressionen grün. *(PR #32)*
 
 ## Ausbau v4: Alle grünen Berufe — Auftrag 31.07.2026
 
