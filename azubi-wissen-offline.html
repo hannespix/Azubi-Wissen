@@ -798,6 +798,29 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
   }
 }
 
+/* ================== Checklisten (M9) ============================== */
+.fortschritt {
+  display: inline-block; width: 9rem; height: 8px; border-radius: 999px;
+  background: var(--bw-grau-200); overflow: hidden; vertical-align: middle;
+}
+.fortschritt--gross { width: min(22rem, 60vw); height: 10px; }
+.fortschritt__balken {
+  display: block; height: 100%; border-radius: 999px;
+  background: var(--bw-gelb); box-shadow: inset 0 0 0 1px var(--bw-schwarz);
+  transition: width var(--dauer-2) var(--kurve);
+}
+.fortschritt-zeile { display: flex; align-items: center; gap: var(--bw-space-2); flex-wrap: wrap; margin: var(--bw-space-2) 0 var(--bw-space-3); }
+
+.cl-gruppe { margin: var(--bw-space-3) 0; padding: var(--bw-space-3); border: var(--bw-border); }
+.cl-gruppe legend { font-weight: 700; font-size: var(--bw-fs-body); padding: 0 var(--bw-space-1); }
+.cl-punkt { display: grid; grid-template-columns: auto 1fr; gap: var(--bw-space-2); align-items: start; padding: var(--bw-space-1) 0; }
+.cl-punkt + .cl-punkt { border-top: 1px solid var(--bw-grau-100); }
+.cl-punkt input[type="checkbox"] { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--bw-schwarz); cursor: pointer; }
+.cl-punkt label { cursor: pointer; }
+.cl-punkt label .bw-klein { display: block; margin-top: 2px; }
+.cl-punkt:has(input:checked) label { color: var(--bw-text-leise); text-decoration: line-through; text-decoration-thickness: 1px; }
+.cl-punkt:has(input:checked) label .bw-klein { text-decoration: none; }
+
 </style>
 <script>window.EINZELDATEI=true;</script></head>
 <body>
@@ -816,6 +839,7 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
           <li><a href="#/">Start</a></li>
           <li><a href="#/wissen">Wissensdatenbank</a></li>
           <li><a href="#/nachschlag">Nachschlag</a></li>
+          <li><a href="#/checklisten">Checklisten</a></li>
           <li><a href="#/vorlagen">Vorlagen</a></li>
           <li><a href="#/downloads">Downloads</a></li>
           <li><a href="#/eigene">Eigene Inhalte</a></li>
@@ -3027,6 +3051,129 @@ window.VORLAGEN = {
 
 </script>
 <script>
+// checklisten.js — Interaktive Checklisten für den Beratungsalltag.
+// Fachliche Grundlage: Handreichung „Fachwerkerausbildung im Gartenbau“
+// (RP Freiburg, Netzwerkfassung 1.2, Stand 31.07.2026) sowie die
+// Wissensbasis (wissen.js). Der Abhak-Stand wird lokal gespeichert
+// (IndexedDB) — eine Checkliste je Vorgang abarbeiten, drucken/ablegen,
+// dann zurücksetzen.
+(function () {
+  "use strict";
+
+  window.CHECKLISTEN = {
+    stand: "31.07.2026",
+    hinweis: "Checklisten sind Arbeitshilfen der Ausbildungsberatung — sie ersetzen keine Einzelfallprüfung.",
+    listen: [
+
+      { id: "erstberatung-fachwerker",
+        titel: "Erstberatung Fachwerkerausbildung",
+        kurz: "Vom Anlass bis zur Startkonferenz — die zwölf Schritte mit den vier Stopppunkten aus der Handreichung.",
+        stichworte: ["fachwerker", "erstberatung", "eignung", "reha", "stopppunkte", "66"],
+        artikel: ["fw-weg", "fw-grundlagen", "fw-modelle"],
+        gruppen: [
+          { t: "Klärung vor der Modellwahl", punkte: [
+            { t: "Anlass geklärt — keine vorschnelle Festlegung auf § 66", h: "Erst prüfen, ob der Regelberuf erreichbar ist." },
+            { t: "Regelberuf geprüft (Nachteilsausgleich, Teilzeit, Assistierte Ausbildung)" },
+            { t: "Reha-Zugang hergestellt (Berufsberatung/Reha-Beratung, Teilhabeantrag)" },
+            { t: "Eignung diagnostisch geklärt (Praktika, Erprobungen, Stellungnahmen)" },
+            { t: "Schriftliches Eignungsergebnis liegt vor — möglichst mit Fachrichtung", h: "Stopppunkt: ohne schriftliches Ergebnis keine Eintragung (§ 3 GBFWVO)." }
+          ] },
+          { t: "Modell, Lernorte, Finanzierung", punkte: [
+            { t: "Ausbildungsmodell gewählt (betrieblich, begleitet, kooperativ, integrativ, BBW)" },
+            { t: "Ausbildungsplatz gesichert und Berufsschule geklärt (Kapazität, Fahrt/Internat)", h: "Stopppunkt: kein gesicherter Ausbildungsplatz." },
+            { t: "Betriebliche Eignung geprüft (Anerkennung, Ausbilderqualifikation, ReZA/Kooperation)", h: "Stopppunkt: ReZA/Unterstützung ungeklärt." },
+            { t: "Finanzierung verbindlich geklärt (Vergütung, Zuschüsse, Ausbildungsgeld, Fahrt, Lernmittel)", h: "Stopppunkt: Finanzierung nur „in Aussicht“." }
+          ] },
+          { t: "Vertrag & Start", punkte: [
+            { t: "Vertrag korrekt erstellt (Berufsbezeichnung, Fachrichtung, ggf. Teilzeit)" },
+            { t: "Vertrag vor Ausbildungsbeginn eingereicht, Eintragung erfolgt" },
+            { t: "Startkonferenz terminiert (Ansprechpersonen, Förderplan, Krisenwege, Prüfungsvorbereitung)" }
+          ] }
+        ] },
+
+      { id: "eintragung",
+        titel: "Vertragsprüfung & Eintragung (BAV)",
+        kurz: "Eingehenden Berufsausbildungsvertrag vollständig prüfen und eintragen — Unterlagen, Inhalt, Abschluss.",
+        stichworte: ["vertrag", "eintragung", "bav", "pruefung vertrag", "verzeichnis"],
+        artikel: ["ausbildungsvertrag", "eintragung", "mindestverguetung", "urlaub"],
+        gruppen: [
+          { t: "Unterlagen vollständig", punkte: [
+            { t: "BAV von allen Parteien unterschrieben (bei Minderjährigen: gesetzliche Vertretung)" },
+            { t: "Betrieblicher Ausbildungsplan beigefügt (richtige Fachrichtung)" },
+            { t: "Eignung von Ausbildungsstätte und Ausbilder/in liegt vor bzw. ist anerkannt" },
+            { t: "Ärztliche Erstuntersuchung bei Jugendlichen (§ 32 JArbSchG) nachgewiesen" },
+            { t: "Bei § 66: schriftliches Eignungsergebnis des Reha-Trägers beigefügt" }
+          ] },
+          { t: "Inhalt geprüft", punkte: [
+            { t: "Berufsbezeichnung und Fachrichtung korrekt (inkl. Teilzeit-Angaben)" },
+            { t: "Ausbildungsdauer, Anrechnung oder Verkürzung plausibel und belegt" },
+            { t: "Probezeit zwischen 1 und 4 Monaten (§ 20 BBiG)" },
+            { t: "Vergütung mindestens Mindestvergütung bzw. Tarif (80-%-Regel beachten)", h: "Werte: Schnellnachschlag → Mindestausbildungsvergütung." },
+            { t: "Urlaub mindestens gesetzlich nach Alter (JArbSchG/BUrlG)", h: "Werte: Schnellnachschlag → Urlaubsanspruch nach Alter." },
+            { t: "Arbeitszeitregelung zulässig (JArbSchG bzw. ArbZG)" }
+          ] },
+          { t: "Abschluss", punkte: [
+            { t: "Vertrag ins Verzeichnis eingetragen" },
+            { t: "Berufsschulanmeldung angestoßen bzw. nachgewiesen" },
+            { t: "Eintragungsbestätigung an Betrieb (und ggf. gesetzliche Vertretung) versandt" }
+          ] }
+        ] },
+
+      { id: "betriebsbesuch",
+        titel: "Betriebsbesuch der Ausbildungsberatung",
+        kurz: "Besuch vorbereiten, vor Ort strukturiert prüfen, sauber nachbereiten — inklusive Aktenvermerk.",
+        stichworte: ["betriebsbesuch", "besuch", "aufsicht", "beratung vor ort"],
+        artikel: ["ausbildungsberatung", "berichtsheft", "arbeitszeit-jugendliche", "aktenvermerk"],
+        gruppen: [
+          { t: "Vorbereitung", punkte: [
+            { t: "Termin angekündigt und bestätigt (Vorlage: Betriebsbesuch ankündigen)" },
+            { t: "Akte gesichtet: letzte Vermerke, offene Punkte, Fristen" },
+            { t: "Gesprächspunkte notiert (Anlass, Auffälligkeiten, Prüfungsstand)" }
+          ] },
+          { t: "Vor Ort", punkte: [
+            { t: "Berichtsheft geführt, regelmäßig gegengezeichnet" },
+            { t: "Ausbildungsstand entspricht dem betrieblichen Ausbildungsplan" },
+            { t: "Arbeitszeiten, Pausen und Freistellungen eingehalten (JArbSchG/ArbZG)" },
+            { t: "Unterweisungen und Arbeitsschutz dokumentiert (SVLFG-Unterlagen)" },
+            { t: "Gespräch mit Auszubildender/m geführt — auch unter vier Augen" },
+            { t: "Gespräch mit Ausbilder/in geführt (Stand, Konflikte, Unterstützungsbedarf)" }
+          ] },
+          { t: "Nachbereitung", punkte: [
+            { t: "Ergebnis und Vereinbarungen mit Beteiligten festgehalten" },
+            { t: "Aktenvermerk erstellt (Export & Vermerk)" },
+            { t: "Wiedervorlage bzw. Folgetermin gesetzt" }
+          ] }
+        ] },
+
+      { id: "ap-anmeldung",
+        titel: "Anmeldung zur Abschlussprüfung",
+        kurz: "Zulassung prüfen, fristgerecht anmelden, Besonderheiten (Nachteilsausgleich, Fachrichtung) klären.",
+        stichworte: ["abschlusspruefung", "anmeldung", "zulassung", "pruefung", "nachteilsausgleich"],
+        artikel: ["abschlusspruefung", "zwischenpruefung", "nichtbestehen"],
+        gruppen: [
+          { t: "Zulassung", punkte: [
+            { t: "Ausbildungszeit zurückgelegt bzw. endet nicht später als vier Monate nach der Prüfung" },
+            { t: "An der Zwischenprüfung teilgenommen" },
+            { t: "Berichtsheft geführt und von Betrieb/Azubi unterschrieben" },
+            { t: "Ausbildungsverhältnis ist eingetragen" }
+          ] },
+          { t: "Anmeldung", punkte: [
+            { t: "Anmeldung durch den Betrieb fristgerecht eingegangen (Vorlage: AP-Anmeldung)" },
+            { t: "Fachrichtung und Prüfungsbereiche korrekt angegeben" },
+            { t: "Nachteilsausgleich rechtzeitig beantragt — mit aktuellem Nachweis (§ 65 BBiG)", h: "Frühzeitig klären, nicht erst zur Einladung." },
+            { t: "Pflanzenlisten/fachrichtungsspezifische Anforderungen kommuniziert" }
+          ] },
+          { t: "Nach der Anmeldung", punkte: [
+            { t: "Einladung und Termine an Azubi und Betrieb weitergegeben" },
+            { t: "Bei Nichtbestehen: Verlängerungsanspruch erklärt (§ 21 Abs. 3 BBiG)" }
+          ] }
+        ] }
+    ]
+  };
+})();
+
+</script>
+<script>
 // lokaldb.js — Lokale Datenbank im Browser (IndexedDB, Fallback localStorage).
 // Speichert Nutzerdaten des Werkzeugs: Aktenvermerke, Notizen sowie eigene
 // Artikel und Dokumente. Alles bleibt auf diesem Gerät — keine Übertragung,
@@ -3034,8 +3181,8 @@ window.VORLAGEN = {
 (function () {
   "use strict";
   var DB_NAME = "azubi-wissen";
-  var VERSION = 2;
-  var STORES = ["vermerke", "notizen", "eigeneArtikel", "eigeneDokumente"];
+  var VERSION = 3;
+  var STORES = ["vermerke", "notizen", "eigeneArtikel", "eigeneDokumente", "checklisten"];
   var db = null, bereit = null, fallback = false;
 
   function oeffnen() {
@@ -3202,7 +3349,8 @@ window.VORLAGEN = {
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
     doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg>',
     plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
-    blitz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>'
+    blitz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><polyline points="8 12 11 15 16 9"></polyline></svg>'
   };
 
   /* ---------------- Suche: Synonyme + Bewertung -------------------- */
@@ -3602,6 +3750,16 @@ window.VORLAGEN = {
             '<span class="schnipsel">' + esc(k.recht || "") + "</span></a></li>";
         });
       }
+      var cerg = suchenChecklisten(q, 2);
+      if (cerg.length) {
+        html += '<li class="palette__gruppe" role="presentation">Checklisten</li>';
+        cerg.forEach(function (c) {
+          html += '<li class="palette__eintrag" role="option" aria-selected="false" data-ziel="#/checklisten?id=' + c.id + '">' +
+            '<a href="#/checklisten?id=' + c.id + '"><span class="wo">Checkliste</span>' +
+            '<span class="titel">' + S.highlight(c.titel, q) + "</span>" +
+            '<span class="schnipsel">' + esc(c.kurz || "") + "</span></a></li>";
+        });
+      }
       if (erg.artikel.length) {
         html += '<li class="palette__gruppe" role="presentation">Artikel</li>';
         erg.artikel.forEach(function (r) {
@@ -3614,7 +3772,7 @@ window.VORLAGEN = {
           html += eintrag("#/artikel/" + r.id + "?faq=" + r.faqIndex, S.highlight(r.titel, q), schnipsel(r.kurz, erg.tokens), "FAQ");
         });
       }
-      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length) {
+      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length && !cerg.length) {
         html = '<li class="palette__leer" role="presentation">Kein Treffer für „' + esc(q) + '“.<br>' +
           '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(q) + '" data-schliessen-nach>Frage dem Assistenten stellen</a></li>';
       }
@@ -3704,6 +3862,10 @@ window.VORLAGEN = {
       haupt.innerHTML = viewNachschlag();
       nachschlagVerhalten(haupt, r.params);
       titel = "Schnellnachschlag — Azubi-Wissen";
+    } else if (view === "checklisten") {
+      haupt.innerHTML = viewChecklisten(r.params);
+      checklistenVerhalten(haupt, r.params);
+      titel = "Checklisten — Azubi-Wissen";
     } else if (view === "eigene") {
       haupt.innerHTML = viewEigene();
       eigeneVerhalten(haupt, r.params);
@@ -3782,6 +3944,7 @@ window.VORLAGEN = {
 
     h += '<div class="schnellzeile">' +
       '<a class="schnellkarte" href="#/nachschlag">' + ICON.blitz + "<span><h3>Schnellnachschlag</h3><p>Vergütung, Urlaub nach Alter, Fristen, Arbeitszeit, Fachrichtungen — auf einen Blick.</p></span></a>" +
+      '<a class="schnellkarte" href="#/checklisten">' + ICON.check + "<span><h3>Checklisten</h3><p>Erstberatung, Eintragung, Betriebsbesuch, AP-Anmeldung — abhaken, drucken, ablegen.</p></span></a>" +
       '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
       '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
       '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
@@ -4558,6 +4721,216 @@ window.VORLAGEN = {
         }, 0);
       }
     }
+  }
+
+  /* ---------------- Ansicht: Checklisten --------------------------- */
+  var CINDEX = [];
+  (function bauenChecklisten() {
+    var C = window.CHECKLISTEN;
+    if (!C) return;
+    C.listen.forEach(function (l) {
+      var inhalt = (l.gruppen || []).map(function (g) {
+        return g.t + " " + g.punkte.map(function (p) { return p.t; }).join(" ");
+      }).join(" ");
+      CINDEX.push({
+        liste: l,
+        felder: [
+          [norm(l.titel), 5],
+          [norm((l.stichworte || []).join(" ")), 4],
+          [norm(l.kurz || ""), 2],
+          [norm(inhalt), 1]
+        ]
+      });
+    });
+  })();
+
+  function suchenChecklisten(q, limit) {
+    var tokens = norm(q).split(" ").filter(function (t) { return t && !STOP[t]; });
+    if (!tokens.length) return [];
+    var treffer = [];
+    CINDEX.forEach(function (rec) {
+      var summe = 0;
+      for (var t = 0; t < tokens.length; t++) {
+        var alts = tokenAlternativen(tokens[t]);
+        var best = 0;
+        for (var f = 0; f < rec.felder.length; f++) {
+          for (var x = 0; x < alts.length; x++) {
+            var sc = tokenScore(alts[x], rec.felder[f][0]);
+            if (sc) best = Math.max(best, sc * rec.felder[f][1] * (x ? 0.8 : 1));
+          }
+        }
+        if (!best) { summe = 0; break; }
+        summe += best;
+      }
+      if (summe > 0) treffer.push({ liste: rec.liste, score: summe });
+    });
+    treffer.sort(function (a, b) { return b.score - a.score; });
+    return treffer.slice(0, limit || 2).map(function (t) { return t.liste; });
+  }
+
+  function checklisteVon(id) {
+    var C = window.CHECKLISTEN;
+    if (!C) return null;
+    for (var i = 0; i < C.listen.length; i++) if (C.listen[i].id === id) return C.listen[i];
+    return null;
+  }
+  function checklistePunkte(l) {
+    var n = 0;
+    (l.gruppen || []).forEach(function (g) { n += g.punkte.length; });
+    return n;
+  }
+
+  function viewChecklisten(params) {
+    var C = window.CHECKLISTEN;
+    if (!C) return platzhalter("Checklisten", "Checklisten-Modul nicht geladen.");
+    if (params.id) {
+      var l = checklisteVon(params.id);
+      if (!l) return platzhalter("Checkliste nicht gefunden", "Zurück zur Übersicht: #/checklisten");
+      return viewChecklisteDetail(l);
+    }
+    var h = "<h1>Checklisten</h1>" +
+      '<p class="bw-unterzeile">Vorgänge strukturiert abarbeiten — Stand bleibt lokal gespeichert, Ergebnis als Ausdruck für die Akte</p>';
+    h += '<ul class="karten" id="checklisten-liste">' + C.listen.map(function (l) {
+      var gesamt = checklistePunkte(l);
+      return '<li class="karte"><a class="karte__link" href="#/checklisten?id=' + esc(l.id) + '">' +
+        '<span class="etikett">' + gesamt + " Punkte</span>" +
+        '<h3 style="margin-top:var(--bw-space-1)">' + esc(l.titel) + "</h3>" +
+        "<p>" + esc(l.kurz) + "</p>" +
+        '<span class="meta"><span class="fortschritt" data-fortschritt="' + esc(l.id) + '"><span class="fortschritt__balken" style="width:0%"></span></span>' +
+        '<span class="bw-klein bw-leise" data-fortschritt-text="' + esc(l.id) + '"></span></span></a></li>';
+    }).join("") + "</ul>";
+    h += '<p class="stand-hinweis">' + esc(C.hinweis) + " Stand: " + esc(C.stand) + ".</p>";
+    return h;
+  }
+
+  function viewChecklisteDetail(l) {
+    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/checklisten">Checklisten</a></nav>';
+    h += "<h1>" + esc(l.titel) + "</h1>";
+    h += '<p class="artikel-lead">' + esc(l.kurz) + "</p>";
+    h += '<div class="fortschritt-zeile"><span class="fortschritt fortschritt--gross"><span class="fortschritt__balken" id="cl-balken" style="width:0%"></span></span>' +
+      '<span id="cl-stand" role="status" class="bw-klein"></span></div>';
+    var idx = 0;
+    (l.gruppen || []).forEach(function (g, gi) {
+      h += '<fieldset class="cl-gruppe bw-card"><legend>' + esc(g.t) + "</legend>";
+      g.punkte.forEach(function (p, pi) {
+        var key = gi + "." + pi;
+        h += '<div class="cl-punkt"><input type="checkbox" id="cl-' + key + '" data-punkt="' + key + '">' +
+          '<label for="cl-' + key + '">' + esc(p.t) +
+          (p.h ? ' <span class="bw-klein bw-leise">' + esc(p.h) + "</span>" : "") + "</label></div>";
+        idx++;
+      });
+      h += "</fieldset>";
+    });
+    h += '<div class="bw-card"><label for="cl-notiz">Notiz zum Vorgang (bleibt lokal)</label>' +
+      '<textarea id="cl-notiz" rows="3" placeholder="z. B. Betrieb, Azubi, Besonderheiten, offene Punkte …"></textarea></div>';
+    h += '<div class="export-aktionen">' +
+      '<button class="bw-btn bw-btn--gelb" id="cl-drucken" type="button">Drucken / als PDF sichern</button>' +
+      '<button class="bw-btn bw-btn--sekundaer" id="cl-zuruecksetzen" type="button">Zurücksetzen</button>' +
+      '<span class="bw-klein bw-leise" id="cl-status" role="status"></span></div>';
+    if ((l.artikel || []).length) {
+      h += '<h2>Fachlicher Hintergrund</h2><ul class="chipzeile">' +
+        l.artikel.map(function (id) {
+          var a = artikelVon(id);
+          return a ? '<li><a class="chip chip--frage" href="#/artikel/' + id + '">' + esc(a.titel) + "</a></li>" : "";
+        }).join("") + "</ul>";
+    }
+    return h;
+  }
+
+  function checklistenVerhalten(root, params) {
+    if (!params.id) {
+      // Übersicht: gespeicherte Stände in die Fortschrittsbalken schreiben
+      if (!window.LokalDB) return;
+      window.LokalDB.alle("checklisten").then(function (alle) {
+        alle.forEach(function (s) {
+          var l = checklisteVon(s.id);
+          if (!l) return;
+          var gesamt = checklistePunkte(l);
+          var n = Object.keys(s.haken || {}).filter(function (k) { return s.haken[k]; }).length;
+          var balken = root.querySelector('[data-fortschritt="' + s.id + '"] .fortschritt__balken');
+          var text = root.querySelector('[data-fortschritt-text="' + s.id + '"]');
+          if (balken) balken.style.width = Math.round((n / gesamt) * 100) + "%";
+          if (text) text.textContent = n ? n + " von " + gesamt + " erledigt" : "";
+        });
+      });
+      return;
+    }
+    var l = checklisteVon(params.id);
+    if (!l) return;
+    zuletztMerken("#/checklisten?id=" + l.id, l.titel, "Checkliste");
+    var gesamt = checklistePunkte(l);
+    var stand = { id: l.id, haken: {}, notiz: "", geaendert: 0 };
+    var statusFeld = $("#cl-status", root), notizFeld = $("#cl-notiz", root);
+
+    function anzeigen() {
+      var n = Object.keys(stand.haken).filter(function (k) { return stand.haken[k]; }).length;
+      $("#cl-balken", root).style.width = Math.round((n / gesamt) * 100) + "%";
+      $("#cl-stand", root).textContent = n + " von " + gesamt + " erledigt" + (n === gesamt ? " — vollständig ✓" : "");
+    }
+    function speichern(meldung) {
+      if (!window.LokalDB) return;
+      stand.geaendert = Date.now();
+      window.LokalDB.speichern("checklisten", stand).then(function () {
+        if (meldung) statusFeld.textContent = meldung;
+      }, function () { statusFeld.textContent = "Stand konnte nicht gespeichert werden (Speicher voll)."; });
+    }
+
+    if (window.LokalDB) {
+      window.LokalDB.holen("checklisten", l.id).then(function (s) {
+        if (s) {
+          stand = s;
+          stand.haken = stand.haken || {};
+          Object.keys(stand.haken).forEach(function (k) {
+            var box = root.querySelector('[data-punkt="' + k + '"]');
+            if (box) box.checked = !!stand.haken[k];
+          });
+          if (stand.notiz) notizFeld.value = stand.notiz;
+        }
+        anzeigen();
+      });
+    } else anzeigen();
+
+    root.querySelectorAll("[data-punkt]").forEach(function (box) {
+      box.addEventListener("change", function () {
+        stand.haken[box.getAttribute("data-punkt")] = box.checked;
+        anzeigen();
+        speichern("Stand gespeichert.");
+      });
+    });
+    var notizTimer = null;
+    notizFeld.addEventListener("input", function () {
+      clearTimeout(notizTimer);
+      notizTimer = setTimeout(function () { stand.notiz = notizFeld.value; speichern("Notiz gespeichert."); }, 500);
+    });
+
+    $("#cl-zuruecksetzen", root).addEventListener("click", function () {
+      if (!window.confirm("Alle Haken und die Notiz dieser Checkliste zurücksetzen?")) return;
+      stand = { id: l.id, haken: {}, notiz: "", geaendert: Date.now() };
+      root.querySelectorAll("[data-punkt]").forEach(function (b) { b.checked = false; });
+      notizFeld.value = "";
+      anzeigen();
+      if (window.LokalDB) window.LokalDB.loeschen("checklisten", l.id).then(function () {
+        statusFeld.textContent = "Checkliste zurückgesetzt.";
+      });
+    });
+
+    $("#cl-drucken", root).addEventListener("click", function () {
+      var d = document.getElementById("druckbereich");
+      var dh = "<h1>" + esc(l.titel) + "</h1>" +
+        '<p class="bw-klein">Checkliste der Ausbildungsberatung — gedruckt am ' + new Date().toLocaleDateString("de-DE") +
+        " · Stand der Vorlage: " + esc(window.CHECKLISTEN.stand) + "</p>";
+      (l.gruppen || []).forEach(function (g, gi) {
+        dh += "<h2>" + esc(g.t) + "</h2><ul style=\"list-style:none;padding:0\">";
+        g.punkte.forEach(function (p, pi) {
+          var ok = !!stand.haken[gi + "." + pi];
+          dh += '<li style="margin:0 0 6px">' + (ok ? "☑" : "☐") + " " + esc(p.t) + "</li>";
+        });
+        dh += "</ul>";
+      });
+      if (notizFeld.value.trim()) dh += "<h2>Notiz</h2><p>" + esc(notizFeld.value).replace(/\n/g, "<br>") + "</p>";
+      d.innerHTML = '<div class="blatt">' + dh + "</div>";
+      window.print();
+    });
   }
 
   /* ---------------- Ansicht: Eigene Inhalte ------------------------ */
