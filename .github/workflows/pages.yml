@@ -38,6 +38,7 @@ jobs:
           mkdir -p _site/navigator
           cp index.html bw-theme.css site.webmanifest azubi-wissen-offline.html _site/
           cp -r assets _site/assets
+          cp -r formulare _site/formulare
           cp -r navigator/app/dist/. _site/navigator/
           # Jekyll aus dem Weg — Verzeichnisse mit Unterstrich u. ä. unangetastet lassen
           touch _site/.nojekyll
