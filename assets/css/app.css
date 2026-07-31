@@ -247,3 +247,10 @@ kbd.kbd {
 }
 #druckbereich { display: none; }
 #druckbereich[data-vorschau="true"] { display: block; }
+
+/* ===================== Formulare & Quellen ======================== */
+.quellen-liste { list-style: none; margin: var(--bw-space-2) 0; padding: 0; display: grid; gap: var(--bw-space-1); }
+.quellen-liste li { padding: var(--bw-space-1) 0; border-bottom: 1px solid var(--bw-linie); }
+.quellen-liste a { text-decoration: none; }
+.quellen-liste a:hover { text-decoration: underline; }
+.karte .meta .bw-btn { padding: 0.35em 0.8em; font-size: var(--bw-fs-klein); }

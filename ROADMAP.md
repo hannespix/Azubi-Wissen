@@ -21,6 +21,23 @@
 - **M7 Single-File** — `azubi-wissen-offline.html`, Doppelklick-fähig *(PR #5)*
 - **M8 Fachwerker-Themenbereich** — Handreichung Netzwerkfassung 1.2 *(PR #6)*
 
+## Umgesetzt (v1.1): Formulare & Quellen
+
+- **Q1 Infrastruktur** — `assets/js/quellen.js`, Ansicht „Formulare & Quellen",
+  Suchpalette-Gruppe (u. a. „bav" → BAV-Vordruck), Verknüpfung in Artikeln
+- **Q2 RP-Kernformulare** — BAV (ausfüllbar), Hinweise, Infoblatt, Abmeldung,
+  Änderung, Praktikanten-/Kooperationsverträge, ÜBA-Anlagen, Vergütungs-/
+  Urlaubstabellen (vendored unter `formulare/`, Herkunft in `QUELLEN.md`)
+- **Q3 Ausbildungspläne** — je 7 Fachrichtungen Gärtner + Fachwerker
+- **Q4 Gesetze** — BBiG, JArbSchG, ArbZG, BUrlG, EntgFG, GärtnAusbV (amtliche
+  PDFs), GBFWVO als Landesrecht-Link
+- **Q5–Q8 Externe Quellen** — Arbeitsagentur (BAB, Ausbildungsgeld, AsA flex,
+  Reha, BERUFENET, berufe.tv, planet-beruf), SVLFG (Unterweisung, Checklisten,
+  Betriebsanweisungen), Berichtsheft-Portale, Pflanzenlisten, Berufsschulen —
+  als gekennzeichnete Online-Links
+
+Offen: **Q9** Übernahme der Quellen in den Fachwerker-Navigator.
+
 ## Nächste Ausbaustufen (Vorschläge)
 
 - **M9 Interaktive Checklisten** — Erstberatung/Eintragung/Kooperationspartner
