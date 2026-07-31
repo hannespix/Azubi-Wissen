@@ -763,7 +763,7 @@ window.WISSEN = {
     thema: "schule-pruefung",
     titel: "Zwischenprüfung",
     kurz: "Etwa zur Mitte der Ausbildung zeigt die Zwischenprüfung den Leistungsstand. Die Teilnahme ist Pflicht und Voraussetzung für die Zulassung zur Abschlussprüfung — das Ergebnis selbst zählt dort aber nicht hinein.",
-    stichworte: ["Zwischenprüfung", "Leistungsstand", "Mitte der Ausbildung", "Prüfung", "durchgefallen Zwischenprüfung"],
+    stichworte: ["Zwischenprüfung", "Leistungsstand", "Mitte der Ausbildung", "Prüfung"],
     recht: [
       { n: "§ 48 BBiG", t: "Zwischenprüfung" },
       { n: "§ 43 Abs. 1 Nr. 1 BBiG", t: "Teilnahme als Zulassungsvoraussetzung" },
