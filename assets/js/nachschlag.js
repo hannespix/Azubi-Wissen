@@ -52,7 +52,9 @@
             ["Kündigung danach (Azubi)", "fristlos aus wichtigem Grund oder mit 4 Wochen bei Berufsaufgabe/-wechsel", "§ 22 Abs. 2 BBiG"],
             ["Vertrag & Eintragung", "vor Beginn schriftlich niederlegen, unverzüglich Eintragung beantragen", "§§ 10, 11, 36 BBiG"],
             ["Nicht bestandene Abschlussprüfung", "auf Verlangen Verlängerung bis zur nächsten Wiederholungsprüfung, max. 1 Jahr", "§ 21 Abs. 3 BBiG"],
-            ["Wiederholung der Abschlussprüfung", "zweimal möglich", "§ 37 Abs. 1 BBiG"]
+            ["Wiederholung der Abschlussprüfung", "zweimal möglich", "§ 37 Abs. 1 BBiG"],
+            ["Klage gegen eine Kündigung", "3 Wochen ab Zugang — vorher ggf. Schlichtungsausschuss", "§ 4 KSchG · § 111 Abs. 2 ArbGG"],
+            ["Schadensersatz nach vorzeitiger Beendigung", "innerhalb von 3 Monaten geltend machen", "§ 23 Abs. 2 BBiG"]
           ]
         },
         fussnote: "Aufhebungsvertrag ist jederzeit einvernehmlich möglich — vor Unterschrift zur Beratung raten (Folgen für ALG/Förderung).",
