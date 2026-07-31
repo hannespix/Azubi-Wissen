@@ -1,4 +1,4 @@
-# ROADMAP — Azubi-Wissen
+# ROADMAP — Ausbildung Grüne Berufe (vormals Azubi-Wissen)
 
 > **Tool-Zweck:** Offline-Wissensdatenbank „Rechte & Pflichten in der
 > Ausbildung" (grüne Berufe) mit Suche, lokalem Assistenten, PDF-Export,
@@ -112,6 +112,28 @@
 - **R4 Rechner-Module** — Urlaubsanspruch (Alter/Eintritt), Vergütung
   (Beginnjahr/Tarif), Fristen (Probezeit-Ende, Verlängerung), Teilzeit-Dauer.
 - **R5 Weitere Module** — Vorschläge aus den Reviews, dann Umsetzung.
+
+## Ausbau v4: Alle grünen Berufe — Auftrag 31.07.2026
+
+> „Das ganze Tool für alle grünen Berufe umbauen … E-Mail-Vorlagen mit
+> Dropdowns, Automatisierung, Eingabe-Historie — einfach, intuitiv, schnell."
+
+- **G1 Berufe-Grundausbau** ✅ — Umbenennung in „Ausbildung Grüne Berufe"
+  (Kurzname „Grüne Berufe BW"; Speicher-IDs unverändert für Datenerhalt);
+  neues Datenmodul `berufe.js` mit 18 Berufen (14 BBiG-Berufe inkl.
+  Landwirt, Winzer, Fischwirt, Brenner, Tierwirt, Pferdewirt, Forstwirt,
+  Hauswirtschafter, Milchtechnologe, Milchw. Laborant, Pflanzentechnologe,
+  Revierjäger, Fachkraft Agrarservice; 3 × § 66; Hufbeschlagschmied) mit
+  Fachrichtungen, Verordnungen und verifizierten RP-/Infodienst-Links;
+  Ansicht `#/berufe` mit Detail-Deep-Links, Palette-Gruppe, Nav-Punkt,
+  neue Startseite. *(PR #19)*
+- **G2 Vorlagen-Automatisierung** — Platzhalter-Typen (Auswahl/Datum/Text),
+  Beruf→Fachrichtung-Dropdowns aus `berufe.js`, Datum vorbelegt,
+  Eingabe-Historie (datalist), Vorlagen auf [BERUF]/[FACHRICHTUNG]
+  generalisiert.
+- **G3 Inhalte generalisieren** — Artikel/Nachschlag/Checklisten auf alle
+  Berufe erweitern (Vergütungs-/Urlaubstabellen je Sparte, berufsspezifische
+  Quellen und Formulare).
 
 ## Dauerpflege
 
