@@ -602,6 +602,202 @@ kbd.kbd {
 .dok-aktionen { display: flex; gap: var(--bw-space-1); flex-wrap: wrap; }
 .eigene-form[hidden] { display: none; }
 
+/* ================================================================== */
+/* ========= Modernisierung 2026 — Liquid Glass & Bewegung ========== */
+/* Design-Layer über dem BW-Theme: weiche Elevation, Glas-Effekte auf
+   überlagernden Flächen, flüssige haptische Übergänge. Die Markenfarben
+   (Gelb/Schwarz/Grau/Weiß) bleiben unangetastet; die rgba-Werte unten
+   sind abgeleitete Transparenzstufen von --bw-schwarz (#2A2623) bzw.
+   Weiß und bilden eigene Tokens dieses Layers. Bei
+   prefers-reduced-motion wird jede Bewegung abgeschaltet. */
+
+:root {
+  --schatten-1: 0 1px 2px rgba(42, 38, 35, 0.05), 0 2px 10px rgba(42, 38, 35, 0.07);
+  --schatten-2: 0 2px 6px rgba(42, 38, 35, 0.07), 0 12px 28px rgba(42, 38, 35, 0.12);
+  --schatten-3: 0 8px 20px rgba(42, 38, 35, 0.12), 0 28px 70px rgba(42, 38, 35, 0.20);
+  --glas-hell: rgba(255, 255, 255, 0.72);
+  --glas-rand: rgba(255, 255, 255, 0.55);
+  --glas-linie: rgba(42, 38, 35, 0.08);
+  --glas-blur: saturate(1.6) blur(18px);
+  --kurve: cubic-bezier(0.32, 0.72, 0.28, 1);
+  --kurve-feder: cubic-bezier(0.34, 1.35, 0.44, 1);
+  --dauer-1: 0.15s;
+  --dauer-2: 0.32s;
+  --dauer-3: 0.5s;
+  --radius-gross: 16px;
+}
+
+html { scroll-behavior: smooth; }
+
+/* --- Routen- und Filterwechsel (View Transitions API) ------------- */
+::view-transition-old(root) { animation: vt-raus var(--dauer-2) var(--kurve) both; }
+::view-transition-new(root) { animation: vt-rein var(--dauer-2) var(--kurve) both; }
+@keyframes vt-raus { to { opacity: 0; transform: translateY(-6px) scale(0.996); } }
+@keyframes vt-rein { from { opacity: 0; transform: translateY(10px) scale(0.996); } }
+
+/* --- Kopfzeile: schwebendes Glas über dem Inhalt ------------------ */
+.app-header {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--glas-hell);
+  -webkit-backdrop-filter: var(--glas-blur);
+  backdrop-filter: var(--glas-blur);
+  border-bottom: 1px solid var(--glas-linie);
+  box-shadow: inset 0 1px 0 var(--glas-rand), var(--schatten-1);
+}
+
+/* --- Karten & Flächen: weiche Elevation, haptisches Feedback ------ */
+.karte, .kachel, .schnellkarte, .bw-card, .fach-karte, .dok-liste,
+.faq details, .baum details, .rollen [role="tabpanel"], .blase,
+.tabellen-rahmen {
+  box-shadow: var(--schatten-1);
+}
+.karte, .kachel, .schnellkarte, .bw-card, .eigene-form, .fach-karte { border-radius: var(--radius-gross); }
+.faq details, .baum details, .dok-liste, .blase { border-radius: 14px; }
+
+.karte, .kachel, .schnellkarte, .fach-karte, .chip, .bw-btn, .bw-iconbtn,
+.suchknopf, .suchfeld-gross, .detail-schalter button, .palette__eintrag a,
+.rollen [role="tab"], .faq summary, .baum summary {
+  transition:
+    transform var(--dauer-1) var(--kurve),
+    box-shadow var(--dauer-2) var(--kurve),
+    background-color var(--dauer-1) linear,
+    border-color var(--dauer-1) linear,
+    color var(--dauer-1) linear;
+}
+.karte:hover, .kachel:hover, .schnellkarte:hover, .fach-karte:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--schatten-2);
+}
+.karte:active, .kachel:active, .schnellkarte:active, .fach-karte:active {
+  transform: translateY(-1px) scale(0.99);
+  box-shadow: var(--schatten-1);
+}
+.bw-btn:hover, .chip:hover, .suchknopf:hover { transform: translateY(-1px); box-shadow: var(--schatten-1); }
+.bw-btn:active, .chip:active, .suchknopf:active, .bw-iconbtn:active,
+.detail-schalter button:active, .rollen [role="tab"]:active { transform: scale(0.96); }
+
+.chip { border-radius: 999px; }
+.detail-schalter { border-radius: 999px; box-shadow: var(--schatten-1); }
+.suchknopf { border-radius: 999px; }
+.suchfeld-gross { border-radius: 999px; box-shadow: var(--schatten-1); }
+.suchfeld-gross:hover { transform: translateY(-1px); box-shadow: var(--schatten-2); }
+.suchfeld-gross:active { transform: scale(0.99); }
+
+/* --- Einschwebende Inhalte (gestaffelt) --------------------------- */
+@keyframes rein-gleiten {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+}
+.karten > *, .kacheln > *, .schnellzeile > *, .fach-raster > *,
+.quellen-liste > li, .dok-liste > li, .baum > details,
+main > .nachschlag-karte, .chat__verlauf > .blase {
+  animation: rein-gleiten var(--dauer-3) var(--kurve-feder) backwards;
+}
+.karten > :nth-child(1), .kacheln > :nth-child(1), .schnellzeile > :nth-child(1), .fach-raster > :nth-child(1), .quellen-liste > :nth-child(1), .dok-liste > :nth-child(1), .baum > details:nth-of-type(1), main > .nachschlag-karte:nth-of-type(1) { animation-delay: 0.03s; }
+.karten > :nth-child(2), .kacheln > :nth-child(2), .schnellzeile > :nth-child(2), .fach-raster > :nth-child(2), .quellen-liste > :nth-child(2), .dok-liste > :nth-child(2), .baum > details:nth-of-type(2), main > .nachschlag-karte:nth-of-type(2) { animation-delay: 0.07s; }
+.karten > :nth-child(3), .kacheln > :nth-child(3), .schnellzeile > :nth-child(3), .fach-raster > :nth-child(3), .quellen-liste > :nth-child(3), .dok-liste > :nth-child(3), .baum > details:nth-of-type(3), main > .nachschlag-karte:nth-of-type(3) { animation-delay: 0.11s; }
+.karten > :nth-child(4), .kacheln > :nth-child(4), .schnellzeile > :nth-child(4), .fach-raster > :nth-child(4), .quellen-liste > :nth-child(4), .dok-liste > :nth-child(4), .baum > details:nth-of-type(4), main > .nachschlag-karte:nth-of-type(4) { animation-delay: 0.15s; }
+.karten > :nth-child(5), .kacheln > :nth-child(5), .schnellzeile > :nth-child(5), .fach-raster > :nth-child(5), .quellen-liste > :nth-child(5), .dok-liste > :nth-child(5), .baum > details:nth-of-type(5), main > .nachschlag-karte:nth-of-type(5) { animation-delay: 0.19s; }
+.karten > :nth-child(6), .kacheln > :nth-child(6), .schnellzeile > :nth-child(6), .fach-raster > :nth-child(6), .quellen-liste > :nth-child(6), .dok-liste > :nth-child(6), .baum > details:nth-of-type(6), main > .nachschlag-karte:nth-of-type(6) { animation-delay: 0.23s; }
+.karten > :nth-child(7), .kacheln > :nth-child(7), .schnellzeile > :nth-child(7), .fach-raster > :nth-child(7), .baum > details:nth-of-type(7) { animation-delay: 0.27s; }
+.karten > :nth-child(8), .kacheln > :nth-child(8), .fach-raster > :nth-child(8), .baum > details:nth-of-type(8) { animation-delay: 0.31s; }
+.karten > :nth-child(9), .kacheln > :nth-child(9), .baum > details:nth-of-type(9) { animation-delay: 0.35s; }
+
+/* --- Suchpalette: Liquid-Glass-Modal ------------------------------ */
+.palette__hintergrund {
+  background: rgba(42, 38, 35, 0.30);
+  opacity: 1;
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  backdrop-filter: blur(10px) saturate(1.2);
+  animation: blende-rein var(--dauer-2) linear backwards;
+}
+@keyframes blende-rein { from { opacity: 0; } }
+.palette__panel {
+  background: var(--glas-hell);
+  -webkit-backdrop-filter: saturate(1.7) blur(28px);
+  backdrop-filter: saturate(1.7) blur(28px);
+  border: 1px solid var(--glas-rand);
+  border-radius: var(--radius-gross);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), var(--schatten-3);
+  animation: panel-rein var(--dauer-2) var(--kurve-feder) backwards;
+}
+@keyframes panel-rein { from { opacity: 0; transform: translateY(16px) scale(0.97); } }
+.palette__eingabe { border-bottom: 1px solid var(--glas-linie); }
+.palette__eingabe input { background: transparent; }
+.palette__fuss { border-top: 1px solid var(--glas-linie); }
+.palette__eintrag a:hover { background: rgba(42, 38, 35, 0.05); }
+
+/* --- Hamburger-Menü als Glasfläche (mobil) ------------------------ */
+@media (max-width: 800px) {
+  .bw-nav__panel {
+    background: var(--glas-hell);
+    -webkit-backdrop-filter: var(--glas-blur);
+    backdrop-filter: var(--glas-blur);
+    border: 1px solid var(--glas-rand);
+    border-top: 0;
+    border-radius: 0 0 var(--radius-gross) var(--radius-gross);
+    box-shadow: var(--schatten-3);
+  }
+}
+
+/* Ohne backdrop-filter-Unterstützung: deckende Flächen. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .app-header, .palette__panel, .bw-nav__panel { background: var(--bw-weiss); }
+  .palette__hintergrund { background: var(--bw-schwarz); opacity: 0.55; }
+}
+
+/* --- Weiches Auf-/Zuklappen von details (FAQ, Baum) --------------- */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  .faq details::details-content, .baum details::details-content {
+    block-size: 0; overflow: clip;
+    transition: block-size var(--dauer-2) var(--kurve), content-visibility var(--dauer-2) allow-discrete;
+  }
+  .faq details[open]::details-content, .baum details[open]::details-content { block-size: auto; }
+}
+
+/* ================== Schnellnachschlag (V4) ======================== */
+.nachschlag-karte { margin: var(--bw-space-3) 0; scroll-margin-top: 96px; }
+.nachschlag-karte h2 { margin-top: 0; }
+.nachschlag-karte:focus { outline: none; box-shadow: 0 0 0 2px var(--bw-schwarz), var(--schatten-2); }
+
+.tabellen-rahmen {
+  overflow-x: auto; margin: var(--bw-space-2) 0;
+  border: 1px solid var(--bw-grau-200); border-radius: 12px; background: var(--bw-weiss);
+}
+.tabellen-rahmen .bw-table { font-variant-numeric: tabular-nums; min-width: 34rem; }
+.bw-table tbody tr { transition: background-color var(--dauer-1) linear; }
+.bw-table tbody tr:hover { background: var(--bw-grau-50); }
+/* Gelb markiert genau EINEN Wert (aktuelles Beginnjahr) — mit dunkler Kante. */
+.zeile--aktuell th, .zeile--aktuell td { background: var(--bw-grau-100); font-weight: 600; }
+.zeile--aktuell th:first-child { box-shadow: inset 4px 0 0 var(--bw-gelb), inset 5px 0 0 var(--bw-schwarz); }
+
+.fach-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--bw-space-2); margin: var(--bw-space-2) 0; }
+.fach-karte { border: 1px solid var(--bw-grau-200); background: var(--bw-weiss); padding: var(--bw-space-2) var(--bw-space-3); display: grid; gap: 0.4rem; align-content: start; }
+.fach-karte h3 { margin: 0; font-size: var(--bw-fs-body); }
+.fach-karte p { margin: 0; font-size: var(--bw-fs-klein); color: var(--bw-text-leise); }
+.fach-karte .chip { justify-self: start; }
+
+.chipzeile-frei { display: flex; flex-wrap: wrap; gap: var(--bw-space-1); align-items: center; margin-top: var(--bw-space-2); }
+
+/* --- Fokus sichtbar (verstärkt, ohne Spezifitätsdruck) ------------ */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--bw-schwarz); outline-offset: 2px;
+}
+
+/* --- Druck & reduzierte Bewegung ---------------------------------- */
+@media print {
+  *, *::before, *::after { box-shadow: none !important; backdrop-filter: none !important; animation: none !important; transition: none !important; }
+  .app-header { position: static; background: var(--bw-weiss); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 </style>
 <script>window.EINZELDATEI=true;</script></head>
 <body>
@@ -619,6 +815,7 @@ kbd.kbd {
         <ul class="bw-nav__links">
           <li><a href="#/">Start</a></li>
           <li><a href="#/wissen">Wissensdatenbank</a></li>
+          <li><a href="#/nachschlag">Nachschlag</a></li>
           <li><a href="#/vorlagen">Vorlagen</a></li>
           <li><a href="#/downloads">Downloads</a></li>
           <li><a href="#/eigene">Eigene Inhalte</a></li>
@@ -2733,6 +2930,103 @@ window.VORLAGEN = {
 
 </script>
 <script>
+// nachschlag.js — Schnellnachschlag: kompakte Tabellen und Karten für den
+// Beratungsalltag (Vergütung, Urlaub, Fristen, Arbeitszeit, Fachrichtungen).
+// Werte gepflegt aus der Wissensbasis (wissen.js) — bei Änderungen dort
+// auch hier nachziehen. Stand-Datum unten.
+(function () {
+  "use strict";
+
+  window.NACHSCHLAG = {
+    stand: "31.07.2026",
+    hinweis: "Schnellnachschlag für die Beratung — Details und Rechtsgrundlagen stehen im verlinkten Artikel.",
+    karten: [
+
+      { id: "verguetung", titel: "Mindestausbildungsvergütung (brutto/Monat)",
+        kurz: "Maßgeblich ist das Jahr des Ausbildungsbeginns; Aufschläge +18/+35/+40 % auf den Startwert. Tarifverträge (z. B. Gartenbau/GaLaBau) liegen meist darüber.",
+        stichworte: ["mindestverguetung", "verguetung", "tarif", "tariftabelle", "gehalt", "lohn", "miav", "ausbildungsverguetung"],
+        tabelle: {
+          spalten: ["Ausbildungsbeginn", "1. Jahr", "2. Jahr (+18 %)", "3. Jahr (+35 %)", "4. Jahr (+40 %)"],
+          zeilen: [
+            ["2024", "649,00 €", "765,82 €", "876,15 €", "908,60 €"],
+            ["2025", "682,00 €", "804,76 €", "920,70 €", "954,80 €"],
+            ["2026", "724,00 €", "854,32 €", "977,40 €", "1.013,60 €"]
+          ],
+          markiereZeile: 2
+        },
+        fussnote: "Jährliche Fortschreibung im Bundesanzeiger (§ 17 BBiG). Tarifgebundene Betriebe: Tariftabelle anwenden; nicht tarifgebundene dürfen höchstens 20 % unter Branchentarif bleiben, nie unter der Mindestvergütung.",
+        recht: "§ 17 BBiG", artikel: ["mindestverguetung"], quellen: ["verguetung-tabelle"] },
+
+      { id: "urlaub", titel: "Urlaubsanspruch nach Alter",
+        kurz: "Es zählt das Alter am 1. Januar des Kalenderjahres. Gesetz rechnet in Werktagen (Mo–Sa): 24 Werktage = 4 Wochen = 20 Arbeitstage bei 5-Tage-Woche.",
+        stichworte: ["urlaub", "urlaubstabelle", "urlaubsanspruch", "werktage", "arbeitstage", "ferien", "jarbschg", "burlg"],
+        tabelle: {
+          spalten: ["Alter am 1. Januar", "Mindestanspruch", "entspricht (5-Tage-Woche)", "Grundlage"],
+          zeilen: [
+            ["unter 16", "30 Werktage", "25 Arbeitstage", "§ 19 JArbSchG"],
+            ["unter 17", "27 Werktage", "22,5 → 23 Arbeitstage", "§ 19 JArbSchG"],
+            ["unter 18", "25 Werktage", "21 Arbeitstage", "§ 19 JArbSchG"],
+            ["18 und älter", "24 Werktage", "20 Arbeitstage", "§ 3 BUrlG"]
+          ]
+        },
+        fussnote: "Tarifverträge geben häufig mehr und rechnen direkt in Arbeitstagen. Urlaub möglichst in die Berufsschulferien legen; für Berufsschultage im Urlaub gibt es Ersatz.",
+        recht: "§ 19 JArbSchG · § 3 BUrlG", artikel: ["urlaub"], quellen: ["urlaub-erwerbsgartenbau", "urlaub-galabau"] },
+
+      { id: "fristen", titel: "Probezeit, Kündigung & wichtige Fristen",
+        kurz: "Die wichtigsten Fristen im Ausbildungsverhältnis auf einen Blick.",
+        stichworte: ["probezeit", "kuendigung", "fristen", "verlaengerung", "eintragung", "aufhebung", "frist"],
+        tabelle: {
+          spalten: ["Was", "Frist/Regel", "Grundlage"],
+          zeilen: [
+            ["Probezeit", "mindestens 1, höchstens 4 Monate", "§ 20 BBiG"],
+            ["Kündigung in der Probezeit", "jederzeit, fristlos, ohne Grund — schriftlich", "§ 22 Abs. 1 BBiG"],
+            ["Kündigung danach (Betrieb)", "nur fristlos aus wichtigem Grund, binnen 2 Wochen ab Kenntnis", "§ 22 Abs. 2 Nr. 1 BBiG"],
+            ["Kündigung danach (Azubi)", "fristlos aus wichtigem Grund oder mit 4 Wochen bei Berufsaufgabe/-wechsel", "§ 22 Abs. 2 BBiG"],
+            ["Vertrag & Eintragung", "vor Beginn schriftlich niederlegen, unverzüglich Eintragung beantragen", "§§ 10, 11, 36 BBiG"],
+            ["Nicht bestandene Abschlussprüfung", "auf Verlangen Verlängerung bis zur nächsten Wiederholungsprüfung, max. 1 Jahr", "§ 21 Abs. 3 BBiG"],
+            ["Wiederholung der Abschlussprüfung", "zweimal möglich", "§ 37 Abs. 1 BBiG"]
+          ]
+        },
+        fussnote: "Aufhebungsvertrag ist jederzeit einvernehmlich möglich — vor Unterschrift zur Beratung raten (Folgen für ALG/Förderung).",
+        recht: "§§ 20–23, 37 BBiG", artikel: ["probezeit", "kuendigung", "nichtbestehen"], quellen: [] },
+
+      { id: "arbeitszeit", titel: "Arbeitszeit: Jugendliche vs. Erwachsene",
+        kurz: "Unter 18 gilt das Jugendarbeitsschutzgesetz, ab 18 das Arbeitszeitgesetz — mit Ausnahmen für die Landwirtschaft (einschließlich Gartenbau).",
+        stichworte: ["arbeitszeit", "pausen", "ruhezeit", "ueberstunden", "nachtruhe", "wochenende", "jugendliche", "samstag"],
+        tabelle: {
+          spalten: ["", "Jugendliche (unter 18)", "Erwachsene (ab 18)"],
+          zeilen: [
+            ["Höchstarbeitszeit", "8 h/Tag · 40 h/Woche · 5-Tage-Woche", "8 h werktäglich, bis 10 h mit Ausgleich"],
+            ["Landwirtschafts-Ausnahme", "Erntezeit, über 16: bis 9 h/Tag, 85 h/Doppelwoche", "Saisonspitzen über Ausgleichszeitraum"],
+            ["Pausen", "30 min ab 4,5 h · 60 min ab 6 h", "30 min ab 6 h · 45 min ab 9 h"],
+            ["Ruhezeit", "mindestens 12 h", "mindestens 11 h"],
+            ["Nachtruhe", "20–6 Uhr; Landwirtschaft über 16: ab 5 oder bis 21 Uhr", "keine generelle Nachtruhe"],
+            ["Berufsschultag", "vor Unterricht ab 9 Uhr keine Beschäftigung; Anrechnung mit Wegezeit", "Freistellung + Anrechnung (§ 15 BBiG)"]
+          ]
+        },
+        fussnote: "Überstunden sind für Azubis die Ausnahme, gesondert zu vergüten oder in Freizeit auszugleichen; für Jugendliche gilt zwingend der Ausgleich.",
+        recht: "§§ 8–16 JArbSchG · §§ 3–5 ArbZG · § 15 BBiG", artikel: ["arbeitszeit-jugendliche", "arbeitszeit-erwachsene", "ueberstunden"], quellen: [] },
+
+      { id: "fachrichtungen", titel: "Die 7 Fachrichtungen im Gartenbau — Eigenheiten",
+        kurz: "Gärtner/in wird in sieben Fachrichtungen ausgebildet (GärtnAusbV); die Fachwerker-Ausbildung (§ 66 BBiG) gibt es in denselben Bereichen. Betrieblicher Ausbildungsplan je Fachrichtung im Download-Center.",
+        stichworte: ["fachrichtung", "fachrichtungen", "baumschule", "friedhofsgaertnerei", "galabau", "garten- und landschaftsbau", "gemuesebau", "obstbau", "staudengaertnerei", "zierpflanzenbau", "eigenheiten"],
+        liste: [
+          { t: "Baumschule", text: "Anzucht und Kultur von Gehölzen (Bäume, Sträucher, Rosen, Obstgehölze) im Freiland und Container; Veredeln, Schnitt, Verkauf und Beratung. Saisonspitzen im Frühjahr/Herbst.", quelle: "plan-gaertner-baumschule" },
+          { t: "Friedhofsgärtnerei", text: "Grabgestaltung, -bepflanzung und -pflege im Jahreslauf, Trauerbinderei, viel direkter Kundenkontakt mit Einfühlungsvermögen; Wechselflor zu festen Terminen.", quelle: "plan-gaertner-friedhofsgaertnerei" },
+          { t: "Garten- und Landschaftsbau", text: "„Bauen mit Grün“: Wege, Mauern, Teiche, Pflanzungen, Rasen; Baustellenorganisation, Maschinen- und Geräteeinsatz, körperlich fordernd; beschäftigungsstärkste Fachrichtung mit eigenem Tarifwerk.", quelle: "plan-gaertner-galabau" },
+          { t: "Gemüsebau", text: "Anbau von Gemüsekulturen in Freiland und Gewächshaus: Aussaat bis Ernte, Kulturführung, Pflanzenschutz, Aufbereitung und Vermarktung (Direktvermarktung oder Handel).", quelle: "plan-gaertner-gemuesebau" },
+          { t: "Obstbau", text: "Obstanlagen mit Kern-, Stein- und Beerenobst: Pflanzung, Schnitt, Behang- und Qualitätsregulierung, Ernte, Lagerung (CA-Lager) und Vermarktung; stark saisongeprägt.", quelle: "plan-gaertner-obstbau" },
+          { t: "Staudengärtnerei", text: "Vermehrung und Kultur winterharter Stauden; großes Sortiment und Artenkenntnis, Verwendung nach Lebensbereichen, Beratung für Handel und Endkunden.", quelle: "plan-gaertner-staudengaertnerei" },
+          { t: "Zierpflanzenbau", text: "Topf-, Beet- und Balkonpflanzen sowie Schnittblumen unter Glas: Klimasteuerung, Bewässerung/Düngung, Kulturplanung auf Termin (z. B. Feiertage), Verkauf.", quelle: "plan-gaertner-zierpflanzenbau" }
+        ],
+        fussnote: "Zwischen- und Abschlussprüfung enthalten fachrichtungsspezifische Aufgaben; Pflanzenkenntnisse (Pflanzenlisten) unterscheiden sich je Fachrichtung.",
+        recht: "GärtnAusbV · § 66 BBiG", artikel: ["fw-grundlagen"], quellen: ["gesetz-gaertnausbv", "pflanzenlisten"] }
+    ]
+  };
+})();
+
+</script>
+<script>
 // lokaldb.js — Lokale Datenbank im Browser (IndexedDB, Fallback localStorage).
 // Speichert Nutzerdaten des Werkzeugs: Aktenvermerke, Notizen sowie eigene
 // Artikel und Dokumente. Alles bleibt auf diesem Gerät — keine Übertragung,
@@ -2848,6 +3142,21 @@ window.VORLAGEN = {
 
   /* ---------------- Hilfen ---------------------------------------- */
   function $(sel, root) { return (root || document).querySelector(sel); }
+
+  // Flüssige Übergänge (View Transitions API) — progressiv: ohne Browser-
+  // Unterstützung oder bei reduzierter Bewegung wird direkt gerendert.
+  var REDUZIERT = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
+  // Liefert ein Promise, das erfüllt ist, sobald die DOM-Änderung angewendet
+  // wurde (nicht erst nach der Animation) — wichtig für Folgeschritte wie
+  // Statusmeldungen nach einem Neu-Rendern.
+  function mitUebergang(fn) {
+    if (document.startViewTransition && !REDUZIERT.matches) {
+      var uebergang = document.startViewTransition(fn);
+      return uebergang.updateCallbackDone["catch"](function () {});
+    }
+    fn();
+    return Promise.resolve();
+  }
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -2892,7 +3201,8 @@ window.VORLAGEN = {
     buch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
     doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg>',
-    plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
+    plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
+    blitz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>'
   };
 
   /* ---------------- Suche: Synonyme + Bewertung -------------------- */
@@ -3282,6 +3592,16 @@ window.VORLAGEN = {
             '<span class="schnipsel">' + esc(v.betreff) + "</span></a></li>";
         });
       }
+      var nerg = suchenNachschlag(q, 2);
+      if (nerg.length) {
+        html += '<li class="palette__gruppe" role="presentation">Schnellnachschlag</li>';
+        nerg.forEach(function (k) {
+          html += '<li class="palette__eintrag" role="option" aria-selected="false" data-ziel="#/nachschlag?karte=' + k.id + '">' +
+            '<a href="#/nachschlag?karte=' + k.id + '"><span class="wo">Nachschlag</span>' +
+            '<span class="titel">' + S.highlight(k.titel, q) + "</span>" +
+            '<span class="schnipsel">' + esc(k.recht || "") + "</span></a></li>";
+        });
+      }
       if (erg.artikel.length) {
         html += '<li class="palette__gruppe" role="presentation">Artikel</li>';
         erg.artikel.forEach(function (r) {
@@ -3294,7 +3614,7 @@ window.VORLAGEN = {
           html += eintrag("#/artikel/" + r.id + "?faq=" + r.faqIndex, S.highlight(r.titel, q), schnipsel(r.kurz, erg.tokens), "FAQ");
         });
       }
-      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length) {
+      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length) {
         html = '<li class="palette__leer" role="presentation">Kein Treffer für „' + esc(q) + '“.<br>' +
           '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(q) + '" data-schliessen-nach>Frage dem Assistenten stellen</a></li>';
       }
@@ -3348,6 +3668,10 @@ window.VORLAGEN = {
 
   var erstLauf = true;
   function rendern() {
+    if (erstLauf) { rendernJetzt(); return Promise.resolve(); }
+    return mitUebergang(rendernJetzt);
+  }
+  function rendernJetzt() {
     var r = parseHash();
     var haupt = $("#inhalt");
     var view = r.pfad[0] || "start";
@@ -3358,6 +3682,7 @@ window.VORLAGEN = {
       haupt.innerHTML = viewArtikel(a, r.params);
       artikelVerhalten(haupt, a, r.params);
       titel = a.titel + " — Azubi-Wissen";
+      zuletztMerken("#/artikel/" + a.id, a.titel, "Artikel");
     } else if (view === "wissen") {
       haupt.innerHTML = viewWissen(r.params);
       wissenVerhalten(haupt, r.params);
@@ -3366,10 +3691,19 @@ window.VORLAGEN = {
       haupt.innerHTML = viewVorlagen(r.params);
       vorlagenVerhalten(haupt, r.params);
       titel = "E-Mail-Vorlagen — Azubi-Wissen";
+      if (r.params.id && window.VORLAGEN) {
+        window.VORLAGEN.vorlagen.forEach(function (v) {
+          if (v.id === r.params.id) zuletztMerken("#/vorlagen?id=" + v.id, v.titel, "Vorlage");
+        });
+      }
     } else if (view === "downloads") {
       haupt.innerHTML = viewDownloads();
       downloadsVerhalten(haupt);
       titel = "Download-Center — Azubi-Wissen";
+    } else if (view === "nachschlag") {
+      haupt.innerHTML = viewNachschlag();
+      nachschlagVerhalten(haupt, r.params);
+      titel = "Schnellnachschlag — Azubi-Wissen";
     } else if (view === "eigene") {
       haupt.innerHTML = viewEigene();
       eigeneVerhalten(haupt, r.params);
@@ -3414,6 +3748,18 @@ window.VORLAGEN = {
     return '<h1>' + esc(t) + '</h1><div class="bw-hinweis"><p>' + esc(s) + '</p></div>';
   }
 
+  /* ---------------- Zuletzt angesehen ------------------------------ */
+  function zuletztLesen() {
+    try { return JSON.parse(localStorage.getItem("aw.zuletzt") || "[]"); } catch (e) { return []; }
+  }
+  function zuletztMerken(ziel, titel, wo) {
+    try {
+      var liste = zuletztLesen().filter(function (e) { return e && e.ziel !== ziel; });
+      liste.unshift({ ziel: ziel, titel: titel, wo: wo });
+      localStorage.setItem("aw.zuletzt", JSON.stringify(liste.slice(0, 6)));
+    } catch (e) {}
+  }
+
   /* ---------------- Ansicht: Start --------------------------------- */
   var HAEUFIG = [
     { a: "urlaub", faq: 0, text: "Wie viele Urlaubstage habe ich?" },
@@ -3434,6 +3780,24 @@ window.VORLAGEN = {
       '</div>' +
       '<div class="hero__stoerer"><span class="bw-stoerer">' + W.artikel.length + ' Artikel<br>' + anzahlFaq + ' FAQ</span></div></div>';
 
+    h += '<div class="schnellzeile">' +
+      '<a class="schnellkarte" href="#/nachschlag">' + ICON.blitz + "<span><h3>Schnellnachschlag</h3><p>Vergütung, Urlaub nach Alter, Fristen, Arbeitszeit, Fachrichtungen — auf einen Blick.</p></span></a>" +
+      '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
+      '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
+      '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
+      '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
+      '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
+      "</div>";
+
+    var zuletzt = zuletztLesen();
+    if (zuletzt.length) {
+      h += '<h2>Zuletzt angesehen</h2><ul class="chipzeile">';
+      zuletzt.forEach(function (e) {
+        h += '<li><a class="chip" href="' + esc(e.ziel) + '"><span class="bw-leise">' + esc(e.wo) + ":</span> " + esc(e.titel) + "</a></li>";
+      });
+      h += "</ul>";
+    }
+
     h += '<h2>Themenbereiche</h2><ul class="kacheln">';
     W.themen.forEach(function (th) {
       var n = W.artikel.filter(function (a) { return a.thema === th.id; }).length;
@@ -3447,14 +3811,6 @@ window.VORLAGEN = {
       h += '<li><a class="chip chip--frage" href="#/artikel/' + f.a + "?faq=" + f.faq + '">' + esc(f.text) + "</a></li>";
     });
     h += "</ul>";
-
-    h += '<div class="schnellzeile">' +
-      '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
-      '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
-      '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
-      '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
-      '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
-      "</div>";
 
     h += '<p class="stand-hinweis">' + esc(W.hinweis) + " Stand: " + esc(W.stand) + ".</p>";
     return h;
@@ -3494,7 +3850,8 @@ window.VORLAGEN = {
     var liste = $("#artikel-liste", root);
     var leer = $("#wissen-leer", root);
 
-    function zeigen() {
+    function zeigen() { mitUebergang(zeigenJetzt); }
+    function zeigenJetzt() {
       var q = eingabe.value.trim();
       var artikel;
       if (q) {
@@ -3536,7 +3893,7 @@ window.VORLAGEN = {
       });
     });
     eingabe.addEventListener("input", zeigen);
-    zeigen();
+    zeigenJetzt();
   }
 
   /* ---------------- Ansicht: Artikel ------------------------------- */
@@ -3770,7 +4127,8 @@ window.VORLAGEN = {
     var leer = $("#quellen-leer", root);
     var alle = window.QUELLEN ? window.QUELLEN.eintraege : [];
 
-    function zeigen() {
+    function zeigen() { mitUebergang(zeigenJetzt); }
+    function zeigenJetzt() {
       var q = eingabe.value.trim();
       var eintraege = q ? suchenQuellen(q, 100) : alle.slice();
       if (aktiv) eintraege = eintraege.filter(function (e) { return e.typ === aktiv; });
@@ -3800,7 +4158,7 @@ window.VORLAGEN = {
       });
     });
     eingabe.addEventListener("input", zeigen);
-    zeigen();
+    zeigenJetzt();
   }
 
   /* ---------------- Ansicht: E-Mail-Vorlagen ----------------------- */
@@ -3844,6 +4202,51 @@ window.VORLAGEN = {
     });
     treffer.sort(function (a, b) { return b.score - a.score; });
     return treffer.slice(0, limit || 3).map(function (t) { return t.vorlage; });
+  }
+
+  /* ---------------- Suchindex: Schnellnachschlag ------------------- */
+  var NINDEX = [];
+  (function bauenNachschlag() {
+    var N = window.NACHSCHLAG;
+    if (!N) return;
+    N.karten.forEach(function (k) {
+      var inhalt = "";
+      if (k.tabelle) inhalt += k.tabelle.spalten.join(" ") + " " + k.tabelle.zeilen.map(function (z) { return z.join(" "); }).join(" ");
+      if (k.liste) inhalt += k.liste.map(function (e) { return e.t + " " + e.text; }).join(" ");
+      NINDEX.push({
+        karte: k,
+        felder: [
+          [norm(k.titel), 5],
+          [norm((k.stichworte || []).join(" ")), 4],
+          [norm(k.kurz || ""), 2],
+          [norm(inhalt), 1]
+        ]
+      });
+    });
+  })();
+
+  function suchenNachschlag(q, limit) {
+    var tokens = norm(q).split(" ").filter(function (t) { return t && !STOP[t]; });
+    if (!tokens.length) return [];
+    var treffer = [];
+    NINDEX.forEach(function (rec) {
+      var summe = 0;
+      for (var t = 0; t < tokens.length; t++) {
+        var alts = tokenAlternativen(tokens[t]);
+        var best = 0;
+        for (var f = 0; f < rec.felder.length; f++) {
+          for (var x = 0; x < alts.length; x++) {
+            var sc = tokenScore(alts[x], rec.felder[f][0]);
+            if (sc) best = Math.max(best, sc * rec.felder[f][1] * (x ? 0.8 : 1));
+          }
+        }
+        if (!best) { summe = 0; break; }
+        summe += best;
+      }
+      if (summe > 0) treffer.push({ karte: rec.karte, score: summe });
+    });
+    treffer.sort(function (a, b) { return b.score - a.score; });
+    return treffer.slice(0, limit || 2).map(function (t) { return t.karte; });
   }
 
   function platzhalterVon(v) {
@@ -3896,7 +4299,8 @@ window.VORLAGEN = {
     var V = window.VORLAGEN;
     var aktiv = params.kat || "";
     var liste = $("#vorlagen-liste", root);
-    function zeigen() {
+    function zeigen() { mitUebergang(zeigenJetzt); }
+    function zeigenJetzt() {
       var vs = V.vorlagen.filter(function (v) { return !aktiv || v.kategorie === aktiv; });
       liste.innerHTML = vs.map(function (v) {
         var kat = V.kategorien.filter(function (k) { return k.id === v.kategorie; })[0];
@@ -3914,7 +4318,7 @@ window.VORLAGEN = {
         zeigen();
       });
     });
-    zeigen();
+    zeigenJetzt();
   }
 
   function viewVorlageDetail(v) {
@@ -4066,7 +4470,8 @@ window.VORLAGEN = {
 
   function downloadsVerhalten(root) {
     var eingabe = $("#dq", root), ziel = $("#download-baum", root);
-    function zeigen() {
+    function zeigen() { mitUebergang(zeigenJetzt); }
+    function zeigenJetzt() {
       var tokens = norm(eingabe.value).split(" ").filter(function (t) { return t && !STOP[t]; });
       var html = "", gesamt = 0;
       downloadBaum().forEach(function (k) {
@@ -4082,7 +4487,77 @@ window.VORLAGEN = {
     $("#baum-zu", root).addEventListener("click", function () {
       root.querySelectorAll(".baum details").forEach(function (d) { d.open = false; });
     });
-    zeigen();
+    zeigenJetzt();
+  }
+
+  /* ---------------- Ansicht: Schnellnachschlag --------------------- */
+  function viewNachschlag() {
+    var N = window.NACHSCHLAG;
+    if (!N) return platzhalter("Schnellnachschlag", "Nachschlagemodul nicht geladen.");
+    var h = "<h1>Schnellnachschlag</h1>" +
+      '<p class="bw-unterzeile">Tarif- und Urlaubstabellen, Fristen, Arbeitszeit und die Eigenheiten der Fachrichtungen — kompakt für die Beratung</p>';
+    h += '<ul class="chipzeile" aria-label="Direkt zu einer Karte springen">' +
+      N.karten.map(function (k) { return '<li><a class="chip" href="#/nachschlag?karte=' + k.id + '">' + esc(k.titel.split(" (")[0].split(":")[0]) + "</a></li>"; }).join("") + "</ul>";
+
+    N.karten.forEach(function (k) {
+      h += '<section class="nachschlag-karte bw-card" id="n-' + esc(k.id) + '" aria-labelledby="nt-' + esc(k.id) + '" tabindex="-1">';
+      h += '<h2 id="nt-' + esc(k.id) + '">' + esc(k.titel) + "</h2>";
+      if (k.kurz) h += '<p class="bw-klein">' + esc(k.kurz) + "</p>";
+      if (k.tabelle) {
+        h += '<div class="tabellen-rahmen"><table class="bw-table"><thead><tr>' +
+          k.tabelle.spalten.map(function (s) { return "<th scope=\"col\">" + esc(s) + "</th>"; }).join("") +
+          "</tr></thead><tbody>" +
+          k.tabelle.zeilen.map(function (z, i) {
+            return '<tr' + (k.tabelle.markiereZeile === i ? ' class="zeile--aktuell"' : "") + ">" +
+              z.map(function (zelle, s) { return s === 0 ? '<th scope="row">' + esc(zelle) + "</th>" : "<td>" + esc(zelle) + "</td>"; }).join("") + "</tr>";
+          }).join("") + "</tbody></table></div>";
+      }
+      if (k.liste) {
+        h += '<div class="fach-raster">' + k.liste.map(function (e) {
+          var link = "";
+          if (e.quelle && window.QUELLEN) {
+            var q = null;
+            window.QUELLEN.eintraege.forEach(function (x) { if (x.id === e.quelle) q = x; });
+            if (q) {
+              var z = quelleZiel(q);
+              link = '<a class="chip" href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : ' target="_blank" rel="noopener"') + ">Ausbildungsplan" + (z.extern ? " ↗" : "") + "</a>";
+            }
+          }
+          return '<div class="fach-karte"><h3>' + esc(e.t) + "</h3><p>" + esc(e.text) + "</p>" + link + "</div>";
+        }).join("") + "</div>";
+      }
+      if (k.fussnote) h += '<p class="bw-klein bw-leise">' + esc(k.fussnote) + "</p>";
+      var chips = "";
+      if (k.recht) chips += '<span class="etikett etikett--recht">' + esc(k.recht) + "</span>";
+      (k.artikel || []).forEach(function (id) {
+        var a = artikelVon(id);
+        if (a) chips += '<a class="chip chip--frage" href="#/artikel/' + esc(id) + '">' + esc(a.titel) + "</a>";
+      });
+      (k.quellen || []).forEach(function (id) {
+        var q = null;
+        if (window.QUELLEN) window.QUELLEN.eintraege.forEach(function (x) { if (x.id === id) q = x; });
+        if (q) {
+          var z2 = quelleZiel(q);
+          chips += '<a class="chip" href="' + esc(z2.href) + '"' + (z2.download ? ' download="' + esc(z2.download) + '"' : ' target="_blank" rel="noopener"') + ">" + esc(q.titel) + (z2.extern ? " ↗" : "") + "</a>";
+        }
+      });
+      if (chips) h += '<div class="chipzeile-frei">' + chips + "</div>";
+      h += "</section>";
+    });
+    h += '<p class="stand-hinweis">' + esc(N.hinweis) + " Stand: " + esc(N.stand) + ".</p>";
+    return h;
+  }
+
+  function nachschlagVerhalten(root, params) {
+    if (params.karte) {
+      var ziel = $("#n-" + params.karte, root);
+      if (ziel) {
+        setTimeout(function () {
+          ziel.scrollIntoView({ block: "start" });
+          ziel.focus({ preventScroll: true });
+        }, 0);
+      }
+    }
   }
 
   /* ---------------- Ansicht: Eigene Inhalte ------------------------ */
@@ -4193,7 +4668,8 @@ window.VORLAGEN = {
 
     function neuLaden(meldung, statusFeld) {
       return eigeneLaden().then(function () {
-        rendern();
+        return rendern();
+      }).then(function () {
         if (meldung && statusFeld) {
           var f = $(statusFeld);
           if (f) f.textContent = meldung;
@@ -5086,6 +5562,15 @@ window.VORLAGEN = {
   window.AzubiExport = { renderView: renderView, dokumentBauen: dokumentBauen, vermerkHtml: vermerkHtml };
 })();
 
+</script>
+<script>
+// PWA: Service Worker registrieren (nur über http/https, nicht in der
+// Einzeldatei und nicht unter file:// — dort läuft das Tool auch so offline).
+if ("serviceWorker" in navigator && location.protocol !== "file:" && !window.EINZELDATEI) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js").catch(function () { /* Ohne SW läuft die Seite normal weiter. */ });
+  });
+}
 </script>
 </body>
 </html>

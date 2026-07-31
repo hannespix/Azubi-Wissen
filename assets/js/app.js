@@ -9,6 +9,21 @@
 
   /* ---------------- Hilfen ---------------------------------------- */
   function $(sel, root) { return (root || document).querySelector(sel); }
+
+  // Flüssige Übergänge (View Transitions API) — progressiv: ohne Browser-
+  // Unterstützung oder bei reduzierter Bewegung wird direkt gerendert.
+  var REDUZIERT = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
+  // Liefert ein Promise, das erfüllt ist, sobald die DOM-Änderung angewendet
+  // wurde (nicht erst nach der Animation) — wichtig für Folgeschritte wie
+  // Statusmeldungen nach einem Neu-Rendern.
+  function mitUebergang(fn) {
+    if (document.startViewTransition && !REDUZIERT.matches) {
+      var uebergang = document.startViewTransition(fn);
+      return uebergang.updateCallbackDone["catch"](function () {});
+    }
+    fn();
+    return Promise.resolve();
+  }
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -53,7 +68,8 @@
     buch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
     doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg>',
-    plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
+    plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
+    blitz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>'
   };
 
   /* ---------------- Suche: Synonyme + Bewertung -------------------- */
@@ -443,6 +459,16 @@
             '<span class="schnipsel">' + esc(v.betreff) + "</span></a></li>";
         });
       }
+      var nerg = suchenNachschlag(q, 2);
+      if (nerg.length) {
+        html += '<li class="palette__gruppe" role="presentation">Schnellnachschlag</li>';
+        nerg.forEach(function (k) {
+          html += '<li class="palette__eintrag" role="option" aria-selected="false" data-ziel="#/nachschlag?karte=' + k.id + '">' +
+            '<a href="#/nachschlag?karte=' + k.id + '"><span class="wo">Nachschlag</span>' +
+            '<span class="titel">' + S.highlight(k.titel, q) + "</span>" +
+            '<span class="schnipsel">' + esc(k.recht || "") + "</span></a></li>";
+        });
+      }
       if (erg.artikel.length) {
         html += '<li class="palette__gruppe" role="presentation">Artikel</li>';
         erg.artikel.forEach(function (r) {
@@ -455,7 +481,7 @@
           html += eintrag("#/artikel/" + r.id + "?faq=" + r.faqIndex, S.highlight(r.titel, q), schnipsel(r.kurz, erg.tokens), "FAQ");
         });
       }
-      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length) {
+      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length) {
         html = '<li class="palette__leer" role="presentation">Kein Treffer für „' + esc(q) + '“.<br>' +
           '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(q) + '" data-schliessen-nach>Frage dem Assistenten stellen</a></li>';
       }
@@ -509,6 +535,10 @@
 
   var erstLauf = true;
   function rendern() {
+    if (erstLauf) { rendernJetzt(); return Promise.resolve(); }
+    return mitUebergang(rendernJetzt);
+  }
+  function rendernJetzt() {
     var r = parseHash();
     var haupt = $("#inhalt");
     var view = r.pfad[0] || "start";
@@ -519,6 +549,7 @@
       haupt.innerHTML = viewArtikel(a, r.params);
       artikelVerhalten(haupt, a, r.params);
       titel = a.titel + " — Azubi-Wissen";
+      zuletztMerken("#/artikel/" + a.id, a.titel, "Artikel");
     } else if (view === "wissen") {
       haupt.innerHTML = viewWissen(r.params);
       wissenVerhalten(haupt, r.params);
@@ -527,10 +558,19 @@
       haupt.innerHTML = viewVorlagen(r.params);
       vorlagenVerhalten(haupt, r.params);
       titel = "E-Mail-Vorlagen — Azubi-Wissen";
+      if (r.params.id && window.VORLAGEN) {
+        window.VORLAGEN.vorlagen.forEach(function (v) {
+          if (v.id === r.params.id) zuletztMerken("#/vorlagen?id=" + v.id, v.titel, "Vorlage");
+        });
+      }
     } else if (view === "downloads") {
       haupt.innerHTML = viewDownloads();
       downloadsVerhalten(haupt);
       titel = "Download-Center — Azubi-Wissen";
+    } else if (view === "nachschlag") {
+      haupt.innerHTML = viewNachschlag();
+      nachschlagVerhalten(haupt, r.params);
+      titel = "Schnellnachschlag — Azubi-Wissen";
     } else if (view === "eigene") {
       haupt.innerHTML = viewEigene();
       eigeneVerhalten(haupt, r.params);
@@ -575,6 +615,18 @@
     return '<h1>' + esc(t) + '</h1><div class="bw-hinweis"><p>' + esc(s) + '</p></div>';
   }
 
+  /* ---------------- Zuletzt angesehen ------------------------------ */
+  function zuletztLesen() {
+    try { return JSON.parse(localStorage.getItem("aw.zuletzt") || "[]"); } catch (e) { return []; }
+  }
+  function zuletztMerken(ziel, titel, wo) {
+    try {
+      var liste = zuletztLesen().filter(function (e) { return e && e.ziel !== ziel; });
+      liste.unshift({ ziel: ziel, titel: titel, wo: wo });
+      localStorage.setItem("aw.zuletzt", JSON.stringify(liste.slice(0, 6)));
+    } catch (e) {}
+  }
+
   /* ---------------- Ansicht: Start --------------------------------- */
   var HAEUFIG = [
     { a: "urlaub", faq: 0, text: "Wie viele Urlaubstage habe ich?" },
@@ -595,6 +647,24 @@
       '</div>' +
       '<div class="hero__stoerer"><span class="bw-stoerer">' + W.artikel.length + ' Artikel<br>' + anzahlFaq + ' FAQ</span></div></div>';
 
+    h += '<div class="schnellzeile">' +
+      '<a class="schnellkarte" href="#/nachschlag">' + ICON.blitz + "<span><h3>Schnellnachschlag</h3><p>Vergütung, Urlaub nach Alter, Fristen, Arbeitszeit, Fachrichtungen — auf einen Blick.</p></span></a>" +
+      '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
+      '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
+      '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
+      '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
+      '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
+      "</div>";
+
+    var zuletzt = zuletztLesen();
+    if (zuletzt.length) {
+      h += '<h2>Zuletzt angesehen</h2><ul class="chipzeile">';
+      zuletzt.forEach(function (e) {
+        h += '<li><a class="chip" href="' + esc(e.ziel) + '"><span class="bw-leise">' + esc(e.wo) + ":</span> " + esc(e.titel) + "</a></li>";
+      });
+      h += "</ul>";
+    }
+
     h += '<h2>Themenbereiche</h2><ul class="kacheln">';
     W.themen.forEach(function (th) {
       var n = W.artikel.filter(function (a) { return a.thema === th.id; }).length;
@@ -608,14 +678,6 @@
       h += '<li><a class="chip chip--frage" href="#/artikel/' + f.a + "?faq=" + f.faq + '">' + esc(f.text) + "</a></li>";
     });
     h += "</ul>";
-
-    h += '<div class="schnellzeile">' +
-      '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
-      '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
-      '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
-      '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
-      '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
-      "</div>";
 
     h += '<p class="stand-hinweis">' + esc(W.hinweis) + " Stand: " + esc(W.stand) + ".</p>";
     return h;
@@ -655,7 +717,8 @@
     var liste = $("#artikel-liste", root);
     var leer = $("#wissen-leer", root);
 
-    function zeigen() {
+    function zeigen() { mitUebergang(zeigenJetzt); }
+    function zeigenJetzt() {
       var q = eingabe.value.trim();
       var artikel;
       if (q) {
@@ -697,7 +760,7 @@
       });
     });
     eingabe.addEventListener("input", zeigen);
-    zeigen();
+    zeigenJetzt();
   }
 
   /* ---------------- Ansicht: Artikel ------------------------------- */
@@ -931,7 +994,8 @@
     var leer = $("#quellen-leer", root);
     var alle = window.QUELLEN ? window.QUELLEN.eintraege : [];
 
-    function zeigen() {
+    function zeigen() { mitUebergang(zeigenJetzt); }
+    function zeigenJetzt() {
       var q = eingabe.value.trim();
       var eintraege = q ? suchenQuellen(q, 100) : alle.slice();
       if (aktiv) eintraege = eintraege.filter(function (e) { return e.typ === aktiv; });
@@ -961,7 +1025,7 @@
       });
     });
     eingabe.addEventListener("input", zeigen);
-    zeigen();
+    zeigenJetzt();
   }
 
   /* ---------------- Ansicht: E-Mail-Vorlagen ----------------------- */
@@ -1005,6 +1069,51 @@
     });
     treffer.sort(function (a, b) { return b.score - a.score; });
     return treffer.slice(0, limit || 3).map(function (t) { return t.vorlage; });
+  }
+
+  /* ---------------- Suchindex: Schnellnachschlag ------------------- */
+  var NINDEX = [];
+  (function bauenNachschlag() {
+    var N = window.NACHSCHLAG;
+    if (!N) return;
+    N.karten.forEach(function (k) {
+      var inhalt = "";
+      if (k.tabelle) inhalt += k.tabelle.spalten.join(" ") + " " + k.tabelle.zeilen.map(function (z) { return z.join(" "); }).join(" ");
+      if (k.liste) inhalt += k.liste.map(function (e) { return e.t + " " + e.text; }).join(" ");
+      NINDEX.push({
+        karte: k,
+        felder: [
+          [norm(k.titel), 5],
+          [norm((k.stichworte || []).join(" ")), 4],
+          [norm(k.kurz || ""), 2],
+          [norm(inhalt), 1]
+        ]
+      });
+    });
+  })();
+
+  function suchenNachschlag(q, limit) {
+    var tokens = norm(q).split(" ").filter(function (t) { return t && !STOP[t]; });
+    if (!tokens.length) return [];
+    var treffer = [];
+    NINDEX.forEach(function (rec) {
+      var summe = 0;
+      for (var t = 0; t < tokens.length; t++) {
+        var alts = tokenAlternativen(tokens[t]);
+        var best = 0;
+        for (var f = 0; f < rec.felder.length; f++) {
+          for (var x = 0; x < alts.length; x++) {
+            var sc = tokenScore(alts[x], rec.felder[f][0]);
+            if (sc) best = Math.max(best, sc * rec.felder[f][1] * (x ? 0.8 : 1));
+          }
+        }
+        if (!best) { summe = 0; break; }
+        summe += best;
+      }
+      if (summe > 0) treffer.push({ karte: rec.karte, score: summe });
+    });
+    treffer.sort(function (a, b) { return b.score - a.score; });
+    return treffer.slice(0, limit || 2).map(function (t) { return t.karte; });
   }
 
   function platzhalterVon(v) {
@@ -1057,7 +1166,8 @@
     var V = window.VORLAGEN;
     var aktiv = params.kat || "";
     var liste = $("#vorlagen-liste", root);
-    function zeigen() {
+    function zeigen() { mitUebergang(zeigenJetzt); }
+    function zeigenJetzt() {
       var vs = V.vorlagen.filter(function (v) { return !aktiv || v.kategorie === aktiv; });
       liste.innerHTML = vs.map(function (v) {
         var kat = V.kategorien.filter(function (k) { return k.id === v.kategorie; })[0];
@@ -1075,7 +1185,7 @@
         zeigen();
       });
     });
-    zeigen();
+    zeigenJetzt();
   }
 
   function viewVorlageDetail(v) {
@@ -1227,7 +1337,8 @@
 
   function downloadsVerhalten(root) {
     var eingabe = $("#dq", root), ziel = $("#download-baum", root);
-    function zeigen() {
+    function zeigen() { mitUebergang(zeigenJetzt); }
+    function zeigenJetzt() {
       var tokens = norm(eingabe.value).split(" ").filter(function (t) { return t && !STOP[t]; });
       var html = "", gesamt = 0;
       downloadBaum().forEach(function (k) {
@@ -1243,7 +1354,77 @@
     $("#baum-zu", root).addEventListener("click", function () {
       root.querySelectorAll(".baum details").forEach(function (d) { d.open = false; });
     });
-    zeigen();
+    zeigenJetzt();
+  }
+
+  /* ---------------- Ansicht: Schnellnachschlag --------------------- */
+  function viewNachschlag() {
+    var N = window.NACHSCHLAG;
+    if (!N) return platzhalter("Schnellnachschlag", "Nachschlagemodul nicht geladen.");
+    var h = "<h1>Schnellnachschlag</h1>" +
+      '<p class="bw-unterzeile">Tarif- und Urlaubstabellen, Fristen, Arbeitszeit und die Eigenheiten der Fachrichtungen — kompakt für die Beratung</p>';
+    h += '<ul class="chipzeile" aria-label="Direkt zu einer Karte springen">' +
+      N.karten.map(function (k) { return '<li><a class="chip" href="#/nachschlag?karte=' + k.id + '">' + esc(k.titel.split(" (")[0].split(":")[0]) + "</a></li>"; }).join("") + "</ul>";
+
+    N.karten.forEach(function (k) {
+      h += '<section class="nachschlag-karte bw-card" id="n-' + esc(k.id) + '" aria-labelledby="nt-' + esc(k.id) + '" tabindex="-1">';
+      h += '<h2 id="nt-' + esc(k.id) + '">' + esc(k.titel) + "</h2>";
+      if (k.kurz) h += '<p class="bw-klein">' + esc(k.kurz) + "</p>";
+      if (k.tabelle) {
+        h += '<div class="tabellen-rahmen"><table class="bw-table"><thead><tr>' +
+          k.tabelle.spalten.map(function (s) { return "<th scope=\"col\">" + esc(s) + "</th>"; }).join("") +
+          "</tr></thead><tbody>" +
+          k.tabelle.zeilen.map(function (z, i) {
+            return '<tr' + (k.tabelle.markiereZeile === i ? ' class="zeile--aktuell"' : "") + ">" +
+              z.map(function (zelle, s) { return s === 0 ? '<th scope="row">' + esc(zelle) + "</th>" : "<td>" + esc(zelle) + "</td>"; }).join("") + "</tr>";
+          }).join("") + "</tbody></table></div>";
+      }
+      if (k.liste) {
+        h += '<div class="fach-raster">' + k.liste.map(function (e) {
+          var link = "";
+          if (e.quelle && window.QUELLEN) {
+            var q = null;
+            window.QUELLEN.eintraege.forEach(function (x) { if (x.id === e.quelle) q = x; });
+            if (q) {
+              var z = quelleZiel(q);
+              link = '<a class="chip" href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : ' target="_blank" rel="noopener"') + ">Ausbildungsplan" + (z.extern ? " ↗" : "") + "</a>";
+            }
+          }
+          return '<div class="fach-karte"><h3>' + esc(e.t) + "</h3><p>" + esc(e.text) + "</p>" + link + "</div>";
+        }).join("") + "</div>";
+      }
+      if (k.fussnote) h += '<p class="bw-klein bw-leise">' + esc(k.fussnote) + "</p>";
+      var chips = "";
+      if (k.recht) chips += '<span class="etikett etikett--recht">' + esc(k.recht) + "</span>";
+      (k.artikel || []).forEach(function (id) {
+        var a = artikelVon(id);
+        if (a) chips += '<a class="chip chip--frage" href="#/artikel/' + esc(id) + '">' + esc(a.titel) + "</a>";
+      });
+      (k.quellen || []).forEach(function (id) {
+        var q = null;
+        if (window.QUELLEN) window.QUELLEN.eintraege.forEach(function (x) { if (x.id === id) q = x; });
+        if (q) {
+          var z2 = quelleZiel(q);
+          chips += '<a class="chip" href="' + esc(z2.href) + '"' + (z2.download ? ' download="' + esc(z2.download) + '"' : ' target="_blank" rel="noopener"') + ">" + esc(q.titel) + (z2.extern ? " ↗" : "") + "</a>";
+        }
+      });
+      if (chips) h += '<div class="chipzeile-frei">' + chips + "</div>";
+      h += "</section>";
+    });
+    h += '<p class="stand-hinweis">' + esc(N.hinweis) + " Stand: " + esc(N.stand) + ".</p>";
+    return h;
+  }
+
+  function nachschlagVerhalten(root, params) {
+    if (params.karte) {
+      var ziel = $("#n-" + params.karte, root);
+      if (ziel) {
+        setTimeout(function () {
+          ziel.scrollIntoView({ block: "start" });
+          ziel.focus({ preventScroll: true });
+        }, 0);
+      }
+    }
   }
 
   /* ---------------- Ansicht: Eigene Inhalte ------------------------ */
@@ -1354,7 +1535,8 @@
 
     function neuLaden(meldung, statusFeld) {
       return eigeneLaden().then(function () {
-        rendern();
+        return rendern();
+      }).then(function () {
         if (meldung && statusFeld) {
           var f = $(statusFeld);
           if (f) f.textContent = meldung;

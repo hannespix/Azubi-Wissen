@@ -32,6 +32,7 @@
         <ul class="bw-nav__links">
           <li><a href="#/">Start</a></li>
           <li><a href="#/wissen">Wissensdatenbank</a></li>
+          <li><a href="#/nachschlag">Nachschlag</a></li>
           <li><a href="#/vorlagen">Vorlagen</a></li>
           <li><a href="#/downloads">Downloads</a></li>
           <li><a href="#/eigene">Eigene Inhalte</a></li>
@@ -86,9 +87,19 @@
 <script src="assets/js/wissen.js"></script>
 <script src="assets/js/quellen.js"></script>
 <script src="assets/js/vorlagen.js"></script>
+<script src="assets/js/nachschlag.js"></script>
 <script src="assets/js/lokaldb.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/assistent.js"></script>
 <script src="assets/js/export.js"></script>
+<script>
+// PWA: Service Worker registrieren (nur über http/https, nicht in der
+// Einzeldatei und nicht unter file:// — dort läuft das Tool auch so offline).
+if ("serviceWorker" in navigator && location.protocol !== "file:" && !window.EINZELDATEI) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js").catch(function () { /* Ohne SW läuft die Seite normal weiter. */ });
+  });
+}
+</script>
 </body>
 </html>

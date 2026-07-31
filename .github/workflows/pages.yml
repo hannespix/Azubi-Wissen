@@ -36,7 +36,7 @@ jobs:
       - name: Seite zusammenstellen
         run: |
           mkdir -p _site/navigator
-          cp index.html bw-theme.css site.webmanifest azubi-wissen-offline.html _site/
+          cp index.html bw-theme.css site.webmanifest sw.js azubi-wissen-offline.html _site/
           cp -r assets _site/assets
           cp -r formulare _site/formulare
           cp -r navigator/app/dist/. _site/navigator/
