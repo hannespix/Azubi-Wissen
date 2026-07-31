@@ -22,6 +22,7 @@
         imTool: true },
       { id: "landwirt", titel: "Landwirt/in", dauer: "3 Jahre",
         verordnung: "LwAusbV 1995",
+        verordnungUrl: "https://www.gesetze-im-internet.de/lwausbv_1995/",
         fachrichtungen: [],
         kurz: "Pflanzenbau und Tierhaltung im landwirtschaftlichen Betrieb: Ackerbau, Grünland, Rinder- oder Schweinehaltung, Technik und Betriebsführung.",
         stichworte: ["landwirtschaft", "ackerbau", "tierhaltung", "hof"],

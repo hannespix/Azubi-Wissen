@@ -1499,8 +1499,8 @@
       { titel: "Förderung & Arbeitsagentur", eintraege: nach(function (e) { return e.id.indexOf("ba-") === 0; }) },
       { titel: "Arbeitsschutz (SVLFG)", eintraege: nach(function (e) { return e.id.indexOf("svlfg") === 0; }) },
       { titel: "Portale der zuständigen Stelle", eintraege: nach(function (e) { return e.id.indexOf("rp-") === 0; }) },
-      { titel: "Weitere öffentliche Stellen (LRA Karlsruhe, BiBB, Bürgerdienste)", eintraege: nach(function (e) {
-        return /^(lra-|ka-|bibb-)/.test(e.id); }) }
+      { titel: "Weitere öffentliche Stellen (LRA Karlsruhe, BiBB, Bildungsserver)", eintraege: nach(function (e) {
+        return /^(lra-|ka-|bibb-|bildungsserver|lw-)/.test(e.id); }) }
     ];
     if (EIGENE.dokumente.length) {
       baum.unshift({ titel: "Eigene Dokumente", eintraege: EIGENE.dokumente.slice() });
@@ -2047,11 +2047,25 @@
           h += "<p><strong>Fachrichtungen:</strong></p><ul class=\"chipzeile\">" +
             b.fachrichtungen.map(function (f) { return '<li><span class="chip">' + esc(f) + "</span></li>"; }).join("") + "</ul>";
         }
+        // Verordnungs-Ziel: verifizierter Direktlink, lokales PDF (Gärtner)
+        // oder die Regelungs-Übersicht des Bildungsservers Agrar.
+        var verordnungZiel = b.verordnungUrl ||
+          (b.id === "gaertner" ? "formulare/gesetze/gaertnausbv.pdf" :
+           b.id === "gartenbaufachwerker" ? "https://www.landesrecht-bw.de" :
+           "https://www.bildungsserveragrar.de/bildungswege/ausbildung/rechtliche-regelungen-fuer-die-ausbildung/");
+        var verordnungLokal = verordnungZiel.indexOf("http") !== 0;
         h += '<div class="export-aktionen">' +
-          '<a class="bw-btn" href="' + esc(b.url) + '" target="_blank" rel="noopener">' + esc(b.quelleTitel) + " ↗</a>";
+          '<a class="bw-btn" href="' + esc(b.url) + '" target="_blank" rel="noopener">' + esc(b.quelleTitel) + " ↗</a>" +
+          '<a class="bw-btn bw-btn--sekundaer" href="' + esc(verordnungZiel) + '" target="_blank"' + (verordnungLokal ? "" : ' rel="noopener"') + ">Verordnung " + (verordnungLokal ? "(PDF)" : "↗") + "</a>" +
+          '<a class="bw-btn bw-btn--sekundaer" href="https://web.arbeitsagentur.de/berufenet/suche?text=' + encodeURIComponent(b.titel) + '" target="_blank" rel="noopener">BERUFENET ↗</a>';
+        if (berufsTitelListe().indexOf(b.titel) >= 0) {
+          h += '<button class="bw-btn bw-btn--gelb" id="beruf-vorlagen" type="button" data-beruf="' + esc(b.titel) + '">E-Mail-Vorlagen für diesen Beruf</button>';
+        }
         if (b.imTool && b.id === "gaertner") h += ' <a class="bw-btn bw-btn--sekundaer" href="#/wissen">Wissensdatenbank öffnen</a>';
         if (b.imTool && b.id === "gartenbaufachwerker") h += ' <a class="bw-btn bw-btn--sekundaer" href="#/wissen?thema=fachwerker">Fachwerker-Themenbereich</a>';
-        h += "</div></section>";
+        h += "</div>" +
+          '<p class="bw-klein bw-leise">Schnellnachschlag und Rechner (Urlaub, Vergütung, Fristen, Teilzeit) gelten berufsübergreifend für alle grünen Berufe.</p>' +
+          "</section>";
       }
     }
 
@@ -2071,6 +2085,19 @@
       if (d) setTimeout(function () { d.scrollIntoView({ block: "start" }); d.focus({ preventScroll: true }); }, 0);
       var b = berufVon(params.b);
       if (b) zuletztMerken("#/berufe?b=" + b.id, b.titel, "Beruf");
+      // Automatik: Beruf in die Vorlagen übernehmen — Fachrichtung wird
+      // verworfen, wenn sie zum neuen Beruf nicht passt.
+      var knopf = $("#beruf-vorlagen", root);
+      if (knopf) {
+        knopf.addEventListener("click", function () {
+          var werte = werteLesen();
+          var titel = knopf.getAttribute("data-beruf");
+          werte.BERUF = titel;
+          if (fachrichtungenFuerBeruf(titel).indexOf(werte.FACHRICHTUNG) < 0) delete werte.FACHRICHTUNG;
+          werteSchreiben(werte);
+          location.hash = "#/vorlagen";
+        });
+      }
     }
   }
 

@@ -22,7 +22,7 @@
           ],
           markiereZeile: 2
         },
-        fussnote: "Jährliche Fortschreibung im Bundesanzeiger (§ 17 BBiG). Tarifgebundene Betriebe: Tariftabelle anwenden; nicht tarifgebundene dürfen höchstens 20 % unter Branchentarif bleiben, nie unter der Mindestvergütung.",
+        fussnote: "Gilt für alle grünen Berufe (Beginnjahr zählt). Jährliche Fortschreibung im Bundesanzeiger (§ 17 BBiG). Tarifgebundene Betriebe wenden die Tariftabelle ihrer Sparte an (GaLaBau, Erwerbsgartenbau, Landwirtschaft, Weinbau …); nicht tarifgebundene dürfen höchstens 20 % unter dem Branchentarif bleiben, nie unter der Mindestvergütung.",
         recht: "§ 17 BBiG", artikel: ["mindestverguetung"], quellen: ["verguetung-tabelle"] },
 
       { id: "urlaub", titel: "Urlaubsanspruch nach Alter",
@@ -37,7 +37,7 @@
             ["18 und älter", "24 Werktage", "20 Arbeitstage", "§ 3 BUrlG"]
           ]
         },
-        fussnote: "Tarifverträge geben häufig mehr und rechnen direkt in Arbeitstagen. Urlaub möglichst in die Berufsschulferien legen; für Berufsschultage im Urlaub gibt es Ersatz.",
+        fussnote: "Gilt für alle grünen Berufe. Tarifverträge der jeweiligen Sparte geben häufig mehr und rechnen direkt in Arbeitstagen. Urlaub möglichst in die Berufsschulferien legen; für Berufsschultage im Urlaub gibt es Ersatz.",
         recht: "§ 19 JArbSchG · § 3 BUrlG", artikel: ["urlaub"], quellen: ["urlaub-erwerbsgartenbau", "urlaub-galabau"] },
 
       { id: "fristen", titel: "Probezeit, Kündigung & wichtige Fristen",
