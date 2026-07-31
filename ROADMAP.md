@@ -127,10 +127,15 @@
   Fachrichtungen, Verordnungen und verifizierten RP-/Infodienst-Links;
   Ansicht `#/berufe` mit Detail-Deep-Links, Palette-Gruppe, Nav-Punkt,
   neue Startseite. *(PR #19)*
-- **G2 Vorlagen-Automatisierung** — Platzhalter-Typen (Auswahl/Datum/Text),
-  Beruf→Fachrichtung-Dropdowns aus `berufe.js`, Datum vorbelegt,
-  Eingabe-Historie (datalist), Vorlagen auf [BERUF]/[FACHRICHTUNG]
-  generalisiert.
+- **G2 Vorlagen-Automatisierung** ✅ — typisierte Angaben-Felder statt
+  leerer Textfelder: BERUF als Dropdown (17 Berufe, Gärtner/in vorbelegt)
+  mit **abhängiger Fachrichtungs-Auswahl** (Beruf ohne Fachrichtungen →
+  Feld entfällt, Floskeln werden automatisch bereinigt); Prüfungstermin-
+  Dropdown mit Jahresoptionen; Datumsfelder als Datepicker (heute bzw.
+  +14 Tage bei Fristen vorbelegt, Ausgabe in de-DE); **Eingabe-Historie**:
+  Textfelder schlagen die letzten 8 Werte vor (datalist, gemerkt beim
+  Kopieren/Versenden) und bleiben vorlagenübergreifend vorbelegt;
+  Externenprüfungs-Vorlage auf [BERUF] generalisiert. *(PR #20)*
 - **G3 Inhalte generalisieren** — Artikel/Nachschlag/Checklisten auf alle
   Berufe erweitern (Vergütungs-/Urlaubstabellen je Sparte, berufsspezifische
   Quellen und Formulare).

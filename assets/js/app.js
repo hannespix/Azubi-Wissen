@@ -1209,6 +1209,67 @@
     });
     return aus;
   }
+  /* --- G2: Feldtypen, Vorbelegung und Eingabe-Historie ------------- */
+  var DATUMSFELDER = { TERMIN: 1, FRIST: 1, ANTRAGSFRIST: 1, ANMELDESCHLUSS: 1, AUSBILDUNGSBEGINN: 1, PRUEFUNGSDATUM: 1, DATUM_ENDE: 1, NEUES_ENDE: 1 };
+  var FRISTFELDER = { FRIST: 1, ANTRAGSFRIST: 1, ANMELDESCHLUSS: 1 }; // Vorbelegung: heute + 14 Tage
+
+  function heuteISO(tagePlus) {
+    var d = new Date();
+    if (tagePlus) d.setDate(d.getDate() + tagePlus);
+    return d.toISOString().slice(0, 10);
+  }
+  function deDatum(iso) {
+    if (!iso) return "";
+    var t = iso.split("-");
+    return t.length === 3 ? t[2] + "." + t[1] + "." + t[0] : iso;
+  }
+  function isoVonDe(de) {
+    var m = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/.exec(String(de || "").trim());
+    if (!m) return "";
+    function p(x) { return (x.length < 2 ? "0" : "") + x; }
+    return m[3] + "-" + p(m[2]) + "-" + p(m[1]);
+  }
+  function berufsTitelListe() {
+    if (!window.BERUFE) return ["Gärtner/in"];
+    return window.BERUFE.berufe.filter(function (b) { return !b.sonderweg; }).map(function (b) { return b.titel; });
+  }
+  function fachrichtungenFuerBeruf(berufTitel) {
+    if (!window.BERUFE) return [];
+    var b = null;
+    window.BERUFE.berufe.forEach(function (x) { if (x.titel === berufTitel) b = x; });
+    if (!b) return [];
+    if (b.id === "gartenbaufachwerker") return fachrichtungenFuerBeruf("Gärtner/in");
+    return (b.fachrichtungen || []).slice();
+  }
+  function pruefungstermine() {
+    var j = new Date().getFullYear();
+    return ["Sommertermin " + j, "Wintertermin " + j + "/" + (j + 1), "Sommertermin " + (j + 1)];
+  }
+  function feldDefFuer(k) {
+    if (k === "BERUF") return { typ: "auswahl", optionen: berufsTitelListe(), standard: "Gärtner/in" };
+    if (k === "FACHRICHTUNG") return { typ: "auswahl", abhaengigVon: "BERUF" };
+    if (k === "PRUEFUNGSTERMIN") return { typ: "auswahl", optionen: pruefungstermine() };
+    if (DATUMSFELDER[k]) return { typ: "datum", vorISO: heuteISO(FRISTFELDER[k] ? 14 : 0) };
+    return { typ: "text" };
+  }
+  function historieLesen() {
+    try { return JSON.parse(localStorage.getItem("aw.vorlagenhistorie") || "{}"); } catch (e) { return {}; }
+  }
+  function historieMerken(werte, ph) {
+    try {
+      var h = historieLesen();
+      ph.forEach(function (k) {
+        if (feldDefFuer(k).typ !== "text") return;
+        var wert = String(werte[k] || "").trim();
+        if (!wert || wert.length < 2) return;
+        var liste = (h[k] || []).filter(function (x) { return x !== wert; });
+        liste.unshift(wert);
+        h[k] = liste.slice(0, 8);
+      });
+      localStorage.setItem("aw.vorlagenhistorie", JSON.stringify(h));
+    } catch (e) {}
+  }
+
   function werteLesen() {
     try { return JSON.parse(localStorage.getItem("aw.vorlagenwerte") || "{}"); } catch (e) { return {}; }
   }
@@ -1217,9 +1278,18 @@
   }
   function vorlageFuellen(text, werte) {
     // **Fett**-Auszeichnung entfernen — E-Mails sind Reintext.
-    return text.replace(/\*\*/g, "").replace(/\[([A-ZÄÖÜ_]+)\]/g, function (_, k) {
-      return (werte[k] || "").trim() || "[" + k + "]";
+    var erg = text.replace(/\*\*/g, "").replace(/\[([A-ZÄÖÜ_]+)\]/g, function (_, k) {
+      var wert = (werte[k] || "").trim();
+      if (wert) return wert;
+      // Bewusst leere Auswahl (z. B. Fachrichtung „entfällt") füllt mit
+      // Leerstring, offene Felder bleiben als [PLATZHALTER] sichtbar.
+      return Object.prototype.hasOwnProperty.call(werte, k) && werte[k] === "" && (k === "FACHRICHTUNG") ? "" : "[" + k + "]";
     });
+    // Leergelaufene Fachrichtungs-Floskeln aufräumen (Beruf ohne Fachrichtungen).
+    return erg
+      .replace(/,\s*Fachrichtung\s*(,|\))/g, "$1")
+      .replace(/\s*\(Fachrichtung:?\s*\)/g, "")
+      .replace(/\s*in der Fachrichtung\s*(\.|,|\n)/g, "$1");
   }
 
   function viewVorlagen(params) {
@@ -1279,12 +1349,36 @@
     h += "<h1>" + esc(v.titel) + "</h1>";
     if (v.hinweise) h += '<div class="bw-hinweis"><p><strong>Hinweis:</strong> ' + esc(v.hinweise) + "</p></div>";
     h += '<div class="vorlage-raster">';
-    h += '<section aria-label="Platzhalter"><h2>Platzhalter</h2><div class="platzhalter-felder">';
+    h += '<section aria-label="Angaben"><h2>Angaben</h2>' +
+      '<p class="bw-klein bw-leise">Auswahlfelder und Datum sind vorbelegt; Textfelder schlagen frühere Eingaben vor.</p>' +
+      '<div class="platzhalter-felder">';
+    var historie = historieLesen();
     ph.forEach(function (k) {
       var label = k.replace(/_/g, " ").toLowerCase();
       label = label.charAt(0).toUpperCase() + label.slice(1);
-      h += '<div class="bw-field"><label for="ph-' + k + '">' + esc(label) + "</label>" +
-        '<input id="ph-' + k + '" data-ph="' + k + '" value="' + esc(werte[k] || "") + '"></div>';
+      var def = feldDefFuer(k);
+      var wert = werte[k] || "";
+      h += '<div class="bw-field"><label for="ph-' + k + '">' + esc(label) + "</label>";
+      if (def.typ === "auswahl") {
+        var optionen = def.abhaengigVon ? fachrichtungenFuerBeruf(werte.BERUF || "Gärtner/in") : def.optionen;
+        var gewaehlt = optionen.indexOf(wert) >= 0 ? wert : (def.standard && optionen.indexOf(def.standard) >= 0 ? def.standard : optionen[0] || "");
+        h += '<select id="ph-' + k + '" data-ph="' + k + '"' + (def.abhaengigVon ? ' data-abhaengig="' + def.abhaengigVon + '"' : "") +
+          (optionen.length ? "" : " disabled") + ">";
+        if (!optionen.length) h += '<option value="">— entfällt bei diesem Beruf —</option>';
+        optionen.forEach(function (o) {
+          h += '<option value="' + esc(o) + '"' + (o === gewaehlt ? " selected" : "") + ">" + esc(o) + "</option>";
+        });
+        h += "</select>";
+      } else if (def.typ === "datum") {
+        var iso = isoVonDe(wert) || def.vorISO;
+        h += '<input type="date" id="ph-' + k + '" data-ph="' + k + '" value="' + esc(iso) + '">';
+      } else {
+        h += '<input id="ph-' + k + '" data-ph="' + k + '" value="' + esc(wert) + '" list="hist-' + k + '" autocomplete="off">';
+        h += '<datalist id="hist-' + k + '">' + (historie[k] || []).map(function (v) {
+          return '<option value="' + esc(v) + '"></option>';
+        }).join("") + "</datalist>";
+      }
+      h += "</div>";
     });
     h += "</div></section>";
     h += '<section aria-label="Vorschau"><h2>Vorschau</h2>' +
@@ -1324,26 +1418,51 @@
     V.vorlagen.forEach(function (x) { if (x.id === params.id) v = x; });
     if (!v) return;
     var betreffFeld = $("#v-betreff", root), textFeld = $("#v-text", root), status = $("#v-status", root);
+    var ph = platzhalterVon(v);
 
+    function feldwert(feld) {
+      if (feld.type === "date") return deDatum(feld.value);
+      return feld.value;
+    }
     function aktualisieren() {
       var werte = werteLesen();
-      root.querySelectorAll("[data-ph]").forEach(function (i) { werte[i.getAttribute("data-ph")] = i.value; });
+      root.querySelectorAll("[data-ph]").forEach(function (i) { werte[i.getAttribute("data-ph")] = feldwert(i); });
       werteSchreiben(werte);
       betreffFeld.value = vorlageFuellen(v.betreff, werte);
       textFeld.value = vorlageFuellen(v.text, werte);
       $("#v-mailto", root).setAttribute("href",
         "mailto:?subject=" + encodeURIComponent(betreffFeld.value) + "&body=" + encodeURIComponent(textFeld.value));
     }
+    function merken() { historieMerken(werteLesen(), ph); }
     function kopieren(text, meldung) {
-      function ok() { status.textContent = meldung; }
+      function ok() { status.textContent = meldung; merken(); }
       function fallback() { textFeld.select(); document.execCommand && document.execCommand("copy"); ok(); }
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(ok, fallback);
       } else fallback();
     }
-    root.querySelectorAll("[data-ph]").forEach(function (i) { i.addEventListener("input", aktualisieren); });
+    root.querySelectorAll("[data-ph]").forEach(function (i) {
+      i.addEventListener("input", aktualisieren);
+      i.addEventListener("change", aktualisieren);
+    });
+    // Beruf gewählt → Fachrichtungs-Auswahl passend neu befüllen
+    var berufFeld = root.querySelector('[data-ph="BERUF"]');
+    var frFeld = root.querySelector('[data-ph="FACHRICHTUNG"][data-abhaengig]');
+    if (berufFeld && frFeld) {
+      berufFeld.addEventListener("change", function () {
+        var optionen = fachrichtungenFuerBeruf(berufFeld.value);
+        var alt = frFeld.value;
+        frFeld.innerHTML = optionen.length
+          ? optionen.map(function (o) { return '<option value="' + esc(o) + '">' + esc(o) + "</option>"; }).join("")
+          : '<option value="">— entfällt bei diesem Beruf —</option>';
+        frFeld.disabled = !optionen.length;
+        if (optionen.indexOf(alt) >= 0) frFeld.value = alt;
+        aktualisieren();
+      });
+    }
     $("#v-kopieren", root).addEventListener("click", function () { kopieren(textFeld.value, "Text kopiert."); });
     $("#v-betreff-kopieren", root).addEventListener("click", function () { kopieren(betreffFeld.value, "Betreff kopiert."); });
+    $("#v-mailto", root).addEventListener("click", merken);
     aktualisieren();
   }
 
