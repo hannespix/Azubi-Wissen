@@ -65,7 +65,7 @@
     if (opts.deckblatt) {
       h += '<div class="deckblatt">' +
         '<img src="' + logoSrc + '" alt="Regierungspräsidium Freiburg">' +
-        "<h1>Azubi-Wissen<br>Rechte &amp; Pflichten in der Ausbildung</h1>" +
+        "<h1>Ausbildung Grüne Berufe<br>Wissensdatenbank der Ausbildungsberatung</h1>" +
         '<p class="untertitel">' + A().esc(opts.rolle.untertitel) + "</p>" +
         '<p class="metadaten">Detailgrad: ' + STUFEN[opts.stufe] + "<br>" +
         "Erstellt am " + datumHeute() + " · Stand der Inhalte: " + A().esc(W.stand) + "<br>" +
@@ -82,7 +82,7 @@
         themenMap[t.id].map(function (a) { return artikelHtml(a, opts); }).join("") +
         "</section>";
     });
-    h += '<p class="fussnote">' + A().esc(W.hinweis) + " — Erstellt mit dem Werkzeug „Azubi-Wissen“ des Regierungspräsidiums Freiburg, " + datumHeute() + ".</p>";
+    h += '<p class="fussnote">' + A().esc(W.hinweis) + " — Erstellt mit dem Werkzeug „Ausbildung Grüne Berufe“ des Regierungspräsidiums Freiburg, " + datumHeute() + ".</p>";
     h += "</div>";
     return h;
   }
@@ -120,7 +120,7 @@
     if (v.vorgehen) h += "<h2>Weiteres Vorgehen / Wiedervorlage</h2>" + A().fmt(v.vorgehen);
     if (v.verteiler) h += "<h2>Verteiler</h2><p>" + A().esc(v.verteiler) + "</p>";
     h += '<p style="margin-top:3em">________________________________<br>' + A().esc(v.verfasser || "Unterschrift") + "</p>";
-    h += '<p class="fussnote">Aktenvermerk, erstellt mit dem Werkzeug „Azubi-Wissen“ am ' + datumHeute() + ". Enthält ggf. personenbezogene Daten — Aufbewahrung nach Aktenordnung, keine ungesicherte Weitergabe.</p>";
+    h += '<p class="fussnote">Aktenvermerk, erstellt mit dem Werkzeug „Ausbildung Grüne Berufe“ am ' + datumHeute() + ". Enthält ggf. personenbezogene Daten — Aufbewahrung nach Aktenordnung, keine ungesicherte Weitergabe.</p>";
     h += "</div>";
     return h;
   }

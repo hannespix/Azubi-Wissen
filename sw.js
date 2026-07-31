@@ -22,6 +22,7 @@ var KERN = [
   "./assets/js/nav.js",
   "./assets/js/search.js",
   "./assets/js/wissen.js",
+  "./assets/js/berufe.js",
   "./assets/js/quellen.js",
   "./assets/js/vorlagen.js",
   "./assets/js/nachschlag.js",

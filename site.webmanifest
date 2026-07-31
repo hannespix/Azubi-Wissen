@@ -1,7 +1,7 @@
 {
-  "name": "Azubi-Wissen — RP Freiburg",
-  "short_name": "Azubi-Wissen",
-  "description": "Wissensdatenbank der Ausbildungsberatung: Rechte und Pflichten in der Ausbildung.",
+  "name": "Ausbildung Grüne Berufe — RP Freiburg",
+  "short_name": "Grüne Berufe BW",
+  "description": "Wissensdatenbank und Arbeitshilfen der Ausbildungsberatung für alle grünen Berufe in Baden-Württemberg.",
   "lang": "de",
   "start_url": "./index.html",
   "scope": "./",

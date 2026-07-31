@@ -1,4 +1,4 @@
-// app.js — Anwendungskern der Wissensdatenbank „Azubi-Wissen".
+// app.js — Anwendungskern von „Ausbildung Grüne Berufe" (vormals Azubi-Wissen).
 // Hash-Router, Ansichten (Start / Wissen / Artikel), globale Suchpalette.
 // Assistent und Export liegen in eigenen Modulen (assistent.js, export.js)
 // und werden hier nur eingehängt, falls vorhanden.
@@ -92,7 +92,8 @@
     doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg>',
     plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
     blitz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
-    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><polyline points="8 12 11 15 16 9"></polyline></svg>'
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"></rect><polyline points="8 12 11 15 16 9"></polyline></svg>',
+    blatt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4c-8 0-14 5-14 13 0 1.5.3 2.6.8 3.6"></path><path d="M20 4c0 8-5 14-13 14"></path><path d="M4 21c4-7 9-11 16-13"></path></svg>'
   };
 
   /* ---------------- Suche: Synonyme + Bewertung -------------------- */
@@ -502,6 +503,16 @@
             '<span class="schnipsel">' + esc(c.kurz || "") + "</span></a></li>";
         });
       }
+      var berg = suchenBerufe(q, 2);
+      if (berg.length) {
+        html += '<li class="palette__gruppe" role="presentation">Grüne Berufe</li>';
+        berg.forEach(function (b) {
+          html += '<li class="palette__eintrag" role="option" aria-selected="false" data-ziel="#/berufe?b=' + b.id + '">' +
+            '<a href="#/berufe?b=' + b.id + '"><span class="wo">Beruf</span>' +
+            '<span class="titel">' + S.highlight(b.titel, q) + "</span>" +
+            '<span class="schnipsel">' + esc(b.dauer + ((b.fachrichtungen || []).length ? " · " + b.fachrichtungen.length + " Fachrichtungen" : "")) + "</span></a></li>";
+        });
+      }
       var gerg = suchenGlossar(q, 2);
       if (gerg.length) {
         html += '<li class="palette__gruppe" role="presentation">Glossar</li>';
@@ -524,7 +535,7 @@
           html += eintrag("#/artikel/" + r.id + "?faq=" + r.faqIndex, S.highlight(r.titel, q), schnipsel(r.kurz, erg.tokens), "FAQ");
         });
       }
-      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length && !cerg.length && !gerg.length) {
+      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length && !cerg.length && !gerg.length && !berg.length) {
         html = '<li class="palette__leer" role="presentation">Kein Treffer für „' + esc(q) + '“.<br>' +
           '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(q) + '" data-schliessen-nach>Frage dem Assistenten stellen</a></li>';
       }
@@ -587,12 +598,12 @@
     catch (fehler) {
       var haupt = $("#inhalt");
       if (haupt) {
-        haupt.innerHTML = "<h1>Azubi-Wissen</h1>" +
+        haupt.innerHTML = "<h1>Ausbildung Grüne Berufe</h1>" +
           '<div class="bw-hinweis bw-hinweis--fehler"><p><strong>Diese Ansicht konnte nicht aufgebaut werden.</strong> ' +
           'Bitte die Seite neu laden (Strg+F5). Bleibt der Fehler, hilft die Browser-Konsole bei der Ursache.</p></div>' +
           '<p><a class="bw-btn" href="#/">Zur Startseite</a></p>';
       }
-      if (window.console && console.error) console.error("Azubi-Wissen Renderfehler:", fehler);
+      if (window.console && console.error) console.error("Renderfehler:", fehler);
       erstLauf = false;
     }
   }
@@ -600,22 +611,22 @@
     var r = parseHash();
     var haupt = $("#inhalt");
     var view = r.pfad[0] || "start";
-    var titel = "Azubi-Wissen — RP Freiburg";
+    var titel = "Ausbildung Grüne Berufe — RP Freiburg";
 
     if (view === "artikel" && r.pfad[1] && artikelVon(r.pfad[1])) {
       var a = artikelVon(r.pfad[1]);
       haupt.innerHTML = viewArtikel(a, r.params);
       artikelVerhalten(haupt, a, r.params);
-      titel = a.titel + " — Azubi-Wissen";
+      titel = a.titel + " — Grüne Berufe BW";
       zuletztMerken("#/artikel/" + a.id, a.titel, "Artikel");
     } else if (view === "wissen") {
       haupt.innerHTML = viewWissen(r.params);
       wissenVerhalten(haupt, r.params);
-      titel = "Wissensdatenbank — Azubi-Wissen";
+      titel = "Wissensdatenbank — Grüne Berufe BW";
     } else if (view === "vorlagen") {
       haupt.innerHTML = viewVorlagen(r.params);
       vorlagenVerhalten(haupt, r.params);
-      titel = "E-Mail-Vorlagen — Azubi-Wissen";
+      titel = "E-Mail-Vorlagen — Grüne Berufe BW";
       if (r.params.id && window.VORLAGEN) {
         window.VORLAGEN.vorlagen.forEach(function (v) {
           if (v.id === r.params.id) zuletztMerken("#/vorlagen?id=" + v.id, v.titel, "Vorlage");
@@ -624,35 +635,39 @@
     } else if (view === "downloads") {
       haupt.innerHTML = viewDownloads();
       downloadsVerhalten(haupt);
-      titel = "Download-Center — Azubi-Wissen";
+      titel = "Download-Center — Grüne Berufe BW";
     } else if (view === "nachschlag") {
       haupt.innerHTML = viewNachschlag();
       nachschlagVerhalten(haupt, r.params);
-      titel = "Schnellnachschlag — Azubi-Wissen";
+      titel = "Schnellnachschlag — Grüne Berufe BW";
     } else if (view === "checklisten") {
       haupt.innerHTML = viewChecklisten(r.params);
       checklistenVerhalten(haupt, r.params);
-      titel = "Checklisten — Azubi-Wissen";
+      titel = "Checklisten — Grüne Berufe BW";
     } else if (view === "glossar") {
       haupt.innerHTML = viewGlossar();
       glossarVerhalten(haupt, r.params);
-      titel = "Glossar — Azubi-Wissen";
+      titel = "Glossar — Grüne Berufe BW";
+    } else if (view === "berufe") {
+      haupt.innerHTML = viewBerufe(r.params);
+      berufeVerhalten(haupt, r.params);
+      titel = "Grüne Berufe — Grüne Berufe BW";
     } else if (view === "eigene") {
       haupt.innerHTML = viewEigene();
       eigeneVerhalten(haupt, r.params);
-      titel = "Eigene Inhalte — Azubi-Wissen";
+      titel = "Eigene Inhalte — Grüne Berufe BW";
     } else if (view === "quellen") {
       haupt.innerHTML = viewQuellen(r.params);
       quellenVerhalten(haupt, r.params);
-      titel = "Formulare & Quellen — Azubi-Wissen";
+      titel = "Formulare & Quellen — Grüne Berufe BW";
     } else if (view === "assistent") {
       if (window.AzubiAssistent) { window.AzubiAssistent.renderView(haupt, r.params); }
       else haupt.innerHTML = platzhalter("KI-Assistent", "Der lokale Assistent wird im nächsten Ausbauschritt eingebaut.");
-      titel = "KI-Assistent — Azubi-Wissen";
+      titel = "KI-Assistent — Grüne Berufe BW";
     } else if (view === "export") {
       if (window.AzubiExport) { window.AzubiExport.renderView(haupt, r.params); }
       else haupt.innerHTML = platzhalter("Export & Aktenvermerk", "PDF-Export und Aktenvermerk-Generator folgen im nächsten Ausbauschritt.");
-      titel = "Export & Vermerk — Azubi-Wissen";
+      titel = "Export & Vermerk — Grüne Berufe BW";
     } else {
       haupt.innerHTML = viewStart();
       startVerhalten(haupt);
@@ -706,8 +721,8 @@
   function viewStart() {
     var anzahlFaq = W.artikel.reduce(function (s, a) { return s + (a.faq || []).length; }, 0);
     var h = '<div class="hero"><div>' +
-      '<h1>Azubi-Wissen</h1>' +
-      '<p class="bw-unterzeile">Rechte &amp; Pflichten in der Ausbildung — Wissensdatenbank der Ausbildungsberatung</p>' +
+      '<h1>Ausbildung Grüne Berufe</h1>' +
+      '<p class="bw-unterzeile">Wissensdatenbank und Arbeitshilfen der Ausbildungsberatung — alle grünen Berufe, komplett offline</p>' +
       '<button type="button" class="suchfeld-gross" data-palette>' + ICON.suche +
       '<span>Suchen: Urlaub, Kündigung, Vergütung …</span><kbd class="kbd">Strg K</kbd></button>' +
       '</div>' +
@@ -715,6 +730,7 @@
 
     h += '<div class="schnellzeile">' +
       '<a class="schnellkarte" href="#/nachschlag">' + ICON.blitz + "<span><h3>Schnellnachschlag</h3><p>Vergütung, Urlaub nach Alter, Fristen, Arbeitszeit, Fachrichtungen — auf einen Blick.</p></span></a>" +
+      '<a class="schnellkarte" href="#/berufe">' + ICON.blatt + "<span><h3>Grüne Berufe</h3><p>Alle Ausbildungsberufe mit Fachrichtungen, Verordnungen und Ansprechseiten.</p></span></a>" +
       '<a class="schnellkarte" href="#/checklisten">' + ICON.check + "<span><h3>Checklisten</h3><p>Erstberatung, Eintragung, Betriebsbesuch, AP-Anmeldung — abhaken, drucken, ablegen.</p></span></a>" +
       '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
       '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
@@ -760,7 +776,7 @@
     var aktiv = params.thema || "";
     var gesamt = W.artikel.length + EIGENE.artikel.length;
     var h = '<h1>Wissensdatenbank</h1>' +
-      '<p class="bw-unterzeile">' + gesamt + " Artikel zu Rechten und Pflichten in der Ausbildung" +
+      '<p class="bw-unterzeile">' + gesamt + " Artikel rund um Ausbildung und Beratung in den grünen Berufen" +
       (EIGENE.artikel.length ? " — davon " + EIGENE.artikel.length + " eigene" : "") + "</p>" +
       '<div class="bw-search" style="max-width:34rem"><label for="wq" class="bw-skip-link">Artikel filtern</label>' +
       '<input id="wq" type="search" placeholder="Filtern… (tipptolerant, alle Felder)" aria-label="Artikel filtern">' +
@@ -1707,6 +1723,111 @@
     });
   }
 
+  /* ---------------- Ansicht: Grüne Berufe -------------------------- */
+  var BINDEX = [];
+  (function bauenBerufe() {
+    var B = window.BERUFE;
+    if (!B) return;
+    B.berufe.forEach(function (b) {
+      BINDEX.push({
+        beruf: b,
+        felder: [
+          [norm(b.titel), 5],
+          [norm((b.stichworte || []).join(" ")), 4],
+          [norm((b.fachrichtungen || []).join(" ")), 3],
+          [norm(b.kurz), 1.5]
+        ]
+      });
+    });
+  })();
+
+  function suchenBerufe(q, limit) {
+    var tokens = norm(q).split(" ").filter(function (t) { return t && !STOP[t]; });
+    if (!tokens.length) return [];
+    var treffer = [];
+    BINDEX.forEach(function (rec) {
+      var summe = 0;
+      for (var t = 0; t < tokens.length; t++) {
+        var alts = tokenAlternativen(tokens[t]);
+        var best = 0;
+        for (var f = 0; f < rec.felder.length; f++) {
+          for (var x = 0; x < alts.length; x++) {
+            var sc = tokenScore(alts[x], rec.felder[f][0]);
+            if (sc) best = Math.max(best, sc * rec.felder[f][1] * (x ? 0.8 : 1));
+          }
+        }
+        if (!best) { summe = 0; break; }
+        summe += best;
+      }
+      if (summe > 0) treffer.push({ beruf: rec.beruf, score: summe });
+    });
+    treffer.sort(function (a, b) { return b.score - a.score; });
+    return treffer.slice(0, limit || 2).map(function (t) { return t.beruf; });
+  }
+
+  function berufVon(id) {
+    var B = window.BERUFE;
+    if (!B) return null;
+    for (var i = 0; i < B.berufe.length; i++) if (B.berufe[i].id === id) return B.berufe[i];
+    return null;
+  }
+
+  function berufKarte(b) {
+    var fr = (b.fachrichtungen || []).length;
+    return '<li class="karte"><a class="karte__link" href="#/berufe?b=' + esc(b.id) + '">' +
+      '<span class="etikett">' + esc(b.dauer) + "</span>" +
+      (fr ? ' <span class="etikett">' + fr + " Fachrichtungen</span>" : "") +
+      (b.imTool ? ' <span class="etikett etikett--eigen">vertieft im Tool</span>' : "") +
+      '<h3 style="margin-top:var(--bw-space-1)">' + esc(b.titel) + "</h3>" +
+      "<p>" + esc(b.kurz) + "</p></a></li>";
+  }
+
+  function viewBerufe(params) {
+    var B = window.BERUFE;
+    if (!B) return platzhalter("Grüne Berufe", "Berufe-Modul nicht geladen.");
+    var h = "<h1>Die grünen Berufe</h1>" +
+      '<p class="bw-unterzeile">Alle Ausbildungsberufe der zuständigen Stelle in Baden-Württemberg — mit Fachrichtungen, Verordnungen und Ansprechseiten</p>';
+
+    if (params.b) {
+      var b = berufVon(params.b);
+      if (b) {
+        h += '<section class="bw-card beruf-detail" id="beruf-detail" tabindex="-1">' +
+          "<h2>" + esc(b.titel) + "</h2>" +
+          '<p class="bw-klein"><span class="etikett">' + esc(b.dauer) + "</span> " +
+          '<span class="etikett etikett--recht">' + esc(b.verordnung) + "</span>" +
+          (b.paragraf66 ? ' <span class="etikett etikett--eigen">§ 66 BBiG</span>' : "") + "</p>" +
+          "<p>" + esc(b.kurz) + "</p>";
+        if ((b.fachrichtungen || []).length) {
+          h += "<p><strong>Fachrichtungen:</strong></p><ul class=\"chipzeile\">" +
+            b.fachrichtungen.map(function (f) { return '<li><span class="chip">' + esc(f) + "</span></li>"; }).join("") + "</ul>";
+        }
+        h += '<div class="export-aktionen">' +
+          '<a class="bw-btn" href="' + esc(b.url) + '" target="_blank" rel="noopener">' + esc(b.quelleTitel) + " ↗</a>";
+        if (b.imTool && b.id === "gaertner") h += ' <a class="bw-btn bw-btn--sekundaer" href="#/wissen">Wissensdatenbank öffnen</a>';
+        if (b.imTool && b.id === "gartenbaufachwerker") h += ' <a class="bw-btn bw-btn--sekundaer" href="#/wissen?thema=fachwerker">Fachwerker-Themenbereich</a>';
+        h += "</div></section>";
+      }
+    }
+
+    var normale = B.berufe.filter(function (x) { return !x.paragraf66 && !x.sonderweg; });
+    var sechsundsechzig = B.berufe.filter(function (x) { return x.paragraf66; });
+    var sonder = B.berufe.filter(function (x) { return x.sonderweg; });
+    h += "<h2>Ausbildungsberufe nach BBiG</h2><ul class=\"karten\">" + normale.map(berufKarte).join("") + "</ul>";
+    h += "<h2>§ 66-Ausbildungen (Menschen mit Behinderung)</h2><ul class=\"karten\">" + sechsundsechzig.map(berufKarte).join("") + "</ul>";
+    if (sonder.length) h += "<h2>Verwandte Qualifikationen</h2><ul class=\"karten\">" + sonder.map(berufKarte).join("") + "</ul>";
+    h += '<p class="stand-hinweis">' + esc(B.hinweis) + " Stand der Erhebung: " + esc(B.stand) + ".</p>";
+    return h;
+  }
+
+  function berufeVerhalten(root, params) {
+    if (params.b) {
+      var d = $("#beruf-detail", root);
+      if (d) setTimeout(function () { d.scrollIntoView({ block: "start" }); d.focus({ preventScroll: true }); }, 0);
+      var b = berufVon(params.b);
+      if (b) zuletztMerken("#/berufe?b=" + b.id, b.titel, "Beruf");
+    }
+  }
+
   /* ---------------- Ansicht: Glossar ------------------------------- */
   var GINDEX = [];
   (function bauenGlossar() {
@@ -2068,7 +2189,7 @@
       var url = URL.createObjectURL(blob);
       var a = document.createElement("a");
       a.href = url;
-      a.download = "azubi-wissen-eigene-" + new Date().toISOString().slice(0, 10) + ".json";
+      a.download = "gruene-berufe-eigene-" + new Date().toISOString().slice(0, 10) + ".json";
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
       sichStatus.textContent = "Sicherung heruntergeladen (" + EIGENE.artikel.length + " Artikel, " + EIGENE.dokumente.length + " Dokumente).";
@@ -2081,7 +2202,7 @@
         var daten;
         try { daten = JSON.parse(String(leser.result)); } catch (e) { sichStatus.textContent = "Datei ist kein gültiges JSON."; return; }
         if (!daten || daten.format !== "azubi-wissen-sicherung" || !Array.isArray(daten.artikel) || !Array.isArray(daten.dokumente)) {
-          sichStatus.textContent = "Datei ist keine Azubi-Wissen-Sicherung."; return;
+          sichStatus.textContent = "Datei ist keine Sicherung dieses Tools."; return;
         }
         sichStatus.textContent = "Sicherung wird eingelesen …";
         var schreibvorgaenge = [];
