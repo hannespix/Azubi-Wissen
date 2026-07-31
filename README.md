@@ -9,6 +9,11 @@ Requests, keine Cloud, keine Telemetrie.**
 
 ## Nutzung
 
+**Online (GitHub Pages, nach jedem Merge automatisch aktualisiert):**
+Browsertool unter `https://hannespix.github.io/Azubi-Wissen/` — die
+Navigator-Vorschau unter `…/navigator/`.
+
+
 **Variante 1 — Einzeldatei (empfohlen für Zero-Trust-Arbeitsplätze):**
 [`azubi-wissen-offline.html`](azubi-wissen-offline.html) herunterladen und
 per **Doppelklick** öffnen. Eine Datei (≈1 MB), alles enthalten; Notizen und

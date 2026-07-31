@@ -1,0 +1,40 @@
+name: Navigator-Windows-Build
+
+# Windows ist die primäre Zielplattform (Briefing §23). Baut Installer (NSIS)
+# und die portable EXE als Artefakte — manuell auslösbar oder per Tag.
+on:
+  workflow_dispatch:
+  push:
+    tags: ["navigator-v*"]
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: navigator/app/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with: { workspaces: navigator }
+      - name: Abhängigkeiten installieren
+        working-directory: navigator/app
+        run: npm ci
+      - name: Tauri-Build (NSIS + portable EXE)
+        working-directory: navigator/app
+        run: npm run tauri build
+      - name: Installer-Artefakt
+        uses: actions/upload-artifact@v4
+        with:
+          name: fachwerker-navigator-windows-installer
+          path: navigator/src-tauri/target/release/bundle/nsis/*.exe
+          if-no-files-found: error
+      - name: Portable EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: fachwerker-navigator-windows-portable
+          path: navigator/src-tauri/target/release/fachwerker-navigator.exe
+          if-no-files-found: error

@@ -1,0 +1,239 @@
+{
+  "gehalt": [
+    "vergutung"
+  ],
+  "lohn": [
+    "vergutung"
+  ],
+  "verdienst": [
+    "vergutung"
+  ],
+  "bezahlung": [
+    "vergutung"
+  ],
+  "geld": [
+    "vergutung"
+  ],
+  "mindestlohn": [
+    "mindestvergutung",
+    "vergutung"
+  ],
+  "ferien": [
+    "urlaub"
+  ],
+  "urlaubstage": [
+    "urlaub"
+  ],
+  "krankschreibung": [
+    "krank",
+    "arbeitsunfahig"
+  ],
+  "attest": [
+    "krank",
+    "au"
+  ],
+  "au": [
+    "krank"
+  ],
+  "chef": [
+    "ausbilder",
+    "betrieb"
+  ],
+  "chefin": [
+    "ausbilder",
+    "betrieb"
+  ],
+  "boss": [
+    "ausbilder"
+  ],
+  "meister": [
+    "ausbilder"
+  ],
+  "schule": [
+    "berufsschule"
+  ],
+  "unterricht": [
+    "berufsschule"
+  ],
+  "blockunterricht": [
+    "berufsschule",
+    "block"
+  ],
+  "gekundigt": [
+    "kundigung"
+  ],
+  "rauswurf": [
+    "kundigung"
+  ],
+  "rausgeworfen": [
+    "kundigung"
+  ],
+  "feuern": [
+    "kundigung"
+  ],
+  "entlassen": [
+    "kundigung"
+  ],
+  "heft": [
+    "berichtsheft",
+    "ausbildungsnachweis"
+  ],
+  "berichtsheft": [
+    "ausbildungsnachweis"
+  ],
+  "mehrarbeit": [
+    "uberstunden"
+  ],
+  "uberstunde": [
+    "uberstunden"
+  ],
+  "prufung": [
+    "abschlussprufung",
+    "zwischenprufung"
+  ],
+  "gesellenprufung": [
+    "abschlussprufung"
+  ],
+  "durchgefallen": [
+    "nicht bestanden",
+    "wiederholung"
+  ],
+  "wechseln": [
+    "wechsel",
+    "aufhebung"
+  ],
+  "wechselbetrieb": [
+    "wechsel"
+  ],
+  "eltern": [
+    "minderjahrig",
+    "gesetzliche vertreter"
+  ],
+  "minderjahrige": [
+    "jugendliche"
+  ],
+  "arzt": [
+    "arztliche untersuchung",
+    "krank"
+  ],
+  "untersuchung": [
+    "arztliche untersuchung"
+  ],
+  "vermerk": [
+    "aktenvermerk"
+  ],
+  "notiz": [
+    "aktenvermerk"
+  ],
+  "kammer": [
+    "zustandige stelle"
+  ],
+  "ihk": [
+    "zustandige stelle"
+  ],
+  "azubi": [
+    "auszubildende"
+  ],
+  "lehrling": [
+    "auszubildende",
+    "azubi"
+  ],
+  "lehre": [
+    "ausbildung"
+  ],
+  "lehrjahr": [
+    "ausbildungsjahr"
+  ],
+  "ausbildungsjahr": [
+    "jahr"
+  ],
+  "verdienen": [
+    "vergutung"
+  ],
+  "probe": [
+    "probezeit"
+  ],
+  "kundigungsfrist": [
+    "kundigung",
+    "frist"
+  ],
+  "teilzeitausbildung": [
+    "teilzeit"
+  ],
+  "verkurzen": [
+    "verkurzung"
+  ],
+  "verlangern": [
+    "verlangerung"
+  ],
+  "pause": [
+    "pausen",
+    "ruhepause"
+  ],
+  "wochenende": [
+    "samstag",
+    "sonntag"
+  ],
+  "nachtarbeit": [
+    "nachtruhe"
+  ],
+  "spatschicht": [
+    "nachtruhe",
+    "arbeitszeit"
+  ],
+  "pflanzenschutz": [
+    "gefahrstoffe",
+    "gefahrliche arbeiten"
+  ],
+  "fachwerker": [
+    "fachpraktiker",
+    "gartenbaufachwerker"
+  ],
+  "fachpraktiker": [
+    "fachwerker"
+  ],
+  "werker": [
+    "fachwerker"
+  ],
+  "gbfwvo": [
+    "fachwerker",
+    "gartenbaufachwerkerverordnung"
+  ],
+  "reza": [
+    "rehabilitationspadagogische zusatzqualifikation"
+  ],
+  "reha": [
+    "rehabilitation",
+    "rehabilitationstrager"
+  ],
+  "bbw": [
+    "berufsbildungswerk",
+    "besondere einrichtung"
+  ],
+  "arbeitsagentur": [
+    "agentur arbeit"
+  ],
+  "asa": [
+    "assistierte ausbildung"
+  ],
+  "zeugnisse": [
+    "zeugnis"
+  ],
+  "arbeitszeugnis": [
+    "zeugnis"
+  ],
+  "hilfe": [
+    "beratung",
+    "unterstutzung"
+  ],
+  "mobbing": [
+    "konflikt"
+  ],
+  "streit": [
+    "konflikt"
+  ],
+  "arger": [
+    "konflikt",
+    "probleme"
+  ]
+}
