@@ -591,3 +591,13 @@ main h1:focus, main h1:focus-visible { outline: none; box-shadow: none; }
 }
 /* Mehrzeilige Chips: Rahmen umschließt den ganzen Chip (kein Zeilen-Fragment). */
 a.chip { display: inline-block; }
+
+/* ============== Vorlagen-Automatisierung (G2) ===================== */
+.platzhalter-felder select,
+.platzhalter-felder input[type="date"] {
+  width: 100%; padding: 0.55em 0.7em;
+  border: 1px solid var(--bw-grau-300); border-radius: var(--bw-radius);
+  background: var(--bw-weiss); color: var(--bw-text);
+  font: inherit;
+}
+.platzhalter-felder select:disabled { color: var(--bw-text-leise); background: var(--bw-grau-50); }
