@@ -203,7 +203,15 @@ immer verlinken; Querlinks zwischen Artikeln.
   Anschlussbeschäftigung (§ 14 Abs. 2 TzBfG, automatisch verlinkt).
   Bestand: 135 Querlink-Verwendungen auf 36 der 38 Artikel; smoke_d2
   und mini_d1 grün. *(PR #28)*
-- **D5 Datensätze** — Glossar, Nachschlag, Checklisten, Berufe, Vorlagen (offen)
+- **D5 Datensätze** ✅ — Verlinkung wirkt jetzt in JEDEM Datensatz:
+  Nachschlag-Tabellen (Grundlage-Spalten klickbar), Karten-Kurztexte
+  und Fußnoten, Checklisten-Punkte samt Hinweisen (inkl. Druck) und
+  Vorlagen-Hinweise laufen über fmtInline (§§ + Querlinks); Glossar um
+  6 Begriffe erweitert (AEVO, Budget für Ausbildung, eAU, JAV,
+  Sachbezug, Schlichtungsausschuss); Fristen-Tabelle + Klagefrist und
+  Schadensersatz-Frist; neue Quelle AEVO (ausbeignv_2009, verifiziert);
+  Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
+  (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
 ## Dauerpflege
 

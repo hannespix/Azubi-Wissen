@@ -56,7 +56,7 @@
   // unverlinkte Rechtsgrundlage); die Regex entsteht aus den Schlüsseln.
   var GESETZ_QUELLE = {
     BBiG: "gesetz-bbig", JArbSchG: "gesetz-jarbschg", ArbZG: "gesetz-arbzg",
-    BUrlG: "gesetz-burlg", EntgFG: "gesetz-entgfg", EFZG: "gesetz-entgfg",
+    BUrlG: "gesetz-burlg", EntgFG: "gesetz-entgfg", EFZG: "gesetz-entgfg", AEVO: "gesetz-aevo",
     "GärtnAusbV": "gesetz-gaertnausbv", GBFWVO: "gesetz-gbfwvo",
     BGB: "gesetz-bgb", ArbSchG: "gesetz-arbschg", KSchG: "gesetz-kschg",
     BetrVG: "gesetz-betrvg", TzBfG: "gesetz-tzbfg", "SGB III": "gesetz-sgb3", "SGB IV": "gesetz-sgb4",
@@ -1399,7 +1399,7 @@
     var ph = platzhalterVon(v);
     var h = '<nav class="crumb" aria-label="Pfad"><a href="#/vorlagen">E-Mail-Vorlagen</a></nav>';
     h += "<h1>" + esc(v.titel) + "</h1>";
-    if (v.hinweise) h += '<div class="bw-hinweis"><p><strong>Hinweis:</strong> ' + esc(v.hinweise) + "</p></div>";
+    if (v.hinweise) h += '<div class="bw-hinweis"><p><strong>Hinweis:</strong> ' + fmtInline(v.hinweise) + "</p></div>";
     h += '<div class="vorlage-raster">';
     h += '<section aria-label="Angaben"><h2>Angaben</h2>' +
       '<p class="bw-klein bw-leise">Auswahlfelder und Datum sind vorbelegt; Textfelder schlagen frühere Eingaben vor.</p>' +
@@ -1627,7 +1627,7 @@
     N.karten.forEach(function (k) {
       h += '<section class="nachschlag-karte bw-card" id="n-' + esc(k.id) + '" aria-labelledby="nt-' + esc(k.id) + '" tabindex="-1">';
       h += '<h2 id="nt-' + esc(k.id) + '">' + esc(k.titel) + "</h2>";
-      if (k.kurz) h += '<p class="bw-klein">' + esc(k.kurz) + "</p>";
+      if (k.kurz) h += '<p class="bw-klein">' + fmtInline(k.kurz) + "</p>";
       if (k.rechner) h += rechnerHtml(k.rechner);
       if (k.tabelle) {
         h += '<div class="tabellen-rahmen"><table class="bw-table"><thead><tr>' +
@@ -1635,7 +1635,7 @@
           "</tr></thead><tbody>" +
           k.tabelle.zeilen.map(function (z, i) {
             return '<tr' + (k.tabelle.markiereZeile === i ? ' class="zeile--aktuell"' : "") + ">" +
-              z.map(function (zelle, s) { return s === 0 ? '<th scope="row">' + esc(zelle) + "</th>" : "<td>" + esc(zelle) + "</td>"; }).join("") + "</tr>";
+              z.map(function (zelle, s) { return s === 0 ? '<th scope="row">' + esc(zelle) + "</th>" : "<td>" + fmtInline(zelle) + "</td>"; }).join("") + "</tr>";
           }).join("") + "</tbody></table></div>";
       }
       if (k.liste) {
@@ -1652,7 +1652,7 @@
           return '<div class="fach-karte"><h3>' + esc(e.t) + "</h3><p>" + esc(e.text) + "</p>" + link + "</div>";
         }).join("") + "</div>";
       }
-      if (k.fussnote) h += '<p class="bw-klein bw-leise">' + esc(k.fussnote) + "</p>";
+      if (k.fussnote) h += '<p class="bw-klein bw-leise">' + fmtInline(k.fussnote) + "</p>";
       var chips = "";
       if (k.recht) chips += '<span class="etikett etikett--recht">' + normVerlinken(esc(k.recht)) + "</span>";
       (k.artikel || []).forEach(function (id) {
@@ -1888,8 +1888,8 @@
       g.punkte.forEach(function (p, pi) {
         var key = gi + "." + pi;
         h += '<div class="cl-punkt"><input type="checkbox" id="cl-' + key + '" data-punkt="' + key + '">' +
-          '<label for="cl-' + key + '">' + esc(p.t) +
-          (p.h ? ' <span class="bw-klein bw-leise">' + esc(p.h) + "</span>" : "") + "</label></div>";
+          '<label for="cl-' + key + '">' + fmtInline(p.t) +
+          (p.h ? ' <span class="bw-klein bw-leise">' + fmtInline(p.h) + "</span>" : "") + "</label></div>";
         idx++;
       });
       h += "</fieldset>";
@@ -1996,7 +1996,7 @@
         dh += "<h2>" + esc(g.t) + "</h2><ul style=\"list-style:none;padding:0\">";
         g.punkte.forEach(function (p, pi) {
           var ok = !!stand.haken[gi + "." + pi];
-          dh += '<li style="margin:0 0 6px">' + (ok ? "☑" : "☐") + " " + esc(p.t) + "</li>";
+          dh += '<li style="margin:0 0 6px">' + (ok ? "☑" : "☐") + " " + fmtInline(p.t) + "</li>";
         });
         dh += "</ul>";
       });

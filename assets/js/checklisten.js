@@ -20,13 +20,13 @@
         gruppen: [
           { t: "Klärung vor der Modellwahl", punkte: [
             { t: "Anlass geklärt — keine vorschnelle Festlegung auf § 66", h: "Erst prüfen, ob der Regelberuf erreichbar ist." },
-            { t: "Regelberuf geprüft (Nachteilsausgleich, Teilzeit, Assistierte Ausbildung)" },
+            { t: "Regelberuf geprüft ([[foerderung|Nachteilsausgleich, Teilzeit, Assistierte Ausbildung]])" },
             { t: "Reha-Zugang hergestellt (Berufsberatung/Reha-Beratung, Teilhabeantrag)" },
             { t: "Eignung diagnostisch geklärt (Praktika, Erprobungen, Stellungnahmen)" },
             { t: "Schriftliches Eignungsergebnis liegt vor — möglichst mit Fachrichtung", h: "Stopppunkt: ohne schriftliches Ergebnis keine Eintragung (§ 3 GBFWVO)." }
           ] },
           { t: "Modell, Lernorte, Finanzierung", punkte: [
-            { t: "Ausbildungsmodell gewählt (betrieblich, begleitet, kooperativ, integrativ, BBW)" },
+            { t: "Ausbildungsmodell gewählt ([[fw-modelle|betrieblich, begleitet, kooperativ, integrativ, BBW]])" },
             { t: "Ausbildungsplatz gesichert und Berufsschule geklärt (Kapazität, Fahrt/Internat)", h: "Stopppunkt: kein gesicherter Ausbildungsplatz." },
             { t: "Betriebliche Eignung geprüft (Anerkennung, Ausbilderqualifikation, ReZA/Kooperation)", h: "Stopppunkt: ReZA/Unterstützung ungeklärt." },
             { t: "Finanzierung verbindlich geklärt (Vergütung, Zuschüsse, Ausbildungsgeld, Fahrt, Lernmittel)", h: "Stopppunkt: Finanzierung nur „in Aussicht“." }
