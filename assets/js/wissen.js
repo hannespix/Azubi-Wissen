@@ -7,6 +7,11 @@
 //    jährlich im Bundesanzeiger bekannt gegeben -> Tabelle ergänzen.
 //  - Textformat in `text`-Feldern: Absätze durch Leerzeile, Aufzählungen mit
 //    "- " am Zeilenanfang, **fett** für Hervorhebungen. Kein HTML.
+//  - Querverweise: [[artikel-id]] oder [[artikel-id|Linktext]] in fakten,
+//    abschnitte.text, faq.a und rollen erlaubt — NICHT im kurz-Feld
+//    (Trefferlisten zeigen kurz unformatiert). Normzitate („§ 20 BBiG",
+//    „§§ 34–36 BBiG") werden automatisch verlinkt, wenn das Werk in
+//    GESETZ_QUELLE (app.js) eingetragen ist.
 //  - Detailstufen: kurz+fakten = Stufe 1 (Kurzübersicht); Abschnitte mit d:2
 //    ab Stufe "Standard"; d:3 nur in Stufe "Ausführlich".
 window.WISSEN = {
@@ -48,7 +53,7 @@ window.WISSEN = {
     ],
     abschnitte: [
       { t: "Was in den Vertrag gehört", d: 2, text: "Die Niederschrift muss mindestens enthalten (§ 11 Abs. 1 BBiG):\n\n- Art, sachliche und zeitliche Gliederung sowie **Ziel** der Ausbildung (Berufsbezeichnung)\n- **Beginn und Dauer** der Ausbildung\n- Ausbildungsmaßnahmen **außerhalb der Ausbildungsstätte** (z. B. überbetriebliche Lehrgänge)\n- **tägliche Ausbildungszeit**\n- Dauer der **Probezeit**\n- **Zahlung und Höhe der Vergütung** sowie deren Zusammensetzung, auch die Vergütung oder der Ausgleich von Überstunden\n- Dauer des **Urlaubs**\n- Voraussetzungen einer **Kündigung**\n- Hinweis auf anwendbare **Tarifverträge, Betriebs- oder Dienstvereinbarungen**\n- **Form des Ausbildungsnachweises** (schriftlich oder elektronisch)" },
-      { t: "Formulare der zuständigen Stelle", d: 2, text: "Für die grünen Berufe stellt die zuständige Stelle (in Baden-Württemberg das Regierungspräsidium) Musterverträge bereit. Sie enthalten alle Pflichtangaben und den betrieblichen Ausbildungsplan als Anlage. Wer die Muster nutzt, vermeidet Rückfragen bei der Eintragung." },
+      { t: "Formulare der zuständigen Stelle", d: 2, text: "Für die grünen Berufe stellt die zuständige Stelle (in Baden-Württemberg das Regierungspräsidium) Musterverträge bereit. Sie enthalten alle Pflichtangaben und den betrieblichen Ausbildungsplan als Anlage. Wer die Muster nutzt, vermeidet Rückfragen bei der [[eintragung|Eintragung]]." },
       { t: "Nichtige Vereinbarungen (§ 12 BBiG)", d: 3, text: "Nichtig sind insbesondere:\n\n- Vereinbarungen, die Azubis **für die Zeit nach dem Ende** der Ausbildung in ihrer beruflichen Tätigkeit beschränken. Ausnahme: Innerhalb der **letzten sechs Monate** darf vereinbart werden, dass im Anschluss ein Arbeitsverhältnis eingegangen wird.\n- **Vertragsstrafen** jeder Art\n- der **Ausschluss oder die Beschränkung von Schadensersatzansprüchen**\n- **Pauschalierungen** von Schadensersatz\n\nSolche Klauseln sind unwirksam, auch wenn sie unterschrieben wurden — der übrige Vertrag bleibt bestehen." },
       { t: "Digitaler Vertragsschluss seit 2025", d: 3, text: "Mit dem Vierten Bürokratieentlastungsgesetz genügt seit 1. Januar 2025 die **Textform** für die Vertragsniederschrift: Der Vertrag kann z. B. als PDF übermittelt werden. Voraussetzung ist, dass das Dokument den Azubis zugänglich ist, gespeichert und gedruckt werden kann und der Empfang nachweisbar ist. Die klassische Papierform mit Unterschrift bleibt zulässig und ist in der Praxis weiterhin verbreitet." }
     ],
@@ -781,7 +786,7 @@ window.WISSEN = {
     ],
     abschnitte: [
       { t: "Im Gartenbau", d: 2, text: "Die zuständige Stelle lädt zur Zwischenprüfung; geprüft werden praxisnahe Aufgaben und Grundlagenwissen der ersten Ausbildungshälfte (z. B. Pflanzenkenntnisse, Bodenbearbeitung, Arbeitssicherheit). Das Ergebnis wird mitgeteilt und sollte im Betrieb ausgewertet werden: Wo stehen wir gegenüber dem Ausbildungsplan?" },
-      { t: "Nach einem schwachen Ergebnis", d: 3, text: "Kein Grund zur Panik, aber zum Handeln:\n\n- Lücken konkret benennen (welche Themen?)\n- betrieblichen Ausbildungsplan nachsteuern, Übungsphasen einbauen\n- Unterstützung nutzen: Nachhilfe über **Assistierte Ausbildung (AsA flex)**, Lerngruppen der Berufsschule\n- in schweren Fällen früh über **Verlängerung** (§ 8 Abs. 2 BBiG) sprechen\n\nDie Ausbildungsberatung unterstützt bei der Einordnung und vermittelt Fördermöglichkeiten." }
+      { t: "Nach einem schwachen Ergebnis", d: 3, text: "Kein Grund zur Panik, aber zum Handeln:\n\n- Lücken konkret benennen (welche Themen?)\n- betrieblichen Ausbildungsplan nachsteuern, Übungsphasen einbauen\n- Unterstützung nutzen: Nachhilfe über die [[foerderung|Assistierte Ausbildung (AsA flex)]], Lerngruppen der Berufsschule\n- in schweren Fällen früh über **Verlängerung** (§ 8 Abs. 2 BBiG) sprechen\n\nDie [[ausbildungsberatung|Ausbildungsberatung]] unterstützt bei der Einordnung und vermittelt Fördermöglichkeiten." }
     ],
     rollen: {
       azubi: "Nimm die Zwischenprüfung ernst — sie kostet nichts und zeigt dir ohne Risiko, wo du stehst. Ein schlechtes Ergebnis hat keine direkten Folgen, wohl aber eine Botschaft: Jetzt gegensteuern, nicht erst vor der Abschlussprüfung.",
@@ -789,7 +794,8 @@ window.WISSEN = {
       beratung: "Schwache Zwischenprüfungsergebnisse systematisch nachfassen (Betrieb kontaktieren, Förderwege anbieten) — hier entscheidet sich oft, ob die Abschlussprüfung gelingt oder das Verhältnis vorzeitig scheitert."
     },
     faq: [
-      { f: "Kann ich durch die Zwischenprüfung fallen?", a: "Nein — die Zwischenprüfung hat kein Bestehen oder Nichtbestehen und zählt nicht für die Abschlussprüfung. Aber: Ohne Teilnahme wirst du nicht zur Abschlussprüfung zugelassen (§ 43 BBiG)." }
+      { f: "Kann ich durch die Zwischenprüfung fallen?", a: "Nein — die Zwischenprüfung hat kein Bestehen oder Nichtbestehen und zählt nicht für die Abschlussprüfung. Aber: Ohne Teilnahme wirst du nicht zur Abschlussprüfung zugelassen (§ 43 BBiG)." },
+      { f: "Was ist, wenn ich die Zwischenprüfung krankheitsbedingt verpasse?", a: "Sofort krankmelden und Attest einreichen — die zuständige Stelle bietet dann einen Nachhol- oder Ersatztermin an. Wichtig ist, dass die Teilnahme vor der [[abschlusspruefung|Abschlussprüfung]] nachgeholt wird, denn sie bleibt Zulassungsvoraussetzung (§ 43 Abs. 1 Nr. 1 BBiG). Unentschuldigtes Fernbleiben dagegen gefährdet die Zulassung." }
     ],
     verwandt: ["abschlusspruefung", "freistellung", "nichtbestehen"]
   },
@@ -1031,7 +1037,8 @@ window.WISSEN = {
       beratung: "Zuständigkeiten sauber abgrenzen (Regierungsbezirk der Ausbildungsstätte, Berufszugehörigkeit) und bei Fehlzuständigkeit warm an die richtige Stelle übergeben — Bürgerfreundlichkeit vor Formalie."
     },
     faq: [
-      { f: "Ist für meine Gärtner-Ausbildung die IHK zuständig?", a: "Nein — für die grünen Berufe (u. a. Gärtner/in) ist in Baden-Württemberg das Regierungspräsidium die zuständige Stelle nach dem BBiG. Es übernimmt die Aufgaben, die in anderen Berufen bei IHK oder Handwerkskammer liegen." }
+      { f: "Ist für meine Gärtner-Ausbildung die IHK zuständig?", a: "Nein — für die grünen Berufe (u. a. Gärtner/in) ist in Baden-Württemberg das Regierungspräsidium die zuständige Stelle nach dem BBiG. Es übernimmt die Aufgaben, die in anderen Berufen bei IHK oder Handwerkskammer liegen." },
+      { f: "Welches Regierungspräsidium ist für uns zuständig?", a: "Maßgeblich ist der Sitz der **Ausbildungsstätte**: Das Regierungspräsidium des Regierungsbezirks, in dem ausgebildet wird, führt das Verzeichnis und organisiert die Prüfungen. Bei Unsicherheit hilft die [[ausbildungsberatung|Ausbildungsberatung]] weiter und übergibt bei Fehlzuständigkeit direkt an die richtige Stelle." }
     ],
     verwandt: ["ausbildungsberatung", "eintragung", "abschlusspruefung"]
   },
@@ -1096,7 +1103,8 @@ window.WISSEN = {
       beratung: "Nutzen Sie den Vermerk-Generator im Export-Bereich: Formular ausfüllen, Themenbausteine mit Rechtsgrundlagen anhängen, als PDF drucken und zur Akte nehmen. Entwürfe bleiben lokal im Browser gespeichert — keine Daten verlassen den Arbeitsplatz."
     },
     faq: [
-      { f: "Wann sollte ich in der Beratung einen Aktenvermerk schreiben?", a: "Immer, wenn der Vorgang später nachvollziehbar sein muss: Beschwerden, Betriebsbesuche, Konfliktgespräche, Zusagen mit Frist, Beanstandungen. Faustregel: Was nicht im Vermerk steht, ist nicht geschehen." }
+      { f: "Wann sollte ich in der Beratung einen Aktenvermerk schreiben?", a: "Immer, wenn der Vorgang später nachvollziehbar sein muss: Beschwerden, Betriebsbesuche, Konfliktgespräche, Zusagen mit Frist, Beanstandungen. Faustregel: Was nicht im Vermerk steht, ist nicht geschehen." },
+      { f: "Dürfen Betrieb oder Azubi meine Vermerke einsehen?", a: "Betroffene haben nach Art. 15 DSGVO ein Auskunftsrecht über ihre gespeicherten personenbezogenen Daten; im laufenden Verwaltungsverfahren kommt Akteneinsicht nach dem LVwVfG hinzu. Deshalb gilt beim Schreiben: sachlich, belegbar, ohne Polemik — ein guter Vermerk verträgt jede Einsicht. Details zum Verfahren kennt die [[ausbildungsberatung|Ausbildungsberatung]]." }
     ],
     verwandt: ["ausbildungsberatung", "konflikte", "kuendigung"]
   },
