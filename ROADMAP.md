@@ -1,40 +1,43 @@
-# ROADMAP — Milestones
+# ROADMAP — Azubi-Wissen
 
-**Grobe Vorlage.** Der folgende Milestone-Schnitt ist nur ein Beispiel — pro
-Tool anpassen, kürzen oder erweitern. `@claude` arbeitet die Milestones
-**einzeln, nacheinander** ab (siehe `AGENTS.md`). Jeder Milestone endet lauffähig
-und hat eine Definition of Done.
+> **Tool-Zweck:** Offline-Wissensdatenbank „Rechte & Pflichten in der
+> Ausbildung" (grüne Berufe) mit Suche, lokalem Assistenten, PDF-Export,
+> Aktenvermerk-Generator und lokaler Datenbank.
+> **Zielgruppe/Ablage:** Ausbildungsberatung, Betriebe, Azubis; Nutzerdaten
+> nur lokal im Browser (IndexedDB), keine personenbezogenen Daten im Repo.
 
-> Tool-Zweck (1–2 Sätze): _<hier eintragen>_
-> Zielgruppe / Ablageort der Daten: _<hier eintragen>_
+## Umgesetzt (v1, Juli 2026)
 
----
+- **M0 Gerüst** — Vorlage, Theme, Logo, CI-Workflows *(PR #1)*
+- **M1 Wissensbasis** — 38 Artikel / 9 Themenbereiche / 83 FAQ, 3 Detailstufen,
+  Rollenhinweise, Rechtsgrundlagen, Quellenvermerke *(PR #1, #6)*
+- **M2 App & Artikelansicht** — Router, Start, Detailgrad-Umschalter,
+  Rollen-Tabs, FAQ-Akkordeon *(PR #2)*
+- **M3 Suche** — Strg+K-Palette: fuzzy, Synonyme, Stoppwörter, Tastatur *(PR #2, #3)*
+- **M4 KI-Assistent (lokal)** — Retrieval + Antwortsynthese mit Quellen,
+  Folgefragen, Fallback *(PR #3)*
+- **M5 Export & Vermerk** — PDF-Handout je Zielgruppe, Aktenvermerk-Generator *(PR #4)*
+- **M6 Lokale Datenbank** — IndexedDB: Entwürfe, Vermerke, Notizen *(PR #4)*
+- **M7 Single-File** — `azubi-wissen-offline.html`, Doppelklick-fähig *(PR #5)*
+- **M8 Fachwerker-Themenbereich** — Handreichung Netzwerkfassung 1.2 *(PR #6)*
 
-## M0 — Gerüst
-**Ziel:** Template steht, Theme und Logo eingebunden, leeres Tool startet.
-**Done:** `index.html` öffnet ohne Konsolenfehler; Header mit RPF-Logo; CI-treu.
+## Nächste Ausbaustufen (Vorschläge)
 
-## M1 — Datenmodell + Persistenz
-**Ziel:** PGlite-Schema anlegen, in OPFS persistieren, beim Laden wiederherstellen.
-**Done:** Datensatz anlegen/lesen/löschen; Reload behält Daten.
+- **M9 Interaktive Checklisten** — Erstberatung/Eintragung/Kooperationspartner
+  aus der Handreichung als ausfüllbare, lokal gespeicherte Checklisten mit
+  PDF-Export (Basis: lokaldb.js).
+- **M10 Musterschreiben-Generator** — Textbausteine (Eignungsschreiben-
+  Anforderung, Hinweis an Betriebe, Fallrunden-Protokoll) analog Aktenvermerk.
+- **M11 Glossar & §§-Verlinkung** — Kurzglossar; Normzitate im Text automatisch
+  mit Artikeln verknüpfen.
+- **M12 Inhalts-Export** — Wissensbasis als Markdown/JSON exportieren
+  (Wiederverwendung z. B. im geplanten „Fachwerker-Navigator").
+- **Kontaktverzeichnis** — bewusst zurückgestellt: personenbezogene Daten
+  gehören nicht in dieses Repo; Konzept siehe Fachwerker-Navigator-Briefing
+  (eigenes Vorhaben mit lokaler Datenhaltung).
 
-## M2 — Kernfunktion
-**Ziel:** Erfassen und Anzeigen der Hauptentität in der CI-Tabelle.
-**Done:** Vollständiger Erfassen→Anzeigen-Fluss bedienbar per Tastatur.
+## Dauerpflege
 
-## M3 — Import / Export
-**Ziel:** CSV/Excel-Import, Export im benötigten Zielformat (z. B. SAP/HÜL).
-**Done:** Beispieldatei rein und raus, Rundlauf ohne Datenverlust.
-
-## M4 — Suche / Filter / Auswertung
-**Ziel:** Filterzeile, Suche, einfache Kennzahlen.
-**Done:** Filter kombinierbar; Ergebnis korrekt; barrierefrei.
-
-## M5 — Barrierefreiheit & Feinschliff
-**Ziel:** Kontraste, Fokus, ARIA, Leerzustände, Fehlermeldungen.
-**Done:** WCAG AA erfüllt; sinnvolle Leer-/Fehlertexte.
-
-## M6 — Single-File-Build
-**Ziel:** Auslieferbare Einzeldatei für Zero-Trust-Arbeitsrechner.
-**Done:** `python tools/build_singlefile.py` erzeugt `dist/index.html`,
-offline lauffähig, keine externen Requests.
+- Mindestvergütung jährlich (Bundesanzeiger) · Stand-Datum in `wissen.js`
+- Handreichungs-Fassungen nachziehen (Quellenvermerke!)
+- Nach jeder Inhaltsänderung: `build_singlefile.py --release` + Commit
