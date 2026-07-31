@@ -171,6 +171,17 @@
   liest Version-1-Sicherungen weiterhin ein — für Netzlaufwerk-Ablage
   und Gerätewechsel. Tests: mini_r8 (14, inkl. Export→Import in ein
   frisches Browserprofil). *(PR #33)*
+- **R9 UI/A11y-Abschlussreview** ✅ — Screenshot-Review mobil (390 px)
+  und desktop aller neuen Module mit drei Fixes: (1) verschachtelte
+  Links behoben — Querlinks laufen jetzt vor der §§-Verlinkung und
+  normVerlinken lässt bestehende <a> aus ([[id|§ 15 BBiG]] erzeugte
+  vorher einen leeren Link im Link); (2) 42-px-Überlauf des
+  Kartenkopfs auf Mobil beseitigt (min-width: 0 für die Überschrift);
+  (3) Fixtermin-Rauten im Jahreskreis werden am Monatsrand nicht mehr
+  angeschnitten. Automatische Prüfschleife: kein horizontaler
+  Überlauf, keine Elemente ohne Label, keine leeren/verschachtelten
+  Links — zusammen mit allen 10 Testsuiten grün (124 Checks).
+  *(PR #34)*
 
 ## Ausbau v4: Alle grünen Berufe — Auftrag 31.07.2026
 

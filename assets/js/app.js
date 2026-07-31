@@ -79,14 +79,19 @@
   })();
   function normVerlinken(htmlText) {
     if (!window.QUELLEN) return htmlText;
-    return String(htmlText).replace(NORM_RE, function (ganz, para, gesetz) {
-      var e = null, ziel = GESETZ_QUELLE[gesetz.replace(/\s+/g, " ")];
-      window.QUELLEN.eintraege.forEach(function (x) { if (x.id === ziel) e = x; });
-      if (!e) return ganz;
-      var z = quelleZiel(e);
-      return '<a class="norm-link" href="' + esc(z.href) + '" target="_blank" rel="noopener" title="' +
-        esc(gesetz) + " öffnen" + (z.extern ? " (online)" : " (PDF)") + '">' + para + gesetz + "</a>";
-    });
+    // Bestehende Links (z. B. Querlinks mit §-Zitat im Linktext) unangetastet
+    // lassen — sonst entstehen verschachtelte <a>-Elemente.
+    return String(htmlText).split(/(<a\b[^>]*>[\s\S]*?<\/a>)/).map(function (teil, i) {
+      if (i % 2 === 1) return teil;
+      return teil.replace(NORM_RE, function (ganz, para, gesetz) {
+        var e = null, ziel = GESETZ_QUELLE[gesetz.replace(/\s+/g, " ")];
+        window.QUELLEN.eintraege.forEach(function (x) { if (x.id === ziel) e = x; });
+        if (!e) return ganz;
+        var z = quelleZiel(e);
+        return '<a class="norm-link" href="' + esc(z.href) + '" target="_blank" rel="noopener" title="' +
+          esc(gesetz) + " öffnen" + (z.extern ? " (online)" : " (PDF)") + '">' + para + gesetz + "</a>";
+      });
+    }).join("");
   }
   // Querverweise (D1): [[artikel-id]] bzw. [[artikel-id|Linktext]] in
   // Fließtexten (fakten, abschnitte, faq, rollen, Glossar) werden zu
@@ -1093,7 +1098,9 @@
     return h;
   }
   function fmtInline(s) {
-    return querlinks(normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")));
+    // Reihenfolge: erst Querlinks, dann §§-Verlinkung — normVerlinken lässt
+    // bestehende Links aus, damit [[id|§ 15 BBiG]] keinen Link im Link erzeugt.
+    return normVerlinken(querlinks(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")));
   }
 
   function artikelVerhalten(root, a, params) {
@@ -2025,7 +2032,7 @@
           });
         }
         (e.fixe || []).forEach(function (f) {
-          var cx = mx(f.m, Math.min(1, (f.tag || 15) / 31)), cy = y - 17;
+          var cx = mx(f.m, Math.min(0.88, Math.max(0.12, (f.tag || 15) / 31))), cy = y - 17;
           s += '<path d="M ' + cx + " " + (cy - 6) + " L " + (cx + 5) + " " + cy + " L " + cx + " " + (cy + 6) + " L " + (cx - 5) + " " + cy + ' Z" fill="var(--bw-schwarz)"></path>';
         });
       });
