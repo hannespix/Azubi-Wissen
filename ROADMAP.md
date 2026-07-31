@@ -104,8 +104,11 @@
 - **R2 Inhalts-Review & Querverlinkung** — alle 38+ Artikel: verwandt-Links
   vervollständigen, Artikel↔Quellen↔Vorlagen↔Checklisten verknüpfen,
   Typografie/Fakten prüfen.
-- **R3 UI-Review** — eigener Screenshot-Durchgang mobil/desktop je Ansicht,
-  Befunde fixen.
+- **R3 UI-Review** ✅ — Screenshot-Durchgang aller 11 Ansichten in 390 px
+  und 1280 px; behoben: umbrechender Header-Suchknopf, gequetschte
+  Desktop-Navigation (nowrap + adaptive Suchknopf-Breite), Fokus-Rahmen
+  auf Überschriften nach Routenwechsel, unterstrichene und bei Umbruch
+  fragmentierte Chips. *(PR #17)*
 - **R4 Rechner-Module** — Urlaubsanspruch (Alter/Eintritt), Vergütung
   (Beginnjahr/Tarif), Fristen (Probezeit-Ende, Verlängerung), Teilzeit-Dauer.
 - **R5 Weitere Module** — Vorschläge aus den Reviews, dann Umsetzung.

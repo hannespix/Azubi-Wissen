@@ -879,6 +879,27 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .norm-link { text-decoration-style: dotted; text-underline-offset: 2px; font-weight: inherit; }
 .norm-link:hover { text-decoration-style: solid; }
 
+/* ============== UI-Review R3: Korrekturen ========================= */
+/* Chips sind Schaltflächen-artige Verweise — ohne Unterstreichung. */
+.chip, a.chip, .schnellkarte, .kachel, .karte a.karte__link { text-decoration: none; }
+
+/* Programmatischer Fokus auf Überschriften (Routenwechsel) braucht
+   keinen sichtbaren Rahmen — Screenreader lesen trotzdem vor. */
+main h1:focus, main h1:focus-visible { outline: none; box-shadow: none; }
+
+/* Header-Suchknopf: nie umbrechen; auf mittleren Breiten nur Symbol,
+   damit die Navigation einzeilig bleibt. */
+.suchknopf, .suchknopf .kbd { white-space: nowrap; }
+@media (max-width: 1160px) {
+  .suchknopf .suchknopf__text, .suchknopf .kbd { display: none; }
+}
+@media (min-width: 801px) {
+  .bw-nav__links { flex-wrap: wrap; gap: 0.15rem clamp(0.5rem, 1.4vw, 1.4rem); }
+  .bw-nav__links a { white-space: nowrap; }
+}
+/* Mehrzeilige Chips: Rahmen umschließt den ganzen Chip (kein Zeilen-Fragment). */
+a.chip { display: inline-block; }
+
 </style>
 <script>window.EINZELDATEI=true;</script></head>
 <body>
