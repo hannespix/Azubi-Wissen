@@ -202,7 +202,11 @@ kbd.kbd {
 .wahlkarte input { position: absolute; opacity: 0; pointer-events: none; }
 .wahlkarte .wk-titel { display: block; font-weight: 700; font-size: var(--bw-fs-klein); }
 .wahlkarte .wk-sub { display: block; font-size: var(--bw-fs-mini); color: var(--bw-text-leise); margin-top: 2px; }
-.wahlkarte:has(input:checked) { border: 2px solid var(--bw-schwarz); background: var(--bw-gelb); }
+/* Einfachauswahl (Radio): Gelb hebt den EINEN gewählten Wert hervor (CI) */
+.wahlkarte:has(input[type="radio"]:checked) { border: 2px solid var(--bw-schwarz); background: var(--bw-gelb); }
+/* Mehrfachauswahl (Checkbox): ruhig in Schwarz/Weiß mit Häkchen */
+.wahlkarte:has(input[type="checkbox"]:checked) { border: 2px solid var(--bw-schwarz); }
+.wahlkarte:has(input[type="checkbox"]:checked) .wk-titel::before { content: "✓ "; }
 .wahlkarte:has(input:checked) .wk-sub { color: var(--bw-schwarz); }
 .wahlkarte:has(input:focus-visible) { outline: 3px solid var(--bw-fokus); outline-offset: 2px; }
 .export-aktionen { display: flex; flex-wrap: wrap; gap: var(--bw-space-1); margin-top: var(--bw-space-2); }
