@@ -44,6 +44,9 @@
       h += '<p class="recht-liste">Rechtsgrundlagen: ' +
         a.recht.map(function (r) { return A().esc(r.n + " (" + r.t + ")"); }).join(" · ") + "</p>";
     }
+    if (a.quelle) {
+      h += '<p class="recht-liste">Quelle: ' + A().esc(a.quelle) + "</p>";
+    }
     h += "</section>";
     return h;
   }

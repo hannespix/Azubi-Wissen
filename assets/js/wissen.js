@@ -21,7 +21,8 @@ window.WISSEN = {
     { id: "arbeitszeit",     titel: "Arbeitszeit, Pausen & Urlaub",    kurz: "Arbeitszeitgesetz und Jugendarbeitsschutz, Pausen, freie Tage und Urlaubsansprüche." },
     { id: "schule-pruefung", titel: "Berufsschule & Prüfungen",        kurz: "Zwischen- und Abschlussprüfung, Zulassung, Wiederholung und Verlängerung der Ausbildung." },
     { id: "konflikt-ende",   titel: "Konflikte, Kündigung & Ende",     kurz: "Konflikte lösen, Kündigungsregeln, Aufhebung, Betriebswechsel und das Ende der Ausbildung." },
-    { id: "beratung",        titel: "Ausbildungsberatung & Aufsicht",  kurz: "Zuständige Stelle, Aufgaben der Ausbildungsberatung, Aktenvermerke und Förderwege." }
+    { id: "beratung",        titel: "Ausbildungsberatung & Aufsicht",  kurz: "Zuständige Stelle, Aufgaben der Ausbildungsberatung, Aktenvermerke und Förderwege." },
+    { id: "fachwerker",      titel: "Fachwerker-Ausbildung Gartenbau", kurz: "Die § 66-Ausbildung für Menschen mit Behinderung: Voraussetzungen, Verfahren, Modelle, Prüfungen und Förderung." }
   ],
 
   artikel: [
@@ -1117,7 +1118,7 @@ window.WISSEN = {
     ],
     abschnitte: [
       { t: "Nachteilsausgleich konkret", d: 2, text: "Der Nachteilsausgleich verändert **nicht die fachlichen Anforderungen**, sondern die Bedingungen: mehr Zeit, Pausen, größere Schrift, separate Räume, Assistenz oder angepasste Aufgabenformate. Antrag bei der zuständigen Stelle mit aussagekräftigem Nachweis (z. B. ärztliche/psychologische Stellungnahme) — am besten schon bei der Prüfungsanmeldung, nicht erst in der Prüfungswoche." },
-      { t: "Vom Fachpraktiker zur Vollausbildung", d: 3, text: "Die Fachpraktiker-Ausbildung (§ 66 BBiG) vermittelt reduzierte Theorie bei voller Praxisnähe. Wer sich gut entwickelt, kann anschließend in die reguläre Ausbildung wechseln — mit Anrechnung von Ausbildungszeiten. Umgekehrt kann bei Überforderung in der Vollausbildung der Wechsel in die Fachpraktiker-Ausbildung den Abschluss retten. Beide Wege begleitet die zuständige Stelle; die Entscheidung braucht eine fachliche Feststellung (Reha-Beratung der Agentur für Arbeit)." }
+      { t: "Vom Fachpraktiker zur Vollausbildung", d: 3, text: "Die Fachpraktiker-Ausbildung (§ 66 BBiG) vermittelt reduzierte Theorie bei voller Praxisnähe. Für den Gartenbau ist sie im eigenen Themenbereich **Fachwerker-Ausbildung Gartenbau** ausführlich beschrieben. Wer sich gut entwickelt, kann anschließend in die reguläre Ausbildung wechseln — mit Anrechnung von Ausbildungszeiten. Umgekehrt kann bei Überforderung in der Vollausbildung der Wechsel in die Fachpraktiker-Ausbildung den Abschluss retten. Beide Wege begleitet die zuständige Stelle; die Entscheidung braucht eine fachliche Feststellung (Reha-Beratung der Agentur für Arbeit)." }
     ],
     rollen: {
       azubi: "Unterstützung zu nutzen ist kein Makel: Stützunterricht (AsA flex) ist kostenlos, der Nachteilsausgleich gleicht nur deine Nachteile aus — deine Leistung zählt. Sprich früh mit der Ausbildungsberatung, nicht erst nach der ersten Fünf.",
@@ -1128,8 +1129,238 @@ window.WISSEN = {
       { f: "Ich habe eine Lese-Rechtschreib-Schwäche — bekomme ich in der Prüfung mehr Zeit?", a: "Bei nachgewiesener Beeinträchtigung ist ein Nachteilsausgleich möglich, z. B. Zeitzuschlag oder Vorlesen der Aufgaben (§ 65 BBiG). Stelle den Antrag mit Nachweis rechtzeitig bei der zuständigen Stelle — am besten direkt mit der Prüfungsanmeldung." },
       { f: "Was ist ein Fachpraktiker im Gartenbau?", a: "Eine Ausbildung nach § 66 BBiG für Menschen mit Behinderung: praxisorientiert, mit reduzierter Theorie und eigener Prüfung. Sie kann als Sprungbrett in die reguläre Gärtner-Ausbildung dienen — Ausbildungszeiten können angerechnet werden." }
     ],
-    verwandt: ["zwischenpruefung", "nichtbestehen", "sachbezuege-sozialvers"]
+    verwandt: ["fw-grundlagen", "zwischenpruefung", "nichtbestehen"]
+  },
+
+  /* =================== Fachwerker-Ausbildung Gartenbau ==============
+     Quelle: Handreichung „Fachwerkerausbildung im Gartenbau“,
+     RP Freiburg, Netzwerkfassung 1.2, Stand 31.07.2026 (ohne den
+     personenbezogenen Kontaktteil). ================================= */
+  {
+    id: "fw-grundlagen",
+    thema: "fachwerker",
+    titel: "Fachwerker/in im Gartenbau: Grundlagen & Begriffe",
+    kurz: "Die Fachwerkerausbildung ist eine dreijährige Berufsausbildung nach § 66 BBiG für Menschen, für die wegen Art und Schwere ihrer Behinderung eine Ausbildung im anerkannten Beruf Gärtner/in nicht in Betracht kommt. Grundlage in Baden-Württemberg ist die Gartenbaufachwerkerverordnung (GBFWVO).",
+    quelle: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netzwerkfassung 1.2 (Stand 31.07.2026)",
+    stichworte: ["Fachwerker", "Gartenbaufachwerker", "Fachpraktiker", "Werker", "§ 66", "GBFWVO", "Behinderung", "Reha", "Förderschule", "SBBZ", "Fachrichtungen"],
+    recht: [
+      { n: "§ 64 BBiG", t: "Vorrang der anerkannten Ausbildungsberufe" },
+      { n: "§ 66 BBiG", t: "Ausbildungsregelungen der zuständigen Stellen" },
+      { n: "GBFWVO BW", t: "Gartenbaufachwerkerverordnung (seit 01.02.2022)" },
+      { n: "§ 2 SGB IX", t: "Behinderungsbegriff" }
+    ],
+    fakten: [
+      "**Leitprinzip Regelberuf zuerst (§ 64 BBiG):** Menschen mit Behinderungen sollen grundsätzlich im anerkannten Beruf (Gärtner/in) ausgebildet werden — die Fachwerkerausbildung ist die Ausnahme mit besonderer Begründung.",
+      "Voraussetzung ist die **Eignungsfeststellung des zuständigen Rehabilitationsträgers** (meist Reha-Team der Agentur für Arbeit) — schlechte Noten, fehlender Schulabschluss oder SBBZ-Besuch reichen **nicht**.",
+      "**Dauer: 3 Jahre**, Teilzeit möglich; die Ausbildung orientiert sich am Berufsbild Gärtner/in.",
+      "**Sieben Fachrichtungen:** Baumschule, Friedhofsgärtnerei, Garten- und Landschaftsbau, Gemüsebau, Obstbau, Staudengärtnerei, Zierpflanzenbau.",
+      "Der Abschluss ist ein **vollwertiger Berufsabschluss nach § 66 BBiG** — aber nicht identisch mit dem Abschluss Gärtner/in; ein späterer Aufstieg ist möglich, aber nicht automatisch."
+    ],
+    abschnitte: [
+      { t: "Begriffe richtig verwenden", d: 2, text: "- **Fachwerker/in im Gartenbau:** offizielle Berufsbezeichnung nach der baden-württembergischen GBFWVO — so gehört sie in Verträge, Bescheide und Zeugnisse.\n- **Gartenbaufachwerker/in:** gebräuchliche Kurzform, inhaltlich meist dasselbe.\n- **Fachpraktiker/in:** bundesweiter Oberbegriff für § 66-Ausbildungen (so auch bei BERUFENET); Regelungen können je Bundesland abweichen.\n- **„Reha-Bescheinigung“:** umgangssprachlich für das **schriftliche Ergebnis der Eignungsuntersuchung** des Rehabilitationsträgers nach § 3 GBFWVO.\n- **ReZA:** rehabilitationspädagogische Zusatzqualifikation für Ausbildende (Regelfall mind. 320 Stunden)." },
+      { t: "Wer gehört zur Zielgruppe?", d: 2, text: "Erforderlich sind kumulativ:\n\n- eine **Behinderung im Sinne des § 2 SGB IX** bzw. eine entsprechende leistungsrechtliche Einordnung\n- die begründete Feststellung, dass eine Ausbildung im **anerkannten Beruf nicht in Betracht kommt** — wegen Art und Schwere der Behinderung\n- eine **positive Eignung** für die konkrete Fachwerkerausbildung und Fachrichtung\n- eine **konkrete Ausbildungsmöglichkeit** (geeigneter Betrieb/Träger, geklärte Berufsschule, realistische Finanzierung)\n- Motivation, Grundbelastbarkeit und ein tragfähiger **Unterstützungsrahmen**\n\n**Nicht ausreichend** sind allein: Besuch eines SBBZ, fehlender Schulabschluss, einzelne nicht bestandene Prüfungen, Sprachprobleme oder vorübergehende Leistungsschwankungen." },
+      { t: "Die sieben Fachrichtungen im Überblick", d: 3, text: "- **Baumschule:** Vermehrung, Kultur, Roden, Sortieren, Lagern und Verkauf von Gehölzen\n- **Friedhofsgärtnerei:** Grabstätten anlegen und pflegen, Trauerbinderei, Verkauf\n- **Garten- und Landschaftsbau:** Baustellen, Erdarbeiten, Be-/Entwässerung, befestigte Flächen, vegetationstechnische Arbeiten\n- **Gemüsebau:** Jungpflanzen, Produktionsverfahren, Ernte, Aufbereitung, Vermarktung\n- **Obstbau:** Obstpflanzungen, Ernte, Lagerung, Vermarktung\n- **Staudengärtnerei:** Vermehrung, Produktion, Aufbereitung, Verkauf\n- **Zierpflanzenbau:** Kulturräume, Vermehrung, Produktion, Verkauf\n\nNicht jeder Betrieb, Träger oder Schulstandort deckt alle Fachrichtungen ab — die Fachrichtung deshalb **vor Vertragsabschluss** verbindlich klären." }
+    ],
+    rollen: {
+      azubi: "Die Fachwerkerausbildung ist ein echter Berufsabschluss mit Praxisschwerpunkt — keine „Ausbildung zweiter Klasse“. Ob sie für dich passt, klärt die Reha-Beratung der Agentur für Arbeit gemeinsam mit dir; die Ausbildungsberatung erklärt dir den Weg.",
+      betrieb: "Prüfen Sie nicht selbst, ob jemand „ein Fall für § 66“ ist — das entscheidet der Rehabilitationsträger. Sprechen Sie früh mit der Ausbildungsberatung, ob Ihr Betrieb die Voraussetzungen für die Fachwerkerausbildung erfüllt oder wie eine Kooperation aussehen kann.",
+      beratung: "Kernbotschaft in jeder Erstberatung: Regelberuf vor § 66, Eignungsfeststellung vor Modellwahl, keine vorschnelle Festlegung. Die Begriffsklärung (Fachwerker/Fachpraktiker/„Reha-Bescheinigung“) verhindert viele Missverständnisse zwischen den Beteiligten."
+    },
+    faq: [
+      { f: "Muss man ohne Schulabschluss automatisch Fachwerker machen?", a: "Nein. Ein fehlender Schulabschluss ist kein Kriterium — entscheidend ist die behinderungsbedingte Feststellung des Rehabilitationsträgers, dass eine Ausbildung im anerkannten Beruf nicht in Betracht kommt (§ 66 BBiG, § 64 BBiG: Vorrang des Regelberufs)." },
+      { f: "Ist Fachwerker dasselbe wie Fachpraktiker?", a: "Im Kern ja: „Fachpraktiker/in“ ist der bundesweite Oberbegriff für § 66-Ausbildungen. In Baden-Württemberg lautet die offizielle Bezeichnung nach der GBFWVO „Fachwerkerin/Fachwerker im Gartenbau“." },
+      { f: "Kann man nach der Fachwerkerausbildung noch Gärtner/in werden?", a: "Ja, der Aufstieg ist möglich — aber kein Automatismus. Nötig sind eine aktuelle Eignungsprognose, ein neuer Vertrag im anerkannten Beruf und eine individuelle Entscheidung über die Anrechnung. Pauschale Zusagen wie „nur ein Jahr zusätzlich“ gibt es nicht." }
+    ],
+    verwandt: ["fw-weg", "fw-modelle", "foerderung"]
+  },
+
+  {
+    id: "fw-weg",
+    thema: "fachwerker",
+    titel: "Der Weg in die Fachwerkerausbildung: Verfahren & Zuständigkeiten",
+    kurz: "Vom Erstkontakt bis zum Ausbildungsbeginn führt ein klarer Fahrplan: Regelberuf prüfen, Reha-Eignung feststellen lassen, Modell und Lernorte klären, Finanzierung sichern — erst dann Vertrag schließen und eintragen lassen.",
+    quelle: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netzwerkfassung 1.2 (Stand 31.07.2026)",
+    stichworte: ["Verfahren", "Ablauf", "Erstkontakt", "Reha-Beratung", "Eignungsuntersuchung", "Eignungsschreiben", "Stopppunkte", "Zeitplan", "Zuständigkeit Fachwerker"],
+    recht: [
+      { n: "§ 3 GBFWVO", t: "Eignungsuntersuchung als Eintragungsvoraussetzung" },
+      { n: "§§ 112 ff. SGB III", t: "Leistungen zur Teilhabe am Arbeitsleben" },
+      { n: "§ 66 BBiG", t: "Ausbildungsregelung" }
+    ],
+    fakten: [
+      "**Vier Stopppunkte** vor dem Start: kein schriftliches Eignungsergebnis · kein gesicherter Ausbildungsplatz · ReZA/Unterstützung ungeklärt · Finanzierung nur „in Aussicht“ — bei jedem Stopp gilt: erst klären, dann weiter.",
+      "**Ohne schriftliches Ergebnis der Eignungsuntersuchung** des Reha-Trägers darf die zuständige Stelle den Vertrag **nicht eintragen** (§ 3 GBFWVO); ein mündliches „müsste Fachwerker sein“ genügt nie.",
+      "**Rollenteilung:** Der Reha-Träger entscheidet über Eignung und Förderung; das **Regierungspräsidium** über Anerkennung der Ausbildungsstätte, Eintragung und Prüfungen; die Schule über die Aufnahme — keine Stelle kann allein „Fachwerker machen“.",
+      "**Vertrag vor Beginn** schließen und einreichen; kein rückdatierter oder „vorläufiger“ Start.",
+      "Empfohlener Vorlauf für einen Start am 1. September: **etwa ein Jahr** (Orientierung im Herbst, Diagnostik im Winter, Unterlagen bis Juli)."
+    ],
+    abschnitte: [
+      { t: "Das Verfahren in zwölf Schritten", d: 2, text: "1. **Anlass klären** — keine vorschnelle Festlegung auf § 66\n2. **Regelberuf prüfen** — geht Gärtner/in mit Nachteilsausgleich, Teilzeit oder Assistierter Ausbildung?\n3. **Reha-Zugang herstellen** — Berufsberatung/Reha-Beratung, Antrag auf Teilhabeleistungen\n4. **Eignung diagnostisch klären** — Unterlagen, Erprobungen, Stellungnahmen\n5. **Schriftliches Ergebnis sichern** — möglichst mit Fachrichtung und Unterstützungsbedarf\n6. **Ausbildungsmodell wählen** — betrieblich, begleitet, kooperativ, integrativ, besondere Einrichtung; Teilzeit als Querschnitt\n7. **Ausbildungsplatz und Schule klären** — Kapazität, Fachrichtung, Fahrt/Internat\n8. **Betriebliche Eignung prüfen** — Anerkennung, Ausbilderqualifikation, ReZA/Kooperation\n9. **Finanzierung verbindlich klären** — Vergütung, Zuschüsse, Ausbildungsgeld, Fahrt, Lernmittel\n10. **Vertrag erstellen** — richtige Berufsbezeichnung, Fachrichtung, ggf. Teilzeit\n11. **Vor Beginn einreichen und eintragen lassen**\n12. **Startkonferenz** — Ansprechpersonen, Förderplan, Krisenwege, Prüfungsvorbereitung" },
+      { t: "Was ins Eignungsschreiben gehört", d: 3, text: "Aus dem Schreiben des Rehabilitationsträgers sollte klar hervorgehen:\n\n- zuständiger Träger und **Datum der Feststellung**\n- das **Ergebnis**: Ausbildung nach § 66 BBiG kommt in Betracht, Regelberuf nicht\n- möglichst die **Fachrichtung** bzw. das berufliche Ziel\n- der empfohlene **Ausbildungsrahmen/Unterstützungsbedarf**\n- eine Kontaktstelle für Rückfragen\n\n**Medizinische Diagnosen** müssen der zuständigen Stelle grundsätzlich **nicht** vollständig mitgeteilt werden — Datenminimierung gilt auch hier." },
+      { t: "Empfohlener Jahresfahrplan (Start 1. September)", d: 3, text: "- **September–Dezember des Vorjahres:** Berufsorientierung, Praktika, erste Reha-Beratung\n- **Januar–März:** Eignungsdiagnostik, Modellentscheidung, Kapazitäten prüfen\n- **April–Mai:** schriftliches Ergebnis, Ausbildungsplatz, Anerkennung/ReZA, Finanzierung konkretisieren\n- **Juni:** Vertragsentwurf, Ausbildungsplan, Schulaufnahme\n- **spätestens Juli:** vollständige Unterlagen an die zuständige Stelle\n- **August:** Einarbeitungsplan, Arbeitsschutz, Kommunikationswege\n- **September:** Start nach erfolgter Klärung\n\nSpäte Fälle sind möglich, aber fehleranfällig — die Stopppunkte gelten trotzdem." }
+    ],
+    rollen: {
+      azubi: "Dein erster Weg führt zur Berufsberatung/Reha-Beratung der Agentur für Arbeit — sie stößt die Eignungsprüfung an. Praktika helfen doppelt: Sie klären deinen Berufswunsch und liefern der Diagnostik belastbare Eindrücke.",
+      betrieb: "Warten Sie mit dem Vertrag, bis Eignungsschreiben, Modell, Schule und Finanzierung stehen — ein zu früher Start lässt sich nicht heilen und gefährdet Förderleistungen. Die Ausbildungsberatung begleitet Sie durch die zwölf Schritte.",
+      beratung: "Die vier Stopppunkte konsequent kommunizieren und dokumentieren. Beim Eignungsschreiben auf Vollständigkeit achten (Fachrichtung!), fehlende Angaben früh beim Reha-Träger nachfordern — das erspart Eintragungsschleifen."
+    },
+    faq: [
+      { f: "Wer stellt fest, ob eine Fachwerkerausbildung in Frage kommt?", a: "Der zuständige Rehabilitationsträger — häufig das Reha-Team der Agentur für Arbeit — auf Basis einer Eignungsuntersuchung. Ohne dessen schriftliches Ergebnis darf der Vertrag nicht eingetragen werden (§ 3 GBFWVO)." },
+      { f: "Kann der Betrieb einfach schon mal anfangen lassen, bis alles geklärt ist?", a: "Nein. Der Vertrag muss vor Ausbildungsbeginn geschlossen und eingereicht sein; ein „vorläufiger“ oder rückdatierter Start umgeht die Eignungsfeststellung und gefährdet Eintragung und Förderung." }
+    ],
+    verwandt: ["fw-grundlagen", "fw-modelle", "fw-betrieb"]
+  },
+
+  {
+    id: "fw-modelle",
+    thema: "fachwerker",
+    titel: "Ausbildungsmodelle: betrieblich bis Berufsbildungswerk",
+    kurz: "Die Fachwerkerausbildung kennt mehrere Modelle: direkt im Betrieb, betrieblich mit Begleitung, kooperativ oder integrativ beim Bildungsträger, in einer besonderen Einrichtung (BBW) — Teilzeit und das Budget für Ausbildung als Querschnittsoptionen.",
+    quelle: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netzwerkfassung 1.2 (Stand 31.07.2026)",
+    stichworte: ["Modelle", "betrieblich", "kooperativ", "integrativ", "außerbetrieblich", "Berufsbildungswerk", "BBW", "Träger", "Budget für Ausbildung", "Teilzeit Fachwerker"],
+    recht: [
+      { n: "§ 51 SGB IX", t: "Einrichtungen der beruflichen Rehabilitation" },
+      { n: "§ 61a SGB IX", t: "Budget für Ausbildung" },
+      { n: "§ 7a BBiG", t: "Teilzeitberufsausbildung" }
+    ],
+    fakten: [
+      "**Modell A — betrieblich:** Vertrag und Vergütung beim anerkannten Fachwerker-Ausbildungsbetrieb; Unterstützung über ReZA des Ausbilders oder gesicherte Kooperation.",
+      "**Modell B — begleitet betrieblich:** Vertrag beim Betrieb, zusätzlich verbindlich finanzierte Unterstützung durch einen Träger/Fachdienst (Stützunterricht, Sozialpädagogik, Krisenintervention).",
+      "**Modell C — kooperativ:** Der Bildungsträger ist Vertragspartner, wesentliche Praxis läuft im Kooperationsbetrieb — mit schriftlichem Kooperationsvertrag.",
+      "**Modell D — integrativ:** Ausbildung beim Träger als Hauptlernort; bei außerbetrieblicher Ausbildung sollen **mindestens 18 Wochen** in anerkannten Betrieben stattfinden.",
+      "**Modell E — besondere Einrichtung/BBW** (§ 51 SGB IX): wenn Art oder Schwere der Behinderung besondere Hilfen erfordert — Ausbildung, Schule, Wohnen und Fachdienste verzahnt.",
+      "**Teilzeit** (§ 7a BBiG) und das **Budget für Ausbildung** (§ 61a SGB IX) lassen sich mit den Modellen kombinieren."
+    ],
+    abschnitte: [
+      { t: "Welches Modell passt? (Entscheidungshilfe)", d: 2, text: "- Hohe betriebliche Selbstständigkeit, tragfähiger Betrieb → **A oder B**\n- Guter Kooperationsbetrieb, aber zusätzlicher Lern-/Sozialbedarf → **C**\n- Bedarf an engmaschiger, multidisziplinärer Förderung → **D**\n- Komplexe Behinderung, Bedarf an Wohnen/Fachdiensten → **E**\n- Familien-/Gesundheitsgründe, reduzierte Belastbarkeit → **Teilzeit** als Kombination\n- Bisher Werkstatt-Kontext (WfbM/anderer Leistungsanbieter) → **Budget für Ausbildung** prüfen\n\nEntscheidend ist nicht der Name des Förderangebots, sondern die **verbindlich finanzierte Leistung**." },
+      { t: "Kooperationsmodell: worauf es ankommt", d: 3, text: "Im Modell C ist der Kooperationsbetrieb **keine bloße Praktikumsstelle**: Er vermittelt vereinbarte Ausbildungsinhalte systematisch und arbeitet eng mit dem Träger zusammen; die Gesamtverantwortung des vertraglichen Ausbildenden bleibt bestehen. Der Kooperationsvertrag regelt mindestens: Aufgaben und Lernorte, Anleitung und Besuchsfrequenz, Arbeitsschutz, Berichte, Datenschutz, Finanzierung und was bei Ende der Förderung geschieht." },
+      { t: "Budget für Ausbildung (§ 61a SGB IX)", d: 3, text: "Für den gesetzlich bestimmten Personenkreis — insbesondere Menschen mit Anspruch auf Leistungen im Arbeitsbereich einer Werkstatt — kann das Budget für Ausbildung eine **betriebliche** Ausbildung ermöglichen: Es kann die Ausbildungsvergütung einschließlich des Arbeitgeberanteils zur Sozialversicherung sowie erforderliche Anleitung und Begleitung finanzieren. Die Voraussetzungen sind strikt im Einzelfall zu prüfen; zuständig ist der Rehabilitationsträger." }
+    ],
+    rollen: {
+      azubi: "Ob Betrieb, Träger oder Berufsbildungswerk: Das Modell wird zu deinem Unterstützungsbedarf passend gewählt — nicht umgekehrt. Sag in der Beratung ehrlich, wobei du Hilfe brauchst; das entscheidet über den richtigen Rahmen.",
+      betrieb: "Sie müssen nicht alles allein stemmen: Die Modelle B und C holen professionelle Unterstützung an Bord, ohne Ihnen die Ausbildung aus der Hand zu nehmen. Klären Sie im Kooperationsfall Rollen und Kosten schriftlich — vor dem Start.",
+      beratung: "Modellwahl immer vom Unterstützungsbedarf her denken und die Finanzierungslogik je Modell früh transparent machen (wer ist Vertragspartner, wer zahlt was). Die Entscheidungsmatrix der Handreichung ist dafür das Arbeitsraster."
+    },
+    faq: [
+      { f: "Wer schließt beim Träger-Modell den Ausbildungsvertrag?", a: "Im kooperativen und integrativen Modell ist regelmäßig der Bildungsträger Vertragspartner; die Praxis findet ganz oder teilweise in (Kooperations-)Betrieben statt. Beim betrieblichen und begleiteten Modell bleibt der Betrieb Vertragspartner." },
+      { f: "Geht die Fachwerkerausbildung auch in Teilzeit?", a: "Ja — die GBFWVO lässt Teilzeit nach § 7a BBiG zu: Kürzung der täglichen oder wöchentlichen Zeit um bis zu 50 %, die Gesamtdauer verlängert sich entsprechend (höchstens auf das Anderthalbfache). Schule, überbetriebliche Ausbildung und Prüfungen laufen dabei nicht automatisch anteilig — vorher gemeinsam planen." }
+    ],
+    verwandt: ["fw-weg", "fw-betrieb", "fw-geld"]
   }
+,
+
+  {
+    id: "fw-betrieb",
+    thema: "fachwerker",
+    titel: "Betriebliche Eignung, ReZA, Vertrag & Wechsel",
+    kurz: "Wer Fachwerker/innen ausbilden will, braucht mehr als die Gärtner-Anerkennung: rehabilitationspädagogische Qualität (ReZA oder gesicherte Kooperation), passende Ausbilderqualifikation — und die Eintragung setzt das Eignungsschreiben des Reha-Trägers voraus.",
+    quelle: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netzwerkfassung 1.2 (Stand 31.07.2026)",
+    stichworte: ["ReZA", "rehabilitationspädagogische Zusatzqualifikation", "Eignung Betrieb Fachwerker", "Anerkennung", "Kooperationsvertrag", "Umstellung", "Wechsel Gärtner Fachwerker", "Vertrag Fachwerker", "Eintragung Fachwerker", "acht Auszubildende"],
+    recht: [
+      { n: "§ 4 GBFWVO", t: "Eignung von Ausbildungsstätte und Ausbildenden" },
+      { n: "§ 4 Abs. 7 GBFWVO", t: "Ausnahme vom ReZA-Nachweis" },
+      { n: "§§ 27–30 BBiG", t: "Allgemeine Eignungsanforderungen" },
+      { n: "§ 7, § 8 BBiG", t: "Anrechnung, Verkürzung, Verlängerung" }
+    ],
+    fakten: [
+      "**Ausbildende brauchen:** persönliche und fachliche Eignung, **AEVO**, bei erstmaliger § 66-Ausbildung **mehrjährige Ausbildungserfahrung** — und grundsätzlich die **ReZA mit mindestens 320 Stunden** (acht Kompetenzfelder).",
+      "**Ausnahme vom ReZA-Nachweis** (§ 4 Abs. 7 GBFWVO): nur wenn die Qualität anderweitig verlässlich gesichert ist — Regelfall ist die Unterstützung durch eine Einrichtung nach § 51 SGB IX; gelegentliches Coaching genügt nicht.",
+      "Eine hauptberuflich vollbeschäftigte Ausbilderperson darf nach der GBFWVO **höchstens acht Auszubildende** gleichzeitig ausbilden.",
+      "**Ein Gärtner-Ausbildungsbetrieb ist nicht automatisch Fachwerker-geeignet** — die zusätzliche Prüfung durch die zuständige Stelle ist Pflicht.",
+      "**Kein Umschreiben:** Ein laufender Gärtnervertrag wird nicht durch geänderte Überschrift zum Fachwerkervertrag — nötig sind Eignungsfeststellung, neuer Vertrag und Eintragung.",
+      "**Keine automatische Anrechnung** früherer Ausbildungszeit — entschieden wird kompetenzbezogen im Einzelfall."
+    ],
+    abschnitte: [
+      { t: "Unterlagen für die Eintragung", d: 2, text: "- **schriftliches Ergebnis der Eignungsuntersuchung** des Reha-Trägers (zwingend vor Eintragung)\n- vollständiger **Ausbildungsvertrag** (richtige Berufsbezeichnung „Fachwerker/in im Gartenbau“ + Fachrichtung, vor Beginn geschlossen)\n- individueller **betrieblicher Ausbildungsplan**\n- Nachweis der **Anerkennung der Ausbildungsstätte** für die Fachwerkerausbildung\n- **Ausbilder-Nachweise** (Fachlichkeit, AEVO, Erfahrung, ReZA bzw. Kooperationskonzept)\n- ggf. **Kooperations-/Unterstützungsvertrag** (Aufgaben, Umfang, Finanzierung, Laufzeit, Datenschutz)\n- geklärte **Schulzuordnung** und — praktisch zwingend — die **Förderbewilligung**" },
+      { t: "Die ReZA: acht Kompetenzfelder", d: 3, text: "1. Reflexion der betrieblichen Ausbildungspraxis\n2. Psychologie (Lern-, Verhaltens-, Entwicklungsbesonderheiten)\n3. Pädagogik und Didaktik (kleinschrittige Lernziele, differenzierte Methoden)\n4. Rehabilitationskunde (Reha-System, Teilhabeplanung)\n5. Interdisziplinäre Projektarbeit (Schule, Fachdienste, RP, Reha-Träger)\n6. Arbeitskunde und Arbeitspädagogik (Aufgaben analysieren und anpassen)\n7. Recht (BBiG, SGB, Arbeitsschutz, Datenschutz)\n8. Medizin (Grundverständnis gesundheitlicher Einschränkungen)\n\nEine **belastbare Kooperation** statt eigener ReZA muss verbindlich, qualifiziert, für die gesamte Dauer finanziert und praktisch erreichbar sein — mit Förderplanung, Fallbesprechungen, Stützangeboten, Krisenintervention und dokumentierter Qualitätssicherung." },
+      { t: "Wechsel Gärtner/in → Fachwerker/in (und zurück)", d: 3, text: "**In die Fachwerkerausbildung:**\n\n1. Fallklärung: vorübergehende Überforderung oder echte § 66-Indikation? Erst Hilfen im Regelberuf prüfen (Nachteilsausgleich, Teilzeit, Verlängerung, AsA flex, Betriebswechsel).\n2. Reha-Beratung einschalten, schriftliche Eignungsfeststellung einholen.\n3. Modell, Betrieb/Träger, Schule, Finanzierung bestimmen.\n4. Gärtnervertrag in Abstimmung mit der zuständigen Stelle beenden — ohne Versicherungslücke.\n5. Neuen Fachwerkervertrag schließen und **vor** Fortsetzung eintragen lassen.\n6. Anrechnung individuell beantragen (kompetenzbezogen, keine Kalenderautomatik).\n\n**Aufstieg Fachwerker/in → Gärtner/in:** neuer Ausbildungsgang mit aktueller Eignungsprognose, gutem Leistungsbild und Erprobung im höheren Anforderungsniveau; Restdauer entscheidet die zuständige Stelle — nicht pauschal „ein Jahr“.\n\n**Wichtig:** Die Fachwerkerprüfung ist **kein Ersatzabschluss** nach nicht bestandener Gärtnerprüfung — auch dafür gelten Eignungsfeststellung, ordnungsgemäßes Ausbildungsverhältnis und reguläre Zulassung." }
+    ],
+    rollen: {
+      azubi: "Wenn deine Gärtnerausbildung zu scheitern droht, heißt der erste Schritt nicht „umschreiben lassen“, sondern Ursachen klären — oft retten Nachteilsausgleich, Verlängerung oder Stützunterricht den Regelabschluss. Die Reha-Beratung entscheidet, ob § 66 wirklich der richtige Weg ist.",
+      betrieb: "Planen Sie die ReZA-Frage vor dem ersten Fachwerkervertrag: eigene Zusatzqualifikation oder schriftlich gesicherte Kooperation mit einem Reha-Träger. Und beachten Sie die Obergrenze von acht Auszubildenden je vollbeschäftigter Ausbilderperson.",
+      beratung: "Bei Umstellungswünschen aus laufenden Gärtnerverträgen konsequent das 6-Schritte-Verfahren fahren und dokumentieren — rückwirkende Umdeklarationen sind der häufigste und folgenreichste Verfahrensfehler. ReZA-Ausnahmen nur mit belastbarem Konzept nach § 4 Abs. 7 GBFWVO."
+    },
+    faq: [
+      { f: "Darf ein anerkannter Gärtner-Ausbildungsbetrieb automatisch Fachwerker ausbilden?", a: "Nein. Zusätzlich zur allgemeinen Eignung müssen die rehabilitationspädagogischen Anforderungen erfüllt sein — ReZA (mind. 320 Stunden) oder eine verlässlich gesicherte Unterstützung. Die zuständige Stelle prüft das vor der Eintragung." },
+      { f: "Kann ein laufender Gärtnervertrag einfach auf Fachwerker umgestellt werden?", a: "Nein — es braucht die Eignungsfeststellung des Reha-Trägers, einen neuen Fachwerkervertrag, die geeignete Ausbildungsstätte und die Eintragung. Bereits absolvierte Zeit wird individuell, kompetenzbezogen angerechnet — nicht automatisch." },
+      { f: "Was ist die ReZA?", a: "Die rehabilitationspädagogische Zusatzqualifikation für Ausbildende in § 66-Ausbildungen: im Regelfall mindestens 320 Stunden in acht Kompetenzfeldern (u. a. Psychologie, Didaktik, Rehabilitationskunde, Recht). Alternativ kann die Qualität über eine geeignete Einrichtung nach § 51 SGB IX gesichert werden." }
+    ],
+    verwandt: ["fw-weg", "fw-modelle", "ausbilder"]
+  },
+
+  {
+    id: "fw-inhalte-pruefung",
+    thema: "fachwerker",
+    titel: "Inhalte, Berufsschule & Prüfungen der Fachwerkerausbildung",
+    kurz: "Drei Jahre praxisorientierte Ausbildung mit Pflicht-Lehrgang „Maschinen im Gartenbau“, eigener Zwischen- und Abschlussprüfung (70 % Praxis) und klaren Regeln zum Nachteilsausgleich.",
+    quelle: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netzwerkfassung 1.2 (Stand 31.07.2026)",
+    stichworte: ["Prüfung Fachwerker", "Zwischenprüfung Fachwerker", "Abschlussprüfung Fachwerker", "Pflanzenkenntnisse", "15 Pflanzen", "ÜBA", "Maschinenlehrgang", "Rückenschule", "Ausbildungsplan Fachwerker", "Nachteilsausgleich Fachwerker"],
+    recht: [
+      { n: "GBFWVO BW", t: "Ausbildungsrahmenplan, Prüfungsregelungen" },
+      { n: "§ 65 BBiG", t: "Nachteilsausgleich" },
+      { n: "VOAPLandw", t: "Prüfungsverfahren der landwirtschaftlichen Berufe" }
+    ],
+    fakten: [
+      "**Pflicht-ÜBA:** mindestens **zwei Ausbildungswochen** „Einsatz von Maschinen im Gartenbau“ inklusive Arbeitssicherheit und Rückenschule (teilbar in Abschnitte).",
+      "Bei **außerbetrieblicher** Ausbildung sollen mindestens **18 Wochen** betriebliche Phasen in anerkannten Ausbildungsstätten stattfinden.",
+      "**Zwischenprüfung** (vor Ende des 2. Jahres): 120 Minuten Praxis mit drei Aufgaben + 30 Minuten Pflanzenkenntnisse (**15 Pflanzen** erkennen und benennen).",
+      "**Abschlussprüfung:** Praxis 180 Minuten, vier Aufgaben aus dem 3. Jahr (**70 %**); schriftlich gesamt 150 Minuten (**30 %**: Fachwissen 120 min, Pflanzen 30 min/15 Pflanzen).",
+      "**Bestehensregel:** Gesamtergebnis mindestens „ausreichend“; nicht bestanden bei einer „ungenügenden“ oder mehr als einer „mangelhaften“ Prüfungsleistung.",
+      "**Nachteilsausgleich:** spätestens mit der Prüfungsanmeldung beantragen, ärztlich nachweisen — Maßnahmen ändern die fachlichen Anforderungen nicht."
+    ],
+    abschnitte: [
+      { t: "Ausbildungsplan & Ausbildungsnachweis", d: 2, text: "Der Ausbildende erstellt einen **individuellen betrieblichen Ausbildungsplan** auf Grundlage des Ausbildungsrahmenplans; Abweichungen sind zulässig, wenn Behinderung oder Betriebspraxis es erfordern — das Ausbildungsziel muss erreichbar bleiben. Die zuständige Stelle **kann** vom Führen des Ausbildungsnachweises entbinden (abhängig von Art und Schwere der Behinderung); davon sollte zurückhaltend Gebrauch gemacht werden, denn der Nachweis ist zugleich Lern- und Kommunikationsinstrument." },
+      { t: "Gemeinsame Inhalte aller Fachrichtungen", d: 3, text: "- **Ausbildungsbetrieb:** Vertrag, Organisation, soziale Beziehungen, Arbeits- und Tarifrecht, Arbeitsschutz\n- **Natur und Umwelt:** Umweltschutz, rationelle Energie- und Materialverwendung\n- **Betriebliche Abläufe:** Informationsbeschaffung, Arbeitsplanung, wirtschaftliche Zusammenhänge\n- **Böden, Erden, Substrate:** Eigenschaften, Bearbeitung, Pflege\n- **Pflanzen:** Erkennen, Verwendung, Kultur- und Pflegemaßnahmen\n- **Maschinen und Materialien:** sicherer Einsatz, Wartung, Geräte, Werkstoffe\n\nDazu kommen die fachrichtungsspezifischen Inhalte (Abschnitt III des Rahmenplans) — aus ihnen stammt mindestens die Hälfte der schriftlichen Fachwissen-Aufgaben." },
+      { t: "Nachteilsausgleich konkret beantragen", d: 3, text: "Mögliche Maßnahmen: angemessene **Zeitverlängerung**, persönliche/sächliche/kommunikative **Hilfsmittel oder Assistenz**, **Ruhepausen** ohne Anrechnung auf die Prüfungszeit, weitere individuell geeignete Anpassungen. Der Antrag sollte die **funktionale Einschränkung** und die passende Maßnahme beschreiben — nicht nur eine Diagnose nennen. Schule, Träger und Betrieb sollten die konkrete Prüfungsbarriere schon Monate vorher beobachten. Hilfen im Unterricht sind **getrennt** vom Prüfungs-Nachteilsausgleich zu beantragen." }
+    ],
+    rollen: {
+      azubi: "Pflanzenkenntnisse entscheiden mit: In Zwischen- und Abschlussprüfung musst du jeweils 15 Pflanzen erkennen und benennen — übe das von Anfang an im Betriebsalltag. Wenn du Unterstützung in der Prüfung brauchst, beantragt ihr den Nachteilsausgleich mit der Anmeldung.",
+      betrieb: "Planen Sie die zwei Pflichtwochen Maschinenlehrgang und ggf. die 18 betrieblichen Wochen früh ins Ausbildungsjahr ein. Der individuelle Ausbildungsplan ist Ihr Steuerungsinstrument — halten Sie ihn aktuell und nutzen Sie die Zwischenprüfung als Standortbestimmung.",
+      beratung: "Nachteilsausgleiche früh und funktional vorbereiten (Barriere → Maßnahme), Anträge mit der Anmeldung. Bei Befreiungswünschen vom Ausbildungsnachweis restriktiv beraten — der Nachweis trägt die Ausbildungsdokumentation."
+    },
+    faq: [
+      { f: "Wie läuft die Fachwerker-Abschlussprüfung ab?", a: "Praktisch 180 Minuten mit vier gleich gewichteten Aufgaben aus dem dritten Ausbildungsjahr (70 % des Ergebnisses) plus 150 Minuten schriftlich (30 %): 120 Minuten Fachwissen und 30 Minuten Pflanzenkenntnisse mit 15 Pflanzen. Bestanden ist, wer im Gesamtergebnis mindestens „ausreichend“ erreicht — eine ungenügende oder mehr als eine mangelhafte Leistung bedeutet Nichtbestehen." },
+      { f: "Kann man beim Fachwerker vom Berichtsheft befreit werden?", a: "Die zuständige Stelle kann abhängig von Art und Schwere der Behinderung von der Pflicht zum Ausbildungsnachweis entbinden. Empfohlen wird das nur ausnahmsweise — der Nachweis ist ein wichtiges Lern- und Kommunikationsinstrument." }
+    ],
+    verwandt: ["fw-grundlagen", "abschlusspruefung", "foerderung"]
+  },
+
+  {
+    id: "fw-geld",
+    thema: "fachwerker",
+    titel: "Vergütung & Förderung in der Fachwerkerausbildung",
+    kurz: "Wer zahlt, hängt vom Modell ab: Beim betrieblichen Vertrag zahlt der Betrieb die Ausbildungsvergütung (Mindestvergütung gilt), beim Träger fließen Ausbildungsgeld oder Übergangsgeld nach Förderbescheid. Betriebe können Zuschüsse bis 60/80 % erhalten.",
+    quelle: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netzwerkfassung 1.2 (Stand 31.07.2026)",
+    stichworte: ["Vergütung Fachwerker", "Ausbildungsgeld", "Übergangsgeld", "Zuschuss Arbeitgeber", "Förderung Fachwerker", "Finanzierung", "BAB Fachwerker", "60 Prozent", "80 Prozent"],
+    recht: [
+      { n: "§ 17 BBiG", t: "Vergütungsanspruch (betrieblicher Vertrag)" },
+      { n: "§ 73 SGB III", t: "Zuschüsse zur Ausbildungsvergütung" },
+      { n: "§§ 112 ff. SGB III", t: "Leistungen zur Teilhabe (Ausbildungsgeld u. a.)" },
+      { n: "§ 61a SGB IX", t: "Budget für Ausbildung" }
+    ],
+    fakten: [
+      "**Begriffe trennen:** Ausbildungsvergütung = vertragliche Zahlung des Ausbildenden; Ausbildungsgeld, Übergangsgeld, BAB, Fahrt-/Unterkunftskosten = Sozialleistungen mit eigenen Voraussetzungen. „Fachwerker bekommen Betrag X“ ist deshalb regelmäßig falsch.",
+      "**Betrieblicher Vertrag:** Mindestausbildungsvergütung gilt (Beginn 2026: **724 €** im 1. Jahr, dann +18 %/+35 %/+40 % — Details im Artikel Mindestvergütung); Tarifbindung und 80-%-Regel beachten.",
+      "**Arbeitgeberzuschuss** (§ 73 SGB III): bis **60 %** der Vergütung bei Rehabilitand/innen, bis **80 %** bei schwerbehinderten Menschen — plus pauschalierter SV-Anteil; kein Automatismus, **vor Beginn** klären.",
+      "**Trägermodell:** Auszubildende erhalten Leistungen zum Lebensunterhalt nach Förderbescheid (Ausbildungsgeld/Übergangsgeld); Maßnahmekosten trägt der Reha-Träger.",
+      "**Budget für Ausbildung:** kann Vergütung inkl. Arbeitgeber-SV-Anteil und die nötige Anleitung/Begleitung finanzieren.",
+      "**Teilzeit:** Vergütung darf anteilig angepasst werden — Berechnung vorab mit zuständiger Stelle und Förderträger abstimmen."
+    ],
+    abschnitte: [
+      { t: "Weitere Leistungen im Blick behalten", d: 2, text: "Je nach Einzelfall kommen hinzu:\n\n- **Fahrtkosten**, Familienheimfahrten, notwendige **Unterkunft/Internat** und Verpflegung\n- **Lernmittel, Arbeitskleidung, Hilfsmittel**, technische Arbeitshilfen oder Assistenz (behinderungsbedingt)\n- **Berufsausbildungsbeihilfe (BAB)** in geeigneten betrieblichen Konstellationen\n- **Kinderbetreuungskosten** und ergänzende Leistungen\n\nZuständigkeit und Höhe regeln die jeweiligen Bescheide — vor Ausbildungsbeginn beantragen." },
+      { t: "Typische Finanzierungsfehler vermeiden", d: 3, text: "- Betrieb und Träger halten sich **gegenseitig** für den Vergütungszahler → Vertragslogik je Modell vorab festlegen\n- **Zuschuss erst nach Beginn** beantragt → keine oder nur teilweise Bewilligung; Anträge gehören vor den Start\n- **Fahrt/Internat/Blockschule** in der Planung vergessen → Deckungslücken im laufenden Jahr\n- **Modellwechsel** ohne Prüfung der Sozialleistungs- und Versicherungsfolgen\n- **Teilzeit** vereinbart, aber Vergütung, Förderdauer und Schulorganisation ungeklärt\n- Förderzusage ist **trägergebunden**, der Betrieb plant ein anderes Modell" }
+    ],
+    rollen: {
+      azubi: "Wieviel Geld du bekommst, hängt vom Modell ab — lass dir in der Beratung genau aufschlüsseln, was Vergütung, was Sozialleistung ist und was du beantragen musst (BAB, Fahrt, Unterkunft). Anträge immer vor dem Start stellen.",
+      betrieb: "Der Zuschuss nach § 73 SGB III macht die Fachwerkerausbildung wirtschaftlich gut tragbar — bis 60/80 % der Vergütung plus SV-Pauschale. Klären Sie Höhe und Laufzeit verbindlich mit dem Arbeitgeber-Service/Reha-Team, bevor der Vertrag unterschrieben wird.",
+      beratung: "Bei jeder Modellberatung die Zahlungslogik explizit machen (wer zahlt was, aus welchem Bescheid) und die typischen Finanzierungsfehler als Checkliste durchgehen — Deckungslücken sind ein Hauptgrund für Abbrüche im ersten Jahr."
+    },
+    faq: [
+      { f: "Wie viel verdient man in der Fachwerkerausbildung?", a: "Beim betrieblichen Vertrag zahlt der Betrieb die Ausbildungsvergütung — mindestens die gesetzliche Mindestvergütung (Beginn 2026: 724 € im 1. Jahr, mit den gesetzlichen Aufschlägen), tarifgebunden entsprechend mehr. Bei Träger-Modellen gibt es stattdessen Ausbildungsgeld oder Übergangsgeld nach dem Förderbescheid des Reha-Trägers — eine Pauschalaussage gibt es nicht." },
+      { f: "Bekommt der Betrieb einen Zuschuss, wenn er Fachwerker ausbildet?", a: "Möglich ist ein Zuschuss zur Ausbildungsvergütung nach § 73 SGB III: bis zu 60 % bei Rehabilitandinnen und Rehabilitanden, bis zu 80 % bei schwerbehinderten oder gleichgestellten Menschen, zuzüglich eines pauschalierten Arbeitgeberanteils zur Sozialversicherung. Höhe und Bewilligung entscheidet die Agentur für Arbeit im Einzelfall — vor Ausbildungsbeginn klären." }
+    ],
+    verwandt: ["mindestverguetung", "fw-modelle", "sachbezuege-sozialvers"]
+  }
+
 
   ]
 };
