@@ -594,7 +594,8 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 /* Merkliste & Karten-Druck (R7): Stern- und Druckknopf im Kartenkopf,
    aktiver Stern gelb mit dunkler Kontur (Gelb-Regel). */
 .karten-kopf { display: flex; align-items: flex-start; gap: 6px; }
-.karten-kopf h2 { flex: 1 1 auto; margin-right: 4px; }
+.karten-kopf h2 { flex: 1 1 auto; min-width: 0; overflow-wrap: break-word; margin-right: 4px; }
+.karten-kopf .bw-iconbtn { flex: 0 0 auto; }
 .merk-knopf svg, .druck-knopf svg { width: 20px; height: 20px; }
 .merk-knopf--aktiv svg polygon { fill: var(--bw-gelb); stroke: var(--bw-schwarz); }
 .artikel-aktionen .merk-knopf { align-self: center; }
