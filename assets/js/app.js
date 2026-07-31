@@ -59,7 +59,7 @@
     BUrlG: "gesetz-burlg", EntgFG: "gesetz-entgfg", EFZG: "gesetz-entgfg",
     "GärtnAusbV": "gesetz-gaertnausbv", GBFWVO: "gesetz-gbfwvo",
     BGB: "gesetz-bgb", ArbSchG: "gesetz-arbschg", KSchG: "gesetz-kschg",
-    BetrVG: "gesetz-betrvg", "SGB III": "gesetz-sgb3", "SGB IV": "gesetz-sgb4",
+    BetrVG: "gesetz-betrvg", TzBfG: "gesetz-tzbfg", "SGB III": "gesetz-sgb3", "SGB IV": "gesetz-sgb4",
     "SGB IX": "gesetz-sgb9", "BAföG": "gesetz-bafoeg", DSGVO: "gesetz-dsgvo",
     LwAusbV: "ausbv-landwirt", WinzerAusbV: "ausbv-winzer",
     FischwAusbV: "ausbv-fischwirt", BrennAusbV: "ausbv-brenner",

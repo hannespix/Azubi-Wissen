@@ -195,7 +195,14 @@ immer verlinken; Querlinks zwischen Artikeln.
   Sachbezugsgrenzen) und neuer Abschnitt „Urlaubsentgelt ist nicht
   Urlaubsgeld". Bestand: 90 Querlink-Verwendungen auf 29 Ziele,
   smoke_d2 komplett grün. *(PR #27)*
-- **D4 Artikel-Tranche 3** — Konflikte/Ende, Beratung, Fachwerker (offen)
+- **D4 Artikel-Tranche 3** ✅ — 14 Artikel der Themen Konflikte/Ende,
+  Beratung und Fachwerker vertieft: ~45 weitere Querlinks (u. a.
+  Zwölf-Schritte-Verfahren der Fachwerkerausbildung komplett auf die
+  Detailartikel verlinkt, Mängel-Workflow der Beratung, Wechsel-Wege);
+  neue Quelle TzBfG (verifiziert) samt neuer FAQ zur befristeten
+  Anschlussbeschäftigung (§ 14 Abs. 2 TzBfG, automatisch verlinkt).
+  Bestand: 135 Querlink-Verwendungen auf 36 der 38 Artikel; smoke_d2
+  und mini_d1 grün. *(PR #28)*
 - **D5 Datensätze** — Glossar, Nachschlag, Checklisten, Berufe, Vorlagen (offen)
 
 ## Dauerpflege
