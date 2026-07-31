@@ -36,22 +36,41 @@
   Betriebsanweisungen), Berichtsheft-Portale, Pflanzenlisten, Berufsschulen —
   als gekennzeichnete Online-Links
 
-Offen: **Q9** Übernahme der Quellen in den Fachwerker-Navigator.
+> **Fachwerker-Navigator pausiert** (Beschluss 31.07.2026): kein separates
+> Desktop-Tool — dieses Tool ist die eine Wissensdatenbank und Hilfssoftware
+> für alle Themen der zuständigen Stelle. Der Ordner `navigator/` bleibt als
+> Archiv liegen, wird aber nicht weiterentwickelt.
 
-## Nächste Ausbaustufen (Vorschläge)
+## Ausbaustufe v2: Hilfssoftware für die zuständige Stelle
+
+- **V1 E-Mail-Vorlagen-Center** ✅ — 14 Vorlagen in 3 Kategorien
+  (Vertrag & Eintragung, Prüfung, Beratungsalltag): Vertragsunterlagen,
+  Vertragsänderung/-verlängerung, Auflösungsvertrag, AP-Anmeldung,
+  Externenprüfung (§ 45 Abs. 2 BBiG) mit Literaturliste, Nachteilsausgleich,
+  Teilzeitausbildung, Ausbildung mit Kind, Fachwerker-/Gärtner-Interesse u. a.
+  Platzhalter ausfüllen → Vorschau → kopieren oder als E-Mail öffnen;
+  passende Anhänge und Hintergrund-Artikel verlinkt. *(PR #11)*
+- **V2 Download-Center** ✅ — alle Dokumente als aufklappbare Baumstruktur
+  nach Thematik (Verträge, Ausbildungspläne, Tabellen, Gesetze, Prüfung,
+  Förderung, Arbeitsschutz, Portale) mit Filter. *(PR #11)*
+- **V3 Eigene Inhalte** — eigene Artikel, Dokumente und Verträge direkt im
+  Tool anlegen/hochladen (IndexedDB), in Suche und Download-Baum integriert,
+  JSON-Sicherung (Export/Import).
+- **V4 Schnellnachschlag** — Tarif-/Vergütungstabellen, Urlaubsansprüche nach
+  Alter, Fristen und Eigenheiten der Fachrichtungen als kompakte
+  Nachschlagekarten.
+- **V5 Feinschliff** — Startseite/Navigation modernisieren, zuletzt
+  angesehene Inhalte, Barrierefreiheits-Feinschliff.
+
+## Weitere Ideen
 
 - **M9 Interaktive Checklisten** — Erstberatung/Eintragung/Kooperationspartner
   aus der Handreichung als ausfüllbare, lokal gespeicherte Checklisten mit
   PDF-Export (Basis: lokaldb.js).
-- **M10 Musterschreiben-Generator** — Textbausteine (Eignungsschreiben-
-  Anforderung, Hinweis an Betriebe, Fallrunden-Protokoll) analog Aktenvermerk.
 - **M11 Glossar & §§-Verlinkung** — Kurzglossar; Normzitate im Text automatisch
   mit Artikeln verknüpfen.
-- **M12 Inhalts-Export** — Wissensbasis als Markdown/JSON exportieren
-  (Wiederverwendung z. B. im geplanten „Fachwerker-Navigator").
 - **Kontaktverzeichnis** — bewusst zurückgestellt: personenbezogene Daten
-  gehören nicht in dieses Repo; Konzept siehe Fachwerker-Navigator-Briefing
-  (eigenes Vorhaben mit lokaler Datenhaltung).
+  gehören nicht in dieses Repo.
 
 ## Dauerpflege
 
