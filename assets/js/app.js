@@ -67,6 +67,7 @@
     vermerk: ["aktenvermerk"], notiz: ["aktenvermerk"],
     kammer: ["zustandige stelle"], ihk: ["zustandige stelle"],
     azubi: ["auszubildende"], lehrling: ["auszubildende", "azubi"], lehre: ["ausbildung"],
+    lehrjahr: ["ausbildungsjahr"], ausbildungsjahr: ["jahr"], verdienen: ["vergutung"],
     probe: ["probezeit"], kundigungsfrist: ["kundigung", "frist"],
     teilzeitausbildung: ["teilzeit"], verkurzen: ["verkurzung"], verlangern: ["verlangerung"],
     pause: ["pausen", "ruhepause"], wochenende: ["samstag", "sonntag"],
@@ -75,11 +76,18 @@
     zeugnisse: ["zeugnis"], arbeitszeugnis: ["zeugnis"],
     hilfe: ["beratung", "unterstutzung"], mobbing: ["konflikt"], streit: ["konflikt"], arger: ["konflikt", "probleme"]
   };
-  function norm(s) { return S.normalize(s); }
+  // Wie bwSearch.normalize, zusätzlich ohne Satz-/Sonderzeichen — sonst
+  // verhindert ein angehängtes „?" oder „." den Treffer (UND-Logik).
+  function norm(s) { return S.normalize(s).replace(/[^a-z0-9]+/g, " ").trim(); }
   function tokenAlternativen(tok) {
     var alts = [tok];
     var syn = SYN[tok];
-    if (syn) syn.forEach(function (s) { norm(s).split(" ").forEach(function (t) { if (alts.indexOf(t) < 0) alts.push(t); }); });
+    if (syn) syn.forEach(function (s) {
+      norm(s).split(" ").forEach(function (t) {
+        // Füllwörter nie als Alternative aufnehmen („nicht bestanden" → nur „bestanden")
+        if (t && !STOP[t] && alts.indexOf(t) < 0) alts.push(t);
+      });
+    });
     return alts;
   }
   function lev(a, b) {
@@ -105,9 +113,11 @@
     var words = hay.split(" ");
     for (var i = 0; i < words.length; i++) {
       var w = words[i];
-      if (Math.abs(w.length - tok.length) > k) continue;
-      if (lev(tok, w) <= k) return 1;
-      if (w.length > tok.length + 1 && lev(tok, w.slice(0, tok.length)) <= k) return 1; // Präfix-fuzzy
+      if (Math.abs(w.length - tok.length) > k + 3) continue;
+      if (Math.abs(w.length - tok.length) <= k && lev(tok, w) <= k) return 1;
+      // Präfix-fuzzy in beide Richtungen (Flexionsendungen: „durchgefallen" ~ „durchfalle")
+      if (w.length > tok.length + 1 && lev(tok, w.slice(0, tok.length)) <= k) return 1;
+      if (tok.length > w.length + 1 && w.length >= 5 && lev(tok.slice(0, w.length), w) <= k) return 1;
     }
     return 0;
   }
@@ -150,7 +160,7 @@
   // Füllwörter, die für das Ranking ignoriert werden (außer die Anfrage
   // besteht nur aus solchen Wörtern).
   var STOP = {};
-  ("wie viel viele was wer wann wo warum darf durfen muss mussen kann konnen soll sollen will wollen ich du er sie es wir ihr mein meine meinem meinen dein deine der die das den dem des ein eine einen einem einer und oder aber auch noch schon nur nicht kein keine im in an am auf fur von vor nach bei mit ohne zu zum zur uber unter als wenn dann ist sind war bin bist hat habe haben hatte werden wird wurde bekomme bekommt bekommen gibt es mir mich dir dich uns euch man").split(" ").forEach(function (w) { STOP[w] = 1; });
+  ("wie viel viele was wer wann wo warum darf durfen muss mussen kann konnen soll sollen will wollen ich du er sie es wir ihr mein meine meinem meinen dein deine der die das den dem des ein eine einen einem einer und oder aber auch noch schon nur nicht kein keine im in an am auf fur von vor nach bei mit ohne zu zum zur uber unter als wenn dann ist sind war bin bist hat habe haben hatte werden wird wurde bekomme bekommt bekommen gibt es mir mich dir dich uns euch man tun machen mache macht gilt heisst bedeutet eigentlich denn jetzt bitte mal so da dazu damit doch trotzdem keinen keinem keiner unser unsere gegen ab aus bis je pro").split(" ").forEach(function (w) { STOP[w] = 1; });
 
   // Globale Suche über den Index. Liefert {artikel:[],faq:[],themen:[]}.
   function suchen(q) {
@@ -180,6 +190,7 @@
     treffer.sort(function (a, b) { return b.score - a.score; });
     var artikel = [], faq = [];
     treffer.forEach(function (t) {
+      t.rec.score = t.score; // transient, wird je Suche überschrieben
       if (t.rec.typ === "artikel" && artikel.length < 7) artikel.push(t.rec);
       if (t.rec.typ === "faq" && faq.length < 5) faq.push(t.rec);
     });
@@ -664,15 +675,21 @@
   }
 
   /* ---------------- Start ------------------------------------------ */
-  document.querySelectorAll("[data-palette]").forEach(function (b) {
-    b.addEventListener("click", function () { paletteOeffnen(); });
-  });
-  window.addEventListener("hashchange", rendern);
-  rendern();
+  function init() {
+    document.querySelectorAll("[data-palette]").forEach(function (b) {
+      b.addEventListener("click", function () { paletteOeffnen(); });
+    });
+    window.addEventListener("hashchange", rendern);
+    rendern();
+  }
+  // Erst rendern, wenn alle Modul-Skripte (Assistent, Export) geladen sind.
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
 
   // Öffentliche Mini-API für Assistent/Export
   window.AzubiApp = {
     suchen: suchen, fmt: fmt, fmtInline: fmtInline, esc: esc,
+    norm: norm, tokenAlternativen: tokenAlternativen, tokenScore: tokenScore, stoppwoerter: STOP,
     artikelVon: artikelVon, themaVon: themaVon,
     paletteOeffnen: paletteOeffnen, rendern: rendern
   };
