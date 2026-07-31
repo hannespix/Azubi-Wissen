@@ -41,3 +41,4 @@ sind zur Verwendung im Ausbildungsverfahren bestimmt. Stand der Sammlung: 31.07.
 | `gesetze/burlg.pdf` | Bundesurlaubsgesetz (BUrlG) — Volltext | Bund (gesetze-im-internet.de) | aktuelle Fassung | https://www.gesetze-im-internet.de/burlg/ |
 | `gesetze/entgfg.pdf` | Entgeltfortzahlungsgesetz (EntgFG) — Volltext | Bund (gesetze-im-internet.de) | aktuelle Fassung | https://www.gesetze-im-internet.de/entgfg/ |
 | `gesetze/gaertnausbv.pdf` | Ausbildungsordnung Gärtner/in (GärtnAusbV) — Volltext | Bund (gesetze-im-internet.de) | aktuelle Fassung | https://www.gesetze-im-internet.de/g_rtnausbv/ |
+| `kmk-rahmenlehrplan-gaertner.pdf` | KMK-Rahmenlehrplan Gärtner/Gärtnerin (Berufsschule) | Kultusministerkonferenz | Beschluss 08.12.1995 | https://www.kmk.org/fileadmin/pdf/Bildung/BeruflicheBildung/rlp/Gaertner95-12-08.pdf |

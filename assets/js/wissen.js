@@ -379,7 +379,7 @@ window.WISSEN = {
     thema: "pflichten-betrieb",
     titel: "Ausbilder/in & Eignung des Betriebs",
     kurz: "Ausbilden darf nur, wer persönlich und fachlich geeignet ist. Der Betrieb muss geeignet sein, eine verantwortliche Ausbilderin oder einen Ausbilder bestellen und Wechsel der zuständigen Stelle melden.",
-    stichworte: ["Ausbilder", "Ausbildereignung", "Meister", "AEVO", "Eignung", "Fachkraft", "Betreuungsschlüssel", "Ausbilderwechsel"],
+    stichworte: ["Ausbilder", "Ausbildereignung", "Meister", "AEVO", "Eignung", "Fachkraft", "Betreuungsschlüssel", "Ausbilderwechsel", "Anerkennung", "Ausbildungsbetrieb werden"],
     recht: [
       { n: "§§ 27–30 BBiG", t: "Eignung von Ausbildungsstätte und Personal" },
       { n: "§ 76 BBiG", t: "Überwachung durch die zuständige Stelle" }
@@ -389,10 +389,12 @@ window.WISSEN = {
       "**Fachlich geeignet** ist, wer die beruflichen Fertigkeiten und die **berufs- und arbeitspädagogische Eignung** besitzt — im Gartenbau klassisch über die **Meisterprüfung**.",
       "Das Verhältnis von **Fachkräften zu Azubis** muss angemessen sein (§ 27 BBiG).",
       "Die Ausbilderin/der Ausbilder muss die Ausbildung **unmittelbar, verantwortlich und in wesentlichem Umfang** selbst durchführen oder überwachen.",
-      "**Ausbilderwechsel und längere Abwesenheit** (Ausscheiden, Elternzeit, Krankheit) sind der zuständigen Stelle unverzüglich zu melden."
+      "**Ausbilderwechsel und längere Abwesenheit** (Ausscheiden, Elternzeit, Krankheit) sind der zuständigen Stelle unverzüglich zu melden.",
+      "**Anerkennung des Betriebs:** Anträge bis **20. April** (Frühsommertermin) bzw. **20. September** (Herbsttermin) beim Regierungspräsidium — vor der amtlichen Anerkennung darf **kein Ausbildungsverhältnis** begonnen werden."
     ],
     abschnitte: [
       { t: "Wer darf im Gartenbau ausbilden?", d: 2, text: "Regelfall ist die **Gärtnermeisterin/der Gärtnermeister** der jeweiligen Fachrichtung — die Meisterprüfung schließt die berufs- und arbeitspädagogische Qualifikation ein. Auch Absolventinnen und Absolventen einschlägiger **Techniker-, Fachagrarwirt- oder Hochschulabschlüsse** können fachlich geeignet sein; die pädagogische Eignung ist dann gesondert nachzuweisen. Über Anerkennung und Ausnahmen entscheidet die **zuständige Stelle** — vor der ersten Eintragung dort klären.", },
+      { t: "Anerkennung als Ausbildungsbetrieb", d: 2, text: "Erstmalige Ausbildungsbetriebe stellen einen **Anerkennungsantrag** beim Regierungspräsidium. Geprüft werden die **Eignung der Ausbildungsstätte** nach der Eignungsverordnung (GartAusbStEignV — Anforderungen je Fachrichtung: Kulturen, Flächen, Technik) und die **Ausbildereignung**. Antragstermine: bis **20. April** für den Frühsommer, bis **20. September** für den Herbst; später eingehende Anträge rutschen ins nächste Halbjahr. Wichtig: Erst nach der Anerkennung darf ein Ausbildungsverhältnis beginnen. Bereits anerkannte Ausbilder/innen brauchen bei einem Betriebswechsel keine erneute persönliche Anerkennung." },
       { t: "Wenn die Ausbilderin/der Ausbilder ausfällt", d: 3, text: "Scheidet die Ausbilderin/der Ausbilder aus oder fällt länger aus, muss der Betrieb **unverzüglich** eine geeignete Nachfolge benennen und der zuständigen Stelle melden. Gelingt das nicht in angemessener Zeit, ist die ordnungsgemäße Ausbildung nicht mehr gesichert — die zuständige Stelle berät zu Lösungen (externe Ausbilder, Verbund, Betriebswechsel der Azubis) und muss notfalls die Eignung der Ausbildungsstätte neu bewerten." }
     ],
     rollen: {
@@ -402,7 +404,8 @@ window.WISSEN = {
     },
     faq: [
       { f: "Wer darf Azubis im Gartenbau ausbilden?", a: "Persönlich und fachlich Geeignete — im Regelfall Gärtnermeister/innen der Fachrichtung. Andere Qualifikationen (Techniker, Studium) können anerkannt werden; das entscheidet die zuständige Stelle, in Baden-Württemberg das Regierungspräsidium." },
-      { f: "Unser Ausbilder hat gekündigt — dürfen wir weiter ausbilden?", a: "Nur, wenn unverzüglich eine geeignete neue Ausbilderin oder ein Ausbilder bestellt und der zuständigen Stelle gemeldet wird. Ohne verantwortliche Ausbilderperson ist die Ausbildung nicht mehr ordnungsgemäß — sprechen Sie sofort mit der Ausbildungsberatung." }
+      { f: "Unser Ausbilder hat gekündigt — dürfen wir weiter ausbilden?", a: "Nur, wenn unverzüglich eine geeignete neue Ausbilderin oder ein Ausbilder bestellt und der zuständigen Stelle gemeldet wird. Ohne verantwortliche Ausbilderperson ist die Ausbildung nicht mehr ordnungsgemäß — sprechen Sie sofort mit der Ausbildungsberatung." },
+      { f: "Wie wird unser Betrieb anerkannter Ausbildungsbetrieb?", a: "Anerkennungsantrag beim Regierungspräsidium stellen — bis 20. April für den Frühsommer- oder bis 20. September für den Herbsttermin. Geprüft werden Ausbildungsstätte (Eignungsverordnung GartAusbStEignV, je Fachrichtung) und Ausbildereignung, meist mit Betriebsbesichtigung. Erst nach der Anerkennung darf ein Ausbildungsverhältnis beginnen." }
     ],
     verwandt: ["eintragung", "ausbildungspflicht", "zustaendige-stelle"]
   },

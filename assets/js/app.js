@@ -1332,7 +1332,9 @@
         return ["pflanzenlisten", "schule-anmeldungen", "berichtsheft-gaertner", "berichtsheft-galabau"].indexOf(e.id) >= 0; }) },
       { titel: "Förderung & Arbeitsagentur", eintraege: nach(function (e) { return e.id.indexOf("ba-") === 0; }) },
       { titel: "Arbeitsschutz (SVLFG)", eintraege: nach(function (e) { return e.id.indexOf("svlfg") === 0; }) },
-      { titel: "Portale der zuständigen Stelle", eintraege: nach(function (e) { return e.id.indexOf("rp-") === 0; }) }
+      { titel: "Portale der zuständigen Stelle", eintraege: nach(function (e) { return e.id.indexOf("rp-") === 0; }) },
+      { titel: "Weitere öffentliche Stellen (LRA Karlsruhe, BiBB, Bürgerdienste)", eintraege: nach(function (e) {
+        return /^(lra-|ka-|bibb-)/.test(e.id); }) }
     ];
     if (EIGENE.dokumente.length) {
       baum.unshift({ titel: "Eigene Dokumente", eintraege: EIGENE.dokumente.slice() });

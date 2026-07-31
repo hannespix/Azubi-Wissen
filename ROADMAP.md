@@ -95,10 +95,12 @@
 > „Überarbeite, verlinke und verbessere alle Inhalte … eigene Reviews
 > (inhaltlich, UI, Erweiterungsvorschläge) … PR für PR."
 
-- **R1 Inhalts-Recherche 2** — RP Karlsruhe (zuständige Stelle Nordbaden)
-  und Landratsamt Karlsruhe auswerten; ergänzend BiBB-Umsetzungshilfe,
-  KMK-Rahmenlehrplan, Budget für Ausbildung; neue Quellen/Formulare
-  einpflegen.
+- **R1 Inhalts-Recherche 2** ✅ — 8 neue Quellen: zentrale RP-Seiten
+  (Unterlagen für Ausbildende, Anerkennung mit Fristen 20.04./20.09.),
+  Eignungsverordnung GartAusbStEignV, KMK-Rahmenlehrplan (vendored),
+  BiBB „Ausbildung gestalten", Infodienst/FAQ Landratsamt Karlsruhe,
+  Bürgerdienst AP-Anmeldung; Ausbilder-Artikel um Anerkennungsverfahren
+  erweitert; neue Baum-Gruppe „Weitere öffentliche Stellen". *(PR #16)*
 - **R2 Inhalts-Review & Querverlinkung** — alle 38+ Artikel: verwandt-Links
   vervollständigen, Artikel↔Quellen↔Vorlagen↔Checklisten verknüpfen,
   Typografie/Fakten prüfen.
