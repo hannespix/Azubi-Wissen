@@ -1,210 +1,81 @@
-# RPF Browsertool — Vorlage (Landes-CI Baden-Württemberg)
+# Azubi-Wissen — Wissensdatenbank der Ausbildungsberatung (RP Freiburg)
 
-**Grobe Vorlage — ein Startpunkt, kein fertiges Produkt.** Sie liefert das
-Gerüst, das Design-System und die komplette Claude-Arbeitsumgebung für
-browserbasierte Werkzeuge und kleine Datenbanken des Regierungspräsidiums
-Freiburg. **Pro Tool wird sie angepasst**, nicht 1:1 übernommen — was nicht
-gebraucht wird, fliegt raus; was fehlt, kommt dazu.
+Offline-Wissensdatenbank zu **Rechten & Pflichten in der Berufsausbildung**
+mit Schwerpunkt grüne Berufe/Gartenbau — inklusive intelligenter Suche,
+lokalem KI-Assistenten, PDF-Export je Zielgruppe, Aktenvermerk-Generator
+und lokaler Datenbank. Gebaut im Landes-CD Baden-Württemberg auf Basis der
+RPF-Browsertool-Vorlage. **Läuft vollständig offline — keine externen
+Requests, keine Cloud, keine Telemetrie.**
 
-Alle daraus gebauten Tools sehen **wie aus einem Guss** aus (aktuelles
-Landes-Corporate-Design, https://design.landbw.de) und entstehen im
-**agentischen Loop** mit `@claude` über GitHub.
+## Nutzung
 
-- **Design & Technik:** [`CLAUDE.md`](CLAUDE.md)
-- **Prozess / Loop:** [`AGENTS.md`](AGENTS.md)
-- **Aufgaben / Milestones:** [`ROADMAP.md`](ROADMAP.md)
+**Variante 1 — Einzeldatei (empfohlen für Zero-Trust-Arbeitsplätze):**
+[`azubi-wissen-offline.html`](azubi-wissen-offline.html) herunterladen und
+per **Doppelklick** öffnen. Eine Datei (≈1 MB), alles enthalten; Notizen und
+Vermerke bleiben lokal im Browser gespeichert (IndexedDB).
 
-### Was du anpasst — was verbindlich bleibt
-
-Die Vorlage ist bewusst grob gehalten.
-
-- **Anpassen pro Tool:** Inhalt und Funktion von `index.html`, die Milestones
-  in `ROADMAP.md`, `<title>` und der App-Name in `site.webmanifest`, die Auswahl
-  der Komponenten und Skripte (nur einbinden, was das Tool braucht), das
-  Datenmodell in `assets/js/db.js`.
-- **Verbindlich (nicht aufweichen):** das Design-System in `bw-theme.css` (nur
-  `--bw-*`-Tokens, keine hartcodierten Farben/Schriften/Abstände), die
-  Offline-/Zero-Trust-Pflicht (keine CDNs, alle Abhängigkeiten lokal vendored)
-  und die Barrierefreiheit (WCAG 2.1 AA). Begründung und Details: `CLAUDE.md`.
-
----
-
-## Neues Arbeits-Repo aus dieser Vorlage erstellen
-
-Für **jedes Tool entsteht ein eigenes, privates Repo** aus dieser Vorlage. Das
-neue Repo enthält die komplette Claude-Arbeitsumgebung bereits fertig:
-
-- `CLAUDE.md` + `AGENTS.md` — **alle Arbeitsanweisungen** für Design, Loop und
-  Entwicklung (`@claude` liest sie vor jeder Aufgabe),
-- `bw-theme.css` + `assets/` — Design-System, Schriften, Logo, Favicons, JS,
-- `.github/workflows/claude.yml` — der `@claude`-Loop (Issue/PR → Branch → PR),
-- `.github/workflows/ci.yml` — Offline-Check bei jedem PR (wird mit
-  `main`-Schutz zum echten Merge-Gate, Schritt 3),
-- `.github/ISSUE_TEMPLATE/` — Vorlagen für Milestones und Aufgaben,
-- `ROADMAP.md` — Milestone-Gerüst zum Ausfüllen.
-
-Du baust davon **nichts neu auf** — es bleiben nur die Schritte unten:
-scharfschalten, `main` schützen, zuschneiden.
-
-**Einmalig an dieser Vorlage** (durch die Eigentümerin/den Eigentümer): unter
-**Settings → General → „Template repository"** anhaken. Danach trägt das Repo
-oben den grünen Knopf **„Use this template"**.
-
-**Pro neuem Tool:**
-
-1. **Repo erzeugen** — „Use this template" → „Create a new repository" → Namen
-   vergeben → Sichtbarkeit **Private** (Pflicht wegen lizenzierter Schriften &
-   Logo, siehe „Recht & Lizenz"). Das neue Repo ist eine vollständige Kopie
-   inkl. aller Arbeitsanweisungen, aber mit **frischer Git-Historie** (ein
-   Initial-Commit, nicht die Historie der Vorlage).
-2. **`@claude` scharfschalten** — zwei Dinge im neuen Repo:
-   - Repo-Secret `CLAUDE_CODE_OAUTH_TOKEN` (oder `ANTHROPIC_API_KEY`) anlegen;
-     siehe [„`@claude`-Action einrichten"](#claude-action-einrichten). Secrets
-     werden **nicht** mitkopiert — pro Repo neu zu setzen.
-   - **Settings → Actions → General:** Actions zulassen und unter „Workflow
-     permissions" die Option **„Allow GitHub Actions to create and approve pull
-     requests"** aktivieren. Sie ist standardmäßig **aus** — ohne sie kann
-     `@claude` keinen Pull Request öffnen.
-3. **`main` schützen** (macht den Offline-Check zum echten Merge-Gate) — unter
-   **Settings → Branches** (Branch-Schutz/Ruleset) für `main`: „Require a pull
-   request before merging" und „Require status checks to pass" mit dem Check
-   **„Offline-Check"** als erforderlich. Damit blockiert ein roter Check den
-   Merge, und niemand — auch `@claude` nicht — pusht direkt auf `main`
-   (vgl. `AGENTS.md`).
-4. **Vorlage zuschneiden** — `ROADMAP.md` mit Tool-Zweck und Milestones füllen,
-   `<title>` in `index.html` und den App-Namen in `site.webmanifest` anpassen,
-   nicht benötigte Komponenten aus `index.html` entfernen.
-5. **Loop starten** — Issue „M0 — Gerüst" eröffnen und `@claude` erwähnen, z. B.
-   `@claude setze Milestone M0 aus ROADMAP.md um und öffne einen PR`. Ab hier
-   läuft der Zyklus aus `AGENTS.md`: Branch → Pull Request → CI + Review → Merge.
-
-### Alternative: Vorlagen-ZIP herunterladen
-
-Wer **„Use this template" nicht nutzen kann** (oder die Vorlage offline
-weitergeben will), nimmt das fertige Download-Paket
-**[`rpf-browsertool-vorlage.zip`](rpf-browsertool-vorlage.zip)** (in diesem Repo,
-„Download" im Datei-Ansichtsmenü). Es enthält den kompletten Vorlagen-Inhalt
-unter einem Oberordner `rpf-browsertool-vorlage/` — inkl. `CLAUDE.md`,
-`AGENTS.md`, `.github/workflows/` und Design-System.
-
+**Variante 2 — Repo-Ordner über lokalen Server** (für Entwicklung):
 ```
-# entpacken, eigenes Repo daraus machen
-unzip rpf-browsertool-vorlage.zip
-cd rpf-browsertool-vorlage
-git init && git add -A && git commit -m "Initialer Commit aus Vorlage"
-git branch -M main
-git remote add origin <URL des neuen, privaten Repos>
-git push -u origin main
+python3 -m http.server 8000     # dann http://localhost:8000/
 ```
 
-Danach gelten **dieselben Schritte 2–3** wie oben (Secret, Workflow-Permission,
-ggf. Actions aktivieren, `main`-Schutz) — die ZIP liefert nur den **Inhalt**,
-nicht die GitHub-Konfiguration.
+## Funktionen
 
-> Das Paket baut der Workflow `.github/workflows/zip.yml` bei jedem Push auf
-> `main` automatisch neu und committet es bei Änderung zurück — der Download
-> bleibt also aktuell. Manuell geht es jederzeit mit
-> `python3 tools/build_template_zip.py`.
+| Bereich | Was es kann |
+|---|---|
+| **Wissensdatenbank** | 38 Artikel in 9 Themenbereichen (Vertrag, Pflichten, Vergütung, Arbeitszeit/Urlaub, Berufsschule/Prüfungen, Konflikte/Kündigung, Beratung/Aufsicht, **Fachwerker-Ausbildung**), je 3 Detailstufen, Rechtsgrundlagen, Praxishinweise je Rolle, 83 FAQ, Quellenvermerke |
+| **Suche (Strg+K oder /)** | global, multitoken, fuzzy (tippfehler- und diakritikatolerant), Synonyme (Gehalt→Vergütung, Fachwercker→Fachwerker …), Stoppwortfilter, Gruppierung, Tastaturnavigation, Treffer-Highlighting |
+| **KI-Assistent (lokal)** | Antworten ausschließlich aus der Wissensbasis mit Quellenangaben (§§ + Artikel), Folgefragen, ehrlicher Fallback — keine Eingabe verlässt das Gerät, keine Rechtsberatung |
+| **Export** | PDF-Handout je Zielgruppe (Beratung/Betrieb/Azubi), Themenauswahl, 3 Detailgrade, Optionen (Deckblatt, Inhaltsverzeichnis, §§, Praxistipps, FAQ) — Ausgabe über den Browser-Druckdialog |
+| **Aktenvermerk** | Formulargestützter Vermerk mit Rechtsgrundlagen-Bausteinen, Autosave-Entwurf, Ablage in der lokalen Datenbank, formale Druckfassung |
+| **Lokale Datenbank** | IndexedDB (Fallback localStorage): Vermerk-Entwürfe, abgelegte Vermerke, eigene Notizen je Artikel — auch in der Einzeldatei |
 
-## `@claude`-Action einrichten
+## Inhalte pflegen
 
-1. Lokal mit Claude Code einen OAuth-Token erzeugen:
-   ```
-   claude setup-token
-   ```
-   (Pro/Max-Zugang. Alternativ ein `ANTHROPIC_API_KEY`.)
-2. Im Repo unter **Settings → Secrets and variables → Actions** anlegen:
-   `CLAUDE_CODE_OAUTH_TOKEN` (bzw. `ANTHROPIC_API_KEY`).
-3. Den Workflow [`.github/workflows/claude.yml`](.github/workflows/claude.yml)
-   übernehmen (liegt bereits im Template).
-4. Test: ein Issue eröffnen und `@claude stell dich kurz vor` schreiben.
+Alle Fachinhalte liegen in **`assets/js/wissen.js`** (Pflegehinweise im
+Dateikopf). Wichtigste Wartungspunkte:
 
-Danach läuft der Loop: `@claude` in Issues/PRs erwähnen → Branch + Pull
-Request → CI + Review → Merge. Details in `AGENTS.md`.
+- **Mindestausbildungsvergütung**: jährliche Bekanntmachung im Bundesanzeiger
+  → Tabelle im Artikel `mindestverguetung` ergänzen, `stand` aktualisieren.
+- **Fachwerker-Bereich**: Quelle ist die Handreichung „Fachwerkerausbildung
+  im Gartenbau" (Netzwerkfassung 1.2, 31.07.2026) — bei neuer Fassung
+  Artikel und Quellenvermerke nachziehen. Der personenbezogene Kontaktteil
+  der Handreichung wird bewusst **nicht** im Repo geführt.
+- Nach Inhaltsänderungen: `python3 tools/build_singlefile.py --release`
+  ausführen und die neue `azubi-wissen-offline.html` mitcommitten.
 
-## Lokal entwickeln
-
-Wegen `@font-face` die Dateien über einen lokalen Server öffnen (nicht per
-`file://`):
-```
-python3 -m http.server 8000
-# dann http://localhost:8000/ aufrufen
-```
-
-## Auslieferung als Einzeldatei (Zero-Trust)
+## Prüfungen & Build
 
 ```
-python3 tools/build_singlefile.py
+python3 tools/check_offline.py              # Offline-/CDN-Gate (läuft im CI)
+python3 tools/build_singlefile.py           # dist/index.html (unversioniert)
+python3 tools/build_singlefile.py --release # + azubi-wissen-offline.html
+node --check assets/js/*.js                 # Syntax
 ```
-Erzeugt `dist/index.html` mit inline-Theme, base64-Schriften und -Bildern —
-offline lauffähig, keine externen Requests, per Doppelklick zu öffnen. `dist/`
-ist nicht versioniert.
-
-## Offline-Pflicht (keine CDN-Abhängigkeit)
-
-Jedes Tool muss **vollständig offline** laufen — im Flugmodus, ohne Netzwerk.
-Keine CDNs, keine fremden Web-Fonts, kein `import`/`fetch` gegen externe URLs.
-Alle Abhängigkeiten **lokal vendoren** (`assets/vendor/<lib>/`), ausdrücklich
-auch React/ReactDOM, Babel Standalone und PGlite (inkl. WASM):
-```
-npm i react react-dom @electric-sql/pglite
-# Paketinhalte nach assets/vendor/<lib>/ kopieren und lokal einbinden
-```
-Prüfen (läuft auch im CI bei jedem PR):
-```
-python3 tools/check_offline.py     # findet externe Referenzen -> Exit 1
-```
-Endgültiger Test: Tool im **Flugmodus** öffnen. Lädt etwas nicht oder zeigt das
-Netzwerk-Panel einen externen Request, ist es nicht offline-fähig.
 
 ## Struktur
 
 ```
-index.html                 das Tool
-bw-theme.css               Design-System (Single Source of Truth)
-assets/fonts/              BaWue Sans/Serif (woff2+woff)   — lizenzpflichtig
-assets/logo/               RPF-Logo (schwarz/negativ/flag) — geschützt
-assets/favicons/           Favicon-Paket + favicon.ico
-assets/js/nav.js           Hamburger-Navigation (barrierefrei)
-assets/js/search.js        globale Fuzzy-Suche (In-Memory)
-assets/js/chart.js         CI-konforme SVG-Diagramme
-assets/js/db.js            PGlite-Datenbankschicht (DB-Tools)
-assets/vendor/pglite/      lokal abgelegtes PGlite (kein CDN) — bei DB-Tools
-site.webmanifest           PWA-Manifest
-tools/build_singlefile.py  Single-File-Builder
-tools/build_template_zip.py    Vorlagen-ZIP-Builder (Download-Paket)
-tools/check_offline.py     Offline-/CDN-Prüfung (CI-Gate)
-rpf-browsertool-vorlage.zip    Download-Paket dieser Vorlage (Start für neue Repos)
-.github/workflows/claude.yml   @claude-Loop
-.github/workflows/ci.yml       Offline-Check bei Push/PR
-.github/workflows/zip.yml      baut die Vorlagen-ZIP auf main automatisch neu
-.github/ISSUE_TEMPLATE/    Vorlagen für Milestones/Aufgaben
-CLAUDE.md AGENTS.md ROADMAP.md
+index.html                     App-Shell (Router, Navigation)
+bw-theme.css                   Design-System (Single Source of Truth)
+azubi-wissen-offline.html      Einzeldatei-Auslieferung (generiert, versioniert)
+assets/js/wissen.js            Wissensbasis (Inhalte — hier pflegen)
+assets/js/app.js               Ansichten, Suche/Palette, Artikel, Notizen
+assets/js/assistent.js         lokaler KI-Assistent (Retrieval + Synthese)
+assets/js/export.js            PDF-Handout + Aktenvermerk-Generator
+assets/js/lokaldb.js           lokale Datenbank (IndexedDB/localStorage)
+assets/js/nav.js · search.js   Bausteine aus der Vorlage
+assets/css/app.css             App-Komponenten (nur --bw-*-Tokens) + Druck (A4)
+tools/                         Offline-Check, Single-File-Builder
 ```
 
-## Datenbank-Tools (PGlite)
+## Rechtliches
 
-DB-basierte Tools nutzen **PGlite** (Postgres-WASM) mit OPFS-Persistenz und
-DB-seitiger Fuzzy-Suche (`pg_trgm`/`unaccent`/`fuzzystrmatch`). PGlite **lokal
-ablegen** (kein CDN):
-```
-npm i @electric-sql/pglite
-# Paketinhalt nach assets/vendor/pglite/ kopieren (inkl. contrib/)
-```
-Referenz: `assets/js/db.js` (`initDB`, `createTable`, `globaleSuche`). DB-Tools
-werden als Ordner-Bundle ausgeliefert (WASM lässt sich nicht in eine
-Einzeldatei pressen); einfache Tools als Single-File.
+Fachinformation der Ausbildungsberatung — **keine Rechtsberatung im
+Einzelfall**. Schriften (BaWue Sans/Serif) und RPF-Logo sind lizenziert →
+`assets/fonts/LIZENZ.md`, `assets/logo/LIZENZ.md`; **Repo privat halten**.
+Keine personenbezogenen Echtdaten im Repo; Nutzerdaten (Notizen, Vermerke)
+verbleiben ausschließlich lokal im Browser.
 
-## Recht & Lizenz
-
-- **Schriften** (BaWue Sans/Serif, Luzi Type) und **Logo** sind
-  lizenziert/geschützt → `assets/fonts/LIZENZ.md`, `assets/logo/LIZENZ.md`.
-- **Repository privat halten.** Bei öffentlichem Repo `assets/fonts/` und
-  `assets/logo/` in `.gitignore` aktivieren; das Theme nutzt dann die
-  System-Fallbacks.
-- **`rpf-browsertool-vorlage.zip` enthält die geschützten Schriften und das
-  Logo** — nur intern weitergeben, nicht öffentlich anbieten. Wird das Repo
-  öffentlich, die ZIP entfernen (oder ohne `assets/fonts/`, `assets/logo/`
-  neu bauen).
-- Keine Secrets und keine personenbezogenen Echtdaten ins Repo.
-- Produktiver Betrieb mit Personenbezug nur über BITBW/LVN.
+Prozess & Weiterentwicklung: `AGENTS.md`, `ROADMAP.md`. Design & Technik:
+`CLAUDE.md`.
