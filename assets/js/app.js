@@ -45,29 +45,65 @@
       return "<p>" + inline(b).replace(/\n/g, "<br>") + "</p>";
     }).join("");
     function inline(s) {
-      return normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"));
+      return fmtInline(s);
     }
   }
 
-  // §§-Verlinkung (M11): Normzitate im bereits escapten Text mit den lokal
-  // vendorten Gesetzes-PDFs verknüpfen — z. B. „§ 20 BBiG",
-  // „§§ 10, 11 und 36 BBiG", „§ 21 Abs. 3 BBiG". Unbekannte Werke
-  // (etwa SGB III) bleiben unverlinkt.
+  // §§-Verlinkung (M11, erweitert D1): Normzitate im bereits escapten Text
+  // mit den Gesetzes-Quellen verknüpfen — z. B. „§ 20 BBiG",
+  // „§§ 10, 11 und 36 BBiG", „§§ 34–36 BBiG", „§ 21 Abs. 3 BBiG",
+  // „Art. 6 DSGVO". Jedes zitierte Werk gehört in diese Map (Ziel: keine
+  // unverlinkte Rechtsgrundlage); die Regex entsteht aus den Schlüsseln.
   var GESETZ_QUELLE = {
     BBiG: "gesetz-bbig", JArbSchG: "gesetz-jarbschg", ArbZG: "gesetz-arbzg",
-    BUrlG: "gesetz-burlg", EntgFG: "gesetz-entgfg", "GärtnAusbV": "gesetz-gaertnausbv",
-    GBFWVO: "gesetz-gbfwvo"
+    BUrlG: "gesetz-burlg", EntgFG: "gesetz-entgfg", EFZG: "gesetz-entgfg",
+    "GärtnAusbV": "gesetz-gaertnausbv", GBFWVO: "gesetz-gbfwvo",
+    BGB: "gesetz-bgb", ArbSchG: "gesetz-arbschg", KSchG: "gesetz-kschg",
+    BetrVG: "gesetz-betrvg", "SGB III": "gesetz-sgb3", "SGB IV": "gesetz-sgb4",
+    "SGB IX": "gesetz-sgb9", "BAföG": "gesetz-bafoeg", DSGVO: "gesetz-dsgvo",
+    LwAusbV: "ausbv-landwirt", WinzerAusbV: "ausbv-winzer",
+    FischwAusbV: "ausbv-fischwirt", BrennAusbV: "ausbv-brenner",
+    TWirtAusbV: "ausbv-tierwirt", PfWirtAusbV: "ausbv-pferdewirt",
+    ForstwiAusbV: "ausbv-forstwirt", AgrarAusbV: "ausbv-agrarservice",
+    MilchtAusbV: "ausbv-milchtechnologe", MilchwLabAusbV: "ausbv-milchw-laborant",
+    PflanzTechnAusbV: "ausbv-pflanzentechnologe", RevjAusbV: "ausbv-revierjaeger",
+    HaWiAusbV: "ausbv-hauswirtschafter", HufBeschlV: "ausbv-hufbeschlag"
   };
-  var NORM_RE = /(§§?\s?\d+[a-z]?(?:(?:,\s?|\s?und\s?|\s?bis\s?)\d+[a-z]?)*(?:\s?Abs\.\s?\d+)?(?:\s?Nr\.\s?\d+)?(?:\s?Satz\s?\d+)?(?:\s?ff\.)?\s)(BBiG|JArbSchG|ArbZG|BUrlG|EntgFG|GärtnAusbV|GBFWVO)\b/g;
+  var NORM_RE = (function () {
+    var werke = Object.keys(GESETZ_QUELLE).sort(function (a, b) { return b.length - a.length; })
+      .map(function (k) { return k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s+/g, "\\s"); })
+      .join("|");
+    return new RegExp(
+      "((?:§§?|Art\\.)\\s?\\d+[a-z]?(?:(?:,\\s?|\\s?und\\s?|\\s?bis\\s?|\\s?[–-]\\s?)\\d+[a-z]?)*" +
+      "(?:\\s?Abs\\.\\s?\\d+)?(?:\\s?Nr\\.\\s?\\d+)?(?:\\s?Satz\\s?\\d+)?(?:\\s?ff\\.)?\\s)(" + werke + ")\\b", "g");
+  })();
   function normVerlinken(htmlText) {
     if (!window.QUELLEN) return htmlText;
     return String(htmlText).replace(NORM_RE, function (ganz, para, gesetz) {
-      var e = null;
-      window.QUELLEN.eintraege.forEach(function (x) { if (x.id === GESETZ_QUELLE[gesetz]) e = x; });
+      var e = null, ziel = GESETZ_QUELLE[gesetz.replace(/\s+/g, " ")];
+      window.QUELLEN.eintraege.forEach(function (x) { if (x.id === ziel) e = x; });
       if (!e) return ganz;
       var z = quelleZiel(e);
       return '<a class="norm-link" href="' + esc(z.href) + '" target="_blank" rel="noopener" title="' +
         esc(gesetz) + " öffnen" + (z.extern ? " (online)" : " (PDF)") + '">' + para + gesetz + "</a>";
+    });
+  }
+  // Querverweise (D1): [[artikel-id]] bzw. [[artikel-id|Linktext]] in
+  // Fließtexten (fakten, abschnitte, faq, rollen, Glossar) werden zu
+  // internen Links. Nicht in `kurz`-Feldern verwenden (Trefferlisten).
+  var QL_RE = /\[\[([a-z0-9-]+)(?:\|([^\]|]+))?\]\]/g;
+  function qlAufloesen(s) {
+    return String(s == null ? "" : s).replace(QL_RE, function (ganz, id, label) {
+      if (label) return label;
+      var a = artikelVon(id);
+      return a ? a.titel : id;
+    });
+  }
+  function querlinks(html) {
+    return String(html).replace(QL_RE, function (ganz, id, label) {
+      var a = artikelVon(id);
+      if (!a) return label || id;
+      return '<a class="querlink" href="#/artikel/' + esc(id) + '">' + (label || esc(a.titel)) + "</a>";
     });
   }
   // Eigene Inhalte (lokal angelegte Artikel/Dokumente) — Cache über LokalDB,
@@ -132,7 +168,7 @@
   };
   // Wie bwSearch.normalize, zusätzlich ohne Satz-/Sonderzeichen — sonst
   // verhindert ein angehängtes „?" oder „." den Treffer (UND-Logik).
-  function norm(s) { return S.normalize(s).replace(/[^a-z0-9]+/g, " ").trim(); }
+  function norm(s) { return S.normalize(qlAufloesen(s)).replace(/[^a-z0-9]+/g, " ").trim(); }
   function tokenAlternativen(tok) {
     var alts = [tok];
     var syn = SYN[tok];
@@ -980,7 +1016,7 @@
     return h;
   }
   function fmtInline(s) {
-    return normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"));
+    return querlinks(normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")));
   }
 
   function artikelVerhalten(root, a, params) {
@@ -1493,7 +1529,8 @@
         { titel: "Fachwerker/in (7 Fachrichtungen)", eintraege: nach(function (e) { return e.id.indexOf("plan-fachwerker-") === 0; }) }
       ] },
       { titel: "Tabellen & Merkblätter", eintraege: nach(function (e) { return e.typ === "merkblatt"; }) },
-      { titel: "Gesetze & Verordnungen", eintraege: nach(function (e) { return e.typ === "gesetz" || e.id.indexOf("gesetz-") === 0; }) },
+      { titel: "Gesetze & Verordnungen", eintraege: nach(function (e) { return e.typ === "gesetz" && e.id.indexOf("ausbv-") !== 0 || e.id.indexOf("gesetz-") === 0; }) },
+      { titel: "Ausbildungsordnungen der grünen Berufe", eintraege: nach(function (e) { return e.id.indexOf("ausbv-") === 0; }) },
       { titel: "Prüfung, Berufsschule & Berichtsheft", eintraege: nach(function (e) {
         return ["pflanzenlisten", "schule-anmeldungen", "berichtsheft-gaertner", "berichtsheft-galabau"].indexOf(e.id) >= 0; }) },
       { titel: "Förderung & Arbeitsagentur", eintraege: nach(function (e) { return e.id.indexOf("ba-") === 0; }) },
@@ -2191,7 +2228,7 @@
         }
       }
       h += '<dt id="g-' + esc(b.id) + '" tabindex="-1">' + esc(b.b) + "</dt>" +
-        "<dd>" + normVerlinken(esc(b.k)) + (chips ? '<span class="chipzeile-frei">' + chips + "</span>" : "") + "</dd>";
+        "<dd>" + fmtInline(b.k) + (chips ? '<span class="chipzeile-frei">' + chips + "</span>" : "") + "</dd>";
     });
     h += "</dl>";
     return h;

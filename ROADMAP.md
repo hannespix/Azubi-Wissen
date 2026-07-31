@@ -160,6 +160,29 @@
   gelber Seitenrand-Störer „Fragen" (öffnet den Assistenten, mit dunkler
   Kontur); Browser-Statusleiste bleibt weiß. *(PR #21)*
 
+## Detailausbau v5: Inhalte vertiefen & verlinken — Auftrag 31.07.2026
+
+Jeden Artikel und jeden Datensatz ausbauen; Rechtsgrundlagen und Quellen
+immer verlinken; Querlinks zwischen Artikeln.
+
+- **D1 Verlinkungs-Infrastruktur** ✅ — §§-Verlinkung deckt jetzt **30
+  Werke** ab (BGB, ArbSchG, KSchG, BetrVG, SGB III/IV/IX, BAföG, DSGVO
+  mit „Art."-Zitaten, EFZG-Alias sowie alle 14 Ausbildungsordnungen der
+  grünen Berufe — Slugs über die amtlichen Teillisten von
+  gesetze-im-internet.de verifiziert); Regex versteht Bereichszitate
+  („§§ 34–36 BBiG"); **[[artikel-id]]-Querlink-Syntax** in Fakten,
+  Abschnitten, FAQ, Rollen und Glossar (Suchindex löst Links zu Klartext
+  auf, Druck neutralisiert sie); Berufe-Datensätze mit amtlichen
+  Verordnungskürzeln und direkten Volltext-Links (15 neue
+  `verordnungUrl`); Download-Baum mit eigener Gruppe
+  „Ausbildungsordnungen der grünen Berufe" (14 Einträge) und 9 weiteren
+  Gesetzes-Quellen; drei dünne FAQ-Bestände ergänzt. Tests: mini_d1 (20)
+  + Regressionen G2/R4/G3/Start grün. *(PR #25)*
+- **D2 Artikel-Tranche 1** — Vertrag & Pflichten vertiefen (offen)
+- **D3 Artikel-Tranche 2** — Vergütung, Arbeitszeit, Schule & Prüfung (offen)
+- **D4 Artikel-Tranche 3** — Konflikte/Ende, Beratung, Fachwerker (offen)
+- **D5 Datensätze** — Glossar, Nachschlag, Checklisten, Berufe, Vorlagen (offen)
+
 ## Dauerpflege
 
 - Mindestvergütung jährlich (Bundesanzeiger) · Stand-Datum in `wissen.js`

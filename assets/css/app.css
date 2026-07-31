@@ -571,6 +571,12 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .norm-link { text-decoration-style: dotted; text-underline-offset: 2px; font-weight: inherit; }
 .norm-link:hover { text-decoration-style: solid; }
 
+/* Querverweise zwischen Artikeln ([[artikel-id]], D1): innenliegende
+   Links im Fließtext — gestrichelt unterstrichen, im Druck neutraler Text. */
+.querlink { color: inherit; font-weight: 600; text-decoration: underline; text-decoration-style: dashed; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.querlink:hover, .querlink:focus-visible { text-decoration-style: solid; background: var(--bw-gelb); box-shadow: 0 0 0 1px var(--bw-schwarz); border-radius: 2px; }
+@media print { .querlink { text-decoration: none; font-weight: 600; } }
+
 /* ============== UI-Review R3: Korrekturen ========================= */
 /* Chips sind Schaltflächen-artige Verweise — ohne Unterstreichung. */
 .chip, a.chip, .schnellkarte, .kachel, .karte a.karte__link { text-decoration: none; }

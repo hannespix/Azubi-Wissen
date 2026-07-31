@@ -879,6 +879,12 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .norm-link { text-decoration-style: dotted; text-underline-offset: 2px; font-weight: inherit; }
 .norm-link:hover { text-decoration-style: solid; }
 
+/* Querverweise zwischen Artikeln ([[artikel-id]], D1): innenliegende
+   Links im Fließtext — gestrichelt unterstrichen, im Druck neutraler Text. */
+.querlink { color: inherit; font-weight: 600; text-decoration: underline; text-decoration-style: dashed; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.querlink:hover, .querlink:focus-visible { text-decoration-style: solid; background: var(--bw-gelb); box-shadow: 0 0 0 1px var(--bw-schwarz); border-radius: 2px; }
+@media print { .querlink { text-decoration: none; font-weight: 600; } }
+
 /* ============== UI-Review R3: Korrekturen ========================= */
 /* Chips sind Schaltflächen-artige Verweise — ohne Unterstreichung. */
 .chip, a.chip, .schnellkarte, .kachel, .karte a.karte__link { text-decoration: none; }
@@ -1241,6 +1247,11 @@ a.chip { display: inline-block; }
 //    jährlich im Bundesanzeiger bekannt gegeben -> Tabelle ergänzen.
 //  - Textformat in `text`-Feldern: Absätze durch Leerzeile, Aufzählungen mit
 //    "- " am Zeilenanfang, **fett** für Hervorhebungen. Kein HTML.
+//  - Querverweise: [[artikel-id]] oder [[artikel-id|Linktext]] in fakten,
+//    abschnitte.text, faq.a und rollen erlaubt — NICHT im kurz-Feld
+//    (Trefferlisten zeigen kurz unformatiert). Normzitate („§ 20 BBiG",
+//    „§§ 34–36 BBiG") werden automatisch verlinkt, wenn das Werk in
+//    GESETZ_QUELLE (app.js) eingetragen ist.
 //  - Detailstufen: kurz+fakten = Stufe 1 (Kurzübersicht); Abschnitte mit d:2
 //    ab Stufe "Standard"; d:3 nur in Stufe "Ausführlich".
 window.WISSEN = {
@@ -1282,7 +1293,7 @@ window.WISSEN = {
     ],
     abschnitte: [
       { t: "Was in den Vertrag gehört", d: 2, text: "Die Niederschrift muss mindestens enthalten (§ 11 Abs. 1 BBiG):\n\n- Art, sachliche und zeitliche Gliederung sowie **Ziel** der Ausbildung (Berufsbezeichnung)\n- **Beginn und Dauer** der Ausbildung\n- Ausbildungsmaßnahmen **außerhalb der Ausbildungsstätte** (z. B. überbetriebliche Lehrgänge)\n- **tägliche Ausbildungszeit**\n- Dauer der **Probezeit**\n- **Zahlung und Höhe der Vergütung** sowie deren Zusammensetzung, auch die Vergütung oder der Ausgleich von Überstunden\n- Dauer des **Urlaubs**\n- Voraussetzungen einer **Kündigung**\n- Hinweis auf anwendbare **Tarifverträge, Betriebs- oder Dienstvereinbarungen**\n- **Form des Ausbildungsnachweises** (schriftlich oder elektronisch)" },
-      { t: "Formulare der zuständigen Stelle", d: 2, text: "Für die grünen Berufe stellt die zuständige Stelle (in Baden-Württemberg das Regierungspräsidium) Musterverträge bereit. Sie enthalten alle Pflichtangaben und den betrieblichen Ausbildungsplan als Anlage. Wer die Muster nutzt, vermeidet Rückfragen bei der Eintragung." },
+      { t: "Formulare der zuständigen Stelle", d: 2, text: "Für die grünen Berufe stellt die zuständige Stelle (in Baden-Württemberg das Regierungspräsidium) Musterverträge bereit. Sie enthalten alle Pflichtangaben und den betrieblichen Ausbildungsplan als Anlage. Wer die Muster nutzt, vermeidet Rückfragen bei der [[eintragung|Eintragung]]." },
       { t: "Nichtige Vereinbarungen (§ 12 BBiG)", d: 3, text: "Nichtig sind insbesondere:\n\n- Vereinbarungen, die Azubis **für die Zeit nach dem Ende** der Ausbildung in ihrer beruflichen Tätigkeit beschränken. Ausnahme: Innerhalb der **letzten sechs Monate** darf vereinbart werden, dass im Anschluss ein Arbeitsverhältnis eingegangen wird.\n- **Vertragsstrafen** jeder Art\n- der **Ausschluss oder die Beschränkung von Schadensersatzansprüchen**\n- **Pauschalierungen** von Schadensersatz\n\nSolche Klauseln sind unwirksam, auch wenn sie unterschrieben wurden — der übrige Vertrag bleibt bestehen." },
       { t: "Digitaler Vertragsschluss seit 2025", d: 3, text: "Mit dem Vierten Bürokratieentlastungsgesetz genügt seit 1. Januar 2025 die **Textform** für die Vertragsniederschrift: Der Vertrag kann z. B. als PDF übermittelt werden. Voraussetzung ist, dass das Dokument den Azubis zugänglich ist, gespeichert und gedruckt werden kann und der Empfang nachweisbar ist. Die klassische Papierform mit Unterschrift bleibt zulässig und ist in der Praxis weiterhin verbreitet." }
     ],
@@ -2015,7 +2026,7 @@ window.WISSEN = {
     ],
     abschnitte: [
       { t: "Im Gartenbau", d: 2, text: "Die zuständige Stelle lädt zur Zwischenprüfung; geprüft werden praxisnahe Aufgaben und Grundlagenwissen der ersten Ausbildungshälfte (z. B. Pflanzenkenntnisse, Bodenbearbeitung, Arbeitssicherheit). Das Ergebnis wird mitgeteilt und sollte im Betrieb ausgewertet werden: Wo stehen wir gegenüber dem Ausbildungsplan?" },
-      { t: "Nach einem schwachen Ergebnis", d: 3, text: "Kein Grund zur Panik, aber zum Handeln:\n\n- Lücken konkret benennen (welche Themen?)\n- betrieblichen Ausbildungsplan nachsteuern, Übungsphasen einbauen\n- Unterstützung nutzen: Nachhilfe über **Assistierte Ausbildung (AsA flex)**, Lerngruppen der Berufsschule\n- in schweren Fällen früh über **Verlängerung** (§ 8 Abs. 2 BBiG) sprechen\n\nDie Ausbildungsberatung unterstützt bei der Einordnung und vermittelt Fördermöglichkeiten." }
+      { t: "Nach einem schwachen Ergebnis", d: 3, text: "Kein Grund zur Panik, aber zum Handeln:\n\n- Lücken konkret benennen (welche Themen?)\n- betrieblichen Ausbildungsplan nachsteuern, Übungsphasen einbauen\n- Unterstützung nutzen: Nachhilfe über die [[foerderung|Assistierte Ausbildung (AsA flex)]], Lerngruppen der Berufsschule\n- in schweren Fällen früh über **Verlängerung** (§ 8 Abs. 2 BBiG) sprechen\n\nDie [[ausbildungsberatung|Ausbildungsberatung]] unterstützt bei der Einordnung und vermittelt Fördermöglichkeiten." }
     ],
     rollen: {
       azubi: "Nimm die Zwischenprüfung ernst — sie kostet nichts und zeigt dir ohne Risiko, wo du stehst. Ein schlechtes Ergebnis hat keine direkten Folgen, wohl aber eine Botschaft: Jetzt gegensteuern, nicht erst vor der Abschlussprüfung.",
@@ -2023,7 +2034,8 @@ window.WISSEN = {
       beratung: "Schwache Zwischenprüfungsergebnisse systematisch nachfassen (Betrieb kontaktieren, Förderwege anbieten) — hier entscheidet sich oft, ob die Abschlussprüfung gelingt oder das Verhältnis vorzeitig scheitert."
     },
     faq: [
-      { f: "Kann ich durch die Zwischenprüfung fallen?", a: "Nein — die Zwischenprüfung hat kein Bestehen oder Nichtbestehen und zählt nicht für die Abschlussprüfung. Aber: Ohne Teilnahme wirst du nicht zur Abschlussprüfung zugelassen (§ 43 BBiG)." }
+      { f: "Kann ich durch die Zwischenprüfung fallen?", a: "Nein — die Zwischenprüfung hat kein Bestehen oder Nichtbestehen und zählt nicht für die Abschlussprüfung. Aber: Ohne Teilnahme wirst du nicht zur Abschlussprüfung zugelassen (§ 43 BBiG)." },
+      { f: "Was ist, wenn ich die Zwischenprüfung krankheitsbedingt verpasse?", a: "Sofort krankmelden und Attest einreichen — die zuständige Stelle bietet dann einen Nachhol- oder Ersatztermin an. Wichtig ist, dass die Teilnahme vor der [[abschlusspruefung|Abschlussprüfung]] nachgeholt wird, denn sie bleibt Zulassungsvoraussetzung (§ 43 Abs. 1 Nr. 1 BBiG). Unentschuldigtes Fernbleiben dagegen gefährdet die Zulassung." }
     ],
     verwandt: ["abschlusspruefung", "freistellung", "nichtbestehen"]
   },
@@ -2265,7 +2277,8 @@ window.WISSEN = {
       beratung: "Zuständigkeiten sauber abgrenzen (Regierungsbezirk der Ausbildungsstätte, Berufszugehörigkeit) und bei Fehlzuständigkeit warm an die richtige Stelle übergeben — Bürgerfreundlichkeit vor Formalie."
     },
     faq: [
-      { f: "Ist für meine Gärtner-Ausbildung die IHK zuständig?", a: "Nein — für die grünen Berufe (u. a. Gärtner/in) ist in Baden-Württemberg das Regierungspräsidium die zuständige Stelle nach dem BBiG. Es übernimmt die Aufgaben, die in anderen Berufen bei IHK oder Handwerkskammer liegen." }
+      { f: "Ist für meine Gärtner-Ausbildung die IHK zuständig?", a: "Nein — für die grünen Berufe (u. a. Gärtner/in) ist in Baden-Württemberg das Regierungspräsidium die zuständige Stelle nach dem BBiG. Es übernimmt die Aufgaben, die in anderen Berufen bei IHK oder Handwerkskammer liegen." },
+      { f: "Welches Regierungspräsidium ist für uns zuständig?", a: "Maßgeblich ist der Sitz der **Ausbildungsstätte**: Das Regierungspräsidium des Regierungsbezirks, in dem ausgebildet wird, führt das Verzeichnis und organisiert die Prüfungen. Bei Unsicherheit hilft die [[ausbildungsberatung|Ausbildungsberatung]] weiter und übergibt bei Fehlzuständigkeit direkt an die richtige Stelle." }
     ],
     verwandt: ["ausbildungsberatung", "eintragung", "abschlusspruefung"]
   },
@@ -2330,7 +2343,8 @@ window.WISSEN = {
       beratung: "Nutzen Sie den Vermerk-Generator im Export-Bereich: Formular ausfüllen, Themenbausteine mit Rechtsgrundlagen anhängen, als PDF drucken und zur Akte nehmen. Entwürfe bleiben lokal im Browser gespeichert — keine Daten verlassen den Arbeitsplatz."
     },
     faq: [
-      { f: "Wann sollte ich in der Beratung einen Aktenvermerk schreiben?", a: "Immer, wenn der Vorgang später nachvollziehbar sein muss: Beschwerden, Betriebsbesuche, Konfliktgespräche, Zusagen mit Frist, Beanstandungen. Faustregel: Was nicht im Vermerk steht, ist nicht geschehen." }
+      { f: "Wann sollte ich in der Beratung einen Aktenvermerk schreiben?", a: "Immer, wenn der Vorgang später nachvollziehbar sein muss: Beschwerden, Betriebsbesuche, Konfliktgespräche, Zusagen mit Frist, Beanstandungen. Faustregel: Was nicht im Vermerk steht, ist nicht geschehen." },
+      { f: "Dürfen Betrieb oder Azubi meine Vermerke einsehen?", a: "Betroffene haben nach Art. 15 DSGVO ein Auskunftsrecht über ihre gespeicherten personenbezogenen Daten; im laufenden Verwaltungsverfahren kommt Akteneinsicht nach dem LVwVfG hinzu. Deshalb gilt beim Schreiben: sachlich, belegbar, ohne Polemik — ein guter Vermerk verträgt jede Einsicht. Details zum Verfahren kennt die [[ausbildungsberatung|Ausbildungsberatung]]." }
     ],
     verwandt: ["ausbildungsberatung", "konflikte", "kuendigung"]
   },
@@ -2635,73 +2649,85 @@ window.WISSEN = {
         url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Ausbildungberuf_+Landwirtin_Landwirt",
         quelleTitel: "Infodienst: Ausbildungsberuf Landwirt/in" },
       { id: "winzer", titel: "Winzer/in", dauer: "3 Jahre",
-        verordnung: "Winzer-Ausbildungsverordnung (novelliert 2023)",
+        verordnung: "WinzerAusbV 1997 (zuletzt geändert 2023)",
+        verordnungUrl: "https://www.gesetze-im-internet.de/winzerausbv_1997/",
         fachrichtungen: [],
         kurz: "Vom Rebschnitt bis zum Ausbau im Keller: Trauben erzeugen, Wein bereiten und vermarkten — stark in den badischen und württembergischen Anbaugebieten.",
         stichworte: ["weinbau", "keller", "reben", "wein"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Winzer/in)" },
       { id: "fischwirt", titel: "Fischwirt/in", dauer: "3 Jahre",
         verordnung: "FischwAusbV 2016",
+        verordnungUrl: "https://www.gesetze-im-internet.de/fischwausbv/",
         fachrichtungen: ["Aquakultur und Binnenfischerei", "Küstenfischerei und kleine Hochseefischerei"],
         kurz: "Fische erzeugen, hältern, fangen und vermarkten — in Baden-Württemberg vor allem Aquakultur und Binnenfischerei (Teichwirtschaft, Bodensee).",
         stichworte: ["fischerei", "aquakultur", "teich", "bodensee"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Fischwirt/in)" },
       { id: "brenner", titel: "Brenner/in", dauer: "3 Jahre",
-        verordnung: "Brenner-Ausbildungsverordnung (neu geordnet 2022)",
+        verordnung: "BrennAusbV (Neuordnung 2022)",
+        verordnungUrl: "https://www.gesetze-im-internet.de/brennausbv/",
         fachrichtungen: [],
         kurz: "Spirituosen aus Obst, Getreide und Kartoffeln herstellen: Maischen, Destillieren, Lagern, Qualitätssicherung — traditionsreich in den Obstregionen des Landes.",
         stichworte: ["brennerei", "destillat", "obstbrand", "spirituosen"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Brenner/in)" },
       { id: "tierwirt", titel: "Tierwirt/in", dauer: "3 Jahre",
-        verordnung: "TierwAusbV 2005",
+        verordnung: "TWirtAusbV 2005",
+        verordnungUrl: "https://www.gesetze-im-internet.de/twirtausbv_2005/",
         fachrichtungen: ["Rinderhaltung", "Schweinehaltung", "Geflügelhaltung", "Schäferei", "Imkerei"],
         kurz: "Nutztiere professionell halten, füttern, pflegen und züchten — von der Rinderherde bis zum Bienenvolk.",
         stichworte: ["tierhaltung", "schaeferei", "imkerei", "gefluegel"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Tierwirt/in)" },
       { id: "pferdewirt", titel: "Pferdewirt/in", dauer: "3 Jahre",
-        verordnung: "PferdewAusbV 2010",
+        verordnung: "PfWirtAusbV 2010",
+        verordnungUrl: "https://www.gesetze-im-internet.de/pfwirtausbv_2010/",
         fachrichtungen: ["Klassische Reitausbildung", "Pferdehaltung und Service", "Pferdezucht", "Pferderennen", "Spezialreitweisen"],
         kurz: "Pferde halten, ausbilden, züchten und Kundschaft anleiten — fünf Fachrichtungen vom Reitbetrieb bis zur Zucht.",
         stichworte: ["pferd", "reiten", "zucht", "stall"],
         url: RP + "pferdewirtin/", quelleTitel: "RP-Themenportal Pferdewirt/in" },
       { id: "forstwirt", titel: "Forstwirt/in", dauer: "3 Jahre",
-        verordnung: "ForstwAusbV 1998",
+        verordnung: "ForstwiAusbV 1998",
+        verordnungUrl: "https://www.gesetze-im-internet.de/forstwiausbv_1998/",
         fachrichtungen: [],
         kurz: "Wald begründen, pflegen, ernten und schützen: Motorsäge und Seilwinde ebenso wie Naturschutz und Verkehrssicherung.",
         stichworte: ["wald", "forst", "holz", "motorsaege"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Forstwirt/in)" },
       { id: "fachkraft-agrarservice", titel: "Fachkraft Agrarservice", dauer: "3 Jahre",
-        verordnung: "Agrarservice-Ausbildungsverordnung 2009",
+        verordnung: "AgrarAusbV 2009",
+        verordnungUrl: "https://www.gesetze-im-internet.de/agrarausbv/",
         fachrichtungen: [],
         kurz: "Pflanzenproduktion mit Großtechnik als Dienstleistung: Lohnunternehmen, Maschinenring, Agrarlogistik — Technik und Kundenkontakt.",
         stichworte: ["lohnunternehmen", "landtechnik", "maschinen"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Fachkraft Agrarservice)" },
       { id: "milchtechnologe", titel: "Milchtechnologe/-technologin", dauer: "3 Jahre",
-        verordnung: "MilchtechAusbV 2010",
+        verordnung: "MilchtAusbV 2010",
+        verordnungUrl: "https://www.gesetze-im-internet.de/milchtausbv/",
         fachrichtungen: [],
         kurz: "Milch industriell zu Käse, Joghurt und Butter verarbeiten: Anlagen fahren, Prozesse steuern, Hygiene- und Qualitätssicherung.",
         stichworte: ["molkerei", "milch", "kaese", "lebensmittel"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Milchtechnologe/in)" },
       { id: "milchw-laborant", titel: "Milchwirtschaftliche/r Laborant/in", dauer: "3 Jahre",
-        verordnung: "MilchwLabAusbV 2010",
+        verordnung: "MilchwLabAusbV 2013",
+        verordnungUrl: "https://www.gesetze-im-internet.de/milchlausbv_2013/",
         fachrichtungen: [],
         kurz: "Milch und Milchprodukte im Labor prüfen: chemische, physikalische und mikrobiologische Analytik für die Qualitätssicherung.",
         stichworte: ["labor", "analytik", "milch", "qualitaet"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Milchw. Laborant/in)" },
       { id: "pflanzentechnologe", titel: "Pflanzentechnologe/-technologin", dauer: "3 Jahre",
-        verordnung: "PflanzentechnAusbV 2013",
+        verordnung: "PflanzTechnAusbV 2013",
+        verordnungUrl: "https://www.gesetze-im-internet.de/pflanztechnausbv/",
         fachrichtungen: [],
         kurz: "Versuchs- und Züchtungswesen: Feld- und Laborversuche anlegen, Pflanzen vermehren, Daten erheben — Schnittstelle von Landwirtschaft und Forschung.",
         stichworte: ["zuechtung", "versuchswesen", "saatgut", "labor"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Pflanzentechnologe/in)" },
       { id: "revierjaeger", titel: "Revierjäger/in", dauer: "3 Jahre",
-        verordnung: "RevierjAusbV 2010",
+        verordnung: "RevjAusbV 2010",
+        verordnungUrl: "https://www.gesetze-im-internet.de/revjausbv_2010/",
         fachrichtungen: [],
         kurz: "Wildbestände hegen und bejagen, Reviere und Biotope pflegen, Jagdbetrieb organisieren — der Beruf der professionellen Jagd.",
         stichworte: ["jagd", "wild", "revier", "hege"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Revierjäger/in)" },
       { id: "hauswirtschafter", titel: "Hauswirtschafter/in", dauer: "3 Jahre",
-        verordnung: "HauswAusbV 2020",
+        verordnung: "HaWiAusbV 2020",
+        verordnungUrl: "https://www.gesetze-im-internet.de/hawiausbv/",
         fachrichtungen: [],
         kurz: "Versorgen und betreuen in Privathaushalten, Betrieben und Einrichtungen — seit 2020 mit Schwerpunkten (u. a. ländlich-agrarische Dienstleistungen).",
         stichworte: ["hauswirtschaft", "versorgung", "betreuung"],
@@ -2732,7 +2758,8 @@ window.WISSEN = {
 
       /* ---- Verwandte Qualifikationen ---- */
       { id: "hufbeschlagschmied", titel: "Hufbeschlagschmied/in", dauer: "Qualifizierung nach HufBeschlG",
-        verordnung: "Hufbeschlaggesetz (staatliche Anerkennung, kein BBiG-Beruf)",
+        verordnung: "Hufbeschlaggesetz + HufBeschlV (staatliche Anerkennung, kein BBiG-Beruf)",
+        verordnungUrl: "https://www.gesetze-im-internet.de/hufbeschlv/",
         fachrichtungen: [],
         kurz: "Staatlich anerkannte Qualifikation zum Hufbeschlag — kein Ausbildungsberuf nach BBiG, aber bei den Regierungspräsidien angesiedelt.",
         stichworte: ["huf", "schmied", "pferd"],
@@ -3004,6 +3031,136 @@ window.QUELLEN = {
     beschreibung: "Die Ausbildungsregelung für Fachwerker/innen im Gartenbau — im Landesrecht-Portal aufrufen.",
     stichworte: ["GBFWVO", "Gartenbaufachwerkerverordnung", "Fachwerker", "Verordnung", "Landesrecht"],
     artikel: ["fw-grundlagen", "fw-betrieb", "fw-inhalte-pruefung"] },
+
+  /* ---------- Weitere Bundesgesetze (extern, gesetze-im-internet.de) —
+       Ziel: jedes im Tool zitierte Gesetz ist klickbar (D1). ---------- */
+  { id: "gesetz-bgb", titel: "Bürgerliches Gesetzbuch (BGB) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/bgb/",
+    beschreibung: "Ergänzend zum BBiG: Geschäftsfähigkeit Minderjähriger, Schriftform der Kündigung (§ 623 BGB), allgemeines Vertragsrecht (§ 10 Abs. 2 BBiG).",
+    stichworte: ["BGB", "Bürgerliches Gesetzbuch", "Gesetz", "Minderjährige", "Kündigung Schriftform"],
+    artikel: ["ausbildungsvertrag", "kuendigung"] },
+  { id: "gesetz-arbschg", titel: "Arbeitsschutzgesetz (ArbSchG) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/arbschg/",
+    beschreibung: "Grundpflichten des Arbeitgebers für Sicherheit und Gesundheit — Basis der Unterweisungen im Ausbildungsbetrieb.",
+    stichworte: ["ArbSchG", "Arbeitsschutzgesetz", "Unterweisung", "Sicherheit", "Gesetz"],
+    artikel: ["ausbildungspflicht"] },
+  { id: "gesetz-kschg", titel: "Kündigungsschutzgesetz (KSchG) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/kschg/",
+    beschreibung: "Kündigungsschutz nach der Ausbildung — für das Ausbildungsverhältnis selbst gilt vorrangig § 22 BBiG.",
+    stichworte: ["KSchG", "Kündigungsschutzgesetz", "Gesetz"],
+    artikel: ["kuendigung"] },
+  { id: "gesetz-betrvg", titel: "Betriebsverfassungsgesetz (BetrVG) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/betrvg/",
+    beschreibung: "Betriebsrat und Jugend- und Auszubildendenvertretung (JAV) — Beteiligungsrechte auch in Ausbildungsfragen.",
+    stichworte: ["BetrVG", "Betriebsverfassungsgesetz", "JAV", "Betriebsrat", "Gesetz"],
+    artikel: ["konflikte"] },
+  { id: "gesetz-sgb3", titel: "Sozialgesetzbuch III — Arbeitsförderung (SGB III)",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/sgb_3/",
+    beschreibung: "Rechtsgrundlage der Förderinstrumente: BAB, Assistierte Ausbildung, Berufsvorbereitung, Reha-Leistungen der Agentur für Arbeit.",
+    stichworte: ["SGB III", "Arbeitsförderung", "BAB", "Förderung", "Gesetz"],
+    artikel: ["foerderung"] },
+  { id: "gesetz-sgb4", titel: "Sozialgesetzbuch IV — Sozialversicherung (SGB IV)",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/sgb_4/",
+    beschreibung: "Gemeinsame Vorschriften der Sozialversicherung — u. a. Sachbezugswerte und Beitragsgrundlagen.",
+    stichworte: ["SGB IV", "Sozialversicherung", "Sachbezug", "Gesetz"],
+    artikel: ["sachbezuege-sozialvers"] },
+  { id: "gesetz-sgb9", titel: "Sozialgesetzbuch IX — Rehabilitation und Teilhabe (SGB IX)",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/sgb_9_2018/",
+    beschreibung: "Teilhabe am Arbeitsleben: Reha-Träger, Budget für Ausbildung, Leistungen für die Fachwerker-Wege.",
+    stichworte: ["SGB IX", "Reha", "Teilhabe", "Behinderung", "Gesetz"],
+    artikel: ["fw-grundlagen", "fw-weg", "fw-geld"] },
+  { id: "gesetz-bafoeg", titel: "Bundesausbildungsförderungsgesetz (BAföG) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/baf_g/",
+    beschreibung: "Förderung schulischer Ausbildung — Abgrenzung zur BAB bei betrieblicher Ausbildung.",
+    stichworte: ["BAföG", "Ausbildungsförderung", "Schule", "Gesetz"],
+    artikel: ["foerderung"] },
+  { id: "gesetz-dsgvo", titel: "Datenschutz-Grundverordnung (DSGVO) — Volltext",
+    typ: "gesetz", herausgeber: "EU (EUR-Lex)", stand: "aktuelle Fassung",
+    datei: null, url: "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R0679",
+    beschreibung: "Datenschutz bei Beratungsunterlagen und Aktenvermerken: Zweckbindung, Datenminimierung, Betroffenenrechte.",
+    stichworte: ["DSGVO", "Datenschutz", "Vermerk", "personenbezogene Daten"],
+    artikel: ["aktenvermerk"] },
+
+  /* ---------- Ausbildungsordnungen der grünen Berufe (extern) —
+       amtliche Volltexte auf gesetze-im-internet.de; Kürzel amtlich. ---------- */
+  { id: "ausbv-landwirt", titel: "Ausbildungsordnung Landwirt/in (LwAusbV 1995) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/lwausbv_1995/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Landwirt/zur Landwirtin.",
+    stichworte: ["LwAusbV", "Landwirt", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-winzer", titel: "Ausbildungsordnung Winzer/in (WinzerAusbV 1997) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "konsolidiert (zuletzt geändert 2023)",
+    datei: null, url: "https://www.gesetze-im-internet.de/winzerausbv_1997/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Winzer/zur Winzerin — Änderungen sind eingearbeitet.",
+    stichworte: ["WinzerAusbV", "Winzer", "Weinbau", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-fischwirt", titel: "Ausbildungsordnung Fischwirt/in (FischwAusbV 2016) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/fischwausbv/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Fischwirt/zur Fischwirtin mit den beiden Fachrichtungen.",
+    stichworte: ["FischwAusbV", "Fischwirt", "Aquakultur", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-brenner", titel: "Ausbildungsordnung Brenner/in (BrennAusbV) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "Neuordnung 2022",
+    datei: null, url: "https://www.gesetze-im-internet.de/brennausbv/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Brenner/zur Brennerin (neu geordnet zum 01.08.2022).",
+    stichworte: ["BrennAusbV", "Brenner", "Brennerei", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-tierwirt", titel: "Ausbildungsordnung Tierwirt/in (TWirtAusbV 2005) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/twirtausbv_2005/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Tierwirt/zur Tierwirtin mit fünf Fachrichtungen.",
+    stichworte: ["TWirtAusbV", "Tierwirt", "Tierhaltung", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-pferdewirt", titel: "Ausbildungsordnung Pferdewirt/in (PfWirtAusbV 2010) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/pfwirtausbv_2010/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Pferdewirt/zur Pferdewirtin mit fünf Fachrichtungen.",
+    stichworte: ["PfWirtAusbV", "Pferdewirt", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-forstwirt", titel: "Ausbildungsordnung Forstwirt/in (ForstwiAusbV 1998) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/forstwiausbv_1998/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Forstwirt/zur Forstwirtin.",
+    stichworte: ["ForstwiAusbV", "Forstwirt", "Wald", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-agrarservice", titel: "Ausbildungsordnung Fachkraft Agrarservice (AgrarAusbV 2009) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/agrarausbv/",
+    beschreibung: "Verordnung über die Berufsausbildung zur Fachkraft Agrarservice.",
+    stichworte: ["AgrarAusbV", "Fachkraft Agrarservice", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-milchtechnologe", titel: "Ausbildungsordnung Milchtechnologe/-technologin (MilchtAusbV 2010) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/milchtausbv/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Milchtechnologen/zur Milchtechnologin.",
+    stichworte: ["MilchtAusbV", "Milchtechnologe", "Molkerei", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-milchw-laborant", titel: "Ausbildungsordnung Milchwirtschaftliche/r Laborant/in (MilchwLabAusbV 2013) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/milchlausbv_2013/",
+    beschreibung: "Verordnung über die Berufsausbildung zum milchwirtschaftlichen Laboranten/zur milchwirtschaftlichen Laborantin.",
+    stichworte: ["MilchwLabAusbV", "Laborant", "Milch", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-pflanzentechnologe", titel: "Ausbildungsordnung Pflanzentechnologe/-technologin (PflanzTechnAusbV 2013) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/pflanztechnausbv/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Pflanzentechnologen/zur Pflanzentechnologin.",
+    stichworte: ["PflanzTechnAusbV", "Pflanzentechnologe", "Züchtung", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-revierjaeger", titel: "Ausbildungsordnung Revierjäger/in (RevjAusbV 2010) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/revjausbv_2010/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Revierjäger/zur Revierjägerin.",
+    stichworte: ["RevjAusbV", "Revierjäger", "Jagd", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-hauswirtschafter", titel: "Ausbildungsordnung Hauswirtschafter/in (HaWiAusbV 2020) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/hawiausbv/",
+    beschreibung: "Verordnung über die Berufsausbildung zum Hauswirtschafter/zur Hauswirtschafterin (Neuordnung 2020).",
+    stichworte: ["HaWiAusbV", "Hauswirtschafter", "Ausbildungsordnung", "Verordnung"] },
+  { id: "ausbv-hufbeschlag", titel: "Hufbeschlagverordnung (HufBeschlV) — Volltext",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/hufbeschlv/",
+    beschreibung: "Anerkennung und Prüfung zum Hufbeschlagschmied/zur Hufbeschlagschmiedin nach dem Hufbeschlaggesetz (kein BBiG-Beruf).",
+    stichworte: ["HufBeschlV", "Hufbeschlag", "Schmied", "Verordnung"] },
 
   /* ---------- Bundesagentur für Arbeit & Förderung (extern) --------- */
   { id: "ba-bab", titel: "Berufsausbildungsbeihilfe (BAB) — Infos & Online-Antrag",
@@ -3835,29 +3992,65 @@ window.VORLAGEN = {
       return "<p>" + inline(b).replace(/\n/g, "<br>") + "</p>";
     }).join("");
     function inline(s) {
-      return normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"));
+      return fmtInline(s);
     }
   }
 
-  // §§-Verlinkung (M11): Normzitate im bereits escapten Text mit den lokal
-  // vendorten Gesetzes-PDFs verknüpfen — z. B. „§ 20 BBiG",
-  // „§§ 10, 11 und 36 BBiG", „§ 21 Abs. 3 BBiG". Unbekannte Werke
-  // (etwa SGB III) bleiben unverlinkt.
+  // §§-Verlinkung (M11, erweitert D1): Normzitate im bereits escapten Text
+  // mit den Gesetzes-Quellen verknüpfen — z. B. „§ 20 BBiG",
+  // „§§ 10, 11 und 36 BBiG", „§§ 34–36 BBiG", „§ 21 Abs. 3 BBiG",
+  // „Art. 6 DSGVO". Jedes zitierte Werk gehört in diese Map (Ziel: keine
+  // unverlinkte Rechtsgrundlage); die Regex entsteht aus den Schlüsseln.
   var GESETZ_QUELLE = {
     BBiG: "gesetz-bbig", JArbSchG: "gesetz-jarbschg", ArbZG: "gesetz-arbzg",
-    BUrlG: "gesetz-burlg", EntgFG: "gesetz-entgfg", "GärtnAusbV": "gesetz-gaertnausbv",
-    GBFWVO: "gesetz-gbfwvo"
+    BUrlG: "gesetz-burlg", EntgFG: "gesetz-entgfg", EFZG: "gesetz-entgfg",
+    "GärtnAusbV": "gesetz-gaertnausbv", GBFWVO: "gesetz-gbfwvo",
+    BGB: "gesetz-bgb", ArbSchG: "gesetz-arbschg", KSchG: "gesetz-kschg",
+    BetrVG: "gesetz-betrvg", "SGB III": "gesetz-sgb3", "SGB IV": "gesetz-sgb4",
+    "SGB IX": "gesetz-sgb9", "BAföG": "gesetz-bafoeg", DSGVO: "gesetz-dsgvo",
+    LwAusbV: "ausbv-landwirt", WinzerAusbV: "ausbv-winzer",
+    FischwAusbV: "ausbv-fischwirt", BrennAusbV: "ausbv-brenner",
+    TWirtAusbV: "ausbv-tierwirt", PfWirtAusbV: "ausbv-pferdewirt",
+    ForstwiAusbV: "ausbv-forstwirt", AgrarAusbV: "ausbv-agrarservice",
+    MilchtAusbV: "ausbv-milchtechnologe", MilchwLabAusbV: "ausbv-milchw-laborant",
+    PflanzTechnAusbV: "ausbv-pflanzentechnologe", RevjAusbV: "ausbv-revierjaeger",
+    HaWiAusbV: "ausbv-hauswirtschafter", HufBeschlV: "ausbv-hufbeschlag"
   };
-  var NORM_RE = /(§§?\s?\d+[a-z]?(?:(?:,\s?|\s?und\s?|\s?bis\s?)\d+[a-z]?)*(?:\s?Abs\.\s?\d+)?(?:\s?Nr\.\s?\d+)?(?:\s?Satz\s?\d+)?(?:\s?ff\.)?\s)(BBiG|JArbSchG|ArbZG|BUrlG|EntgFG|GärtnAusbV|GBFWVO)\b/g;
+  var NORM_RE = (function () {
+    var werke = Object.keys(GESETZ_QUELLE).sort(function (a, b) { return b.length - a.length; })
+      .map(function (k) { return k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s+/g, "\\s"); })
+      .join("|");
+    return new RegExp(
+      "((?:§§?|Art\\.)\\s?\\d+[a-z]?(?:(?:,\\s?|\\s?und\\s?|\\s?bis\\s?|\\s?[–-]\\s?)\\d+[a-z]?)*" +
+      "(?:\\s?Abs\\.\\s?\\d+)?(?:\\s?Nr\\.\\s?\\d+)?(?:\\s?Satz\\s?\\d+)?(?:\\s?ff\\.)?\\s)(" + werke + ")\\b", "g");
+  })();
   function normVerlinken(htmlText) {
     if (!window.QUELLEN) return htmlText;
     return String(htmlText).replace(NORM_RE, function (ganz, para, gesetz) {
-      var e = null;
-      window.QUELLEN.eintraege.forEach(function (x) { if (x.id === GESETZ_QUELLE[gesetz]) e = x; });
+      var e = null, ziel = GESETZ_QUELLE[gesetz.replace(/\s+/g, " ")];
+      window.QUELLEN.eintraege.forEach(function (x) { if (x.id === ziel) e = x; });
       if (!e) return ganz;
       var z = quelleZiel(e);
       return '<a class="norm-link" href="' + esc(z.href) + '" target="_blank" rel="noopener" title="' +
         esc(gesetz) + " öffnen" + (z.extern ? " (online)" : " (PDF)") + '">' + para + gesetz + "</a>";
+    });
+  }
+  // Querverweise (D1): [[artikel-id]] bzw. [[artikel-id|Linktext]] in
+  // Fließtexten (fakten, abschnitte, faq, rollen, Glossar) werden zu
+  // internen Links. Nicht in `kurz`-Feldern verwenden (Trefferlisten).
+  var QL_RE = /\[\[([a-z0-9-]+)(?:\|([^\]|]+))?\]\]/g;
+  function qlAufloesen(s) {
+    return String(s == null ? "" : s).replace(QL_RE, function (ganz, id, label) {
+      if (label) return label;
+      var a = artikelVon(id);
+      return a ? a.titel : id;
+    });
+  }
+  function querlinks(html) {
+    return String(html).replace(QL_RE, function (ganz, id, label) {
+      var a = artikelVon(id);
+      if (!a) return label || id;
+      return '<a class="querlink" href="#/artikel/' + esc(id) + '">' + (label || esc(a.titel)) + "</a>";
     });
   }
   // Eigene Inhalte (lokal angelegte Artikel/Dokumente) — Cache über LokalDB,
@@ -3922,7 +4115,7 @@ window.VORLAGEN = {
   };
   // Wie bwSearch.normalize, zusätzlich ohne Satz-/Sonderzeichen — sonst
   // verhindert ein angehängtes „?" oder „." den Treffer (UND-Logik).
-  function norm(s) { return S.normalize(s).replace(/[^a-z0-9]+/g, " ").trim(); }
+  function norm(s) { return S.normalize(qlAufloesen(s)).replace(/[^a-z0-9]+/g, " ").trim(); }
   function tokenAlternativen(tok) {
     var alts = [tok];
     var syn = SYN[tok];
@@ -4770,7 +4963,7 @@ window.VORLAGEN = {
     return h;
   }
   function fmtInline(s) {
-    return normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>"));
+    return querlinks(normVerlinken(esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")));
   }
 
   function artikelVerhalten(root, a, params) {
@@ -5283,7 +5476,8 @@ window.VORLAGEN = {
         { titel: "Fachwerker/in (7 Fachrichtungen)", eintraege: nach(function (e) { return e.id.indexOf("plan-fachwerker-") === 0; }) }
       ] },
       { titel: "Tabellen & Merkblätter", eintraege: nach(function (e) { return e.typ === "merkblatt"; }) },
-      { titel: "Gesetze & Verordnungen", eintraege: nach(function (e) { return e.typ === "gesetz" || e.id.indexOf("gesetz-") === 0; }) },
+      { titel: "Gesetze & Verordnungen", eintraege: nach(function (e) { return e.typ === "gesetz" && e.id.indexOf("ausbv-") !== 0 || e.id.indexOf("gesetz-") === 0; }) },
+      { titel: "Ausbildungsordnungen der grünen Berufe", eintraege: nach(function (e) { return e.id.indexOf("ausbv-") === 0; }) },
       { titel: "Prüfung, Berufsschule & Berichtsheft", eintraege: nach(function (e) {
         return ["pflanzenlisten", "schule-anmeldungen", "berichtsheft-gaertner", "berichtsheft-galabau"].indexOf(e.id) >= 0; }) },
       { titel: "Förderung & Arbeitsagentur", eintraege: nach(function (e) { return e.id.indexOf("ba-") === 0; }) },
@@ -5981,7 +6175,7 @@ window.VORLAGEN = {
         }
       }
       h += '<dt id="g-' + esc(b.id) + '" tabindex="-1">' + esc(b.b) + "</dt>" +
-        "<dd>" + normVerlinken(esc(b.k)) + (chips ? '<span class="chipzeile-frei">' + chips + "</span>" : "") + "</dd>";
+        "<dd>" + fmtInline(b.k) + (chips ? '<span class="chipzeile-frei">' + chips + "</span>" : "") + "</dd>";
     });
     h += "</dl>";
     return h;
