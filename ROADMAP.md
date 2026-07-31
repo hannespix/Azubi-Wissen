@@ -163,6 +163,14 @@
   Formulare und Navigation werden im Druck ausgeblendet, für
   Schulbesuche und Beratungsgespräche. Tests: mini_r7 (14) + alle
   Regressionen grün. *(PR #32)*
+- **R8 Komplettsicherung** ✅ — Sicherungsformat Version 2: neben
+  eigenen Artikeln/Dokumenten sichert der Export jetzt Aktenvermerke,
+  Artikel-Notizen, Checklisten-Stände und die Einstellungen
+  (Merkliste, zuletzt angesehen, Vorlagenwerte/-historie, Detailstufe,
+  Rolle) in einer JSON-Datei; der Import stellt alles wieder her und
+  liest Version-1-Sicherungen weiterhin ein — für Netzlaufwerk-Ablage
+  und Gerätewechsel. Tests: mini_r8 (14, inkl. Export→Import in ein
+  frisches Browserprofil). *(PR #33)*
 
 ## Ausbau v4: Alle grünen Berufe — Auftrag 31.07.2026
 

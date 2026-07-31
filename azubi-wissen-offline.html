@@ -6745,8 +6745,9 @@ window.VORLAGEN = {
 
     /* Sicherung */
     h += '<section aria-labelledby="sich-titel"><h2 id="sich-titel">Sicherung</h2><div class="bw-card">' +
-      "<p>Alle eigenen Artikel und Dokumente als eine JSON-Datei sichern oder aus einer Sicherung wiederherstellen. " +
-      "Beim Einlesen werden Einträge mit gleicher Kennung überschrieben, alle übrigen bleiben erhalten.</p>" +
+      "<p>Den kompletten lokalen Arbeitsstand als eine JSON-Datei sichern oder wiederherstellen: eigene Artikel und Dokumente, " +
+      "Aktenvermerke, Artikel-Notizen, Checklisten-Stände sowie Merkliste und gemerkte Vorlagen-Eingaben. " +
+      "Beim Einlesen werden Einträge mit gleicher Kennung überschrieben, alle übrigen bleiben erhalten — ideal für Netzlaufwerk-Ablage und Gerätewechsel.</p>" +
       '<div class="export-aktionen">' +
       '<button class="bw-btn bw-btn--sekundaer" id="sich-export" type="button">Sicherung herunterladen (JSON)</button>' +
       '<label class="bw-btn bw-btn--sekundaer" for="sich-import">Sicherung einlesen<input id="sich-import" type="file" accept=".json,application/json" hidden></label>' +
@@ -6893,20 +6894,37 @@ window.VORLAGEN = {
     });
     if (params.neu === "dokument") edOeffnen(null);
 
-    /* ---- Sicherung ---- */
+    /* ---- Sicherung (Format Version 2: kompletter Arbeitsstand) ----
+       Version 1 (nur Artikel + Dokumente) wird beim Einlesen weiter
+       akzeptiert. Formatkennung nie umbenennen (Bestandssicherungen). */
+    var SICHER_KEYS = ["aw.merkliste", "aw.zuletzt", "aw.vorlagenwerte", "aw.vorlagenhistorie", "aw.detail", "aw.rolle"];
     $("#sich-export", root).addEventListener("click", function () {
-      var daten = {
-        format: "azubi-wissen-sicherung", version: 1, erstellt: new Date().toISOString(),
-        artikel: EIGENE.artikel, dokumente: EIGENE.dokumente
-      };
-      var blob = new Blob([JSON.stringify(daten, null, 2)], { type: "application/json" });
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement("a");
-      a.href = url;
-      a.download = "gruene-berufe-eigene-" + new Date().toISOString().slice(0, 10) + ".json";
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-      sichStatus.textContent = "Sicherung heruntergeladen (" + EIGENE.artikel.length + " Artikel, " + EIGENE.dokumente.length + " Dokumente).";
+      Promise.all([
+        window.LokalDB.alle("vermerke").catch(function () { return []; }),
+        window.LokalDB.alle("notizen").catch(function () { return []; }),
+        window.LokalDB.alle("checklisten").catch(function () { return []; })
+      ]).then(function (extra) {
+        var einstellungen = {};
+        SICHER_KEYS.forEach(function (k) {
+          try { var v = localStorage.getItem(k); if (v !== null) einstellungen[k] = v; } catch (e) {}
+        });
+        var daten = {
+          format: "azubi-wissen-sicherung", version: 2, erstellt: new Date().toISOString(),
+          artikel: EIGENE.artikel, dokumente: EIGENE.dokumente,
+          vermerke: extra[0], notizen: extra[1], checklisten: extra[2],
+          einstellungen: einstellungen
+        };
+        var blob = new Blob([JSON.stringify(daten, null, 2)], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "gruene-berufe-sicherung-" + new Date().toISOString().slice(0, 10) + ".json";
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        sichStatus.textContent = "Komplettsicherung heruntergeladen (" + EIGENE.artikel.length + " Artikel, " +
+          EIGENE.dokumente.length + " Dokumente, " + extra[0].length + " Vermerke, " + extra[1].length +
+          " Notizen, " + extra[2].length + " Checklisten-Stände, Merkliste & Vorlagenwerte).";
+      }, function () { sichStatus.textContent = "Sicherung fehlgeschlagen — lokale Datenbank nicht erreichbar."; });
     });
     $("#sich-import", root).addEventListener("change", function () {
       var f = this.files && this.files[0];
@@ -6926,8 +6944,24 @@ window.VORLAGEN = {
         daten.dokumente.forEach(function (d) {
           if (d && d.id && d.titel) { d.eigen = true; d.typ = "eigen"; schreibvorgaenge.push(window.LokalDB.speichern("eigeneDokumente", d)); }
         });
+        var extraZahl = 0;
+        [["vermerke", daten.vermerke], ["notizen", daten.notizen], ["checklisten", daten.checklisten]].forEach(function (paar) {
+          (Array.isArray(paar[1]) ? paar[1] : []).forEach(function (e) {
+            if (e && e.id !== undefined) { extraZahl++; schreibvorgaenge.push(window.LokalDB.speichern(paar[0], e)); }
+          });
+        });
+        var einstellungsZahl = 0;
+        if (daten.einstellungen && typeof daten.einstellungen === "object") {
+          SICHER_KEYS.forEach(function (k) {
+            if (typeof daten.einstellungen[k] === "string") {
+              try { localStorage.setItem(k, daten.einstellungen[k]); einstellungsZahl++; } catch (e) {}
+            }
+          });
+        }
         Promise.all(schreibvorgaenge).then(function () {
-          neuLaden(daten.artikel.length + " Artikel und " + daten.dokumente.length + " Dokumente eingelesen.", "#sich-status");
+          neuLaden(daten.artikel.length + " Artikel, " + daten.dokumente.length + " Dokumente" +
+            (extraZahl ? ", " + extraZahl + " Vermerke/Notizen/Checklisten-Stände" : "") +
+            (einstellungsZahl ? " und Einstellungen (Merkliste, Vorlagenwerte)" : "") + " eingelesen.", "#sich-status");
         }, function (fehler) { sichStatus.textContent = String(fehler && fehler.message || "Einlesen fehlgeschlagen."); });
       };
       leser.readAsText(f);
