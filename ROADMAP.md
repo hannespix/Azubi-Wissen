@@ -139,6 +139,11 @@
 - **G3 Inhalte generalisieren** — Artikel/Nachschlag/Checklisten auf alle
   Berufe erweitern (Vergütungs-/Urlaubstabellen je Sparte, berufsspezifische
   Quellen und Formulare).
+- **G4 RP-Look** ✅ — Kopfzeile im Design von rp.baden-wuerttemberg.de
+  (Screenshot-Auftrag): vollgelber Header mit schwarzem Logo und schwarzen
+  Symbolen, gestaffeltes Menü-Icon, aktiver Punkt mit schwarzem Marker;
+  gelber Seitenrand-Störer „Fragen" (öffnet den Assistenten, mit dunkler
+  Kontur); Browser-Statusleiste bleibt weiß. *(PR #21)*
 
 ## Dauerpflege
 

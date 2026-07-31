@@ -605,3 +605,56 @@ a.chip { display: inline-block; }
 /* Browserleiste ist jetzt weiß (theme-color) — als Markenakzent trägt der
    Header stattdessen eine schmale gelbe Unterkante (BaWü-Element). */
 .app-header { border-bottom: 3px solid var(--bw-gelb); }
+
+/* ================================================================== */
+/* ========= RP-Look: gelber Header wie rp.baden-wuerttemberg.de ==== */
+/* Auftrag 31.07.2026 (Screenshot): vollgelbe Kopfzeile mit schwarzem
+   Logo und schwarzen Icons, harte Kante zum weißen Inhalt; die
+   Browser-Statusleiste bleibt weiß (theme-color). */
+.app-header {
+  background: var(--bw-gelb);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-bottom: 0;
+  box-shadow: none;
+}
+.app-header .bw-nav__links a { color: var(--bw-schwarz); }
+@media (min-width: 801px) {
+  /* Aktiver Punkt auf Gelb: schwarzer Marker statt gelbem */
+  .app-header .bw-nav__links a[aria-current="page"] {
+    box-shadow: inset 0 -3px 0 var(--bw-schwarz);
+  }
+}
+/* Suchknopf und Menü-Knopf: nur schwarze Symbole auf Gelb (RP-Stil) */
+.app-header .suchknopf {
+  background: transparent; border-color: transparent; color: var(--bw-schwarz);
+  box-shadow: none;
+}
+.app-header .suchknopf:hover, .app-header .bw-iconbtn:hover {
+  background: rgba(42, 38, 35, 0.08); transform: none; box-shadow: none;
+}
+.app-header .suchknopf .kbd { border: 1px solid var(--bw-schwarz); background: transparent; }
+.app-header .bw-iconbtn { color: var(--bw-schwarz); }
+/* Mobiles Menü-Panel: klare Trennkante unterm gelben Balken */
+@media (max-width: 800px) {
+  .bw-nav__panel { border-top: 1px solid rgba(42, 38, 35, 0.25); }
+}
+
+/* Gelber Seitenrand-Störer „Fragen" (wie der Kontakt-Störer des RP) —
+   öffnet den lokalen Assistenten. Gelb auf Weiß → schwarze Kontur (CI). */
+.assistent-stoerer {
+  position: fixed; right: 0; top: 58%; z-index: 30;
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  padding: 0.9rem 0.55rem;
+  background: var(--bw-gelb); color: var(--bw-schwarz);
+  border: 1px solid var(--bw-schwarz); border-right: 0;
+  border-radius: 10px 0 0 10px;
+  font-weight: 700; font-size: var(--bw-fs-klein);
+  text-decoration: none; box-shadow: var(--schatten-2);
+  transition: transform var(--dauer-1) var(--kurve), box-shadow var(--dauer-2) var(--kurve);
+}
+.assistent-stoerer span { writing-mode: vertical-rl; letter-spacing: 0.04em; }
+.assistent-stoerer svg { width: 20px; height: 20px; }
+.assistent-stoerer:hover { transform: translateX(-3px); box-shadow: var(--schatten-3); }
+.assistent-stoerer:active { transform: translateX(-1px) scale(0.98); }
+@media print { .assistent-stoerer { display: none; } }
