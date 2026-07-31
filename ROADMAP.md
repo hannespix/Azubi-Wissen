@@ -182,6 +182,17 @@
   Überlauf, keine Elemente ohne Label, keine leeren/verschachtelten
   Links — zusammen mit allen 10 Testsuiten grün (124 Checks).
   *(PR #34)*
+- **R10 Doku-Finale** ✅ — README auf den Endstand gebracht: Titel und
+  Beschreibung „Ausbildung Grüne Berufe", vollständiger Modulkatalog
+  (Berufe, Nachschlag mit 6 Rechnern, Jahreskreis, Vorlagen-Automatik,
+  Merkliste, Karten-Druck, Komplettsicherung, PWA) mit aktuellen
+  Zahlen (39 Artikel, 101 FAQ, 86 Quellen, 35 Glossarbegriffe,
+  18 Berufe, 33 verlinkte Gesetze/Verordnungen) und
+  Querverweis-Pflegehinweisen. *(PR #35)*
+
+**Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
+Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
+neue Roadmap-Einträge.
 
 ## Ausbau v4: Alle grünen Berufe — Auftrag 31.07.2026
 
