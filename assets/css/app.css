@@ -489,3 +489,26 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ================== Checklisten (M9) ============================== */
+.fortschritt {
+  display: inline-block; width: 9rem; height: 8px; border-radius: 999px;
+  background: var(--bw-grau-200); overflow: hidden; vertical-align: middle;
+}
+.fortschritt--gross { width: min(22rem, 60vw); height: 10px; }
+.fortschritt__balken {
+  display: block; height: 100%; border-radius: 999px;
+  background: var(--bw-gelb); box-shadow: inset 0 0 0 1px var(--bw-schwarz);
+  transition: width var(--dauer-2) var(--kurve);
+}
+.fortschritt-zeile { display: flex; align-items: center; gap: var(--bw-space-2); flex-wrap: wrap; margin: var(--bw-space-2) 0 var(--bw-space-3); }
+
+.cl-gruppe { margin: var(--bw-space-3) 0; padding: var(--bw-space-3); border: var(--bw-border); }
+.cl-gruppe legend { font-weight: 700; font-size: var(--bw-fs-body); padding: 0 var(--bw-space-1); }
+.cl-punkt { display: grid; grid-template-columns: auto 1fr; gap: var(--bw-space-2); align-items: start; padding: var(--bw-space-1) 0; }
+.cl-punkt + .cl-punkt { border-top: 1px solid var(--bw-grau-100); }
+.cl-punkt input[type="checkbox"] { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--bw-schwarz); cursor: pointer; }
+.cl-punkt label { cursor: pointer; }
+.cl-punkt label .bw-klein { display: block; margin-top: 2px; }
+.cl-punkt:has(input:checked) label { color: var(--bw-text-leise); text-decoration: line-through; text-decoration-thickness: 1px; }
+.cl-punkt:has(input:checked) label .bw-klein { text-decoration: none; }

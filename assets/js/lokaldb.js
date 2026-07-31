@@ -5,8 +5,8 @@
 (function () {
   "use strict";
   var DB_NAME = "azubi-wissen";
-  var VERSION = 2;
-  var STORES = ["vermerke", "notizen", "eigeneArtikel", "eigeneDokumente"];
+  var VERSION = 3;
+  var STORES = ["vermerke", "notizen", "eigeneArtikel", "eigeneDokumente", "checklisten"];
   var db = null, bereit = null, fallback = false;
 
   function oeffnen() {

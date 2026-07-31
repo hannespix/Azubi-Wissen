@@ -74,11 +74,13 @@
   Abruf in den Cache; nur eigene Ursprünge, keine externen Requests.
   *(PR #13)*
 
-## Weitere Ideen
+## Weitere Ausbaustufen
 
-- **M9 Interaktive Checklisten** — Erstberatung/Eintragung/Kooperationspartner
-  aus der Handreichung als ausfüllbare, lokal gespeicherte Checklisten mit
-  PDF-Export (Basis: lokaldb.js).
+- **M9 Interaktive Checklisten** ✅ — `#/checklisten`: Erstberatung
+  Fachwerker (12 Schritte + Stopppunkte der Handreichung), Vertragsprüfung &
+  Eintragung, Betriebsbesuch, AP-Anmeldung — abhaken mit Fortschrittsbalken,
+  Notiz je Vorgang, Stand lokal gespeichert (IndexedDB v3), Druck/PDF für
+  die Akte, in Suche/Palette integriert. *(PR #14)*
 - **M11 Glossar & §§-Verlinkung** — Kurzglossar; Normzitate im Text automatisch
   mit Artikeln verknüpfen.
 - **Kontaktverzeichnis** — bewusst zurückgestellt: personenbezogene Daten
