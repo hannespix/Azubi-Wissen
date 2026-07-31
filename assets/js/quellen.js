@@ -1,7 +1,7 @@
 // quellen.js — Formulare, Gesetze, Medien und externe Quellen.
 // PFLEGE: Lokale Dateien liegen unter formulare/ (Herkunft + Stand je Datei
 // in formulare/QUELLEN.md). Externe Einträge (typ link/video/portal) öffnen
-// online — sie sind in der Oberfläche als „extern" gekennzeichnet und im
+// online — sie sind in der Oberfläche als „extern“ gekennzeichnet und im
 // reinen Offline-Betrieb nicht erreichbar. Keine Telemetrie: Links werden
 // erst bei Klick durch die Nutzerin/den Nutzer geöffnet.
 window.QUELLEN = {
@@ -36,7 +36,7 @@ window.QUELLEN = {
     url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag",
     beschreibung: "Meldung der vorzeitigen Beendigung an die zuständige Stelle (ausfüllbar).",
     stichworte: ["Abmeldung", "Auflösung", "Kündigung melden", "vorzeitige Beendigung", "Vertragslösung"],
-    artikel: ["kuendigung", "aufhebung", "eintragung"] },
+    artikel: ["kuendigung", "aufhebung", "eintragung", "ende-uebernahme"] },
   { id: "bav-aenderung", titel: "Antrag auf Änderung der Eintragung (Verkürzung/Verlängerung u. a.)",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/bav-antrag-aenderung-eintragung.pdf",
@@ -221,7 +221,7 @@ window.QUELLEN = {
     datei: "formulare/gesetze/bbig.pdf", url: "https://www.gesetze-im-internet.de/bbig_2005/",
     beschreibung: "Das zentrale Gesetz der Berufsausbildung: Vertrag, Pflichten, Vergütung, Prüfungen, zuständige Stellen.",
     stichworte: ["BBiG", "Berufsbildungsgesetz", "Gesetz", "Volltext", "Paragraf"],
-    artikel: ["ausbildungsvertrag", "lernpflicht", "ausbildungspflicht", "mindestverguetung", "kuendigung", "abschlusspruefung"] },
+    artikel: ["ausbildungsvertrag", "lernpflicht", "ausbildungspflicht", "mindestverguetung", "kuendigung", "abschlusspruefung", "probezeit", "ausbildungsmittel", "zeugnis", "ende-uebernahme", "aktenvermerk"] },
   { id: "gesetz-jarbschg", titel: "Jugendarbeitsschutzgesetz (JArbSchG) — Volltext",
     typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
     datei: "formulare/gesetze/jarbschg.pdf", url: "https://www.gesetze-im-internet.de/jarbschg/",

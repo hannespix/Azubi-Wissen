@@ -177,6 +177,22 @@
   }
 
   // Suchindex: Artikel + FAQ, mit gewichteten Feldern (vor-normalisiert).
+  // Querverweise symmetrisch machen: Verweist A auf B, erscheint A auch
+  // unter „Verwandte Artikel" von B (R2 — gilt automatisch für künftige
+  // Artikel mit).
+  (function verwandtSymmetrisieren() {
+    var map = {};
+    W.artikel.forEach(function (a) { map[a.id] = a; });
+    W.artikel.forEach(function (a) {
+      (a.verwandt || []).forEach(function (v) {
+        var ziel = map[v];
+        if (!ziel) return;
+        ziel.verwandt = ziel.verwandt || [];
+        if (ziel.verwandt.indexOf(a.id) < 0) ziel.verwandt.push(a.id);
+      });
+    });
+  })();
+
   var INDEX = [];
   (function bauen() {
     W.artikel.forEach(function (a) {

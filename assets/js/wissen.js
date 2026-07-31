@@ -1,4 +1,4 @@
-// wissen.js — Wissensbasis „Rechte & Pflichten in der Berufsausbildung".
+// wissen.js — Wissensbasis „Rechte & Pflichten in der Berufsausbildung“.
 // Fachlich gepflegte, statische Datenbasis (keine personenbezogenen Daten).
 //
 // PFLEGEHINWEISE
