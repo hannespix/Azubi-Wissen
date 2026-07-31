@@ -53,9 +53,11 @@
 - **V2 Download-Center** ✅ — alle Dokumente als aufklappbare Baumstruktur
   nach Thematik (Verträge, Ausbildungspläne, Tabellen, Gesetze, Prüfung,
   Förderung, Arbeitsschutz, Portale) mit Filter. *(PR #11)*
-- **V3 Eigene Inhalte** — eigene Artikel, Dokumente und Verträge direkt im
-  Tool anlegen/hochladen (IndexedDB), in Suche und Download-Baum integriert,
-  JSON-Sicherung (Export/Import).
+- **V3 Eigene Inhalte** ✅ — eigene Artikel schreiben und Dokumente/Verträge
+  hochladen direkt im Tool (`#/eigene`, IndexedDB): erscheinen in
+  Wissensdatenbank (Filter „Eigene Artikel"), Suche/Palette, Download-Baum
+  („Eigene Dokumente") und PDF-Export; JSON-Sicherung mit Export/Import.
+  *(PR #12)*
 - **V4 Schnellnachschlag** — Tarif-/Vergütungstabellen, Urlaubsansprüche nach
   Alter, Fristen und Eigenheiten der Fachrichtungen als kompakte
   Nachschlagekarten.

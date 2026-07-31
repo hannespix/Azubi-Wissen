@@ -371,6 +371,8 @@
         timer = setTimeout(function () {
           window.LokalDB.speichern("vermerke", vermerkLesen(wurzel)).then(function () {
             status.textContent = "Entwurf automatisch gespeichert.";
+          }, function () {
+            status.textContent = "Entwurf konnte nicht gespeichert werden (Speicher voll).";
           });
         }, 400);
       });
@@ -403,6 +405,8 @@
       window.LokalDB.speichern("vermerke", v).then(function () {
         status.textContent = "Vermerk abgelegt.";
         listeZeigen();
+      }, function () {
+        status.textContent = "Vermerk konnte nicht gespeichert werden (Speicher voll).";
       });
     });
 
