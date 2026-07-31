@@ -1575,6 +1575,7 @@
       h += '<section class="nachschlag-karte bw-card" id="n-' + esc(k.id) + '" aria-labelledby="nt-' + esc(k.id) + '" tabindex="-1">';
       h += '<h2 id="nt-' + esc(k.id) + '">' + esc(k.titel) + "</h2>";
       if (k.kurz) h += '<p class="bw-klein">' + esc(k.kurz) + "</p>";
+      if (k.rechner) h += rechnerHtml(k.rechner);
       if (k.tabelle) {
         h += '<div class="tabellen-rahmen"><table class="bw-table"><thead><tr>' +
           k.tabelle.spalten.map(function (s) { return "<th scope=\"col\">" + esc(s) + "</th>"; }).join("") +
@@ -1620,7 +1621,117 @@
     return h;
   }
 
+  /* ---- Rechner (R4): Formulare + Live-Berechnung ------------------ */
+  var MIAV = {
+    2024: [649.00, 765.82, 876.15, 908.60],
+    2025: [682.00, 804.76, 920.70, 954.80],
+    2026: [724.00, 854.32, 977.40, 1013.60]
+  };
+  function euro(n) {
+    return n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+  }
+  function rechnerHtml(art) {
+    var jahr = new Date().getFullYear();
+    var h = '<div class="rechner-form" data-rechner="' + esc(art) + '">';
+    if (art === "urlaub") {
+      h += '<div class="bw-field"><label for="ru-geb">Geburtsdatum</label><input type="date" id="ru-geb"></div>' +
+        '<div class="bw-field"><label for="ru-jahr">Urlaubsjahr</label><select id="ru-jahr">' +
+        [jahr - 1, jahr, jahr + 1].map(function (j) { return '<option' + (j === jahr ? " selected" : "") + ">" + j + "</option>"; }).join("") +
+        "</select></div>";
+    } else if (art === "verguetung") {
+      h += '<div class="bw-field"><label for="rv-beginn">Jahr des Ausbildungsbeginns</label><select id="rv-beginn">' +
+        Object.keys(MIAV).map(function (j) { return '<option' + (String(jahr) === j ? " selected" : "") + ">" + j + "</option>"; }).join("") +
+        "</select></div>" +
+        '<div class="bw-field"><label for="rv-jahr">Ausbildungsjahr</label><select id="rv-jahr">' +
+        [1, 2, 3, 4].map(function (n) { return "<option value=\"" + n + "\">" + n + ". Jahr</option>"; }).join("") +
+        "</select></div>";
+    } else if (art === "fristen") {
+      h += '<div class="bw-field"><label for="rf-beginn">Ausbildungsbeginn</label><input type="date" id="rf-beginn" value="' + jahr + '-09-01"></div>' +
+        '<div class="bw-field"><label for="rf-monate">Probezeit</label><select id="rf-monate">' +
+        [1, 2, 3, 4].map(function (n) { return '<option value="' + n + '"' + (n === 4 ? " selected" : "") + ">" + n + " Monat" + (n > 1 ? "e" : "") + "</option>"; }).join("") +
+        "</select></div>" +
+        '<div class="bw-field"><label for="rf-pruefung">Nicht bestandene Abschlussprüfung am (optional)</label><input type="date" id="rf-pruefung"></div>';
+    } else if (art === "teilzeit") {
+      h += '<div class="bw-field"><label for="rt-dauer">Reguläre Ausbildungsdauer</label><select id="rt-dauer">' +
+        [[24, "24 Monate (verkürzt)"], [36, "36 Monate (Regelfall)"], [42, "42 Monate"]].map(function (o) {
+          return '<option value="' + o[0] + '"' + (o[0] === 36 ? " selected" : "") + ">" + o[1] + "</option>";
+        }).join("") + "</select></div>" +
+        '<div class="bw-field"><label for="rt-prozent">Teilzeitanteil</label><select id="rt-prozent">' +
+        [50, 60, 70, 75, 80].map(function (p) { return '<option value="' + p + '"' + (p === 75 ? " selected" : "") + ">" + p + " % der Vollzeit</option>"; }).join("") +
+        "</select></div>";
+    }
+    h += "</div>" + '<p class="rechner-ergebnis" id="re-' + esc(art) + '" role="status" aria-live="polite"></p>';
+    return h;
+  }
+
+  function rechnerRechnen(root, art) {
+    var ziel = $("#re-" + art, root);
+    if (!ziel) return;
+    function wert(id) { var f = $(id, root); return f ? f.value : ""; }
+    if (art === "urlaub") {
+      var geb = wert("#ru-geb"), jahrU = parseInt(wert("#ru-jahr"), 10);
+      if (!geb) { ziel.textContent = "Geburtsdatum eingeben — der Anspruch erscheint sofort."; return; }
+      var stichtag = new Date(jahrU, 0, 1);
+      var g = new Date(geb);
+      var alter = stichtag.getFullYear() - g.getFullYear();
+      if (new Date(stichtag.getFullYear(), g.getMonth(), g.getDate()) > stichtag) alter--;
+      var werktage, grundlage;
+      if (alter < 16) { werktage = 30; grundlage = "§ 19 JArbSchG (unter 16)"; }
+      else if (alter < 17) { werktage = 27; grundlage = "§ 19 JArbSchG (unter 17)"; }
+      else if (alter < 18) { werktage = 25; grundlage = "§ 19 JArbSchG (unter 18)"; }
+      else { werktage = 24; grundlage = "§ 3 BUrlG (volljährig)"; }
+      var arbeitstage = { 30: 25, 27: 23, 25: 21, 24: 20 }[werktage];
+      ziel.innerHTML = "<strong>" + werktage + " Werktage</strong> Mindesturlaub im Jahr " + jahrU +
+        " (Alter am 1. Januar: " + alter + ") — entspricht " + arbeitstage +
+        " Arbeitstagen in der 5-Tage-Woche (aufgerundet). Grundlage: " + esc(grundlage) + ". Tarifverträge geben oft mehr.";
+    } else if (art === "verguetung") {
+      var beginn = wert("#rv-beginn"), aj = parseInt(wert("#rv-jahr"), 10);
+      var reihe = MIAV[beginn];
+      if (!reihe) { ziel.textContent = ""; return; }
+      ziel.innerHTML = "<strong>" + euro(reihe[aj - 1]) + "</strong> brutto/Monat Mindestvergütung im " + aj +
+        ". Ausbildungsjahr (Beginn " + esc(beginn) + ", § 17 BBiG). Tarifgebundene Betriebe zahlen nach Tarif; " +
+        "nicht tarifgebundene höchstens 20 % unter Branchentarif.";
+    } else if (art === "fristen") {
+      var b = wert("#rf-beginn"), monate = parseInt(wert("#rf-monate"), 10);
+      var teile = [];
+      if (b) {
+        var start = new Date(b);
+        var ende = new Date(start);
+        ende.setMonth(ende.getMonth() + monate);
+        ende.setDate(ende.getDate() - 1);
+        teile.push("<strong>Probezeit bis " + ende.toLocaleDateString("de-DE") + "</strong> (" + monate +
+          " Monate ab " + start.toLocaleDateString("de-DE") + ", § 20 BBiG)");
+      }
+      var pr = wert("#rf-pruefung");
+      if (pr) {
+        var spaet = new Date(pr);
+        spaet.setFullYear(spaet.getFullYear() + 1);
+        teile.push("Verlängerung nach Nichtbestehen: auf Verlangen bis zur nächsten Wiederholungsprüfung, " +
+          "<strong>spätestens bis " + spaet.toLocaleDateString("de-DE") + "</strong> (+ 1 Jahr, § 21 Abs. 3 BBiG)");
+      }
+      ziel.innerHTML = teile.length ? teile.join("<br>") : "Ausbildungsbeginn eingeben — die Fristen erscheinen sofort.";
+    } else if (art === "teilzeit") {
+      var dauer = parseInt(wert("#rt-dauer"), 10), prozent = parseInt(wert("#rt-prozent"), 10);
+      var rechnerisch = Math.ceil(dauer * 100 / prozent);
+      var maximal = Math.floor(dauer * 1.5);
+      var neu = Math.min(rechnerisch, maximal);
+      var jahre = Math.floor(neu / 12), rest = neu % 12;
+      var lesbar = (jahre ? jahre + " Jahr" + (jahre > 1 ? "e" : "") : "") + (jahre && rest ? " " : "") + (rest ? rest + " Monate" : "");
+      ziel.innerHTML = "<strong>" + neu + " Monate</strong> Gesamtdauer (" + lesbar + ") bei " + prozent +
+        " % Teilzeit — rechnerisch " + rechnerisch + " Monate, höchstens das Anderthalbfache (" + maximal +
+        " Monate, § 7a BBiG). Endtermin auf den nächsten sinnvollen Prüfungstermin legen.";
+    }
+  }
+
   function nachschlagVerhalten(root, params) {
+    root.querySelectorAll(".rechner-form").forEach(function (form) {
+      var art = form.getAttribute("data-rechner");
+      form.querySelectorAll("input, select").forEach(function (f) {
+        f.addEventListener("input", function () { rechnerRechnen(root, art); });
+        f.addEventListener("change", function () { rechnerRechnen(root, art); });
+      });
+      rechnerRechnen(root, art);
+    });
     if (params.karte) {
       var ziel = $("#n-" + params.karte, root);
       if (ziel) {
