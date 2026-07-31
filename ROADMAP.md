@@ -1,8 +1,9 @@
 # ROADMAP — Ausbildung Grüne Berufe (vormals Azubi-Wissen)
 
-> **Tool-Zweck:** Offline-Wissensdatenbank „Rechte & Pflichten in der
-> Ausbildung" (grüne Berufe) mit Suche, lokalem Assistenten, PDF-Export,
-> Aktenvermerk-Generator und lokaler Datenbank.
+> **Tool-Zweck:** „Ausbildung Grüne Berufe" — Wissensdatenbank und
+> Arbeitshilfen der Ausbildungsberatung für alle grünen Berufe: Suche,
+> Berufe, Nachschlag mit Rechnern, Checklisten, Vorlagen, Downloads,
+> Glossar, eigener Assistent, PDF-Export, Aktenvermerke — komplett offline.
 > **Zielgruppe/Ablage:** Ausbildungsberatung, Betriebe, Azubis; Nutzerdaten
 > nur lokal im Browser (IndexedDB), keine personenbezogenen Daten im Repo.
 
@@ -101,9 +102,12 @@
   BiBB „Ausbildung gestalten", Infodienst/FAQ Landratsamt Karlsruhe,
   Bürgerdienst AP-Anmeldung; Ausbilder-Artikel um Anerkennungsverfahren
   erweitert; neue Baum-Gruppe „Weitere öffentliche Stellen". *(PR #16)*
-- **R2 Inhalts-Review & Querverlinkung** — alle 38+ Artikel: verwandt-Links
-  vervollständigen, Artikel↔Quellen↔Vorlagen↔Checklisten verknüpfen,
-  Typografie/Fakten prüfen.
+- **R2 Inhalts-Review & Querverlinkung** ✅ — automatischer Integritäts-
+  Durchgang über alle Datenmodule: Querverweise werden zur Laufzeit
+  symmetrisiert (38 fehlende Rückverweise geschlossen, gilt automatisch
+  für neue Artikel), fünf Artikel ohne Quellen-Anbindung an BBiG/Abmeldung
+  angebunden, Typografie-Reste bereinigt, ROADMAP-Kopf aktualisiert;
+  Referenzprüfungen Vorlagen/Checklisten/Glossar ohne Befund. *(PR #23)*
 - **R3 UI-Review** ✅ — Screenshot-Durchgang aller 11 Ansichten in 390 px
   und 1280 px; behoben: umbrechender Header-Suchknopf, gequetschte
   Desktop-Navigation (nowrap + adaptive Suchknopf-Breite), Fokus-Rahmen
