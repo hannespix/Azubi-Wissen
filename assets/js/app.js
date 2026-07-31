@@ -608,6 +608,13 @@
         }).join("") + "</ul>";
     }
 
+    if (window.LokalDB) {
+      h += '<div class="notiz"><h2>Eigene Notiz</h2>' +
+        '<div class="bw-card"><label for="artikel-notiz">Notiz zu diesem Artikel (bleibt lokal auf diesem Gerät)</label>' +
+        '<textarea id="artikel-notiz" rows="3" placeholder="z. B. regionale Besonderheiten, Ansprechpersonen, eigene Beispiele …"></textarea>' +
+        '<p class="bw-klein bw-leise" id="notiz-status" role="status"></p></div></div>';
+    }
+
     h += '<div class="artikel-aktionen">' +
       '<a class="bw-btn bw-btn--gelb" href="#/export?artikel=' + a.id + '">Als PDF exportieren</a>' +
       '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(a.titel + "?") + '">Frage dazu stellen</a>' +
@@ -664,6 +671,27 @@
       });
       var id = tabs[i].id.replace("tab-", "");
       localStorage.setItem("aw.rolle", id);
+    }
+
+    // Eigene Notiz (lokale Datenbank)
+    var notizFeld = $("#artikel-notiz", root);
+    if (notizFeld && window.LokalDB) {
+      var notizStatus = $("#notiz-status", root);
+      window.LokalDB.holen("notizen", a.id).then(function (n) {
+        if (n && n.text) { notizFeld.value = n.text; notizStatus.textContent = "Gespeicherte Notiz geladen."; }
+      });
+      var notizTimer = null;
+      notizFeld.addEventListener("input", function () {
+        clearTimeout(notizTimer);
+        notizTimer = setTimeout(function () {
+          if (notizFeld.value.trim()) {
+            window.LokalDB.speichern("notizen", { id: a.id, text: notizFeld.value, geaendert: Date.now() })
+              .then(function () { notizStatus.textContent = "Notiz gespeichert."; });
+          } else {
+            window.LokalDB.loeschen("notizen", a.id).then(function () { notizStatus.textContent = "Notiz gelöscht."; });
+          }
+        }, 500);
+      });
     }
 
     // FAQ per Deep-Link öffnen
