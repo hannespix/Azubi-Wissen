@@ -15,6 +15,7 @@ Nur Python-Standardbibliothek, keine Abhängigkeiten.
 import base64
 import mimetypes
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -78,19 +79,34 @@ def inline_scripts(html: str, base: Path) -> str:
     return re.sub(r'<script\b[^>]*\bsrc=(["\'])([^"\']+)\1[^>]*>\s*</script>', repl, html)
 
 
+def inline_stylesheets(html: str, base: Path) -> str:
+    """ALLE lokalen <link rel="stylesheet"> durch Inline-<style> ersetzen
+    (bw-theme.css UND werkzeugspezifische CSS wie assets/css/app.css);
+    referenzierte url()-Assets werden als base64 eingebettet."""
+    def repl(m):
+        tag = m.group(0)
+        href = re.search(r'href=["\']([^"\']+)["\']', tag)
+        if not href:
+            return tag
+        raw = href.group(1)
+        if raw.startswith(("http:", "https:", "data:")):
+            return tag
+        css_path = (base / raw).resolve()
+        if not css_path.exists():
+            print(f"  ! Stylesheet fehlt (übersprungen): {raw}")
+            return tag
+        css = inline_css_urls(css_path.read_text(encoding="utf-8"), css_path.parent)
+        return f"<style>\n{css}\n</style>"
+    return re.sub(r'<link\b[^>]*rel=["\']stylesheet["\'][^>]*>', repl, html)
+
+
 def main():
+    release = "--release" in sys.argv
     index = ROOT / "index.html"
-    theme = ROOT / "bw-theme.css"
     html = index.read_text(encoding="utf-8")
 
-    # 1) Theme inline (mit base64-Fonts)
-    css = inline_css_urls(theme.read_text(encoding="utf-8"), ROOT)
-    html = re.sub(
-        r'<link[^>]+href=["\']bw-theme\.css["\'][^>]*>',
-        f"<style>\n{css}\n</style>",
-        html,
-        count=1,
-    )
+    # 1) Alle lokalen Stylesheets inline (mit base64-Fonts/-Assets)
+    html = inline_stylesheets(html, ROOT)
 
     # 2) Manifest-Link entfernen (Offline-Einzeldatei braucht kein PWA-Manifest)
     html = re.sub(r'\s*<link[^>]+rel=["\']manifest["\'][^>]*>', "", html)
@@ -106,6 +122,10 @@ def main():
     out.write_text(html, encoding="utf-8")
     kb = out.stat().st_size / 1024
     print(f"OK  -> {out}  ({kb:.0f} KB)")
+    if release:
+        ziel = ROOT / "azubi-wissen-offline.html"
+        ziel.write_text(html, encoding="utf-8")
+        print(f"OK  -> {ziel}  (versionierte Auslieferungsdatei)")
     print("Offline lauffähig (keine externen Requests). Per Doppelklick öffnen.")
 
 
