@@ -581,7 +581,22 @@
     if (erstLauf) { rendernJetzt(); return Promise.resolve(); }
     return mitUebergang(rendernJetzt);
   }
+  // Fangnetz: Ein Fehler in einer Ansicht darf die Seite nie leer lassen.
   function rendernJetzt() {
+    try { rendernAnsicht(); }
+    catch (fehler) {
+      var haupt = $("#inhalt");
+      if (haupt) {
+        haupt.innerHTML = "<h1>Azubi-Wissen</h1>" +
+          '<div class="bw-hinweis bw-hinweis--fehler"><p><strong>Diese Ansicht konnte nicht aufgebaut werden.</strong> ' +
+          'Bitte die Seite neu laden (Strg+F5). Bleibt der Fehler, hilft die Browser-Konsole bei der Ursache.</p></div>' +
+          '<p><a class="bw-btn" href="#/">Zur Startseite</a></p>';
+      }
+      if (window.console && console.error) console.error("Azubi-Wissen Renderfehler:", fehler);
+      erstLauf = false;
+    }
+  }
+  function rendernAnsicht() {
     var r = parseHash();
     var haupt = $("#inhalt");
     var view = r.pfad[0] || "start";
@@ -2090,9 +2105,13 @@
       b.addEventListener("click", function () { paletteOeffnen(); });
     });
     window.addEventListener("hashchange", rendern);
-    // Eigene Inhalte zuerst aus der lokalen Datenbank laden, damit Zähler,
-    // Suche und Download-Baum ab dem ersten Rendern vollständig sind.
-    eigeneLaden().then(rendern, rendern);
+    // Sofort rendern — die Startseite darf nie auf die lokale Datenbank
+    // warten (eine langsame/blockierte IndexedDB ließ sonst die Seite leer).
+    rendern();
+    // Eigene Inhalte danach nachladen; nur neu rendern, wenn es welche gibt.
+    eigeneLaden().then(function () {
+      if (EIGENE.artikel.length || EIGENE.dokumente.length) rendern();
+    }, function () { /* ohne lokale Datenbank läuft das Tool trotzdem */ });
   }
   // Erst rendern, wenn alle Modul-Skripte (Assistent, Export) geladen sind.
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

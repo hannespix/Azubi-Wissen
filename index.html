@@ -100,7 +100,9 @@
 // Einzeldatei und nicht unter file:// — dort läuft das Tool auch so offline).
 if ("serviceWorker" in navigator && location.protocol !== "file:" && !window.EINZELDATEI) {
   window.addEventListener("load", function () {
-    navigator.serviceWorker.register("./sw.js").catch(function () { /* Ohne SW läuft die Seite normal weiter. */ });
+    navigator.serviceWorker.register("./sw.js")
+      .then(function (reg) { if (reg && reg.update) reg.update(); }) // neue Version sofort prüfen
+      .catch(function () { /* Ohne SW läuft die Seite normal weiter. */ });
   });
 }
 </script>

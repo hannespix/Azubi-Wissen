@@ -12,9 +12,11 @@
   function oeffnen() {
     if (bereit) return bereit;
     bereit = new Promise(function (aufloesen) {
-      if (!window.indexedDB) { fallback = true; aufloesen(null); return; }
+      var idb = null;
+      try { idb = window.indexedDB; } catch (e) { /* Zugriff kann in Sonderfällen werfen */ }
+      if (!idb) { fallback = true; aufloesen(null); return; }
       var antrag;
-      try { antrag = indexedDB.open(DB_NAME, VERSION); }
+      try { antrag = idb.open(DB_NAME, VERSION); }
       catch (e) { fallback = true; aufloesen(null); return; }
       antrag.onupgradeneeded = function () {
         var d = antrag.result;
@@ -49,7 +51,11 @@
         return wert;
       }
       return new Promise(function (aufloesen, ablehnen) {
-        var tx = db.transaction(store, "readwrite");
+        // db.transaction wirft synchron, wenn der Store fehlt (z. B. bei
+        // gemischt gecachten Skriptständen) — sauber als Fehler melden.
+        var tx;
+        try { tx = db.transaction(store, "readwrite"); }
+        catch (e) { ablehnen(new Error("Speichern fehlgeschlagen — lokale Datenbank passt nicht zum Skriptstand. Seite mit Strg+F5 neu laden.")); return; }
         tx.objectStore(store).put(wert);
         tx.oncomplete = function () { aufloesen(wert); };
         tx.onerror = function () { ablehnen(tx.error); };
@@ -61,7 +67,9 @@
     return oeffnen().then(function () {
       if (fallback) return lsLesen(store)[id] || null;
       return new Promise(function (aufloesen) {
-        var antrag = db.transaction(store).objectStore(store).get(id);
+        var antrag;
+        try { antrag = db.transaction(store).objectStore(store).get(id); }
+        catch (e) { aufloesen(null); return; }
         antrag.onsuccess = function () { aufloesen(antrag.result || null); };
         antrag.onerror = function () { aufloesen(null); };
       });
@@ -75,7 +83,9 @@
         return Object.keys(o).map(function (k) { return o[k]; });
       }
       return new Promise(function (aufloesen) {
-        var antrag = db.transaction(store).objectStore(store).getAll();
+        var antrag;
+        try { antrag = db.transaction(store).objectStore(store).getAll(); }
+        catch (e) { aufloesen([]); return; }
         antrag.onsuccess = function () { aufloesen(antrag.result || []); };
         antrag.onerror = function () { aufloesen([]); };
       });
@@ -89,7 +99,9 @@
         return;
       }
       return new Promise(function (aufloesen) {
-        var tx = db.transaction(store, "readwrite");
+        var tx;
+        try { tx = db.transaction(store, "readwrite"); }
+        catch (e) { aufloesen(); return; }
         tx.objectStore(store).delete(id);
         tx.oncomplete = function () { aufloesen(); };
         tx.onerror = function () { aufloesen(); };
