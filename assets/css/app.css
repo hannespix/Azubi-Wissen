@@ -293,3 +293,199 @@ kbd.kbd {
 .dok-info a { font-weight: 700; overflow-wrap: anywhere; }
 .dok-aktionen { display: flex; gap: var(--bw-space-1); flex-wrap: wrap; }
 .eigene-form[hidden] { display: none; }
+
+/* ================================================================== */
+/* ========= Modernisierung 2026 — Liquid Glass & Bewegung ========== */
+/* Design-Layer über dem BW-Theme: weiche Elevation, Glas-Effekte auf
+   überlagernden Flächen, flüssige haptische Übergänge. Die Markenfarben
+   (Gelb/Schwarz/Grau/Weiß) bleiben unangetastet; die rgba-Werte unten
+   sind abgeleitete Transparenzstufen von --bw-schwarz (#2A2623) bzw.
+   Weiß und bilden eigene Tokens dieses Layers. Bei
+   prefers-reduced-motion wird jede Bewegung abgeschaltet. */
+
+:root {
+  --schatten-1: 0 1px 2px rgba(42, 38, 35, 0.05), 0 2px 10px rgba(42, 38, 35, 0.07);
+  --schatten-2: 0 2px 6px rgba(42, 38, 35, 0.07), 0 12px 28px rgba(42, 38, 35, 0.12);
+  --schatten-3: 0 8px 20px rgba(42, 38, 35, 0.12), 0 28px 70px rgba(42, 38, 35, 0.20);
+  --glas-hell: rgba(255, 255, 255, 0.72);
+  --glas-rand: rgba(255, 255, 255, 0.55);
+  --glas-linie: rgba(42, 38, 35, 0.08);
+  --glas-blur: saturate(1.6) blur(18px);
+  --kurve: cubic-bezier(0.32, 0.72, 0.28, 1);
+  --kurve-feder: cubic-bezier(0.34, 1.35, 0.44, 1);
+  --dauer-1: 0.15s;
+  --dauer-2: 0.32s;
+  --dauer-3: 0.5s;
+  --radius-gross: 16px;
+}
+
+html { scroll-behavior: smooth; }
+
+/* --- Routen- und Filterwechsel (View Transitions API) ------------- */
+::view-transition-old(root) { animation: vt-raus var(--dauer-2) var(--kurve) both; }
+::view-transition-new(root) { animation: vt-rein var(--dauer-2) var(--kurve) both; }
+@keyframes vt-raus { to { opacity: 0; transform: translateY(-6px) scale(0.996); } }
+@keyframes vt-rein { from { opacity: 0; transform: translateY(10px) scale(0.996); } }
+
+/* --- Kopfzeile: schwebendes Glas über dem Inhalt ------------------ */
+.app-header {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--glas-hell);
+  -webkit-backdrop-filter: var(--glas-blur);
+  backdrop-filter: var(--glas-blur);
+  border-bottom: 1px solid var(--glas-linie);
+  box-shadow: inset 0 1px 0 var(--glas-rand), var(--schatten-1);
+}
+
+/* --- Karten & Flächen: weiche Elevation, haptisches Feedback ------ */
+.karte, .kachel, .schnellkarte, .bw-card, .fach-karte, .dok-liste,
+.faq details, .baum details, .rollen [role="tabpanel"], .blase,
+.tabellen-rahmen {
+  box-shadow: var(--schatten-1);
+}
+.karte, .kachel, .schnellkarte, .bw-card, .eigene-form, .fach-karte { border-radius: var(--radius-gross); }
+.faq details, .baum details, .dok-liste, .blase { border-radius: 14px; }
+
+.karte, .kachel, .schnellkarte, .fach-karte, .chip, .bw-btn, .bw-iconbtn,
+.suchknopf, .suchfeld-gross, .detail-schalter button, .palette__eintrag a,
+.rollen [role="tab"], .faq summary, .baum summary {
+  transition:
+    transform var(--dauer-1) var(--kurve),
+    box-shadow var(--dauer-2) var(--kurve),
+    background-color var(--dauer-1) linear,
+    border-color var(--dauer-1) linear,
+    color var(--dauer-1) linear;
+}
+.karte:hover, .kachel:hover, .schnellkarte:hover, .fach-karte:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--schatten-2);
+}
+.karte:active, .kachel:active, .schnellkarte:active, .fach-karte:active {
+  transform: translateY(-1px) scale(0.99);
+  box-shadow: var(--schatten-1);
+}
+.bw-btn:hover, .chip:hover, .suchknopf:hover { transform: translateY(-1px); box-shadow: var(--schatten-1); }
+.bw-btn:active, .chip:active, .suchknopf:active, .bw-iconbtn:active,
+.detail-schalter button:active, .rollen [role="tab"]:active { transform: scale(0.96); }
+
+.chip { border-radius: 999px; }
+.detail-schalter { border-radius: 999px; box-shadow: var(--schatten-1); }
+.suchknopf { border-radius: 999px; }
+.suchfeld-gross { border-radius: 999px; box-shadow: var(--schatten-1); }
+.suchfeld-gross:hover { transform: translateY(-1px); box-shadow: var(--schatten-2); }
+.suchfeld-gross:active { transform: scale(0.99); }
+
+/* --- Einschwebende Inhalte (gestaffelt) --------------------------- */
+@keyframes rein-gleiten {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+}
+.karten > *, .kacheln > *, .schnellzeile > *, .fach-raster > *,
+.quellen-liste > li, .dok-liste > li, .baum > details,
+main > .nachschlag-karte, .chat__verlauf > .blase {
+  animation: rein-gleiten var(--dauer-3) var(--kurve-feder) backwards;
+}
+.karten > :nth-child(1), .kacheln > :nth-child(1), .schnellzeile > :nth-child(1), .fach-raster > :nth-child(1), .quellen-liste > :nth-child(1), .dok-liste > :nth-child(1), .baum > details:nth-of-type(1), main > .nachschlag-karte:nth-of-type(1) { animation-delay: 0.03s; }
+.karten > :nth-child(2), .kacheln > :nth-child(2), .schnellzeile > :nth-child(2), .fach-raster > :nth-child(2), .quellen-liste > :nth-child(2), .dok-liste > :nth-child(2), .baum > details:nth-of-type(2), main > .nachschlag-karte:nth-of-type(2) { animation-delay: 0.07s; }
+.karten > :nth-child(3), .kacheln > :nth-child(3), .schnellzeile > :nth-child(3), .fach-raster > :nth-child(3), .quellen-liste > :nth-child(3), .dok-liste > :nth-child(3), .baum > details:nth-of-type(3), main > .nachschlag-karte:nth-of-type(3) { animation-delay: 0.11s; }
+.karten > :nth-child(4), .kacheln > :nth-child(4), .schnellzeile > :nth-child(4), .fach-raster > :nth-child(4), .quellen-liste > :nth-child(4), .dok-liste > :nth-child(4), .baum > details:nth-of-type(4), main > .nachschlag-karte:nth-of-type(4) { animation-delay: 0.15s; }
+.karten > :nth-child(5), .kacheln > :nth-child(5), .schnellzeile > :nth-child(5), .fach-raster > :nth-child(5), .quellen-liste > :nth-child(5), .dok-liste > :nth-child(5), .baum > details:nth-of-type(5), main > .nachschlag-karte:nth-of-type(5) { animation-delay: 0.19s; }
+.karten > :nth-child(6), .kacheln > :nth-child(6), .schnellzeile > :nth-child(6), .fach-raster > :nth-child(6), .quellen-liste > :nth-child(6), .dok-liste > :nth-child(6), .baum > details:nth-of-type(6), main > .nachschlag-karte:nth-of-type(6) { animation-delay: 0.23s; }
+.karten > :nth-child(7), .kacheln > :nth-child(7), .schnellzeile > :nth-child(7), .fach-raster > :nth-child(7), .baum > details:nth-of-type(7) { animation-delay: 0.27s; }
+.karten > :nth-child(8), .kacheln > :nth-child(8), .fach-raster > :nth-child(8), .baum > details:nth-of-type(8) { animation-delay: 0.31s; }
+.karten > :nth-child(9), .kacheln > :nth-child(9), .baum > details:nth-of-type(9) { animation-delay: 0.35s; }
+
+/* --- Suchpalette: Liquid-Glass-Modal ------------------------------ */
+.palette__hintergrund {
+  background: rgba(42, 38, 35, 0.30);
+  opacity: 1;
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  backdrop-filter: blur(10px) saturate(1.2);
+  animation: blende-rein var(--dauer-2) linear backwards;
+}
+@keyframes blende-rein { from { opacity: 0; } }
+.palette__panel {
+  background: var(--glas-hell);
+  -webkit-backdrop-filter: saturate(1.7) blur(28px);
+  backdrop-filter: saturate(1.7) blur(28px);
+  border: 1px solid var(--glas-rand);
+  border-radius: var(--radius-gross);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), var(--schatten-3);
+  animation: panel-rein var(--dauer-2) var(--kurve-feder) backwards;
+}
+@keyframes panel-rein { from { opacity: 0; transform: translateY(16px) scale(0.97); } }
+.palette__eingabe { border-bottom: 1px solid var(--glas-linie); }
+.palette__eingabe input { background: transparent; }
+.palette__fuss { border-top: 1px solid var(--glas-linie); }
+.palette__eintrag a:hover { background: rgba(42, 38, 35, 0.05); }
+
+/* --- Hamburger-Menü als Glasfläche (mobil) ------------------------ */
+@media (max-width: 800px) {
+  .bw-nav__panel {
+    background: var(--glas-hell);
+    -webkit-backdrop-filter: var(--glas-blur);
+    backdrop-filter: var(--glas-blur);
+    border: 1px solid var(--glas-rand);
+    border-top: 0;
+    border-radius: 0 0 var(--radius-gross) var(--radius-gross);
+    box-shadow: var(--schatten-3);
+  }
+}
+
+/* Ohne backdrop-filter-Unterstützung: deckende Flächen. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .app-header, .palette__panel, .bw-nav__panel { background: var(--bw-weiss); }
+  .palette__hintergrund { background: var(--bw-schwarz); opacity: 0.55; }
+}
+
+/* --- Weiches Auf-/Zuklappen von details (FAQ, Baum) --------------- */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  .faq details::details-content, .baum details::details-content {
+    block-size: 0; overflow: clip;
+    transition: block-size var(--dauer-2) var(--kurve), content-visibility var(--dauer-2) allow-discrete;
+  }
+  .faq details[open]::details-content, .baum details[open]::details-content { block-size: auto; }
+}
+
+/* ================== Schnellnachschlag (V4) ======================== */
+.nachschlag-karte { margin: var(--bw-space-3) 0; scroll-margin-top: 96px; }
+.nachschlag-karte h2 { margin-top: 0; }
+.nachschlag-karte:focus { outline: none; box-shadow: 0 0 0 2px var(--bw-schwarz), var(--schatten-2); }
+
+.tabellen-rahmen {
+  overflow-x: auto; margin: var(--bw-space-2) 0;
+  border: 1px solid var(--bw-grau-200); border-radius: 12px; background: var(--bw-weiss);
+}
+.tabellen-rahmen .bw-table { font-variant-numeric: tabular-nums; min-width: 34rem; }
+.bw-table tbody tr { transition: background-color var(--dauer-1) linear; }
+.bw-table tbody tr:hover { background: var(--bw-grau-50); }
+/* Gelb markiert genau EINEN Wert (aktuelles Beginnjahr) — mit dunkler Kante. */
+.zeile--aktuell th, .zeile--aktuell td { background: var(--bw-grau-100); font-weight: 600; }
+.zeile--aktuell th:first-child { box-shadow: inset 4px 0 0 var(--bw-gelb), inset 5px 0 0 var(--bw-schwarz); }
+
+.fach-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--bw-space-2); margin: var(--bw-space-2) 0; }
+.fach-karte { border: 1px solid var(--bw-grau-200); background: var(--bw-weiss); padding: var(--bw-space-2) var(--bw-space-3); display: grid; gap: 0.4rem; align-content: start; }
+.fach-karte h3 { margin: 0; font-size: var(--bw-fs-body); }
+.fach-karte p { margin: 0; font-size: var(--bw-fs-klein); color: var(--bw-text-leise); }
+.fach-karte .chip { justify-self: start; }
+
+.chipzeile-frei { display: flex; flex-wrap: wrap; gap: var(--bw-space-1); align-items: center; margin-top: var(--bw-space-2); }
+
+/* --- Fokus sichtbar (verstärkt, ohne Spezifitätsdruck) ------------ */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--bw-schwarz); outline-offset: 2px;
+}
+
+/* --- Druck & reduzierte Bewegung ---------------------------------- */
+@media print {
+  *, *::before, *::after { box-shadow: none !important; backdrop-filter: none !important; animation: none !important; transition: none !important; }
+  .app-header { position: static; background: var(--bw-weiss); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

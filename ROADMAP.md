@@ -58,11 +58,21 @@
   Wissensdatenbank (Filter „Eigene Artikel"), Suche/Palette, Download-Baum
   („Eigene Dokumente") und PDF-Export; JSON-Sicherung mit Export/Import.
   *(PR #12)*
-- **V4 Schnellnachschlag** — Tarif-/Vergütungstabellen, Urlaubsansprüche nach
-  Alter, Fristen und Eigenheiten der Fachrichtungen als kompakte
-  Nachschlagekarten.
-- **V5 Feinschliff** — Startseite/Navigation modernisieren, zuletzt
-  angesehene Inhalte, Barrierefreiheits-Feinschliff.
+- **V4 Schnellnachschlag** ✅ — `#/nachschlag` mit kompakten Karten:
+  Mindestvergütung (Beginnjahre 2024–2026), Urlaub nach Alter, Probezeit/
+  Kündigung/Fristen, Arbeitszeit Jugendliche vs. Erwachsene, Eigenheiten
+  der 7 Fachrichtungen (mit Ausbildungsplan-Links); in Suche und Palette
+  integriert. *(PR #13)*
+- **V5 Feinschliff & UI 2026** ✅ — Liquid-Glass-Design (Header, Suchpalette,
+  Hamburger-Menü mit Blur), weiche Elevation/Schatten, haptische Hover-/
+  Press-Zustände, gestaffelte Einblend-Animationen, flüssige Übergänge über
+  die View-Transitions-API (Routen und Filter), „Zuletzt angesehen" auf der
+  Startseite, Schnellzugriffe nach oben; `prefers-reduced-motion` schaltet
+  alle Bewegungen ab. *(PR #13)*
+- **PWA** ✅ — installierbar (Manifest) mit Service Worker: Kern-App wird
+  vorgecacht und läuft komplett offline; Formulare/PDFs wandern beim ersten
+  Abruf in den Cache; nur eigene Ursprünge, keine externen Requests.
+  *(PR #13)*
 
 ## Weitere Ideen
 
