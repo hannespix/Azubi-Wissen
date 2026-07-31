@@ -33,19 +33,27 @@
       return esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
     }
   }
+  // Eigene Inhalte (lokal angelegte Artikel/Dokumente) — Cache über LokalDB,
+  // wird bei init() geladen und nach jeder Änderung aktualisiert.
+  var EIGENE = { artikel: [], dokumente: [], geladen: false };
+  var THEMA_EIGENE = { id: "eigene", titel: "Eigene Artikel", kurz: "Selbst angelegte Inhalte — nur lokal auf diesem Gerät gespeichert" };
+
   function themaVon(id) {
+    if (id === THEMA_EIGENE.id) return THEMA_EIGENE;
     for (var i = 0; i < W.themen.length; i++) if (W.themen[i].id === id) return W.themen[i];
     return null;
   }
   function artikelVon(id) {
     for (var i = 0; i < W.artikel.length; i++) if (W.artikel[i].id === id) return W.artikel[i];
+    for (var j = 0; j < EIGENE.artikel.length; j++) if (EIGENE.artikel[j].id === id) return EIGENE.artikel[j];
     return null;
   }
   var ICON = {
     suche: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
     buch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
     chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
-    doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg>'
+    doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg>',
+    plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>'
   };
 
   /* ---------------- Suche: Synonyme + Bewertung -------------------- */
@@ -181,6 +189,51 @@
     });
   })();
 
+  // Eigene Artikel/Dokumente in die Suchindizes einhängen (nach Laden und
+  // nach jeder Änderung aufrufen). Eigene Einträge tragen rec.eigen = true.
+  function indexEigeneNeu() {
+    INDEX = INDEX.filter(function (r) { return !r.eigen; });
+    QINDEX = QINDEX.filter(function (r) { return !r.eigen; });
+    EIGENE.artikel.forEach(function (a) {
+      var absText = (a.abschnitte || []).map(function (x) { return x.text; }).join(" ");
+      INDEX.push({
+        typ: "artikel", eigen: true, id: a.id, titel: a.titel, kurz: a.kurz, thema: themaVon(a.thema),
+        felder: [
+          [norm(a.titel), 5],
+          [norm((a.stichworte || []).join(" ")), 4],
+          [norm(a.kurz), 2.5],
+          [norm(absText), 1],
+          [norm("eigener artikel eigene"), 1]
+        ]
+      });
+    });
+    EIGENE.dokumente.forEach(function (d) {
+      QINDEX.push({
+        eigen: true, eintrag: d,
+        felder: [
+          [norm(d.titel), 5],
+          [norm((d.stichworte || []).join(" ")), 4],
+          [norm(d.beschreibung || ""), 1.5],
+          [norm("eigenes dokument eigene ablage " + (d.dateiName || "")), 1]
+        ]
+      });
+    });
+  }
+
+  function eigeneLaden() {
+    if (!window.LokalDB) { EIGENE.geladen = true; return Promise.resolve(); }
+    return Promise.all([
+      window.LokalDB.alle("eigeneArtikel"),
+      window.LokalDB.alle("eigeneDokumente")
+    ]).then(function (r) {
+      function neueste(a, b) { return (b.geaendert || 0) - (a.geaendert || 0); }
+      EIGENE.artikel = (r[0] || []).sort(neueste);
+      EIGENE.dokumente = (r[1] || []).sort(neueste);
+      EIGENE.geladen = true;
+      indexEigeneNeu();
+    }, function () { EIGENE.geladen = true; });
+  }
+
   function suchenQuellen(q, limit) {
     var tokens = norm(q).split(" ").filter(function (t) { return t && !STOP[t]; });
     if (!tokens.length) tokens = norm(q).split(" ").filter(Boolean);
@@ -206,8 +259,11 @@
     return treffer.slice(0, limit || 4).map(function (t) { return t.eintrag; });
   }
 
-  var TYP_NAME = { formular: "Formular", merkblatt: "Merkblatt", plan: "Ausbildungsplan", gesetz: "Gesetz", link: "Link", portal: "Portal", video: "Video" };
+  var TYP_NAME = { formular: "Formular", merkblatt: "Merkblatt", plan: "Ausbildungsplan", gesetz: "Gesetz", link: "Link", portal: "Portal", video: "Video", eigen: "Eigenes Dokument" };
   function quelleZiel(e) {
+    // Eigene Dokumente liegen als data:-URL in der lokalen Datenbank und
+    // werden mit Original-Dateinamen heruntergeladen.
+    if (e.eigen && e.dataUrl) return { href: e.dataUrl, extern: false, download: e.dateiName || (e.titel + ".pdf") };
     // In der Einzeldatei-Auslieferung liegen die PDF-Dateien nicht bei —
     // dort führt der Eintrag direkt zur Online-Quelle.
     if (e.datei && !window.EINZELDATEI) return { href: e.datei, extern: false };
@@ -371,7 +427,7 @@
         qerg.forEach(function (e) {
           var z = quelleZiel(e);
           html += '<li class="palette__eintrag" role="option" aria-selected="false">' +
-            '<a href="' + esc(z.href) + '" target="_blank" rel="noopener">' +
+            '<a href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : ' target="_blank" rel="noopener"') + '>' +
             '<span class="wo">' + esc(TYP_NAME[e.typ] || e.typ) + (z.extern ? " ↗" : "") + "</span>" +
             '<span class="titel">' + S.highlight(e.titel, q) + "</span>" +
             '<span class="schnipsel">' + esc(e.herausgeber + (e.stand ? " · Stand " + e.stand : "")) + "</span></a></li>";
@@ -475,6 +531,10 @@
       haupt.innerHTML = viewDownloads();
       downloadsVerhalten(haupt);
       titel = "Download-Center — Azubi-Wissen";
+    } else if (view === "eigene") {
+      haupt.innerHTML = viewEigene();
+      eigeneVerhalten(haupt, r.params);
+      titel = "Eigene Inhalte — Azubi-Wissen";
     } else if (view === "quellen") {
       haupt.innerHTML = viewQuellen(r.params);
       quellenVerhalten(haupt, r.params);
@@ -554,6 +614,7 @@
       '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
       '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
       '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
+      '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
       "</div>";
 
     h += '<p class="stand-hinweis">' + esc(W.hinweis) + " Stand: " + esc(W.stand) + ".</p>";
@@ -567,8 +628,10 @@
   /* ---------------- Ansicht: Wissensdatenbank ---------------------- */
   function viewWissen(params) {
     var aktiv = params.thema || "";
+    var gesamt = W.artikel.length + EIGENE.artikel.length;
     var h = '<h1>Wissensdatenbank</h1>' +
-      '<p class="bw-unterzeile">' + W.artikel.length + " Artikel zu Rechten und Pflichten in der Ausbildung</p>" +
+      '<p class="bw-unterzeile">' + gesamt + " Artikel zu Rechten und Pflichten in der Ausbildung" +
+      (EIGENE.artikel.length ? " — davon " + EIGENE.artikel.length + " eigene" : "") + "</p>" +
       '<div class="bw-search" style="max-width:34rem"><label for="wq" class="bw-skip-link">Artikel filtern</label>' +
       '<input id="wq" type="search" placeholder="Filtern… (tipptolerant, alle Felder)" aria-label="Artikel filtern">' +
       '<button type="button" aria-label="Suchen">' + ICON.suche + "</button></div>";
@@ -577,6 +640,9 @@
     W.themen.forEach(function (th) {
       h += '<li><button class="chip" data-thema="' + th.id + '" aria-pressed="' + (aktiv === th.id) + '">' + esc(th.titel) + "</button></li>";
     });
+    if (EIGENE.artikel.length) {
+      h += '<li><button class="chip" data-thema="eigene" aria-pressed="' + (aktiv === "eigene") + '">Eigene Artikel</button></li>';
+    }
     h += "</ul>";
     h += '<ul class="karten" id="artikel-liste"></ul>';
     h += '<p class="leer" id="wissen-leer" hidden>Kein Artikel passt zu Filter und Suchbegriff.</p>';
@@ -594,21 +660,23 @@
       var artikel;
       if (q) {
         var erg = suchen(q);
-        artikel = erg.artikel.map(function (r) { return artikelVon(r.id); });
+        artikel = erg.artikel.map(function (r) { return artikelVon(r.id); }).filter(Boolean);
         // Bei Suche zusätzlich FAQ-only-Treffer als Artikel aufnehmen
         erg.faq.forEach(function (r) {
           var a = artikelVon(r.id);
-          if (artikel.indexOf(a) < 0) artikel.push(a);
+          if (a && artikel.indexOf(a) < 0) artikel.push(a);
         });
       } else {
-        artikel = W.artikel.slice();
+        artikel = W.artikel.concat(EIGENE.artikel);
       }
-      if (aktiv) artikel = artikel.filter(function (a) { return a.thema === aktiv; });
+      if (aktiv === "eigene") artikel = artikel.filter(function (a) { return a.eigen; });
+      else if (aktiv) artikel = artikel.filter(function (a) { return a.thema === aktiv; });
       liste.innerHTML = artikel.map(function (a) {
         var th = themaVon(a.thema);
         var recht = (a.recht || []).slice(0, 2).map(function (r) { return '<span class="etikett etikett--recht">' + esc(r.n) + "</span>"; }).join("");
         return '<li class="karte"><a class="karte__link" href="#/artikel/' + a.id + '">' +
           '<span class="etikett">' + esc(th ? th.titel : "") + "</span>" +
+          (a.eigen ? '<span class="etikett etikett--eigen">Eigen</span>' : "") +
           "<h3>" + (q ? S.highlight(a.titel, q) : esc(a.titel)) + "</h3>" +
           "<p>" + (q ? S.highlight(a.kurz, q) : esc(a.kurz)) + "</p>" +
           '<span class="meta">' + recht + ((a.faq || []).length ? '<span class="etikett">' + a.faq.length + " FAQ</span>" : "") + "</span>" +
@@ -658,16 +726,25 @@
     var h = '<nav class="crumb" aria-label="Pfad"><a href="#/wissen">Wissensdatenbank</a> › ' +
       '<a href="#/wissen?thema=' + a.thema + '">' + esc(th ? th.titel : "") + "</a></nav>";
     h += "<h1>" + esc(a.titel) + "</h1>";
+    if (a.eigen) {
+      h += '<p class="bw-klein"><span class="etikett etikett--eigen">Eigener Artikel</span> ' +
+        'nur lokal gespeichert · <a href="#/eigene?artikel=' + esc(a.id) + '">Bearbeiten</a>' +
+        (a.stand ? ' · <span class="bw-leise">Stand ' + esc(a.stand) + "</span>" : "") + "</p>";
+    }
     h += '<p class="artikel-lead">' + esc(a.kurz) + "</p>";
 
-    h += '<div class="detail-schalter" role="group" aria-label="Detailgrad">';
-    DETAILSTUFEN.forEach(function (d) {
-      h += '<button type="button" data-stufe="' + d.n + '" aria-pressed="' + (d.n === stufe) + '">' + d.name + "</button>";
-    });
-    h += "</div>";
+    if (!a.eigen) {
+      h += '<div class="detail-schalter" role="group" aria-label="Detailgrad">';
+      DETAILSTUFEN.forEach(function (d) {
+        h += '<button type="button" data-stufe="' + d.n + '" aria-pressed="' + (d.n === stufe) + '">' + d.name + "</button>";
+      });
+      h += "</div>";
+    }
 
-    h += '<div class="fakten bw-hinweis"><strong>Das Wichtigste in Kürze</strong><ul>' +
-      (a.fakten || []).map(function (f) { return "<li>" + fmtInline(f) + "</li>"; }).join("") + "</ul></div>";
+    if ((a.fakten || []).length) {
+      h += '<div class="fakten bw-hinweis"><strong>Das Wichtigste in Kürze</strong><ul>' +
+        a.fakten.map(function (f) { return "<li>" + fmtInline(f) + "</li>"; }).join("") + "</ul></div>";
+    }
 
     h += '<div class="artikel-inhalt" id="artikel-inhalt"></div>';
 
@@ -804,7 +881,8 @@
         notizTimer = setTimeout(function () {
           if (notizFeld.value.trim()) {
             window.LokalDB.speichern("notizen", { id: a.id, text: notizFeld.value, geaendert: Date.now() })
-              .then(function () { notizStatus.textContent = "Notiz gespeichert."; });
+              .then(function () { notizStatus.textContent = "Notiz gespeichert."; },
+                function () { notizStatus.textContent = "Notiz konnte nicht gespeichert werden (Speicher voll)."; });
           } else {
             window.LokalDB.loeschen("notizen", a.id).then(function () { notizStatus.textContent = "Notiz gelöscht."; });
           }
@@ -1079,7 +1157,7 @@
   function downloadBaum() {
     var E = window.QUELLEN ? window.QUELLEN.eintraege : [];
     function nach(f) { return E.filter(f); }
-    return [
+    var baum = [
       { titel: "Verträge & Anträge", eintraege: nach(function (e) { return e.typ === "formular"; }) },
       { titel: "Betriebliche Ausbildungspläne", kinder: [
         { titel: "Gärtner/in (7 Fachrichtungen)", eintraege: nach(function (e) { return e.id.indexOf("plan-gaertner-") === 0; }) },
@@ -1093,6 +1171,10 @@
       { titel: "Arbeitsschutz (SVLFG)", eintraege: nach(function (e) { return e.id.indexOf("svlfg") === 0; }) },
       { titel: "Portale der zuständigen Stelle", eintraege: nach(function (e) { return e.id.indexOf("rp-") === 0; }) }
     ];
+    if (EIGENE.dokumente.length) {
+      baum.unshift({ titel: "Eigene Dokumente", eintraege: EIGENE.dokumente.slice() });
+    }
+    return baum;
   }
 
   function baumKnoten(knoten, filterTokens) {
@@ -1118,7 +1200,7 @@
     if (eintraege.length) {
       h += '<ul class="baum-liste">' + eintraege.map(function (e) {
         var z = quelleZiel(e);
-        return '<li><a href="' + esc(z.href) + '" target="_blank" rel="noopener">' + esc(e.titel) +
+        return '<li><a href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : ' target="_blank" rel="noopener"') + '>' + esc(e.titel) +
           (z.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>" +
           '<span class="bw-klein bw-leise"> — ' + esc(e.herausgeber) + (e.stand ? ", Stand " + esc(e.stand) : "") + "</span></li>";
       }).join("") + "</ul>";
@@ -1164,13 +1246,295 @@
     zeigen();
   }
 
+  /* ---------------- Ansicht: Eigene Inhalte ------------------------ */
+  function eigeneNeuId(prefix) {
+    return prefix + "-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
+  function dateiGroesse(n) {
+    if (typeof n !== "number") return "";
+    if (n < 1024) return n + " B";
+    if (n < 1048576) return Math.round(n / 1024) + " KB";
+    return (n / 1048576).toLocaleString("de-DE", { maximumFractionDigits: 1 }) + " MB";
+  }
+  function heuteDe() { return new Date().toLocaleDateString("de-DE"); }
+
+  function viewEigene() {
+    if (!window.LokalDB) return platzhalter("Eigene Inhalte", "Die lokale Datenbank ist in diesem Browser nicht verfügbar.");
+    var h = "<h1>Eigene Inhalte</h1>" +
+      '<p class="bw-unterzeile">Eigene Artikel, Dokumente und Verträge — direkt im Tool angelegt, gespeichert nur auf diesem Gerät</p>';
+    h += '<div class="bw-hinweis"><p><strong>Lokal gespeichert:</strong> Eigene Inhalte liegen in der Browser-Datenbank dieser ' +
+      "Arbeitsstation und erscheinen automatisch in Suche, Wissensdatenbank und Download-Center. " +
+      "Regelmäßig eine Sicherung (JSON) ablegen — zum Beispiel auf dem Netzlaufwerk.</p></div>";
+
+    /* Eigene Artikel */
+    h += '<section aria-labelledby="ea-titel">' +
+      '<div class="abschnitt-kopf"><h2 id="ea-titel">Eigene Artikel <span class="etikett">' + EIGENE.artikel.length + "</span></h2>" +
+      '<button class="bw-btn" id="ea-neu" type="button">Neuen Artikel anlegen</button></div>';
+    h += '<form class="bw-card eigene-form" id="ea-form" hidden aria-label="Artikel anlegen oder bearbeiten">' +
+      '<h3 id="ea-form-titel">Neuer Artikel</h3>' +
+      '<div class="bw-field"><label for="ea-t">Titel *</label><input id="ea-t" required maxlength="160"></div>' +
+      '<div class="zeile">' +
+      '<div class="bw-field"><label for="ea-thema">Themenbereich</label><select id="ea-thema">' +
+      '<option value="eigene">Eigene Artikel</option>' +
+      W.themen.map(function (th) { return '<option value="' + th.id + '">' + esc(th.titel) + "</option>"; }).join("") +
+      "</select></div>" +
+      '<div class="bw-field"><label for="ea-stich">Stichworte (durch Komma getrennt)</label><input id="ea-stich" placeholder="z. B. Tarif, Muster, intern"></div>' +
+      "</div>" +
+      '<div class="bw-field"><label for="ea-kurz">Kurzbeschreibung</label><input id="ea-kurz" maxlength="240" placeholder="Ein Satz, der in Liste und Suche erscheint"></div>' +
+      '<div class="bw-field"><label for="ea-text">Inhalt *</label>' +
+      '<textarea id="ea-text" rows="10" required placeholder="Text des Artikels …"></textarea>' +
+      '<p class="bw-klein bw-leise">Leerzeilen trennen Absätze · Zeilen mit „- " werden Aufzählungen · **fett** hebt hervor.</p></div>' +
+      '<div class="export-aktionen">' +
+      '<button class="bw-btn" type="submit">Artikel speichern</button>' +
+      '<button class="bw-btn bw-btn--sekundaer" id="ea-abbrechen" type="button">Abbrechen</button>' +
+      '<span class="bw-klein bw-leise" id="ea-status" role="status"></span></div></form>';
+    if (EIGENE.artikel.length) {
+      h += '<ul class="karten" id="ea-liste">' + EIGENE.artikel.map(function (a) {
+        var th = themaVon(a.thema);
+        return '<li class="karte"><a class="karte__link" href="#/artikel/' + esc(a.id) + '">' +
+          '<span class="etikett">' + esc(th ? th.titel : "") + "</span>" +
+          "<h3>" + esc(a.titel) + "</h3><p>" + esc(a.kurz) + "</p>" +
+          '<span class="meta"><span class="bw-klein bw-leise">Stand ' + esc(a.stand || "") + "</span></span></a>" +
+          '<span class="karte__aktionen">' +
+          '<button class="chip" data-ea-bearbeiten="' + esc(a.id) + '" type="button">Bearbeiten</button>' +
+          '<button class="chip" data-ea-loeschen="' + esc(a.id) + '" type="button">Löschen</button></span></li>';
+      }).join("") + "</ul>";
+    } else {
+      h += '<p class="leer" id="ea-leer">Noch keine eigenen Artikel — über „Neuen Artikel anlegen" starten.</p>';
+    }
+    h += "</section>";
+
+    /* Eigene Dokumente */
+    h += '<section aria-labelledby="ed-titel">' +
+      '<div class="abschnitt-kopf"><h2 id="ed-titel">Eigene Dokumente <span class="etikett">' + EIGENE.dokumente.length + "</span></h2>" +
+      '<button class="bw-btn" id="ed-neu" type="button">Dokument hinzufügen</button></div>';
+    h += '<form class="bw-card eigene-form" id="ed-form" hidden aria-label="Dokument hinzufügen oder bearbeiten">' +
+      '<h3 id="ed-form-titel">Dokument hinzufügen</h3>' +
+      '<div class="bw-field"><label for="ed-datei">Datei (PDF, Word, Bild … — max. 12 MB)</label><input id="ed-datei" type="file"></div>' +
+      '<div class="zeile">' +
+      '<div class="bw-field"><label for="ed-t">Titel *</label><input id="ed-t" required maxlength="160"></div>' +
+      '<div class="bw-field"><label for="ed-stich">Stichworte (durch Komma getrennt)</label><input id="ed-stich" placeholder="z. B. Vertrag, Muster, 2026"></div>' +
+      "</div>" +
+      '<div class="bw-field"><label for="ed-beschreibung">Beschreibung</label><input id="ed-beschreibung" maxlength="240" placeholder="Wofür wird das Dokument verwendet?"></div>' +
+      '<div class="export-aktionen">' +
+      '<button class="bw-btn" type="submit">Dokument speichern</button>' +
+      '<button class="bw-btn bw-btn--sekundaer" id="ed-abbrechen" type="button">Abbrechen</button>' +
+      '<span class="bw-klein bw-leise" id="ed-status" role="status"></span></div></form>';
+    if (EIGENE.dokumente.length) {
+      h += '<ul class="dok-liste" id="ed-liste">' + EIGENE.dokumente.map(function (d) {
+        var z = quelleZiel(d);
+        return '<li><span class="dok-info"><a href="' + esc(z.href) + '" download="' + esc(z.download || "") + '">' + esc(d.titel) + "</a>" +
+          '<span class="bw-klein bw-leise">' + esc(d.dateiName || "") + (d.groesse ? " · " + dateiGroesse(d.groesse) : "") +
+          (d.stand ? " · Stand " + esc(d.stand) : "") + (d.beschreibung ? " — " + esc(d.beschreibung) : "") + "</span></span>" +
+          '<span class="dok-aktionen">' +
+          '<a class="chip" href="' + esc(z.href) + '" download="' + esc(z.download || "") + '">Herunterladen</a>' +
+          '<button class="chip" data-ed-bearbeiten="' + esc(d.id) + '" type="button">Bearbeiten</button>' +
+          '<button class="chip" data-ed-loeschen="' + esc(d.id) + '" type="button">Löschen</button></span></li>';
+      }).join("") + "</ul>";
+    } else {
+      h += '<p class="leer" id="ed-leer">Noch keine eigenen Dokumente — über „Dokument hinzufügen" hochladen.</p>';
+    }
+    h += "</section>";
+
+    /* Sicherung */
+    h += '<section aria-labelledby="sich-titel"><h2 id="sich-titel">Sicherung</h2><div class="bw-card">' +
+      "<p>Alle eigenen Artikel und Dokumente als eine JSON-Datei sichern oder aus einer Sicherung wiederherstellen. " +
+      "Beim Einlesen werden Einträge mit gleicher Kennung überschrieben, alle übrigen bleiben erhalten.</p>" +
+      '<div class="export-aktionen">' +
+      '<button class="bw-btn bw-btn--sekundaer" id="sich-export" type="button">Sicherung herunterladen (JSON)</button>' +
+      '<label class="bw-btn bw-btn--sekundaer" for="sich-import">Sicherung einlesen<input id="sich-import" type="file" accept=".json,application/json" hidden></label>' +
+      '<span class="bw-klein bw-leise" id="sich-status" role="status"></span></div></div></section>';
+    return h;
+  }
+
+  function eigeneVerhalten(root, params) {
+    if (!window.LokalDB) return;
+    var eaForm = $("#ea-form", root), edForm = $("#ed-form", root);
+    var eaStatus = $("#ea-status", root), edStatus = $("#ed-status", root), sichStatus = $("#sich-status", root);
+
+    function neuLaden(meldung, statusFeld) {
+      return eigeneLaden().then(function () {
+        rendern();
+        if (meldung && statusFeld) {
+          var f = $(statusFeld);
+          if (f) f.textContent = meldung;
+        }
+      });
+    }
+
+    /* ---- Artikel ---- */
+    function eaOeffnen(a) {
+      eaForm.hidden = false;
+      eaForm.setAttribute("data-id", a ? a.id : "");
+      $("#ea-form-titel", root).textContent = a ? "Artikel bearbeiten" : "Neuer Artikel";
+      $("#ea-t", root).value = a ? a.titel : "";
+      $("#ea-thema", root).value = a ? a.thema : "eigene";
+      $("#ea-stich", root).value = a ? (a.stichworte || []).join(", ") : "";
+      $("#ea-kurz", root).value = a ? a.kurz : "";
+      $("#ea-text", root).value = a ? ((a.abschnitte || []).map(function (x) { return x.text; }).join("\n\n")) : "";
+      eaStatus.textContent = "";
+      $("#ea-t", root).focus();
+      eaForm.scrollIntoView({ block: "nearest" });
+    }
+    $("#ea-neu", root).addEventListener("click", function () { eaOeffnen(null); });
+    $("#ea-abbrechen", root).addEventListener("click", function () { eaForm.hidden = true; });
+    eaForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var titel = $("#ea-t", root).value.trim();
+      var text = $("#ea-text", root).value.trim();
+      if (!titel || !text) { eaStatus.textContent = "Titel und Inhalt ausfüllen."; return; }
+      var kurz = $("#ea-kurz", root).value.trim() || (text.replace(/\s+/g, " ").slice(0, 160) + (text.length > 160 ? " …" : ""));
+      var vorhandeneId = eaForm.getAttribute("data-id");
+      var alt = vorhandeneId ? artikelVon(vorhandeneId) : null;
+      var a = {
+        id: vorhandeneId || eigeneNeuId("ea"), eigen: true,
+        thema: $("#ea-thema", root).value, titel: titel, kurz: kurz,
+        stichworte: $("#ea-stich", root).value.split(",").map(function (s) { return s.trim(); }).filter(Boolean),
+        abschnitte: [{ t: "Inhalt", d: 1, text: text }],
+        stand: heuteDe(), angelegt: alt ? alt.angelegt : Date.now(), geaendert: Date.now()
+      };
+      eaStatus.textContent = "Speichern …";
+      window.LokalDB.speichern("eigeneArtikel", a).then(function () {
+        neuLaden("Artikel gespeichert.", "#ea-status");
+      }, function (fehler) { eaStatus.textContent = String(fehler && fehler.message || "Speichern fehlgeschlagen."); });
+    });
+    root.querySelectorAll("[data-ea-bearbeiten]").forEach(function (b) {
+      b.addEventListener("click", function () { eaOeffnen(artikelVon(b.getAttribute("data-ea-bearbeiten"))); });
+    });
+    root.querySelectorAll("[data-ea-loeschen]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var a = artikelVon(b.getAttribute("data-ea-loeschen"));
+        if (!a || !window.confirm('Artikel „' + a.titel + '" endgültig löschen?')) return;
+        window.LokalDB.loeschen("eigeneArtikel", a.id).then(function () { neuLaden("Artikel gelöscht.", "#ea-status"); });
+      });
+    });
+    if (params.artikel) {
+      var vorwahl = artikelVon(params.artikel);
+      if (vorwahl && vorwahl.eigen) eaOeffnen(vorwahl);
+    }
+    if (params.neu === "artikel") eaOeffnen(null);
+
+    /* ---- Dokumente ---- */
+    function dokumentVon(id) {
+      for (var i = 0; i < EIGENE.dokumente.length; i++) if (EIGENE.dokumente[i].id === id) return EIGENE.dokumente[i];
+      return null;
+    }
+    function edOeffnen(d) {
+      edForm.hidden = false;
+      edForm.setAttribute("data-id", d ? d.id : "");
+      $("#ed-form-titel", root).textContent = d ? "Dokument bearbeiten" : "Dokument hinzufügen";
+      $("#ed-datei", root).value = "";
+      $("#ed-t", root).value = d ? d.titel : "";
+      $("#ed-stich", root).value = d ? (d.stichworte || []).join(", ") : "";
+      $("#ed-beschreibung", root).value = d ? (d.beschreibung || "") : "";
+      edStatus.textContent = d ? "Ohne neue Datei bleibt die vorhandene Datei erhalten." : "";
+      edForm.scrollIntoView({ block: "nearest" });
+      $("#ed-datei", root).focus();
+    }
+    $("#ed-neu", root).addEventListener("click", function () { edOeffnen(null); });
+    $("#ed-abbrechen", root).addEventListener("click", function () { edForm.hidden = true; });
+    $("#ed-datei", root).addEventListener("change", function () {
+      var f = this.files && this.files[0];
+      if (f && !$("#ed-t", root).value.trim()) {
+        $("#ed-t", root).value = f.name.replace(/\.[a-z0-9]+$/i, "").replace(/[-_]+/g, " ");
+      }
+    });
+    edForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var vorhandeneId = edForm.getAttribute("data-id");
+      var alt = vorhandeneId ? dokumentVon(vorhandeneId) : null;
+      var titel = $("#ed-t", root).value.trim();
+      var datei = $("#ed-datei", root).files && $("#ed-datei", root).files[0];
+      if (!titel) { edStatus.textContent = "Titel ausfüllen."; return; }
+      if (!datei && !alt) { edStatus.textContent = "Datei auswählen."; return; }
+      if (datei && datei.size > 12 * 1048576) {
+        edStatus.textContent = "Datei ist größer als 12 MB — bitte verkleinern (z. B. PDF komprimieren)."; return;
+      }
+      function speichern(dataUrl, dateiName, groesse) {
+        var d = {
+          id: vorhandeneId || eigeneNeuId("ed"), eigen: true, typ: "eigen",
+          titel: titel, herausgeber: "Eigene Ablage", stand: heuteDe(),
+          beschreibung: $("#ed-beschreibung", root).value.trim(),
+          stichworte: $("#ed-stich", root).value.split(",").map(function (s) { return s.trim(); }).filter(Boolean),
+          dataUrl: dataUrl, dateiName: dateiName, groesse: groesse,
+          datei: null, url: "", angelegt: alt ? alt.angelegt : Date.now(), geaendert: Date.now()
+        };
+        window.LokalDB.speichern("eigeneDokumente", d).then(function () {
+          neuLaden("Dokument gespeichert.", "#ed-status");
+        }, function (fehler) { edStatus.textContent = String(fehler && fehler.message || "Speichern fehlgeschlagen."); });
+      }
+      if (datei) {
+        edStatus.textContent = "Datei wird gelesen …";
+        var leser = new FileReader();
+        leser.onload = function () { speichern(String(leser.result), datei.name, datei.size); };
+        leser.onerror = function () { edStatus.textContent = "Datei konnte nicht gelesen werden."; };
+        leser.readAsDataURL(datei);
+      } else {
+        speichern(alt.dataUrl, alt.dateiName, alt.groesse);
+      }
+    });
+    root.querySelectorAll("[data-ed-bearbeiten]").forEach(function (b) {
+      b.addEventListener("click", function () { edOeffnen(dokumentVon(b.getAttribute("data-ed-bearbeiten"))); });
+    });
+    root.querySelectorAll("[data-ed-loeschen]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var d = dokumentVon(b.getAttribute("data-ed-loeschen"));
+        if (!d || !window.confirm('Dokument „' + d.titel + '" endgültig löschen?')) return;
+        window.LokalDB.loeschen("eigeneDokumente", d.id).then(function () { neuLaden("Dokument gelöscht.", "#ed-status"); });
+      });
+    });
+    if (params.neu === "dokument") edOeffnen(null);
+
+    /* ---- Sicherung ---- */
+    $("#sich-export", root).addEventListener("click", function () {
+      var daten = {
+        format: "azubi-wissen-sicherung", version: 1, erstellt: new Date().toISOString(),
+        artikel: EIGENE.artikel, dokumente: EIGENE.dokumente
+      };
+      var blob = new Blob([JSON.stringify(daten, null, 2)], { type: "application/json" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "azubi-wissen-eigene-" + new Date().toISOString().slice(0, 10) + ".json";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      sichStatus.textContent = "Sicherung heruntergeladen (" + EIGENE.artikel.length + " Artikel, " + EIGENE.dokumente.length + " Dokumente).";
+    });
+    $("#sich-import", root).addEventListener("change", function () {
+      var f = this.files && this.files[0];
+      if (!f) return;
+      var leser = new FileReader();
+      leser.onload = function () {
+        var daten;
+        try { daten = JSON.parse(String(leser.result)); } catch (e) { sichStatus.textContent = "Datei ist kein gültiges JSON."; return; }
+        if (!daten || daten.format !== "azubi-wissen-sicherung" || !Array.isArray(daten.artikel) || !Array.isArray(daten.dokumente)) {
+          sichStatus.textContent = "Datei ist keine Azubi-Wissen-Sicherung."; return;
+        }
+        sichStatus.textContent = "Sicherung wird eingelesen …";
+        var schreibvorgaenge = [];
+        daten.artikel.forEach(function (a) {
+          if (a && a.id && a.titel) { a.eigen = true; schreibvorgaenge.push(window.LokalDB.speichern("eigeneArtikel", a)); }
+        });
+        daten.dokumente.forEach(function (d) {
+          if (d && d.id && d.titel) { d.eigen = true; d.typ = "eigen"; schreibvorgaenge.push(window.LokalDB.speichern("eigeneDokumente", d)); }
+        });
+        Promise.all(schreibvorgaenge).then(function () {
+          neuLaden(daten.artikel.length + " Artikel und " + daten.dokumente.length + " Dokumente eingelesen.", "#sich-status");
+        }, function (fehler) { sichStatus.textContent = String(fehler && fehler.message || "Einlesen fehlgeschlagen."); });
+      };
+      leser.readAsText(f);
+    });
+  }
+
   /* ---------------- Start ------------------------------------------ */
   function init() {
     document.querySelectorAll("[data-palette]").forEach(function (b) {
       b.addEventListener("click", function () { paletteOeffnen(); });
     });
     window.addEventListener("hashchange", rendern);
-    rendern();
+    // Eigene Inhalte zuerst aus der lokalen Datenbank laden, damit Zähler,
+    // Suche und Download-Baum ab dem ersten Rendern vollständig sind.
+    eigeneLaden().then(rendern, rendern);
   }
   // Erst rendern, wenn alle Modul-Skripte (Assistent, Export) geladen sind.
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

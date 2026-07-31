@@ -1,12 +1,12 @@
 // lokaldb.js — Lokale Datenbank im Browser (IndexedDB, Fallback localStorage).
-// Speichert Nutzerdaten des Werkzeugs: Aktenvermerke und eigene Notizen.
-// Alles bleibt auf diesem Gerät — keine Übertragung, funktioniert offline
-// und auch in der Single-File-Auslieferung (file://).
+// Speichert Nutzerdaten des Werkzeugs: Aktenvermerke, Notizen sowie eigene
+// Artikel und Dokumente. Alles bleibt auf diesem Gerät — keine Übertragung,
+// funktioniert offline und auch in der Single-File-Auslieferung (file://).
 (function () {
   "use strict";
   var DB_NAME = "azubi-wissen";
-  var VERSION = 1;
-  var STORES = ["vermerke", "notizen"];
+  var VERSION = 2;
+  var STORES = ["vermerke", "notizen", "eigeneArtikel", "eigeneDokumente"];
   var db = null, bereit = null, fallback = false;
 
   function oeffnen() {
@@ -35,13 +35,17 @@
     catch (e) { return {}; }
   }
   function lsSchreiben(store, obj) {
-    try { localStorage.setItem("aw.db." + store, JSON.stringify(obj)); } catch (e) {}
+    try { localStorage.setItem("aw.db." + store, JSON.stringify(obj)); return true; }
+    catch (e) { return false; }
   }
 
   function speichern(store, wert) {
     return oeffnen().then(function () {
       if (fallback) {
-        var alle = lsLesen(store); alle[wert.id] = wert; lsSchreiben(store, alle);
+        var alle = lsLesen(store); alle[wert.id] = wert;
+        if (!lsSchreiben(store, alle)) {
+          return Promise.reject(new Error("Speichern fehlgeschlagen — lokaler Speicher voll (localStorage-Modus). Kleinere Datei wählen oder Sicherung exportieren und Einträge löschen."));
+        }
         return wert;
       }
       return new Promise(function (aufloesen, ablehnen) {

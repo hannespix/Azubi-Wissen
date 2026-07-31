@@ -271,3 +271,25 @@ kbd.kbd {
 .baum-liste { list-style: none; margin: 0; padding: 0 var(--bw-space-3) var(--bw-space-2); display: grid; gap: 0.4em; }
 .baum-liste a { text-decoration: none; }
 .baum-liste a:hover { text-decoration: underline; }
+
+/* ---------- Eigene Inhalte (V3) ---------------------------------- */
+/* Gelb-Regel: gelbe Elemente auf Weiß brauchen eine dunkle Outline. */
+.etikett--eigen { background: var(--bw-gelb); color: var(--bw-schwarz); border: 1px solid var(--bw-schwarz); }
+
+.abschnitt-kopf { display: flex; align-items: center; justify-content: space-between; gap: var(--bw-space-2); flex-wrap: wrap; margin-top: var(--bw-space-5); }
+.abschnitt-kopf h2 { margin: 0; }
+
+.eigene-form { display: grid; gap: var(--bw-space-2); margin: var(--bw-space-3) 0; }
+.eigene-form h3 { margin: 0; }
+.eigene-form .zeile { display: grid; grid-template-columns: 1fr 1fr; gap: var(--bw-space-2); }
+@media (max-width: 640px) { .eigene-form .zeile { grid-template-columns: 1fr; } }
+
+.karte__aktionen { display: flex; gap: var(--bw-space-1); margin-top: var(--bw-space-2); flex-wrap: wrap; }
+
+.dok-liste { list-style: none; margin: var(--bw-space-3) 0; padding: 0; border: var(--bw-border); border-radius: var(--bw-radius); background: var(--bw-weiss); }
+.dok-liste li { display: flex; align-items: center; justify-content: space-between; gap: var(--bw-space-2); padding: var(--bw-space-2) var(--bw-space-3); flex-wrap: wrap; }
+.dok-liste li + li { border-top: 1px solid var(--bw-grau-200); }
+.dok-info { display: grid; gap: 0.15rem; min-width: 0; }
+.dok-info a { font-weight: 700; overflow-wrap: anywhere; }
+.dok-aktionen { display: flex; gap: var(--bw-space-1); flex-wrap: wrap; }
+.eigene-form[hidden] { display: none; }
