@@ -1,0 +1,57 @@
+name: GitHub Pages
+
+# Veröffentlicht nach jedem Merge auf main die aktuellen Werkzeuge:
+#   /            → Azubi-Wissen (Browsertool, direkt statisch lauffähig)
+#   /navigator/  → Fachwerker-Navigator (Browser-Vorschau, Vite-Build)
+# Voraussetzung in den Repo-Einstellungen: Pages → Source = "GitHub Actions".
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: navigator/app/package-lock.json
+
+      - name: Navigator-Vorschau bauen
+        working-directory: navigator/app
+        run: npm ci && npm run build
+
+      - name: Seite zusammenstellen
+        run: |
+          mkdir -p _site/navigator
+          cp index.html bw-theme.css site.webmanifest azubi-wissen-offline.html _site/
+          cp -r assets _site/assets
+          cp -r navigator/app/dist/. _site/navigator/
+          # Jekyll aus dem Weg — Verzeichnisse mit Unterstrich u. ä. unangetastet lassen
+          touch _site/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

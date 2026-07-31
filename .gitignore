@@ -18,3 +18,11 @@ Thumbs.db
 # Bei public Repo die folgenden Zeilen aktivieren:
 # assets/fonts/
 # assets/logo/
+
+# --- Fachwerker-Navigator (navigator/) ---
+navigator/app/node_modules/
+navigator/app/dist/
+navigator/target/
+navigator/src-tauri/target/
+navigator/src-tauri/gen/
+navigator/**/*.db

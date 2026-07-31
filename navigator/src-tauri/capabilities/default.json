@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Grundrechte des Hauptfensters — nur Kern-IPC, kein Netzwerk, kein Shell-Zugriff.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}
