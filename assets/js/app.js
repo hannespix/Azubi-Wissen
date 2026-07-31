@@ -73,6 +73,10 @@
     pause: ["pausen", "ruhepause"], wochenende: ["samstag", "sonntag"],
     nachtarbeit: ["nachtruhe"], spatschicht: ["nachtruhe", "arbeitszeit"],
     pflanzenschutz: ["gefahrstoffe", "gefahrliche arbeiten"],
+    fachwerker: ["fachpraktiker", "gartenbaufachwerker"], fachpraktiker: ["fachwerker"], werker: ["fachwerker"],
+    gbfwvo: ["fachwerker", "gartenbaufachwerkerverordnung"], reza: ["rehabilitationspadagogische zusatzqualifikation"],
+    reha: ["rehabilitation", "rehabilitationstrager"], bbw: ["berufsbildungswerk", "besondere einrichtung"],
+    arbeitsagentur: ["agentur arbeit"], asa: ["assistierte ausbildung"],
     zeugnisse: ["zeugnis"], arbeitszeugnis: ["zeugnis"],
     hilfe: ["beratung", "unterstutzung"], mobbing: ["konflikt"], streit: ["konflikt"], arger: ["konflikt", "probleme"]
   };
@@ -573,10 +577,15 @@
 
     h += '<div class="artikel-inhalt" id="artikel-inhalt"></div>';
 
-    if ((a.recht || []).length) {
-      h += '<div class="recht-box bw-card"><strong>Rechtsgrundlagen</strong><ul>' +
-        a.recht.map(function (r) { return '<li><span class="norm">' + esc(r.n) + "</span> — " + esc(r.t) + "</li>"; }).join("") +
-        "</ul></div>";
+    if ((a.recht || []).length || a.quelle) {
+      h += '<div class="recht-box bw-card">';
+      if ((a.recht || []).length) {
+        h += "<strong>Rechtsgrundlagen</strong><ul>" +
+          a.recht.map(function (r) { return '<li><span class="norm">' + esc(r.n) + "</span> — " + esc(r.t) + "</li>"; }).join("") +
+          "</ul>";
+      }
+      if (a.quelle) h += '<p class="bw-klein bw-leise" style="margin:var(--bw-space-2) 0 0">Quelle: ' + esc(a.quelle) + "</p>";
+      h += "</div>";
     }
 
     if (a.rollen) {
