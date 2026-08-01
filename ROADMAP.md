@@ -311,6 +311,30 @@
   Inhalts-Validierung, cargo test navigator-core, Vite-Build.
   Details: navigator/docs/ROADMAP.md (M1.1). *(PR #43)*
 
+- **S4 Verwaltungsvorschriften & BIBB-Empfehlungen** ✅ — Auftrag
+  01.08.: „zu jedem Thema, wo vorhanden, die Verwaltungsvorschriften
+  recherchieren und praktisch verknüpfen". Neue untergesetzliche
+  Ebene mit 14 Quellen (Typen vwv/empfehlung), 12 davon als lokale
+  PDFs in formulare/vwv/: **Land BW** — VwV Ausbildungsnachweise &
+  Berichtshefte (MLR 16.04.2012), VwVBBiL (ÜBA & Prüfungszulassung,
+  21.09.2011), VOAPLandw (Prüfungsdurchführung, Landesrecht-Link),
+  BBiG-ZuVO (+ RP-Zuständigkeitstabelle), Arbeitsrichtlinien für
+  Ausbildungsberater (08.08.1977); **BIBB-Hauptausschuss** — HA 156
+  Ausbildungsnachweise (2020), HA 174 Teilzeit (10.12.2025!), HA 129
+  Verkürzung/Verlängerung (2021), HA 120 Musterprüfungsordnung
+  (07.10.2025!), HA 96 Externenprüfung, HA 136 Rahmenregelung § 66,
+  HA 154 ReZA, HA 162 Eignung der Ausbildungsstätten. Einbindung:
+  eigene Baumgruppe im Download-Center (Land/BIBB), Etiketten
+  „Verwaltungsvorschrift"/„BIBB-Empfehlung", artikel-Verknüpfung →
+  sichtbar unter „Formulare & Links zum Thema" der passenden Artikel
+  (berichtsheft, abschlusspruefung, ap-noten, teilzeit-verkuerzung,
+  fw-*, ausbilder, eintragung, zustaendige-stelle …); Assistent
+  beantwortet „Gibt es eine Verwaltungsvorschrift zu …?"/„Welche
+  Empfehlung …?" (Nav-Trigger + Art-Filter). Neu: tools/quellen-md.mjs
+  generiert den Herkunftsnachweis formulare/QUELLEN.md (48 lokale
+  Dateien). Tests: mini_s4 (17) + Regressionen k1/k2, Offline-Check,
+  Einzeldatei-Smoke. *(PR #44)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

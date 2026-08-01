@@ -358,7 +358,7 @@
     return treffer.slice(0, limit || 4).map(function (t) { return t.eintrag; });
   }
 
-  var TYP_NAME = { formular: "Formular", merkblatt: "Merkblatt", plan: "Ausbildungsplan", gesetz: "Gesetz", link: "Link", portal: "Portal", video: "Video", eigen: "Eigenes Dokument" };
+  var TYP_NAME = { formular: "Formular", merkblatt: "Merkblatt", plan: "Ausbildungsplan", gesetz: "Gesetz", vwv: "Verwaltungsvorschrift", empfehlung: "BIBB-Empfehlung", link: "Link", portal: "Portal", video: "Video", eigen: "Eigenes Dokument" };
   function quelleZiel(e) {
     // Eigene Dokumente liegen als data:-URL in der lokalen Datenbank und
     // werden mit Original-Dateinamen heruntergeladen.
@@ -1614,6 +1614,10 @@
       ] },
       { titel: "Tabellen & Merkblätter", eintraege: nach(function (e) { return e.typ === "merkblatt"; }) },
       { titel: "Gesetze & Verordnungen", eintraege: nach(function (e) { return e.typ === "gesetz" && e.id.indexOf("ausbv-") !== 0 || e.id.indexOf("gesetz-") === 0; }) },
+      { titel: "Verwaltungsvorschriften & BIBB-Empfehlungen", kinder: [
+        { titel: "Land Baden-Württemberg (MLR)", eintraege: nach(function (e) { return e.typ === "vwv"; }) },
+        { titel: "BIBB-Hauptausschuss (bundeseinheitlich)", eintraege: nach(function (e) { return e.typ === "empfehlung"; }) }
+      ] },
       { titel: "Ausbildungsordnungen der grünen Berufe", eintraege: nach(function (e) { return e.id.indexOf("ausbv-") === 0; }) },
       { titel: "Prüfung, Berufsschule & Berichtsheft", eintraege: nach(function (e) {
         return ["pflanzenlisten", "schule-anmeldungen", "berichtsheft-gaertner", "berichtsheft-galabau"].indexOf(e.id) >= 0; }) },
