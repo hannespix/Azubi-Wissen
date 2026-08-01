@@ -217,6 +217,27 @@
   gewichtete Satzwahl (Zahlen bei Wieviel/Wann, Regelwörter bei
   Darf/Muss). Tests: mini_k1 (16) + Regressionen grün. *(PR #37)*
 
+- **K2 Assistent kennt das Werkzeug & bietet Dokumente an** ✅ —
+  Auftrag 01.08.: „die KI soll auch Dokumente anbieten und die
+  Module und Bereiche unseres Tools kennen". (1) **Werkzeug-Katalog**
+  (beim ersten Zugriff aus den Datenmodulen aufgebaut, neue Inhalte
+  erscheinen automatisch): alle 12 Module/Funktionen, Nachschlag-
+  Karten & Rechner, E-Mail-Vorlagen, Checklisten, Themenbereiche und
+  alle Download-Einträge. (2) **Navigationsfragen** („Wo finde ich
+  …?", „Zeig mir …", „Welche Vorlage/Checkliste …?", „Wie sichere
+  ich …?") antworten mit direkten Verweisen — Dateien mit Download-
+  Attribut, externe Angebote gekennzeichnet; Existenzfragen („Gibt
+  es …?") übernehmen den Werkzeugpfad nur, wenn alle Wörter treffen
+  und die Wissensdatenbank nicht besser antwortet. (3) **Übersicht**
+  („Was kannst du?"/„Hilfe"): Fähigkeiten + alle Bereiche verlinkt.
+  (4) **Passende Dokumente** unter jeder Wissensantwort: Vorlagen
+  und Checklisten über ihr artikel-Feld, Formulare über die Anhänge
+  passender Vorlagen — der Zweitartikel der Synthese zählt mit.
+  (5) Fix aus dem Test: Folgefragen-Anreicherung fällt bei null
+  Treffern auf die reine Frage zurück (vorher Fallback-Sackgasse
+  nach Themenwechsel). Tests: mini_k2 (23) + mini_k1 (16) grün.
+  *(PR #38)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

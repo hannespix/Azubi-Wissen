@@ -7029,7 +7029,7 @@ window.VORLAGEN = {
   window.AzubiApp = {
     suchen: suchen, fmt: fmt, fmtInline: fmtInline, esc: esc,
     norm: norm, tokenAlternativen: tokenAlternativen, tokenScore: tokenScore, stoppwoerter: STOP,
-    artikelVon: artikelVon, themaVon: themaVon,
+    artikelVon: artikelVon, themaVon: themaVon, quelleZiel: quelleZiel,
     paletteOeffnen: paletteOeffnen, rendern: rendern,
     // Rechenkerne für den Assistenten (K1)
     miavWert: miavWert, urlaubNachAlter: urlaubNachAlter,
@@ -7204,6 +7204,233 @@ window.VORLAGEN = {
     };
   }
 
+  /* ---------------- Werkzeug-Wissen (K2) -----------------------------
+     Der Assistent kennt alle Module, Rechner, Vorlagen, Checklisten und
+     Dokumente dieses Werkzeugs und beantwortet „Wo finde ich …?"-Fragen
+     mit direkten Verweisen. Der Katalog wird beim ersten Zugriff aus den
+     Datenmodulen aufgebaut — neue Inhalte erscheinen automatisch. */
+  var TYPWORT = { formular: "Formular", merkblatt: "Merkblatt", gesetz: "Gesetz", plan: "Ausbildungsplan", link: "Angebot", portal: "Portal", video: "Video" };
+  var katalogCache = null;
+  function katalog() {
+    if (katalogCache) return katalogCache;
+    var A = window.AzubiApp, K = [];
+    function auf(art, titel, ziel, info, extra) {
+      K.push({ art: art, titel: titel, ziel: ziel, info: info || "",
+        hay: A.norm(titel + " " + (info || "") + " " + (extra || "")) });
+    }
+    auf("Modul", "Startseite & Merkliste", "#/",
+      "Schnellzugriff auf alle Bereiche, gemerkte Einträge (Stern-Symbol auf Karten und Artikeln) und zuletzt Angesehenes.",
+      "start home merkliste stern favoriten gemerkt merken zuletzt angesehen");
+    auf("Modul", "Wissensdatenbank", "#/wissen",
+      "Alle Artikel zu Rechten und Pflichten in der Ausbildung, nach Themenbereichen sortiert.",
+      "artikel themen wissen rechte pflichten");
+    auf("Modul", "Grüne Berufe", "#/berufe",
+      "Alle grünen Ausbildungsberufe mit Fachrichtungen, Verordnungen und Besonderheiten.",
+      "beruf berufe fachrichtung fachrichtungen verordnung ausbildungsordnung gaertner landwirt forstwirt winzer");
+    auf("Modul", "Schnellnachschlag", "#/nachschlag",
+      "Tabellen und Rechner: Vergütung, Urlaub, Fristen, Arbeitszeit, Noten — dazu Fahrplan und Jahreskreis.",
+      "nachschlag tabellen werte rechner uebersicht");
+    auf("Modul", "E-Mail-Vorlagen", "#/vorlagen",
+      "Anschreiben für Vertrag, Prüfung und Beratungsalltag — Platzhalter ausfüllen, kopieren, versenden.",
+      "vorlagen anschreiben email muster mustertext brief");
+    auf("Modul", "Checklisten", "#/checklisten",
+      "Arbeitslisten zum Abhaken und Drucken — der Stand bleibt lokal gespeichert.",
+      "checklisten abhaken arbeitsliste");
+    auf("Modul", "Download-Center", "#/downloads",
+      "Alle Formulare, Ausbildungspläne, Gesetze und Merkblätter in einer Baumansicht mit Filter.",
+      "downloads formulare dateien pdf vordrucke gesetze plaene bav herunterladen");
+    auf("Modul", "Glossar", "#/glossar",
+      "Fachbegriffe kurz erklärt — von 80-Prozent-Regel bis Zwischenprüfung.",
+      "glossar begriffe begriff abkuerzung abkuerzungen lexikon");
+    auf("Modul", "Quellen & Gesetze", "#/quellen",
+      "Alle geprüften Quellen mit Herausgeber und Stand — Grundlage jeder Antwort.",
+      "quellen gesetze verzeichnis belege");
+    auf("Modul", "Eigene Inhalte & Sicherung", "#/eigene",
+      "Eigene Artikel, Dokumente und Verträge anlegen — plus Komplettsicherung als Datei (Export und Import, z. B. beim Rechnerwechsel).",
+      "eigene notizen vermerke sicherung backup sichern export import uebertragen datensicherung wiederherstellen");
+    auf("Modul", "PDF-Export & Aktenvermerk", "#/export",
+      "Themenpakete als PDF je Zielgruppe erzeugen und Aktenvermerke strukturiert erstellen.",
+      "pdf export aktenvermerk vermerk drucken ausdrucken");
+    auf("Funktion", "Globale Suche", "#/",
+      "Lupe oben rechts oder Strg+K — durchsucht Artikel, FAQ, Vorlagen, Checklisten, Berufe und Glossar tippfehlertolerant.",
+      "suche suchen finden strg k palette lupe");
+    ((window.NACHSCHLAG || {}).karten || []).forEach(function (k) {
+      auf(k.rechner ? "Rechner" : "Nachschlag", k.titel, "#/nachschlag?karte=" + k.id, "",
+        (k.stichworte || []).join(" ") + (k.rechner ? " rechner berechnen ausrechnen" : " tabelle"));
+    });
+    ((window.VORLAGEN || {}).vorlagen || []).forEach(function (v) {
+      auf("Vorlage", v.titel, "#/vorlagen?id=" + v.id, "",
+        (v.stichworte || []).join(" ") + " " + (v.betreff || "") + " vorlage anschreiben");
+    });
+    ((window.CHECKLISTEN || {}).listen || []).forEach(function (c) {
+      auf("Checkliste", c.titel, "#/checklisten?id=" + c.id, c.kurz || "", (c.stichworte || []).join(" "));
+    });
+    (W.themen || []).forEach(function (t) {
+      auf("Themenbereich", t.titel, "#/wissen?thema=" + t.id, "", "thema themenbereich " + (t.kurz || ""));
+    });
+    ((window.QUELLEN || {}).eintraege || []).forEach(function (e) {
+      var z = A.quelleZiel(e);
+      K.push({ art: TYPWORT[e.typ] || "Datei", titel: e.titel, ziel: z.href,
+        extern: !!z.extern, download: z.download || null,
+        info: (e.herausgeber || "") + (e.stand ? ", Stand " + e.stand : ""),
+        hay: A.norm(e.titel + " " + (e.stichworte || []).join(" ") + " " + (e.beschreibung || "") + " " + (TYPWORT[e.typ] || "")) });
+    });
+    katalogCache = K;
+    return K;
+  }
+
+  // Ein Katalog-/Dokumentlink als HTML (Downloads mit download-Attribut,
+  // externe Angebote in neuem Tab und mit ↗ gekennzeichnet).
+  function zielLink(e, text) {
+    var A = window.AzubiApp;
+    var attr = e.download ? ' download="' + A.esc(e.download) + '"'
+      : e.extern ? ' target="_blank" rel="noopener"' : "";
+    return '<a href="' + A.esc(e.ziel) + '"' + attr + ">" + text + (e.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>";
+  }
+
+  function uebersichtAntwort() {
+    var A = window.AzubiApp;
+    var module = katalog().filter(function (e) { return e.art === "Modul" || e.art === "Funktion"; });
+    var html = "<p>Ich beantworte freie Fragen zu Rechten und Pflichten in der Ausbildung — direkt aus der Wissensdatenbank, immer mit Quellen. Außerdem kann ich:</p><ul>" +
+      "<li><strong>Rechnen:</strong> Urlaub nach Alter, Mindestvergütung, Teilzeit-Dauer, Probezeit-Ende — z. B. „Wie viel Urlaub mit 17?“</li>" +
+      "<li><strong>Begriffe klären:</strong> z. B. „Was ist der Unterschied zwischen Werktagen und Arbeitstagen?“</li>" +
+      "<li><strong>Dokumente anbieten:</strong> passende Vorlagen, Checklisten und Formulare direkt verlinken.</li>" +
+      "<li><strong>Durch das Werkzeug führen:</strong> Frag „Wo finde ich …?“ — ich kenne alle Bereiche.</li></ul>" +
+      "<p><strong>Die Bereiche dieses Werkzeugs:</strong></p><ul>" +
+      module.map(function (m) {
+        return "<li><a href=\"" + m.ziel + "\">" + A.esc(m.titel) + "</a> — " + A.esc(m.info) + "</li>";
+      }).join("") + "</ul>";
+    return { html: html, quellen: [],
+      folgefragen: ["Wo finde ich die E-Mail-Vorlagen?", "Gibt es einen Urlaubsrechner?", "Wie sichere ich meine Daten?"],
+      titel: "Überblick über das Werkzeug", stichworte: "" };
+  }
+
+  // „Wo finde ich …?" / „Gibt es ein …?" — Antworten aus dem Katalog.
+  function werkzeugAntwort(nq) {
+    var A = window.AzubiApp;
+    var nqt = " " + nq + " ";
+    if (/(was kannst du|was kann (das|dieses|der) (tool|werkzeug|assistent)|welche (funktionen|module|bereiche)|wie funktioniert (das tool|dieses werkzeug|die app)|was alles kannst du)/.test(nq) || nq === "hilfe") {
+      return uebersichtAntwort();
+    }
+    // Navigationsfragen wollen einen Ort im Werkzeug; Existenzfragen
+    // („gibt es …?") sind oft Wissensfragen und werden vorsichtiger behandelt.
+    var nav = /\b(wo (finde|findet|gibt|kann|steht|stehen|sind|ist|liegt|liegen|trage|sehe)|welche vorlagen?\b|welche checklisten?\b|welches formular|welchen rechner|was fur (vorlagen|formulare|checklisten|rechner)|wie (sichere|ubertrage|exportiere|importiere|drucke|merke))\b/.test(nqt)
+      || /(^|\s)(oeffne|offne|zeig|zeige)\s/.test(nqt);
+    var existenz = /\b(gibt es (hier |im tool |in dem tool )?(ein|eine|einen|dafur)|hast du (ein|eine|einen))\b/.test(nqt);
+    if (!nav && !existenz) return null;
+
+    // Nomen der Frage bestimmen, welche Art von Eintrag gemeint ist.
+    var artFilter = null;
+    if (/\b(vorlage|vorlagen|anschreiben|mustertext|muster)\b/.test(nq)) artFilter = ["Vorlage"];
+    else if (/\b(checkliste|checklisten)\b/.test(nq)) artFilter = ["Checkliste"];
+    else if (/\b(formular|formulare|vordruck|vordrucke)\b/.test(nq)) artFilter = ["Formular", "Ausbildungsplan", "Merkblatt"];
+    else if (/\b(rechner)\b/.test(nq)) artFilter = ["Rechner"];
+    else if (/\b(gesetz|gesetze|verordnung|verordnungen)\b/.test(nq)) artFilter = ["Gesetz"];
+    else if (/\b(download|downloads|datei|dateien|dokument|dokumente|pdf)\b/.test(nq)) artFilter = ["Formular", "Merkblatt", "Gesetz", "Ausbildungsplan"];
+
+    var IGNORIER = {};
+    ("wo finde findet gibt offne oeffne zeig zeige hast du welche welches welchen vorlage vorlagen formular formulare vordruck vordrucke checkliste checklisten rechner download downloads datei dateien dokument dokumente tool werkzeug hier brauche brauchen passende passenden passt anschreiben mustertext muster gesetz gesetze verordnung verordnungen pdf").split(" ").forEach(function (w) { IGNORIER[w] = 1; });
+    // Wortfragmente (z. B. „e" aus „E-Mail") verrauschen nur das Ranking.
+    var tokens = nq.split(" ").filter(function (t) { return t.length > 1 && !A.stoppwoerter[t] && !IGNORIER[t]; });
+
+    function suchenIn(filter) {
+      // Das passende Modul selbst darf mit antreten („die E-Mail-Vorlagen").
+      var erlaubt = filter ? filter.concat(["Modul", "Funktion"]) : null;
+      var treffer = [];
+      katalog().forEach(function (e) {
+        if (erlaubt && erlaubt.indexOf(e.art) < 0) return;
+        var s = 0, getroffen = 0;
+        tokens.forEach(function (tok) {
+          var best = 0;
+          A.tokenAlternativen(tok).forEach(function (al) { best = Math.max(best, A.tokenScore(al, e.hay)); });
+          if (best > 0) getroffen++;
+          s += best;
+        });
+        // Mindestens die Hälfte der Inhaltswörter muss treffen.
+        if (tokens.length && getroffen >= Math.ceil(tokens.length / 2)) treffer.push({ e: e, s: s, getroffen: getroffen });
+      });
+      treffer.sort(function (a, b) { return b.s - a.s; });
+      return treffer;
+    }
+
+    var top;
+    if (!tokens.length) {
+      // „Welche Checklisten gibt es?" — die Art komplett auflisten.
+      if (!artFilter) return uebersichtAntwort();
+      top = katalog().filter(function (e) { return artFilter.indexOf(e.art) >= 0; })
+        .slice(0, 6).map(function (e) { return { e: e, s: 1 }; });
+    } else {
+      var treffer = suchenIn(artFilter);
+      if (!treffer.length && artFilter) treffer = suchenIn(null);
+      if (!treffer.length) return null;
+      // Existenzfragen ohne Dokument-Nomen („Gibt es eine Probezeit?") sind
+      // meist Wissensfragen: nur übernehmen, wenn ein Eintrag ALLE Wörter
+      // trifft und die Wissensdatenbank nicht besser antwortet.
+      if (existenz && !nav && !artFilter) {
+        treffer = treffer.filter(function (t) { return t.getroffen === tokens.length; });
+        if (!treffer.length) return null;
+        var wiss = A.suchen(tokens.join(" "));
+        if (wiss.artikel[0] && wiss.artikel[0].score >= treffer[0].s) return null;
+      }
+      top = treffer.slice(0, 3);
+    }
+    if (!top.length) return null;
+
+    var html = "<p>Das findest du hier im Werkzeug:</p><ul>" + top.map(function (t) {
+      var e = t.e;
+      return "<li>" + zielLink(e, "<strong>" + A.esc(e.art) + ":</strong> " + A.esc(e.titel)) +
+        (e.info ? ' <span class="bw-klein bw-leise">— ' + A.esc(e.info) + "</span>" : "") + "</li>";
+    }).join("") + "</ul>";
+
+    var quellen = [];
+    var MODUL_ZIEL = { Vorlage: ["Alle E-Mail-Vorlagen", "#/vorlagen"], Checkliste: ["Alle Checklisten", "#/checklisten"],
+      Rechner: ["Schnellnachschlag mit allen Rechnern", "#/nachschlag"], Nachschlag: ["Schnellnachschlag", "#/nachschlag"],
+      Formular: ["Download-Center", "#/downloads"], Merkblatt: ["Download-Center", "#/downloads"],
+      Gesetz: ["Quellen & Gesetze", "#/quellen"], Ausbildungsplan: ["Download-Center", "#/downloads"],
+      Themenbereich: ["Wissensdatenbank", "#/wissen"] };
+    var mz = MODUL_ZIEL[top[0].e.art];
+    if (mz) quellen.push({ text: mz[0], ziel: mz[1] });
+    // Passenden Wissensartikel als Einstieg anbieten, wenn es einen gibt.
+    if (tokens.length) {
+      var erg = A.suchen(tokens.join(" "));
+      if (erg.artikel[0]) {
+        var art = A.artikelVon(erg.artikel[0].id);
+        if (art) quellen.push({ text: "Artikel: " + art.titel, ziel: "#/artikel/" + art.id });
+      }
+    }
+    return { html: html, quellen: quellen,
+      folgefragen: ["Was kannst du alles?"],
+      titel: top[0].e.titel, stichworte: tokens.slice(0, 3).join(" ") };
+  }
+
+  /* ---------------- Passende Dokumente zum Artikel (K2) -------------
+     Vorlagen und Checklisten verweisen über ihr artikel-Feld auf die
+     Wissensartikel; die Anhänge passender Vorlagen liefern zusätzlich
+     die richtigen Formulare aus dem Download-Center. */
+  function dokumenteZu(artikelId) {
+    if (!artikelId) return [];
+    var A = window.AzubiApp, aus = [], anhaenge = {}, vz = 0, cz = 0;
+    ((window.VORLAGEN || {}).vorlagen || []).forEach(function (v) {
+      if ((v.artikel || []).indexOf(artikelId) < 0 || vz >= 2) return;
+      vz++;
+      aus.push({ text: "Vorlage: " + v.titel, ziel: "#/vorlagen?id=" + v.id });
+      (v.anhaenge || []).forEach(function (id) { anhaenge[id] = 1; });
+    });
+    ((window.CHECKLISTEN || {}).listen || []).forEach(function (c) {
+      if ((c.artikel || []).indexOf(artikelId) < 0 || cz >= 2) return;
+      cz++;
+      aus.push({ text: "Checkliste: " + c.titel, ziel: "#/checklisten?id=" + c.id });
+    });
+    var dateien = 0;
+    ((window.QUELLEN || {}).eintraege || []).forEach(function (e) {
+      if (!anhaenge[e.id] || dateien >= 3) return;
+      dateien++;
+      var z = A.quelleZiel(e);
+      aus.push({ text: (TYPWORT[e.typ] || "Datei") + ": " + e.titel, ziel: z.href, extern: !!z.extern, download: z.download || null });
+    });
+    return aus.slice(0, 6);
+  }
+
   // Kurze Anschlussfragen („und mit 16?", „gilt das auch …?") beziehen
   // sich auf das vorige Thema — dann wird der Kontext mitgesucht.
   function istFolgefrage(nq) {
@@ -7229,9 +7456,20 @@ window.VORLAGEN = {
     var verglichen = vergleichAntwort(nq);
     if (verglichen) { kontextSetzen(verglichen); return verglichen; }
 
-    // 3) Folgefrage? Voriges Thema in die Suche einmischen.
+    // 2b) Werkzeugfrage? („Wo finde ich …?", „Was kannst du?") — aus dem
+    //     Katalog der Module, Vorlagen, Checklisten und Downloads antworten.
+    var werkzeug = werkzeugAntwort(nq);
+    if (werkzeug) { kontextSetzen(werkzeug); return werkzeug; }
+
+    // 3) Folgefrage? Voriges Thema in die Suche einmischen. Findet die
+    //    angereicherte Suche nichts (die Frage war doch ein Themenwechsel),
+    //    zählt wieder die reine Frage.
     var folge = kontext && kontext.stichworte && istFolgefrage(nq);
     var erg = A.suchen(folge ? frage + " " + kontext.stichworte : frage);
+    if (folge && !erg.artikel.length && !erg.faq.length) {
+      folge = false;
+      erg = A.suchen(frage);
+    }
     var tokens = erg.tokens || [];
     var intent = intentErkennen(" " + nq + " ");
 
@@ -7275,7 +7513,14 @@ window.VORLAGEN = {
 
     // Synthese über zwei Artikel: Liegt der zweitbeste Treffer nah am
     // besten, gehört er mit zur Antwort (z. B. Freistellung + Berufsschule).
+    // Seine Dokumente (Vorlagen/Checklisten/Formulare) zählen dann auch mit.
     var zweitRec = erg.artikel.filter(function (r) { return r.id !== haupt.id; })[0];
+    var dokumente = dokumenteZu(haupt.id);
+    if (zweitRec && zweitRec.score >= artScore * 0.55) {
+      dokumenteZu(zweitRec.id).forEach(function (d) {
+        if (dokumente.length < 6 && !dokumente.some(function (x) { return x.ziel === d.ziel; })) dokumente.push(d);
+      });
+    }
     if (!faqPasst && zweitRec && zweitRec.score >= artScore * 0.55) {
       var zwei = A.artikelVon(zweitRec.id);
       var fakten2 = faktenWaehlen(zwei, tokens, 2, intent);
@@ -7311,7 +7556,8 @@ window.VORLAGEN = {
 
     kontextSetzen({ artikelId: haupt.id, titel: haupt.titel,
       stichworte: (haupt.stichworte || []).slice(0, 3).join(" ") });
-    return { html: einstieg + kern + zusatz + unsicher, quellen: quellen, folgefragen: folgefragenZu(haupt) };
+    return { html: einstieg + kern + zusatz + unsicher, quellen: quellen,
+      dokumente: dokumente, folgefragen: folgefragenZu(haupt) };
   }
 
   function folgefragenZu(artikel) {
@@ -7325,6 +7571,7 @@ window.VORLAGEN = {
   }
   function standardFolgefragen() {
     return [
+      "Was kannst du alles?",
       "Wie viele Urlaubstage habe ich als Azubi?",
       "Wie hoch ist die Mindestvergütung?",
       "Kann mir nach der Probezeit gekündigt werden?"
@@ -7338,7 +7585,7 @@ window.VORLAGEN = {
       "<p class=\"bw-unterzeile\">Fragen stellen — Antworten mit Quellen aus der Wissensdatenbank</p>" +
       "<div class=\"bw-hinweis\"><p><strong>Lokal &amp; vertraulich:</strong> Der Assistent antwortet ausschließlich aus der " +
       "Wissensdatenbank dieses Werkzeugs (Stand " + A.esc(W.stand) + ") und läuft komplett offline — keine Eingabe verlässt dieses Gerät. " +
-      "Er ersetzt keine Rechtsberatung im Einzelfall.</p></div>" +
+      "Er kennt alle Module des Werkzeugs, verlinkt passende Vorlagen, Checklisten und Formulare und ersetzt keine Rechtsberatung im Einzelfall.</p></div>" +
       "<div class=\"chat\">" +
       "  <ul class=\"chat__verlauf\" id=\"chat-verlauf\" aria-live=\"polite\"></ul>" +
       "  <ul class=\"chipzeile\" id=\"chat-vorschlaege\" aria-label=\"Vorschläge\"></ul>" +
@@ -7424,11 +7671,16 @@ window.VORLAGEN = {
     var reduziert = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.setTimeout(function () {
       var a = antwortBauen(frage);
+      var A = window.AzubiApp;
+      var dokHtml = (a.dokumente && a.dokumente.length)
+        ? "<div class=\"quellen\"><span class=\"qtitel\">Passende Dokumente</span>" +
+          a.dokumente.map(function (d) { return zielLink(d, A.esc(d.text)); }).join("") + "</div>"
+        : "";
       var quellenHtml = a.quellen.length
         ? "<div class=\"quellen\"><span class=\"qtitel\">Quellen</span>" +
-          a.quellen.map(function (q) { return "<a href=\"" + q.ziel + "\">" + window.AzubiApp.esc(q.text) + "</a>"; }).join("") + "</div>"
+          a.quellen.map(function (q) { return "<a href=\"" + q.ziel + "\">" + A.esc(q.text) + "</a>"; }).join("") + "</div>"
         : "";
-      verlauf.push({ rolle: "antwort", html: a.html + quellenHtml });
+      verlauf.push({ rolle: "antwort", html: a.html + dokHtml + quellenHtml });
       merken();
       verlaufZeigen();
       vorschlaegeZeigen(a.folgefragen);
