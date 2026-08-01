@@ -44,7 +44,7 @@ kbd.kbd {
 .suchfeld-gross .kbd { margin-left: auto; }
 @media (max-width: 640px) { .suchfeld-gross .kbd { display: none; } }
 
-.kacheln { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--bw-space-2); margin: var(--bw-space-3) 0; padding: 0; list-style: none; }
+.kacheln { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: var(--bw-space-2); margin: var(--bw-space-3) 0; padding: 0; list-style: none; }
 .kachel {
   display: flex; flex-direction: column; gap: var(--bw-space-1);
   background: var(--bw-weiss); border: var(--bw-border); border-radius: var(--bw-radius);
@@ -76,7 +76,7 @@ kbd.kbd {
 .chip--frage { font-weight: 400; }
 
 /* ===================== Artikellisten ============================== */
-.karten { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: var(--bw-space-2); margin: var(--bw-space-3) 0; padding: 0; list-style: none; }
+.karten { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); gap: var(--bw-space-2); margin: var(--bw-space-3) 0; padding: 0; list-style: none; }
 .karte { background: var(--bw-weiss); border: var(--bw-border); border-radius: var(--bw-radius); padding: var(--bw-space-3); }
 .karte a.karte__link { text-decoration: none; color: inherit; display: block; }
 .karte a.karte__link:hover h3 { text-decoration: underline; }
@@ -196,7 +196,7 @@ kbd.kbd {
 /* ===================== Export-Formular ============================ */
 .export-form fieldset { border: var(--bw-border); border-radius: var(--bw-radius); background: var(--bw-weiss); padding: var(--bw-space-3); margin: 0 0 var(--bw-space-2); }
 .export-form legend { font-weight: 700; padding: 0 var(--bw-space-1); }
-.wahlkarten { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: var(--bw-space-1); }
+.wahlkarten { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: var(--bw-space-1); }
 .wahlkarte { position: relative; display: block; border: var(--bw-border); border-radius: var(--bw-radius); padding: var(--bw-space-2); cursor: pointer; background: var(--bw-weiss); }
 .wahlkarte:hover { border-color: var(--bw-schwarz); }
 .wahlkarte input { position: absolute; opacity: 0; pointer-events: none; }
@@ -463,7 +463,7 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .zeile--aktuell th, .zeile--aktuell td { background: var(--bw-grau-100); font-weight: 600; }
 .zeile--aktuell th:first-child { box-shadow: inset 4px 0 0 var(--bw-gelb), inset 5px 0 0 var(--bw-schwarz); }
 
-.fach-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--bw-space-2); margin: var(--bw-space-2) 0; }
+.fach-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: var(--bw-space-2); margin: var(--bw-space-2) 0; }
 .fach-karte { border: 1px solid var(--bw-grau-200); background: var(--bw-weiss); padding: var(--bw-space-2) var(--bw-space-3); display: grid; gap: 0.4rem; align-content: start; }
 .fach-karte h3 { margin: 0; font-size: var(--bw-fs-body); }
 .fach-karte p { margin: 0; font-size: var(--bw-fs-klein); color: var(--bw-text-leise); }
@@ -516,9 +516,16 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 /* ============== Mobile-Feinschliff (Korrekturen) ================== */
 /* Suchfelder: Eingabe füllt die Zeile, Knopf bleibt im Rahmen —
    behebt das überlaufende Filterfeld auf schmalen Bildschirmen. */
+/* Suchleisten: Eingabefeld nimmt exakt den Restplatz neben dem Knopf ein —
+   flex-basis 0 statt width:100 %, damit auch bei vergrößerter Systemschrift
+   nichts über den Rand läuft (Screenshot-Report mobil). */
 .bw-search { width: 100%; }
-.bw-search input[type="search"] { flex: 1 1 auto; min-width: 0; width: 100%; }
+.bw-search input[type="search"] { flex: 1 1 0%; min-width: 0; width: auto; }
 .bw-search button { flex: none; }
+
+/* Karten & Kurztexte: lange Wörter/Fettpassagen brechen um statt überzulaufen
+   (relevant ab ~130 % Systemschrift auf schmalen Geräten). */
+.karte, .kachel, .schnellkarte span, .nachschlag-karte, .fach-karte, .bw-card { min-width: 0; overflow-wrap: break-word; }
 
 /* Mobiles Menü: DECKEND statt Glas — ein backdrop-filter auf dem Header
    schaltet den Blur seiner Kinder ab (Backdrop-Root), das Panel wäre nur

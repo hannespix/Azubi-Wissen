@@ -190,6 +190,17 @@
   18 Berufe, 33 verlinkte Gesetze/Verordnungen) und
   Querverweis-Pflegehinweisen. *(PR #35)*
 
+- **R11 Mobil-Fix große Systemschrift** ✅ — Screenshot-Report
+  (01.08.): Die Filterleiste im Download-Center lief auf dem
+  Smartphone über den Rand. Ursache: Suchfeld mit width:100 % als
+  Flex-Basis drückte den Such-Knopf bei vergrößerter Systemschrift
+  aus dem Container; zusätzlich überliefen Karten-Grids mit festen
+  rem-Mindestbreiten ab ~130 % Schrift. Fix: .bw-search-Eingabe auf
+  flex-basis 0, alle Auto-Fill-Grids auf minmax(min(100 %, X rem)),
+  Umbruch-Absicherung für Karten. Messschleife über alle 12 Routen
+  bei 390 px/360 px und 130 % Schrift: null Überläufe; alle
+  Regressionen grün. *(PR #36)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
