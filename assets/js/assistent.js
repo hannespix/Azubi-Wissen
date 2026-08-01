@@ -167,7 +167,7 @@
      Dokumente dieses Werkzeugs und beantwortet „Wo finde ich …?"-Fragen
      mit direkten Verweisen. Der Katalog wird beim ersten Zugriff aus den
      Datenmodulen aufgebaut — neue Inhalte erscheinen automatisch. */
-  var TYPWORT = { formular: "Formular", merkblatt: "Merkblatt", gesetz: "Gesetz", plan: "Ausbildungsplan", link: "Angebot", portal: "Portal", video: "Video" };
+  var TYPWORT = { formular: "Formular", merkblatt: "Merkblatt", gesetz: "Gesetz", vwv: "Verwaltungsvorschrift", empfehlung: "BIBB-Empfehlung", plan: "Ausbildungsplan", link: "Angebot", portal: "Portal", video: "Video" };
   var katalogCache = null;
   function katalog() {
     if (katalogCache) return katalogCache;
@@ -244,7 +244,7 @@
     }
     // Navigationsfragen wollen einen Ort im Werkzeug; Existenzfragen
     // („gibt es …?") sind oft Wissensfragen und werden vorsichtiger behandelt.
-    var nav = /\b(wo (finde|findet|gibt|kann|steht|stehen|sind|ist|liegt|liegen|trage|sehe)|welche vorlagen?\b|welche checklisten?\b|welches formular|welchen rechner|was fur (vorlagen|formulare|checklisten|rechner)|wie (sichere|ubertrage|exportiere|importiere|drucke|merke))\b/.test(nqt)
+    var nav = /\b(wo (finde|findet|gibt|kann|steht|stehen|sind|ist|liegt|liegen|trage|sehe)|welche (vorlagen?|checklisten?|empfehlung(en)?|richtlinien?|verwaltungsvorschrift(en)?|vorschrift(en)?)\b|welches formular|welchen rechner|was fur (vorlagen|formulare|checklisten|rechner)|wie (sichere|ubertrage|exportiere|importiere|drucke|merke))\b/.test(nqt)
       || /(^|\s)(oeffne|offne|zeig|zeige)\s/.test(nqt);
     var existenz = /\b(gibt es (hier |im tool |in dem tool )?(ein|eine|einen|dafur)|hast du (ein|eine|einen))\b/.test(nqt);
     if (!nav && !existenz) return null;
@@ -255,7 +255,8 @@
     else if (/\b(checkliste|checklisten)\b/.test(nq)) artFilter = ["Checkliste"];
     else if (/\b(formular|formulare|vordruck|vordrucke)\b/.test(nq)) artFilter = ["Formular", "Ausbildungsplan", "Merkblatt"];
     else if (/\b(rechner)\b/.test(nq)) artFilter = ["Rechner"];
-    else if (/\b(gesetz|gesetze|verordnung|verordnungen)\b/.test(nq)) artFilter = ["Gesetz"];
+    else if (/\b(verwaltungsvorschrift|verwaltungsvorschriften|vwv|empfehlung|empfehlungen|richtlinie|richtlinien|hauptausschuss)\b/.test(nq)) artFilter = ["Verwaltungsvorschrift", "BIBB-Empfehlung"];
+    else if (/\b(gesetz|gesetze|verordnung|verordnungen)\b/.test(nq)) artFilter = ["Gesetz", "Verwaltungsvorschrift"];
     else if (/\b(download|downloads|datei|dateien|dokument|dokumente|pdf)\b/.test(nq)) artFilter = ["Formular", "Merkblatt", "Gesetz", "Ausbildungsplan"];
 
     var IGNORIER = {};

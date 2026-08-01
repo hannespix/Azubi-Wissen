@@ -564,7 +564,125 @@ window.QUELLEN = {
     datei: null, url: "https://web1.karlsruhe.de/service/Buergerdienste/leistung.php?id=6008411",
     beschreibung: "Verwaltungsleistung mit Ablauf, Fristen und Zuständigkeit für die Prüfungsanmeldung im Obst- und Gartenbau (Beispiel Nordbaden).",
     stichworte: ["Anmeldung", "Abschlussprüfung", "Bürgerdienst", "Verfahren"],
-    artikel: ["abschlusspruefung"] }
+    artikel: ["abschlusspruefung"] },
+
+  /* ============== Verwaltungsvorschriften & Empfehlungen (S4) =========
+     Untergesetzliche Ebene zwischen Gesetz und Formular: Landes-VwV und
+     -Verordnungen des MLR/der Landesregierung sowie die Empfehlungen des
+     BIBB-Hauptausschusses (bundeseinheitliche Auslegung des BBiG durch
+     die Bänke von Bund, Ländern, Arbeitgebern und Arbeitnehmern). */
+
+  { id: "vwv-berichtsheft", titel: "VwV schriftliche Ausbildungsnachweise und Berichtshefte (Berufe der Landwirtschaft)",
+    typ: "vwv", herausgeber: "MLR Baden-Württemberg", stand: "16.04.2012 (Az. 28-8410.00)",
+    datei: "formulare/vwv/vwv-ausbildungsnachweise-berichtshefte-mlr.pdf",
+    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Rechtsgrundlagen_1/Landwirt_Landwirtin",
+    beschreibung: "Landesregeln zur Führung und Kontrolle der Ausbildungsnachweise in den grünen Berufen — Grundlage der Berichtsheftpraxis der zuständigen Stellen.",
+    stichworte: ["VwV", "Verwaltungsvorschrift", "Berichtsheft", "Ausbildungsnachweis", "MLR"],
+    artikel: ["berichtsheft", "ausbildungspflicht"] },
+
+  { id: "vwv-bbil", titel: "VwV zur Berufsbildung in der Landwirtschaft (VwVBBiL) — ÜBA & Zulassung zur Abschlussprüfung",
+    typ: "vwv", herausgeber: "MLR Baden-Württemberg", stand: "21.09.2011 (Az. 28-8412.72)",
+    datei: "formulare/vwv/vwv-berufsbildung-landwirtschaft-vwvbbil.pdf",
+    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Rechtsgrundlagen_1/Landwirt_Landwirtin",
+    beschreibung: "Regelt u. a. die überbetriebliche Ausbildung und Einzelheiten der Zulassung zur Abschlussprüfung im Land.",
+    stichworte: ["VwV", "VwVBBiL", "überbetriebliche Ausbildung", "Zulassung", "Abschlussprüfung"],
+    artikel: ["abschlusspruefung", "zustaendige-stelle"] },
+
+  { id: "vwv-voaplandw", titel: "VOAPLandw — VO über die Durchführung von Abschlussprüfungen in den Ausbildungsberufen der Landwirtschaft",
+    typ: "vwv", herausgeber: "MLR Baden-Württemberg (Landesrecht BW)", stand: "17.11.2008",
+    datei: null,
+    url: "https://landesrecht-bw.de/jportal/?quelle=jlink&query=LwAbschlPrDV+BW&psml=bsbawueprod.psml&max=true",
+    beschreibung: "Die Prüfungsdurchführungs-Verordnung des Landes für die grünen Berufe — Verfahren, Ausschüsse, Bewertung; ergänzt die Prüfungsteile der Ausbildungsordnungen.",
+    stichworte: ["VOAPLandw", "Prüfungsordnung", "Abschlussprüfung", "Durchführung", "Landesrecht"],
+    artikel: ["abschlusspruefung", "ap-noten", "nichtbestehen", "zwischenpruefung"] },
+
+  { id: "vwv-bbig-zuvo", titel: "BBiG-Zuständigkeitsverordnung BW (BBiG-ZuVO) — wer ist zuständige Stelle?",
+    typ: "vwv", herausgeber: "Landesregierung BW (Landesrecht BW)", stand: "03.07.2007, mehrfach geändert",
+    datei: null,
+    url: "https://www.landesrecht-bw.de/jportal/?quelle=jlink&query=BBiGZustV+BW&psml=bsbawueprod.psml&max=true",
+    beschreibung: "Weist den Regierungspräsidien die Aufgaben der zuständigen Stelle für die Berufe der Landwirtschaft zu (§§ 3, 4).",
+    stichworte: ["BBiG-ZuVO", "Zuständigkeit", "zuständige Stelle", "Regierungspräsidium"],
+    artikel: ["zustaendige-stelle", "ausbildungsberatung"] },
+
+  { id: "vwv-zustaendigkeiten-rp", titel: "Übersicht: Zuständigkeiten der Regierungspräsidien nach §§ 3 und 4 BBiG-ZuVO",
+    typ: "vwv", herausgeber: "MLR Baden-Württemberg", stand: "aktuell",
+    datei: "formulare/vwv/zustaendigkeiten-rp-bbig-zuvo.pdf",
+    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Rechtsgrundlagen_1/Allgemeines_Berufsbildung",
+    beschreibung: "Praktische Tabelle: welcher Beruf bei welchem Regierungspräsidium liegt (Stuttgart, Karlsruhe, Freiburg, Tübingen).",
+    stichworte: ["Zuständigkeit", "Übersicht", "Regierungspräsidien", "Berufe"],
+    artikel: ["zustaendige-stelle"] },
+
+  { id: "vwv-arbeitsrichtlinien-ab", titel: "Arbeitsrichtlinien des MLR für Ausbildungsberater in der Landwirtschaft",
+    typ: "vwv", herausgeber: "MLR Baden-Württemberg", stand: "08.08.1977",
+    datei: "formulare/vwv/arbeitsrichtlinien-ausbildungsberater-mlr.pdf",
+    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Rechtsgrundlagen_1/Allgemeines_Berufsbildung",
+    beschreibung: "Das historische Grundlagendokument der Ausbildungsberatung (§ 76 BBiG): Aufgaben, Betriebsbesuche, Berichtswesen.",
+    stichworte: ["Arbeitsrichtlinien", "Ausbildungsberater", "Ausbildungsberatung", "MLR"],
+    artikel: ["ausbildungsberatung", "zustaendige-stelle"] },
+
+  { id: "ha-156", titel: "BIBB-HA 156: Empfehlung für das Führen von Ausbildungsnachweisen",
+    typ: "empfehlung", herausgeber: "BIBB-Hauptausschuss", stand: "Fassung 01.09.2020",
+    datei: "formulare/vwv/bibb-ha156.pdf",
+    url: "https://www.bibb.de/dokumente/pdf/HA156.pdf",
+    beschreibung: "Bundeseinheitlicher Maßstab: wöchentlich, stichwortartig, schriftlich oder elektronisch — Grundlage der Berichtsheft-Kontrolle.",
+    stichworte: ["Ausbildungsnachweis", "Berichtsheft", "Empfehlung", "elektronisch", "BIBB"],
+    artikel: ["berichtsheft"] },
+
+  { id: "ha-174", titel: "BIBB-HA 174: Empfehlung zur Teilzeitberufsausbildung (§ 7a BBiG)",
+    typ: "empfehlung", herausgeber: "BIBB-Hauptausschuss", stand: "Fassung 10.12.2025",
+    datei: "formulare/vwv/bibb-ha174.pdf",
+    url: "https://www.bibb.de/dokumente/pdf/HA174.pdf",
+    beschreibung: "Auslegungs- und Praxishilfe zur Teilzeitausbildung: Vertragsgestaltung, Vergütung, Verlängerung, Berufsschule.",
+    stichworte: ["Teilzeit", "Teilzeitberufsausbildung", "§ 7a", "Empfehlung"],
+    artikel: ["teilzeit-verkuerzung"] },
+
+  { id: "ha-129", titel: "BIBB-HA 129: Verkürzung und Verlängerung der Ausbildungsdauer / vorzeitige Zulassung",
+    typ: "empfehlung", herausgeber: "BIBB-Hauptausschuss", stand: "Fassung 10.06.2021",
+    datei: "formulare/vwv/bibb-ha129.pdf",
+    url: "https://www.bibb.de/dokumente/pdf/HA129.pdf",
+    beschreibung: "Kriterien und Verfahrensgrundsätze zu § 8 BBiG und zur vorzeitigen Prüfungszulassung (§ 45 Abs. 1).",
+    stichworte: ["Verkürzung", "Verlängerung", "vorzeitige Zulassung", "§ 8", "Empfehlung"],
+    artikel: ["teilzeit-verkuerzung", "abschlusspruefung"] },
+
+  { id: "ha-120", titel: "BIBB-HA 120: Musterprüfungsordnung für Abschluss- und Umschulungsprüfungen",
+    typ: "empfehlung", herausgeber: "BIBB-Hauptausschuss", stand: "Richtlinie, Fassung 07.10.2025",
+    datei: "formulare/vwv/bibb-ha120.pdf",
+    url: "https://www.bibb.de/dokumente/pdf/HA120.pdf",
+    beschreibung: "Blaupause der Prüfungsordnungen der zuständigen Stellen: Ausschüsse, Bewertung, Bestehensregeln, Wiederholung, mündliche Ergänzungsprüfung.",
+    stichworte: ["Musterprüfungsordnung", "Prüfungsordnung", "Bewertung", "Ergänzungsprüfung", "Wiederholung"],
+    artikel: ["abschlusspruefung", "ap-noten", "nichtbestehen", "zwischenpruefung"] },
+
+  { id: "ha-096", titel: "BIBB-HA 96: Empfehlung zur Externenprüfung (§ 45 Abs. 2 BBiG)",
+    typ: "empfehlung", herausgeber: "BIBB-Hauptausschuss", stand: "13.06.1996 (BAnz 121/1996)",
+    datei: "formulare/vwv/bibb-ha096.pdf",
+    url: "https://www.bibb.de/dokumente/pdf/HA096.pdf",
+    beschreibung: "Grundsätze zur Zulassung Berufserfahrener ohne Ausbildung zur Abschlussprüfung.",
+    stichworte: ["Externenprüfung", "extern", "§ 45", "Zulassung", "Empfehlung"],
+    artikel: ["abschlusspruefung"] },
+
+  { id: "ha-136", titel: "BIBB-HA 136: Rahmenregelung für Ausbildungsregelungen nach § 66 BBiG (Fachpraktiker)",
+    typ: "empfehlung", herausgeber: "BIBB-Hauptausschuss", stand: "15.12.2010",
+    datei: "formulare/vwv/bibb-ha136.pdf",
+    url: "https://www.bibb.de/dokumente/pdf/HA136.pdf",
+    beschreibung: "Bundeseinheitlicher Rahmen für Fachpraktiker-/Fachwerker-Regelungen der zuständigen Stellen — Grundlage auch der GBFWVO-Praxis.",
+    stichworte: ["Rahmenregelung", "§ 66", "Fachpraktiker", "Fachwerker", "Empfehlung"],
+    artikel: ["fw-grundlagen", "fw-inhalte-pruefung"] },
+
+  { id: "ha-154", titel: "BIBB-HA 154: Rahmencurriculum ReZA — rehabilitationspädagogische Zusatzqualifikation",
+    typ: "empfehlung", herausgeber: "BIBB-Hauptausschuss", stand: "2012",
+    datei: "formulare/vwv/bibb-ha154.pdf",
+    url: "https://www.bibb.de/dokumente/pdf/HA154.pdf",
+    beschreibung: "Inhalte und Umfang der ReZA für Ausbilderinnen und Ausbilder in Fachpraktiker-Ausbildungen.",
+    stichworte: ["ReZA", "Rahmencurriculum", "Ausbilder", "Zusatzqualifikation", "Fachwerker"],
+    artikel: ["fw-betrieb", "ausbilder"] },
+
+  { id: "ha-162", titel: "BIBB-HA 162: Empfehlung zur Eignung der Ausbildungsstätten",
+    typ: "empfehlung", herausgeber: "BIBB-Hauptausschuss", stand: "16.12.2015",
+    datei: "formulare/vwv/bibb-ha162.pdf",
+    url: "https://www.bibb.de/dokumente/pdf/HA162.pdf",
+    beschreibung: "Maßstäbe für die Anerkennung: Verhältnis Fachkräfte/Azubis, Ausstattung, Ausbildungsplan — Grundlage der Eignungsfeststellung.",
+    stichworte: ["Eignung", "Ausbildungsstätte", "Anerkennung", "Fachkräfteschlüssel", "Empfehlung"],
+    artikel: ["ausbilder", "eintragung", "fw-betrieb"] }
 
   ]
 };
