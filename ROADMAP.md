@@ -201,6 +201,22 @@
   bei 390 px/360 px und 130 % Schrift: null Überläufe; alle
   Regressionen grün. *(PR #36)*
 
+- **K1 Assistent 2.0** ✅ — Auftrag 01.08.: „echter" machen ohne
+  Halluzinationsrisiko. (1) **Rechnende Antworten**: berechenbare
+  Fragen (Urlaub nach Alter, Mindestvergütung nach Beginnjahr/
+  Lehrjahr, Teilzeit-Dauer, Probezeitende mit Datum) beantwortet der
+  Assistent jetzt mit dem konkreten Wert, verlinkter Rechtsgrundlage
+  und Sprung zum Rechner — die Rechenkerne sind mit den Rechner-
+  Karten geteilt (app.js exportiert miavWert/urlaubNachAlter/
+  teilzeitDauer/probezeitEnde). (2) **Dialoggedächtnis**: kurze
+  Folgefragen („und mit 18?") erben das vorige Thema, transparent
+  gekennzeichnet. (3) **Zwei-Artikel-Synthese**: liegt der zweitbeste
+  Treffer nah am besten, fließen seine passendsten Fakten mit in die
+  Antwort. (4) **Begriffs-/Vergleichsfragen** („Unterschied …?")
+  antworten aus dem Glossar mit Wortstamm-Abgleich. (5) Intent-
+  gewichtete Satzwahl (Zahlen bei Wieviel/Wann, Regelwörter bei
+  Darf/Muss). Tests: mini_k1 (16) + Regressionen grün. *(PR #37)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

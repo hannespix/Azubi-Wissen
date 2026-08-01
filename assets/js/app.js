@@ -1771,6 +1771,30 @@
   function euro(n) {
     return n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
   }
+  // Pure Rechenkerne (K1): von den Rechner-Karten UND dem Assistenten genutzt.
+  function miavWert(beginnjahr, ausbildungsjahr) {
+    var reihe = MIAV[beginnjahr];
+    if (!reihe || ausbildungsjahr < 1 || ausbildungsjahr > 4) return null;
+    return reihe[ausbildungsjahr - 1];
+  }
+  function urlaubNachAlter(alter) {
+    if (alter < 16) return { werktage: 30, arbeitstage: 25, grundlage: "§ 19 JArbSchG (unter 16)" };
+    if (alter < 17) return { werktage: 27, arbeitstage: 23, grundlage: "§ 19 JArbSchG (unter 17)" };
+    if (alter < 18) return { werktage: 25, arbeitstage: 21, grundlage: "§ 19 JArbSchG (unter 18)" };
+    return { werktage: 24, arbeitstage: 20, grundlage: "§ 3 BUrlG (volljährig)" };
+  }
+  function teilzeitDauer(monate, prozent) {
+    var rechnerisch = Math.ceil(monate * 100 / prozent);
+    var maximal = Math.floor(monate * 1.5);
+    return { monate: Math.min(rechnerisch, maximal), rechnerisch: rechnerisch, maximal: maximal };
+  }
+  function probezeitEnde(beginnISO, monate) {
+    var d = new Date(beginnISO);
+    if (isNaN(d.getTime())) return null;
+    d.setMonth(d.getMonth() + monate);
+    d.setDate(d.getDate() - 1);
+    return d;
+  }
   function rechnerHtml(art) {
     var jahr = new Date().getFullYear();
     var h = '<div class="rechner-form" data-rechner="' + esc(art) + '">';
@@ -2861,6 +2885,10 @@
     suchen: suchen, fmt: fmt, fmtInline: fmtInline, esc: esc,
     norm: norm, tokenAlternativen: tokenAlternativen, tokenScore: tokenScore, stoppwoerter: STOP,
     artikelVon: artikelVon, themaVon: themaVon,
-    paletteOeffnen: paletteOeffnen, rendern: rendern
+    paletteOeffnen: paletteOeffnen, rendern: rendern,
+    // Rechenkerne für den Assistenten (K1)
+    miavWert: miavWert, urlaubNachAlter: urlaubNachAlter,
+    teilzeitDauer: teilzeitDauer, probezeitEnde: probezeitEnde, euro: euro,
+    miavJahre: function () { return Object.keys(MIAV).map(Number); }
   };
 })();
