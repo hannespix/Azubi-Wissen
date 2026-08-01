@@ -291,6 +291,18 @@
   Jahr"→Jahreskreis 0,877. Tests: mini_s1 (17) + alle Regressionen
   (k1 16, k2 27, k3 16), Einzeldatei-Smoke. *(PR #41)*
 
+- **S2 Quellen-Live-Check 08/2026** ✅ — alle 93 externen URLs aus
+  quellen.js/berufe.js geprüft (Status + Redirects) und alle lokalen
+  Dateipfade verifiziert. Ergebnis: 3 Funde, alle behoben —
+  (1) BA-Seite „Ausbildungsgeld" entfernt → Reha-Übersichtsseite
+  (führt Ausbildungsgeld inkl. Online-Antrag); (2) planet-beruf.de
+  dauerhaft ins BA-Bildungsportal überführt → Eintrag umbenannt
+  („Bildungsportal der Arbeitsagentur, früher planet-beruf.de");
+  (3) KMK-Rahmenlehrplan-PDF: Dateipfad der KMK umgezogen. MiAV 2027
+  geprüft: Bekanntmachung folgt erst im November 2026 (BIBB/BMBF) —
+  2026er-Werte bleiben korrekt. Prüfskript: scratchpad
+  quellen_check.mjs; Endlauf 93/93 OK. *(PR #42)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

@@ -3290,8 +3290,10 @@ window.QUELLEN = {
     artikel: ["sachbezuege-sozialvers", "fw-geld"] },
   { id: "ba-ausbildungsgeld", titel: "Ausbildungsgeld (Reha) — Infos & Antrag",
     typ: "link", herausgeber: "Bundesagentur für Arbeit", stand: "laufend",
-    datei: null, url: "https://www.arbeitsagentur.de/menschen-mit-behinderungen/ausbildungsgeld",
-    beschreibung: "Leistung zum Lebensunterhalt bei Reha-Ausbildungen (u. a. Fachwerker in Träger-Modellen).",
+    // Link-Check 08/2026: alte Einzelseite /ausbildungsgeld entfernt —
+    // Inhalte jetzt auf der Reha-Übersichtsseite (inkl. Online-Antrag).
+    datei: null, url: "https://www.arbeitsagentur.de/menschen-mit-behinderungen/berufliche-rehabilitation",
+    beschreibung: "Leistung zum Lebensunterhalt bei Reha-Ausbildungen (u. a. Fachwerker in Träger-Modellen) — auf der Seite „Berufliche Rehabilitation“ mit Online-Antrag.",
     stichworte: ["Ausbildungsgeld", "Reha", "Förderung", "Lebensunterhalt"],
     artikel: ["fw-geld", "fw-modelle"] },
   { id: "ba-asa", titel: "Assistierte Ausbildung flexibel (AsA flex)",
@@ -3318,11 +3320,13 @@ window.QUELLEN = {
     beschreibung: "Offizielle Berufsfilme (auch zu allen Gärtner-Fachrichtungen) — im Portal nach „Gärtner“ suchen.",
     stichworte: ["Video", "Film", "berufe.tv", "Berufsorientierung"],
     artikel: ["fw-grundlagen", "ausbildungsvertrag"] },
-  { id: "ba-planetberuf", titel: "planet-beruf.de — Berufsorientierung & Arbeitsblätter",
+  { id: "ba-planetberuf", titel: "Bildungsportal der Arbeitsagentur (früher planet-beruf.de)",
     typ: "portal", herausgeber: "Bundesagentur für Arbeit", stand: "laufend",
-    datei: null, url: "https://planet-beruf.de/",
-    beschreibung: "Materialien, Videos und Checklisten zur Berufswahl — geeignet für Schulen und Erstberatung.",
-    stichworte: ["planet-beruf", "Berufsorientierung", "Material", "Arbeitsblätter"],
+    // Link-Check 08/2026: planet-beruf.de leitet dauerhaft auf das
+    // BA-Bildungsportal um — Angebote dort weitergeführt.
+    datei: null, url: "https://www.arbeitsagentur.de/bildung",
+    beschreibung: "Materialien, Videos und Checklisten zur Berufswahl — geeignet für Schulen und Erstberatung; führt die planet-beruf-Angebote weiter.",
+    stichworte: ["planet-beruf", "Bildungsportal", "Berufsorientierung", "Material", "Arbeitsblätter"],
     artikel: ["fw-weg"] },
 
   /* ---------- Arbeitsschutz (SVLFG, extern) ------------------------- */
@@ -3412,7 +3416,8 @@ window.QUELLEN = {
   { id: "kmk-rahmenlehrplan", titel: "KMK-Rahmenlehrplan Gärtner/Gärtnerin (Berufsschule)",
     typ: "merkblatt", herausgeber: "Kultusministerkonferenz", stand: "Beschluss 08.12.1995",
     datei: "formulare/kmk-rahmenlehrplan-gaertner.pdf",
-    url: "https://www.kmk.org/fileadmin/pdf/Bildung/BeruflicheBildung/rlp/Gaertner95-12-08.pdf",
+    // Link-Check 08/2026: KMK-Dateipfad umgezogen (fileadmin/Dateien/…).
+    url: "https://www.kmk.org/fileadmin/Dateien/pdf/Bildung/BeruflicheBildung/rlp/Gaertner95-12-08.pdf",
     beschreibung: "Bundeseinheitlicher Rahmenlehrplan für den Berufsschulunterricht — Grundlage der Lernfelder, abgestimmt mit der GärtnAusbV.",
     stichworte: ["Rahmenlehrplan", "KMK", "Berufsschule", "Lernfelder", "Unterricht"],
     artikel: ["berufsschulpflicht", "ausbildungspflicht"] },
