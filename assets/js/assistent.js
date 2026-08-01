@@ -391,11 +391,15 @@
 
   // Kurze Anschlussfragen („und mit 16?", „gilt das auch …?") beziehen
   // sich auf das vorige Thema — dann wird der Kontext mitgesucht.
-  function istFolgefrage(nq) {
+  function istFolgefrage(nq, roh) {
     if (/^(und |was ist mit |gilt das|auch |wie sieht es|davon |dann |warum)/.test(nq)) return true;
     var A = window.AzubiApp;
     var inhalt = nq.split(" ").filter(function (t) { return t && !A.stoppwoerter[t]; });
-    return inhalt.length > 0 && inhalt.length < 3;
+    if (!(inhalt.length > 0 && inhalt.length < 3)) return false;
+    // Kurze Eingaben ohne Fragezeichen und Fragewort sind eigenständige
+    // Stichwort-Nachschläge („Kündigung"), keine Anschlussfragen.
+    return String(roh || "").indexOf("?") >= 0 ||
+      /(^|\s)(wie|was|wer|wann|wo|warum|darf|durfen|muss|mussen|kann|konnen|gilt|ist|sind|mit|bei|beim|fur|ohne|auch)(\s|$)/.test(nq);
   }
   function kontextSetzen(a) {
     kontext = { artikelId: a.artikelId || null, titel: a.titel || "", stichworte: a.stichworte || "", rechner: a.rechner || null };
@@ -422,7 +426,7 @@
     // 3) Folgefrage? Voriges Thema in die Suche einmischen. Findet die
     //    angereicherte Suche nichts (die Frage war doch ein Themenwechsel),
     //    zählt wieder die reine Frage.
-    var folge = kontext && kontext.stichworte && istFolgefrage(nq);
+    var folge = kontext && kontext.stichworte && istFolgefrage(nq, frage);
     var erg = A.suchen(folge ? frage + " " + kontext.stichworte : frage);
     if (folge && !erg.artikel.length && !erg.faq.length) {
       folge = false;
@@ -430,6 +434,11 @@
     }
     var tokens = erg.tokens || [];
     var intent = intentErkennen(" " + nq + " ");
+    // Reines Stichwort („BAV", „Kündigung") ist keine Frage: dann führt der
+    // Artikel mit seiner Definition — nicht die Ja/Nein-Antwort einer
+    // zufällig passenden FAQ (Beispiel: „Bav" → verwirrendes „Nein. …").
+    var nachschlag = tokens.length <= 2 && frage.indexOf("?") < 0 && !intent &&
+      !/(^|\s)(wie|was|wer|wann|wo|warum|wieso|weshalb|darf|durfen|muss|mussen|kann|konnen|soll|sollen|gibt|ist|sind|hat|haben|gilt|zahlt)(\s|$)/.test(nq);
 
     var topFaq = erg.faq[0];
     var topArt = erg.artikel[0] ? A.artikelVon(erg.artikel[0].id) : null;
@@ -451,16 +460,18 @@
     // Starker FAQ-Treffer: die FAQ-Antwort ist bereits die direkte Antwort.
     // Gehört die FAQ zu einem anderen Artikel als dem Top-Treffer, muss sie
     // deutlich dominieren — sonst führt der Artikel.
-    var faqPasst = topFaq && (!topArt || topFaq.id === topArt.id
+    var faqPasst = !nachschlag && topFaq && (!topArt || topFaq.id === topArt.id
       ? faqScore >= artScore * 0.6
       : faqScore >= artScore * 1.1);
     if (faqPasst) {
       haupt = A.artikelVon(topFaq.id);
       var f = haupt.faq[topFaq.faqIndex];
       einstieg = "<p>" + A.fmtInline(f.a) + "</p>";
-    } else if (topArt) {
-      haupt = topArt;
-      einstieg = "<p>" + A.fmtInline(haupt.kurz) + "</p>";
+    } else if (topArt || topFaq) {
+      haupt = topArt || A.artikelVon(topFaq.id);
+      // Beim Stichwort-Nachschlag gibt der Titel den Rahmen vor.
+      einstieg = "<p>" + (nachschlag ? "<strong>" + A.esc(haupt.titel) + ":</strong> " : "") +
+        A.fmtInline(haupt.kurz) + "</p>";
     }
 
     // Ergänzende Fakten aus dem Hauptartikel (passend zur Frage gewählt)
