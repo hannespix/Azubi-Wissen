@@ -37,7 +37,8 @@ async function bibliothek() {
 // ---- Datenmodule des Werkzeugs einlesen (reine Datendateien ohne DOM)
 function datenLaden() {
   const fenster = {};
-  for (const datei of ["assets/js/wissen.js"]) {
+  for (const datei of ["assets/js/wissen.js", "assets/js/nachschlag.js",
+    "assets/js/vorlagen.js", "assets/js/checklisten.js", "assets/js/module.js"]) {
     const code = fs.readFileSync(path.join(REPO, datei), "utf8");
     new Function("window", code)(fenster);
   }
@@ -70,7 +71,8 @@ function modellVorbereiten() {
 }
 
 const { pipeline, env } = await bibliothek();
-const W = datenLaden().WISSEN;
+const DATEN = datenLaden();
+const W = DATEN.WISSEN;
 if (!W || !W.artikel) { console.error("wissen.js lieferte kein window.WISSEN."); process.exit(1); }
 
 env.allowRemoteModels = false;
@@ -98,8 +100,34 @@ for (const a of W.artikel) {
 }
 console.log("");
 
+// ---- Werkzeug-Einträge (S1): Module, Nachschlag-Karten, Vorlagen und
+// Checklisten — damit „Wo finde ich …?" auch frei formuliert trifft.
+const werkzeuge = [];
+for (const m of (DATEN.MODULE || [])) {
+  werkzeuge.push({ art: m.art, id: "modul:" + (m.ziel || m.titel), titel: m.titel, ziel: m.ziel,
+    text: `${m.titel}. ${m.info || ""} ${m.extra || ""}` });
+}
+for (const k of ((DATEN.NACHSCHLAG || {}).karten || [])) {
+  werkzeuge.push({ art: k.rechner ? "Rechner" : "Nachschlag", id: "karte:" + k.id, titel: k.titel,
+    ziel: "#/nachschlag?karte=" + k.id,
+    text: `${k.titel}. ${(k.stichworte || []).join(", ")}. ${k.rechner ? "Rechner zum Ausrechnen im Schnellnachschlag." : "Tabelle im Schnellnachschlag."}` });
+}
+for (const v of ((DATEN.VORLAGEN || {}).vorlagen || [])) {
+  werkzeuge.push({ art: "Vorlage", id: "vorlage:" + v.id, titel: v.titel, ziel: "#/vorlagen?id=" + v.id,
+    text: `E-Mail-Vorlage, Anschreiben: ${v.titel}. Betreff: ${v.betreff || ""}. ${(v.stichworte || []).join(", ")}` });
+}
+for (const c of ((DATEN.CHECKLISTEN || {}).listen || [])) {
+  werkzeuge.push({ art: "Checkliste", id: "liste:" + c.id, titel: c.titel, ziel: "#/checklisten?id=" + c.id,
+    text: `Checkliste zum Abhaken: ${c.titel}. ${c.kurz || ""} ${(c.stichworte || []).join(", ")}` });
+}
+for (const w of werkzeuge) {
+  eintraege.push({ typ: "werkzeug", art: w.art, id: w.id, titel: w.titel, ziel: w.ziel,
+    v: await einbetten(klartext(w.text).slice(0, 800)) });
+}
+console.log(`${werkzeuge.length} Werkzeug-Einträge eingebettet.`);
+
 const index = {
-  format: "azubi-semantik-index", version: 1, modell: MODELL, dim: 384,
+  format: "azubi-semantik-index", version: 2, modell: MODELL, dim: 384,
   praefixFrage: "query: ", stand: W.stand || "", eintraege
 };
 fs.mkdirSync(path.dirname(ZIEL), { recursive: true });

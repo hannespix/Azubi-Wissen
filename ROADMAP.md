@@ -276,6 +276,21 @@
   externer Request beim Modellladen und Antworten**), Regressionen
   mini_k1 (16) + mini_k2 (27), Einzeldatei-Smoke grün. *(PR #40)*
 
+- **S1 Bedeutungssuche kennt das Werkzeug** ✅ — Modulkatalog nach
+  `assets/js/module.js` ausgelagert (eine Quelle für Assistent UND
+  Embedding-Build); semantik_index_bauen.mjs bettet zusätzlich 42
+  Werkzeug-Einträge ein (Module, Nachschlag-Karten, Vorlagen,
+  Checklisten; Index-Version 2, 182 Einträge, 528 KB). Wirkung mit
+  aktiver Bedeutungssuche: Navigationsfragen ohne Stichworttreffer
+  werden semantisch gerettet („Unterstützung beim Formulieren einer
+  Nachricht an den Betrieb" → konkrete Vorlage, Schwelle 0,82,
+  gekennzeichnet); „Passende Dokumente" ergänzt semantisch klar
+  passende Vorlagen/Checklisten/Rechner (≥ 0,84, ohne allgemeine
+  Module). Messwerte: Anschreiben→berichtsheft-erinnerung 0,876,
+  „womit ausrechnen ob bestanden"→Notenrechner 0,871, „Termine übers
+  Jahr"→Jahreskreis 0,877. Tests: mini_s1 (17) + alle Regressionen
+  (k1 16, k2 27, k3 16), Einzeldatei-Smoke. *(PR #41)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
