@@ -406,22 +406,24 @@
   }
 
   /* ---------------- Antwortsynthese -------------------------------- */
+  // Liefert ein Promise (die Bedeutungssuche arbeitet asynchron); ohne
+  // geladenes Modell wird sofort aufgelöst — Verhalten wie bisher.
   function antwortBauen(frage) {
     var A = window.AzubiApp;
     var nq = A.norm(frage);
 
     // 1) Berechenbare Frage? Direkt rechnen (Kerne aus app.js).
     var gerechnet = rechnerAntwort(frage, nq);
-    if (gerechnet) { kontextSetzen(gerechnet); return gerechnet; }
+    if (gerechnet) { kontextSetzen(gerechnet); return Promise.resolve(gerechnet); }
 
     // 2) Begriffs-/Vergleichsfrage? Glossar-Definitionen liefern.
     var verglichen = vergleichAntwort(nq);
-    if (verglichen) { kontextSetzen(verglichen); return verglichen; }
+    if (verglichen) { kontextSetzen(verglichen); return Promise.resolve(verglichen); }
 
     // 2b) Werkzeugfrage? („Wo finde ich …?", „Was kannst du?") — aus dem
     //     Katalog der Module, Vorlagen, Checklisten und Downloads antworten.
     var werkzeug = werkzeugAntwort(nq);
-    if (werkzeug) { kontextSetzen(werkzeug); return werkzeug; }
+    if (werkzeug) { kontextSetzen(werkzeug); return Promise.resolve(werkzeug); }
 
     // 3) Folgefrage? Voriges Thema in die Suche einmischen. Findet die
     //    angereicherte Suche nichts (die Frage war doch ein Themenwechsel),
@@ -431,6 +433,39 @@
     if (folge && !erg.artikel.length && !erg.faq.length) {
       folge = false;
       erg = A.suchen(frage);
+    }
+
+    // 3b) Bedeutungssuche (K3), falls aktiviert: Frage einbetten und mit
+    //     der Stichwort-Rangliste verschmelzen (Reciprocal Rank Fusion).
+    var semP = (window.AzubiSemantik && window.AzubiSemantik.bereit())
+      ? window.AzubiSemantik.rang(frage, 12).catch(function () { return null; })
+      : Promise.resolve(null);
+    return semP.then(function (sem) {
+      return wissensAntwort(frage, nq, erg, folge, sem);
+    });
+  }
+
+  function wissensAntwort(frage, nq, erg, folge, sem) {
+    var A = window.AzubiApp;
+    var semantischGefunden = false;
+    var SCHWELLE = 0.8; // darunter ist e5-Kosinus-Ähnlichkeit Rauschen
+    // Nur die Artikel-Einträge des semantischen Index sind trennscharf —
+    // die kurzen FAQ-Passagen ähneln als Fragen einander zu stark (dichtes
+    // Rauschband) und bleiben deshalb außen vor.
+    var semArt = sem ? sem.filter(function (s) { return s.typ === "artikel" && A.artikelVon(s.artikelId); }) : null;
+    if (semArt && semArt.length) {
+      var K = 60, fus = {}, wScore = {}, platz = 0;
+      erg.artikel.forEach(function (r, i) { fus[r.id] = (fus[r.id] || 0) + 1 / (K + i); wScore[r.id] = r.score; });
+      semArt.forEach(function (s) {
+        // Bekannte Kandidaten stärken; NEUE Artikel bringt die Semantik nur
+        // oberhalb der Schwelle ein — sonst kippt Rauschen den Fallback.
+        if (fus[s.artikelId] === undefined && s.score < SCHWELLE) return;
+        fus[s.artikelId] = (fus[s.artikelId] || 0) + 1 / (K + platz);
+        platz++;
+      });
+      erg = { artikel: Object.keys(fus).map(function (id) { return { id: id, score: wScore[id] || 0, fusion: fus[id] }; })
+          .sort(function (a, b) { return b.fusion - a.fusion; }),
+        faq: erg.faq, themen: erg.themen, tokens: erg.tokens };
     }
     var tokens = erg.tokens || [];
     var intent = intentErkennen(" " + nq + " ");
@@ -444,6 +479,15 @@
     var topArt = erg.artikel[0] ? A.artikelVon(erg.artikel[0].id) : null;
     var faqScore = topFaq ? topFaq.score : 0;
     var artScore = erg.artikel[0] ? erg.artikel[0].score : 0;
+
+    // Bedeutungs-Rettung/-Umlenkung: kaum Stichwort-Substanz, aber ein
+    // semantisch klarer Artikel → der führt („Chef zahlt zu spät" →
+    // Vergütung).
+    if (semArt && semArt[0] && semArt[0].score >= SCHWELLE && Math.max(faqScore, artScore) < 4) {
+      semantischGefunden = true;
+      topArt = A.artikelVon(semArt[0].artikelId) || topArt;
+      topFaq = null;
+    }
 
     // Nichts Brauchbares gefunden -> ehrlicher Fallback
     if (!topFaq && !topArt) {
@@ -463,6 +507,16 @@
     var faqPasst = !nachschlag && topFaq && (!topArt || topFaq.id === topArt.id
       ? faqScore >= artScore * 0.6
       : faqScore >= artScore * 1.1);
+    // Semantische Schützenhilfe für die FAQ-Wahl: Sieht die Bedeutungssuche
+    // den Artikel der Top-FAQ vor dem (womöglich fuzzy-verrauschten)
+    // Artikel-Top, genügt die niedrige Dominanzschwelle („rauswerfen" →
+    // FAQ der Kündigung statt Lernpflicht-Streutreffer).
+    if (!faqPasst && !nachschlag && topFaq && topArt && topFaq.id !== topArt.id && semArt && semArt.length) {
+      var artRang = {};
+      semArt.forEach(function (s, i) { if (artRang[s.artikelId] === undefined) artRang[s.artikelId] = i; });
+      var rf = artRang[topFaq.id], ra = artRang[topArt.id];
+      if (rf !== undefined && (ra === undefined || rf < ra) && faqScore >= artScore * 0.6) faqPasst = true;
+    }
     if (faqPasst) {
       haupt = A.artikelVon(topFaq.id);
       var f = haupt.faq[topFaq.faqIndex];
@@ -483,7 +537,7 @@
     // Synthese über zwei Artikel: Liegt der zweitbeste Treffer nah am
     // besten, gehört er mit zur Antwort (z. B. Freistellung + Berufsschule).
     // Seine Dokumente (Vorlagen/Checklisten/Formulare) zählen dann auch mit.
-    var zweitRec = erg.artikel.filter(function (r) { return r.id !== haupt.id; })[0];
+    var zweitRec = semantischGefunden ? null : erg.artikel.filter(function (r) { return r.id !== haupt.id; })[0];
     var dokumente = dokumenteZu(haupt.id);
     if (zweitRec && zweitRec.score >= artScore * 0.55) {
       dokumenteZu(zweitRec.id).forEach(function (d) {
@@ -513,14 +567,16 @@
     }
 
     // Konfidenz: schwache Treffer transparent machen
-    var unsicher = Math.max(faqScore, artScore) < 6
-      ? "<p class=\"bw-klein bw-leise\">Ich bin nicht sicher, ob das deine Frage genau trifft — die Quellen unten führen zum vollständigen Artikel.</p>"
-      : "";
+    var unsicher = semantischGefunden
+      ? "<p class=\"bw-klein bw-leise\">Über die Bedeutungssuche zugeordnet — die Quellen unten führen zum vollständigen Artikel.</p>"
+      : Math.max(faqScore, artScore) < 6
+        ? "<p class=\"bw-klein bw-leise\">Ich bin nicht sicher, ob das deine Frage genau trifft — die Quellen unten führen zum vollständigen Artikel.</p>"
+        : "";
 
     var quellen = [];
     (haupt.recht || []).slice(0, 3).forEach(function (r) { quellen.push({ text: r.n, ziel: "#/artikel/" + haupt.id }); });
     quellen.push({ text: "Artikel: " + haupt.titel, ziel: "#/artikel/" + haupt.id });
-    var zweit = erg.artikel[1] && erg.artikel[1].id !== haupt.id ? A.artikelVon(erg.artikel[1].id) : null;
+    var zweit = !semantischGefunden && erg.artikel[1] && erg.artikel[1].id !== haupt.id ? A.artikelVon(erg.artikel[1].id) : null;
     if (zweit) quellen.push({ text: "Siehe auch: " + zweit.titel, ziel: "#/artikel/" + zweit.id });
 
     kontextSetzen({ artikelId: haupt.id, titel: haupt.titel,
@@ -555,6 +611,7 @@
       "<div class=\"bw-hinweis\"><p><strong>Lokal &amp; vertraulich:</strong> Der Assistent antwortet ausschließlich aus der " +
       "Wissensdatenbank dieses Werkzeugs (Stand " + A.esc(W.stand) + ") und läuft komplett offline — keine Eingabe verlässt dieses Gerät. " +
       "Er kennt alle Module des Werkzeugs, verlinkt passende Vorlagen, Checklisten und Formulare und ersetzt keine Rechtsberatung im Einzelfall.</p></div>" +
+      "<p class=\"bw-klein\" id=\"semantik-zeile\" aria-live=\"polite\"></p>" +
       "<div class=\"chat\">" +
       "  <ul class=\"chat__verlauf\" id=\"chat-verlauf\" aria-live=\"polite\"></ul>" +
       "  <ul class=\"chipzeile\" id=\"chat-vorschlaege\" aria-label=\"Vorschläge\"></ul>" +
@@ -567,6 +624,7 @@
       "</div>";
     container.innerHTML = h;
     wurzel = container;
+    semantikUi(container);
 
     verlaufZeigen();
     vorschlaegeZeigen(verlauf.length ? [] : standardFolgefragen());
@@ -598,6 +656,44 @@
       history.replaceState(null, "", "#/assistent");
       fragen(f);
     }
+  }
+
+  // Statuszeile & Aktivierung der Bedeutungssuche (K3). Das Sprachmodell
+  // (≈ 150 MB) wird erst auf Klick geladen und bleibt dann lokal im Cache;
+  // einmal aktiviert, lädt es bei künftigen Besuchen automatisch.
+  function semantikUi(container) {
+    var zeile = container.querySelector("#semantik-zeile");
+    if (!zeile) return;
+    var S = window.AzubiSemantik;
+    if (!S || !S.verfuegbar()) { zeile.parentNode.removeChild(zeile); return; }
+    function zeigen() {
+      var z = S.zustand();
+      if (z === "bereit") {
+        zeile.innerHTML = "<strong>Bedeutungssuche aktiv</strong> — der Assistent versteht auch frei formulierte Fragen.";
+      } else if (z === "laedt") {
+        if (!zeile.textContent) zeile.textContent = "Bedeutungssuche wird geladen …";
+      } else if (z === "fehler") {
+        zeile.innerHTML = "<span class=\"bw-leise\">Bedeutungssuche momentan nicht verfügbar — die Stichwortsuche arbeitet normal weiter.</span>";
+      } else {
+        zeile.innerHTML = "<button type=\"button\" class=\"chip\" id=\"semantik-an\">Bedeutungssuche aktivieren</button> " +
+          "<span class=\"bw-leise\">lädt einmalig ein Sprachmodell (≈ 150 MB) auf dieses Gerät — bleibt lokal, keine Cloud.</span>";
+        zeile.querySelector("#semantik-an").addEventListener("click", starten);
+      }
+    }
+    function starten() {
+      S.meldung(function (text) { zeile.textContent = text; });
+      S.laden().then(function () {
+        // Nach erfolgreicher Aktivierung dauerhaft merken (Autostart).
+        try { localStorage.setItem("aw.semantik", "an"); } catch (e) { /* optional */ }
+        zeigen();
+      }, zeigen);
+      zeigen();
+    }
+    var an = false;
+    try { an = localStorage.getItem("aw.semantik") === "an"; } catch (e) { /* ohne Speicher kein Autostart */ }
+    if (S.zustand() === "laedt") { S.meldung(function (text) { zeile.textContent = text; }); zeigen(); }
+    else if (an && S.zustand() === "aus") starten();
+    else zeigen();
   }
 
   function verlaufZeigen() {
@@ -639,20 +735,26 @@
 
     var reduziert = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.setTimeout(function () {
-      var a = antwortBauen(frage);
-      var A = window.AzubiApp;
-      var dokHtml = (a.dokumente && a.dokumente.length)
-        ? "<div class=\"quellen\"><span class=\"qtitel\">Passende Dokumente</span>" +
-          a.dokumente.map(function (d) { return zielLink(d, A.esc(d.text)); }).join("") + "</div>"
-        : "";
-      var quellenHtml = a.quellen.length
-        ? "<div class=\"quellen\"><span class=\"qtitel\">Quellen</span>" +
-          a.quellen.map(function (q) { return "<a href=\"" + q.ziel + "\">" + A.esc(q.text) + "</a>"; }).join("") + "</div>"
-        : "";
-      verlauf.push({ rolle: "antwort", html: a.html + dokHtml + quellenHtml });
-      merken();
-      verlaufZeigen();
-      vorschlaegeZeigen(a.folgefragen);
+      Promise.resolve(antwortBauen(frage)).then(function (a) {
+        var A = window.AzubiApp;
+        var dokHtml = (a.dokumente && a.dokumente.length)
+          ? "<div class=\"quellen\"><span class=\"qtitel\">Passende Dokumente</span>" +
+            a.dokumente.map(function (d) { return zielLink(d, A.esc(d.text)); }).join("") + "</div>"
+          : "";
+        var quellenHtml = a.quellen.length
+          ? "<div class=\"quellen\"><span class=\"qtitel\">Quellen</span>" +
+            a.quellen.map(function (q) { return "<a href=\"" + q.ziel + "\">" + A.esc(q.text) + "</a>"; }).join("") + "</div>"
+          : "";
+        verlauf.push({ rolle: "antwort", html: a.html + dokHtml + quellenHtml });
+        merken();
+        verlaufZeigen();
+        vorschlaegeZeigen(a.folgefragen);
+      }).catch(function (fehler) {
+        verlauf.push({ rolle: "antwort", html: "<p>Die Antwort konnte nicht erstellt werden (" +
+          window.AzubiApp.esc(String((fehler && fehler.message) || fehler)) + "). Bitte stelle die Frage erneut.</p>" });
+        merken();
+        verlaufZeigen();
+      });
     }, reduziert ? 0 : 350);
   }
 

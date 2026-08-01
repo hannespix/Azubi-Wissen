@@ -30,6 +30,7 @@ var KERN = [
   "./assets/js/glossar.js",
   "./assets/js/lokaldb.js",
   "./assets/js/app.js",
+  "./assets/js/semantik.js",
   "./assets/js/assistent.js",
   "./assets/js/export.js",
   "./assets/fonts/BaWueSansWeb-Regular.woff2",
@@ -77,8 +78,12 @@ self.addEventListener("fetch", function (ereignis) {
   var url = new URL(anfrage.url);
   if (url.origin !== self.location.origin) return; // nie fremde Ursprünge
 
-  // Formulare/PDFs: dauerhafter Datei-Cache, beim ersten Abruf befüllt.
-  if (url.pathname.indexOf("/formulare/") !== -1) {
+  // Formulare/PDFs und die großen Dateien der semantischen Suche (Modell,
+  // WASM — zusammen ≈ 150 MB): dauerhafter Datei-Cache, beim ersten Abruf
+  // befüllt. Bewusst NICHT im versionierten Kern-Cache — sie sind stabil
+  // und sollen ein App-Update ohne erneuten Download überstehen.
+  if (url.pathname.indexOf("/formulare/") !== -1 ||
+      url.pathname.indexOf("/assets/vendor/semantik/") !== -1) {
     ereignis.respondWith(
       caches.open(DATEI_CACHE).then(function (cache) {
         return cache.match(anfrage).then(function (imCache) {

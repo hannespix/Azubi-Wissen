@@ -238,6 +238,44 @@
   nach Themenwechsel). Tests: mini_k2 (23) + mini_k1 (16) grün.
   *(PR #38)*
 
+- **Hotfix Stichwort-Nachschlag** ✅ — Live-Fund: „Bav" antwortete
+  mit dem „Nein. …" einer zufällig passenden Ja/Nein-FAQ. Reine
+  Stichwörter starten jetzt mit Artikel + Definition und gelten
+  nicht mehr als Anschlussfrage. *(PR #39)*
+
+- **K3 Bedeutungssuche — lokales Sprachmodell, optional** ✅ —
+  zweite Stufe des KI-Ausbaus (gewählte Option „3 + 2").
+  (1) **Vendor** `assets/vendor/semantik/`: transformers.js 4.2
+  (Browser-Bundle), ONNX-Runtime-WASM (asyncify) und
+  multilingual-e5-small **q8** — die 118-MB-ONNX wegen der
+  GitHub-100-MB-Grenze in drei Teilen, die der Loader im Browser
+  wieder zusammensetzt (env.fetch-Hook + customCache; Blob wird
+  memoisiert). Erkenntnisse dokumentiert im Loader: localModelPath
+  muss **relativ** sein (absolute URL ⇒ get_file_metadata übergeht
+  den Lokal-Zweig und meldet „Tokenizer fehlt"), und nur
+  `transformers.min.js` ist selbständig (das web-Bundle erwartet
+  einen Bundler). (2) **Index**: tools/semantik_index_bauen.mjs
+  bettet 39 Artikel + 101 FAQ mit „passage:"-Präfix ein →
+  assets/daten/semantik-index.json (405 KB, dim 384); Neuaufbau
+  nur bei Inhaltsänderungen nötig. (3) **Opt-in-UI** im Assistenten:
+  „Bedeutungssuche aktivieren" (≈ 150 MB, bleibt lokal), Fortschritt
+  in der Statuszeile, nach Erfolg Autostart über aw.semantik;
+  Einzeldatei-Version blendet alles aus. Service Worker legt die
+  Modelldateien in den dauerhaften Datei-Cache (überstehen
+  App-Updates; kein Doppelspeicher, da useBrowserCache aus).
+  (4) **Hybrid-Ranking**: Reciprocal Rank Fusion über die
+  Artikel-Einträge; semantische NEUE Kandidaten erst ab Schwelle
+  0,80 (sonst kippt Rauschen den ehrlichen Fallback); bei kaum
+  Stichwort-Substanz führt der semantisch klare Artikel („Chef
+  zahlt zu spät" → Vergütung); FAQ-Schützenhilfe: liegt der
+  Artikel der Top-FAQ semantisch vor dem Artikel-Top, genügt die
+  niedrige Dominanzschwelle („rauswerfen" → Kündigungs-FAQ statt
+  Lernpflicht-Streutreffer). Die kurzen FAQ-Passagen selbst bleiben
+  aus Fusion/Rettung draußen (dichtes Rauschband 0,83+).
+  Tests: mini_k3 (16, inkl. **Zero-Trust-Assertion: kein einziger
+  externer Request beim Modellladen und Antworten**), Regressionen
+  mini_k1 (16) + mini_k2 (27), Einzeldatei-Smoke grün. *(PR #40)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
