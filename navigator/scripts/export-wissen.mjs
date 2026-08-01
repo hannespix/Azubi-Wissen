@@ -25,7 +25,15 @@ if (!synMatch) throw new Error("SYN-Literal in app.js nicht gefunden");
 const SYN = new Function("return " + synMatch[1])();
 
 const y = (s) => JSON.stringify(String(s ?? ""));
-const heute = "2026-07-31";
+const heute = "2026-08-01";
+
+// Querlink-Syntax des Browsertools ([[artikel-id]] bzw. [[id|Label]], seit
+// D1) in Klartext auflösen — die Markdown-Wissensbasis verlinkt über die
+// „Verwandte Artikel"-Liste, nicht inline.
+const titelVon = (id) => W.artikel.find((x) => x.id === id)?.titel ?? id.replace(/-/g, " ");
+const klartext = (s) => String(s ?? "")
+  .replace(/\[\[([a-z0-9-]+)\|([^\]]+)\]\]/g, "$2")
+  .replace(/\[\[([a-z0-9-]+)\]\]/g, (m, id) => titelVon(id));
 
 rmSync(zielWissen, { recursive: true, force: true });
 let anzahl = 0;
@@ -37,7 +45,7 @@ for (const a of W.artikel) {
     `title: ${y(a.titel)}`,
     `category: ${y(a.thema)}`,
     `category_title: ${y(thema?.titel ?? a.thema)}`,
-    `summary: ${y(a.kurz)}`,
+    `summary: ${y(klartext(a.kurz))}`,
     `tags: [${(a.stichworte ?? []).map(y).join(", ")}]`,
     "legal_references:",
     ...(a.recht ?? []).map((r) => `  - ${y(`${r.n} — ${r.t}`)}`),
@@ -51,22 +59,22 @@ for (const a of W.artikel) {
 
   const teile = [];
   teile.push("## Das Wichtigste in Kürze", "");
-  for (const f of a.fakten ?? []) teile.push(`- ${f}`);
+  for (const f of a.fakten ?? []) teile.push(`- ${klartext(f)}`);
   teile.push("");
   for (const ab of a.abschnitte ?? []) {
     const marker = (ab.d ?? 2) >= 3 ? " *(ausführlich)*" : "";
-    teile.push(`## ${ab.t}${marker}`, "", ab.text.trim(), "");
+    teile.push(`## ${ab.t}${marker}`, "", klartext(ab.text).trim(), "");
   }
   if (a.rollen) {
     teile.push("## Praxishinweise", "");
     const rollen = [["azubi", "Für Auszubildende"], ["betrieb", "Für Betriebe"], ["beratung", "Für die Ausbildungsberatung"]];
     for (const [k, titel] of rollen) {
-      if (a.rollen[k]) teile.push(`### ${titel}`, "", a.rollen[k].trim(), "");
+      if (a.rollen[k]) teile.push(`### ${titel}`, "", klartext(a.rollen[k]).trim(), "");
     }
   }
   if ((a.faq ?? []).length) {
     teile.push("## Häufige Fragen", "");
-    for (const f of a.faq) teile.push(`### ${f.f}`, "", f.a.trim(), "");
+    for (const f of a.faq) teile.push(`### ${klartext(f.f)}`, "", klartext(f.a).trim(), "");
   }
   if ((a.verwandt ?? []).length) {
     teile.push("## Verwandte Artikel", "");

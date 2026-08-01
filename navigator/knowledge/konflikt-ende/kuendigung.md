@@ -11,7 +11,7 @@ legal_references:
   - "§ 4 KSchG — 3-Wochen-Frist für die Klage"
   - "§ 13 KSchG — Außerordentliche Kündigung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -22,7 +22,7 @@ source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 - **Schriftform** ist Pflicht; nach der Probezeit müssen die **Kündigungsgründe angegeben** werden — sonst ist die Kündigung unwirksam.
 - Die fristlose Kündigung ist **unwirksam**, wenn die Gründe dem Kündigenden **länger als zwei Wochen** bekannt sind (§ 22 Abs. 4 BBiG).
 - Bei **Minderjährigen** läuft die Kündigung über die gesetzlichen Vertreter (Zugang bzw. Zustimmung).
-- Gegen eine Kündigung: **Schlichtungsausschuss** (falls vorhanden) und **Klage binnen 3 Wochen**.
+- Gegen eine Kündigung: Schlichtungsausschuss (falls vorhanden) und **Klage binnen 3 Wochen**.
 
 ## Was ist ein „wichtiger Grund“?
 
@@ -47,7 +47,7 @@ Je kürzer die Restzeit bis zur Prüfung, desto höher die Hürde. Der bloße Ve
 
 - **Fristen:** Schlichtungsausschuss anrufen (falls eingerichtet), Klage beim Arbeitsgericht **innerhalb von 3 Wochen** — sonst gilt die Kündigung als wirksam.
 - **Schadensersatz** (§ 23 BBiG): Wer den Auflösungsgrund zu vertreten hat, schuldet Ersatz (z. B. Vergütungsausfall bis zum regulären Ende); Anspruch binnen **3 Monaten** geltend machen.
-- **Meldepflicht:** Bei Verlust des Ausbildungsplatzes sofort bei der Agentur für Arbeit ausbildungsuchend melden; die zuständige Stelle unterstützt beim Wechselbetrieb.
+- **Meldepflicht:** Bei Verlust des Ausbildungsplatzes sofort bei der Agentur für Arbeit ausbildungsuchend melden; die zuständige Stelle unterstützt beim Betriebswechsel.
 - Der Betrieb meldet die vorzeitige Lösung der zuständigen Stelle (Verzeichnis).
 
 ## Praxishinweise

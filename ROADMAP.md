@@ -303,6 +303,14 @@
   2026er-Werte bleiben korrekt. Prüfskript: scratchpad
   quellen_check.mjs; Endlauf 93/93 OK. *(PR #42)*
 
+- **S3 Navigator M1.1 — Inhalts-Sync** ✅ — die Markdown-Wissensbasis
+  des Fachwerker-Navigators (navigator/knowledge/) auf den Endstand
+  des Browsertools synchronisiert: 39 Artikel (neu ap-noten), alle
+  D-Serien-Vertiefungen, 76 Synonymgruppen; export-wissen.mjs löst
+  die Querlink-Syntax ([[…]]) jetzt in Klartext auf. Verifiziert:
+  Inhalts-Validierung, cargo test navigator-core, Vite-Build.
+  Details: navigator/docs/ROADMAP.md (M1.1). *(PR #43)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

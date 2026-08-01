@@ -9,7 +9,7 @@ legal_references:
   - "§ 20 BBiG — Probezeit"
   - "§ 22 Abs. 1 BBiG — Kündigung während der Probezeit"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -29,7 +29,7 @@ Die Kündigung muss **schriftlich** erfolgen (Papier mit Unterschrift — E-Mail
 Die Probezeit ist kein Wartezeitraum, sondern Arbeitsphase:
 
 - **Betrieb:** früh Rückmeldung geben, Ausbildungsplan von Anfang an umsetzen, bei Zweifeln das Gespräch suchen — nicht bis zur letzten Woche warten.
-- **Azubi:** Fragen stellen, Berichtsheft von Beginn an führen, bei Problemen früh die Ausbildungsberatung einschalten.
+- **Azubi:** Fragen stellen, das Berichtsheft von Beginn an führen, bei Problemen früh die Ausbildungsberatung einschalten.
 
 Eine Kündigung „auf den letzten Drücker“ kurz vor Ablauf ist zulässig, sorgt aber regelmäßig für Konflikte — die Ausbildungsberatung kann vorher vermitteln.
 
@@ -59,7 +59,11 @@ Mindestens einen Monat, höchstens vier Monate (§ 20 BBiG). Üblich sind drei b
 
 ### Kann mir in der Probezeit einfach so gekündigt werden?
 
-Ja — in der Probezeit können beide Seiten jederzeit ohne Frist und ohne Begründung kündigen. Die Kündigung muss aber schriftlich erfolgen, und besonderer Kündigungsschutz (z. B. bei Schwangerschaft oder Schwerbehinderung) bleibt bestehen.
+Ja — in der Probezeit können beide Seiten jederzeit ohne Frist und ohne Begründung kündigen. Die Kündigung muss aber schriftlich erfolgen, und besonderer Kündigungsschutz (z. B. bei Schwangerschaft oder Schwerbehinderung) bleibt bestehen. Nach der Probezeit gelten die deutlich strengeren Regeln der Kündigung.
+
+### Zählt die Probezeit zur Ausbildungszeit?
+
+Ja — die Probezeit ist der erste Abschnitt des Ausbildungsverhältnisses, wird voll vergütet und zählt komplett zur Ausbildungsdauer. Auch das Berichtsheft wird ab dem ersten Tag geführt.
 
 ## Verwandte Artikel
 

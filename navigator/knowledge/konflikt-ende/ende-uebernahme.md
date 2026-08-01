@@ -11,7 +11,7 @@ legal_references:
   - "§ 23 BBiG — Schadensersatz bei vorzeitiger Beendigung"
   - "§ 12 Abs. 1 BBiG — Übernahmevereinbarungen"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -21,7 +21,7 @@ source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 - **Weiterarbeit ohne ausdrückliche Vereinbarung** → es entsteht ein **unbefristetes Arbeitsverhältnis** (§ 24 BBiG) — zu üblichen Bedingungen.
 - **Übernahmevereinbarungen** dürfen erst in den **letzten 6 Monaten** der Ausbildung getroffen werden (§ 12 Abs. 1 BBiG); vorher sind Bindungsklauseln nichtig.
 - Eine **Übernahmepflicht** gibt es gesetzlich nicht (tarifliche Regelungen können bestehen; JAV-Mitglieder genießen besonderen Schutz nach § 78a BetrVG).
-- Zum Ende: **Zeugnis**, Arbeitspapiere, Resturlaub abwickeln; ohne Anschluss **frühzeitig arbeitsuchend melden** (3 Monate vor Ende).
+- Zum Ende: Zeugnis, Arbeitspapiere, Resturlaub abwickeln; ohne Anschluss **frühzeitig arbeitsuchend melden** (3 Monate vor Ende).
 
 ## Der Klassiker: „Bleib einfach noch die Woche“
 
@@ -60,6 +60,10 @@ Eine gesetzliche Übernahmepflicht gibt es nicht — Ausnahmen können sich aus 
 ### Wann genau endet meine Ausbildung, wenn ich die Prüfung bestehe?
 
 Mit der Bekanntgabe des Ergebnisses durch den Prüfungsausschuss — auch wenn dein Vertrag länger laufen würde (§ 21 Abs. 2 BBiG). Ab dann bist du Fachkraft, mit allen Folgen für Vergütung und Vertrag.
+
+### Darf mein Betrieb mich nach der Ausbildung nur befristet einstellen?
+
+Ja — ein befristeter Anschlussvertrag ist zulässig: Die Berufsausbildung gilt nicht als „Vorbeschäftigung“, deshalb ist auch eine sachgrundlose Befristung bis zu zwei Jahren möglich (§ 14 Abs. 2 TzBfG). Wichtig: Die Befristung muss **schriftlich vor Arbeitsbeginn** vereinbart sein — sonst entsteht durch bloßes Weiterarbeiten das unbefristete Verhältnis nach § 24 BBiG.
 
 ## Verwandte Artikel
 

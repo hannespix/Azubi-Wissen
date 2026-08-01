@@ -11,13 +11,13 @@ legal_references:
   - "§ 45 BBiG — Zulassung in besonderen Fällen"
   - "§ 21 BBiG — Beendigung mit Bestehen"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
 ## Das Wichtigste in Kürze
 
-- **Zulassung** (§ 43): Ausbildungszeit zurückgelegt (oder Ende innerhalb von 2 Monaten nach dem Prüfungstermin), **Zwischenprüfung** absolviert, **Ausbildungsnachweis** geführt, Vertrag **eingetragen**.
+- **Zulassung** (§ 43): Ausbildungszeit zurückgelegt (oder Ende innerhalb von 2 Monaten nach dem Prüfungstermin), Zwischenprüfung absolviert, Ausbildungsnachweis geführt, Vertrag eingetragen.
 - Die Prüfung ist für Azubis **gebührenfrei** (§ 37 Abs. 4 BBiG).
 - Der Betrieb **meldet an** und stellt für Prüfungstage sowie den **Arbeitstag vor der schriftlichen Abschlussprüfung** bezahlt frei.
 - **Bestehen beendet** das Ausbildungsverhältnis — schon vor dem vertraglichen Ende, mit Bekanntgabe des Ergebnisses (§ 21 Abs. 2 BBiG).
@@ -31,18 +31,18 @@ Die Prüfung besteht aus **praktischen Aufgaben** (u. a. Arbeitsaufgaben aus der
 
 Häufigste Stolpersteine:
 
-- **Berichtsheft unvollständig** → rechtzeitig nacharbeiten und gegenzeichnen lassen; ohne Nachweis keine Zulassung
+- Berichtsheft unvollständig → rechtzeitig nacharbeiten und gegenzeichnen lassen; ohne Nachweis keine Zulassung
 - **hohe Fehlzeiten** → Einzelfallentscheidung der zuständigen Stelle; ggf. Verlängerung beantragen statt Nichtzulassung riskieren
-- **fehlende Zwischenprüfung** → Nachholtermin klären
-- **Vertrag nicht eingetragen** → sofort mit der zuständigen Stelle klären
+- fehlende Zwischenprüfung → Nachholtermin klären
+- Vertrag nicht eingetragen → sofort mit der zuständigen Stelle klären
 
 Gegen eine ablehnende Zulassungsentscheidung ist rechtliches Gehör und der Verwaltungsrechtsweg eröffnet — meist lässt sich vorher eine Lösung finden.
 
 ## Rund um den Prüfungstag *(ausführlich)*
 
 - **Krank am Prüfungstag:** sofort Attest besorgen und die zuständige Stelle informieren — dann gilt die Prüfung als nicht unternommen und wird nachgeholt.
-- **Rücktritt/Abbruch** ohne wichtigen Grund: Die Prüfung gilt als nicht bestanden.
-- **Nachteilsausgleich** (§ 65 BBiG) für Menschen mit Behinderung **vorab beantragen** (z. B. Zeitzuschlag, Hilfsmittel).
+- **Rücktritt/Abbruch** ohne wichtigen Grund: Die Prüfung gilt als nicht bestanden — danach gelten die Regeln aus Prüfung nicht bestanden.
+- Nachteilsausgleich (§ 65 BBiG) für Menschen mit Behinderung **vorab beantragen** (z. B. Zeitzuschlag, Hilfsmittel).
 - Ergebnis und **Prüfungszeugnis** stellt die zuständige Stelle aus; das Ausbildungszeugnis des Betriebs kommt zusätzlich.
 
 ## Praxishinweise
@@ -71,7 +71,7 @@ Sofort ärztliches Attest besorgen und die zuständige Stelle informieren. Mit N
 
 ### Endet meine Ausbildung mit der bestandenen Prüfung?
 
-Ja — mit Bekanntgabe des Ergebnisses endet das Ausbildungsverhältnis, auch wenn der Vertrag eigentlich länger liefe (§ 21 Abs. 2 BBiG). Arbeitest du danach einfach weiter, entsteht ein unbefristetes Arbeitsverhältnis (§ 24 BBiG).
+Ja — mit Bekanntgabe des Ergebnisses endet das Ausbildungsverhältnis, auch wenn der Vertrag eigentlich länger liefe (§ 21 Abs. 2 BBiG). Arbeitest du danach einfach weiter, entsteht ein unbefristetes Arbeitsverhältnis (§ 24 BBiG) — mehr im Artikel Ende & Übernahme.
 
 ## Verwandte Artikel
 

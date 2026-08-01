@@ -11,14 +11,14 @@ legal_references:
   - "§ 616 BGB — Vorübergehende Verhinderung"
   - "§ 2 EFZG — Feiertagsvergütung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
 ## Das Wichtigste in Kürze
 
-- **Freistellungen** (Berufsschule, Prüfungen, Tag vor der schriftlichen Abschlussprüfung): Vergütung läuft weiter (§ 19 Abs. 1 Nr. 1 BBiG).
-- **Krankheit:** bis zu **6 Wochen** volle Vergütung (§ 3 EFZG), danach Krankengeld.
+- Freistellungen (Berufsschule, Prüfungen, Tag vor der schriftlichen Abschlussprüfung): Vergütung läuft weiter (§ 19 Abs. 1 Nr. 1 BBiG).
+- **Krankheit:** bis zu **6 Wochen** volle Vergütung (§ 3 EFZG) — die Meldepflichten stehen im Artikel Krankmeldung —, danach Krankengeld.
 - **Ausbildungsausfall ohne eigenes Verschulden** (z. B. Betriebsstörung, Auftragsmangel, Wetter): Vergütung bis zu **6 Wochen** weiterzahlen (§ 19 Abs. 1 Nr. 2 BBiG) — „Frostfrei ohne Geld“ gibt es für Azubis nicht.
 - **Gesetzliche Feiertage:** bezahlt frei (§ 2 EFZG).
 - **Persönliche Verhinderung** (§ 616 BGB): kurze, unvermeidbare Anlässe wie unaufschiebbare Arztbesuche, Behördentermine, Todesfall in der Familie — bezahlt freizustellen.

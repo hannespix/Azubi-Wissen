@@ -10,7 +10,7 @@ legal_references:
   - "§ 32 JArbSchG — Ärztliche Erstuntersuchung"
   - "§§ 27–30 BBiG — Eignung von Ausbildungsstätte und Personal"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -69,6 +69,10 @@ Bei der zuständigen Stelle für die grünen Berufe — in Baden-Württemberg be
 ### Kostet die Eintragung etwas?
 
 Für die Auszubildenden ist die Eintragung gebührenfrei (§ 36 Abs. 2 BBiG).
+
+### Was passiert, wenn der Vertrag Mängel hat?
+
+Die zuständige Stelle beanstandet den Mangel (z. B. Vergütung unter Mindestniveau, fehlende Überstundenregelung, unzulässige Kostenklausel) und fordert die Korrektur an — die Eintragung wird bis zur Nachbesserung zurückgestellt. Typische Stolperstellen zeigt der Artikel zum Berufsausbildungsvertrag.
 
 ## Verwandte Artikel
 

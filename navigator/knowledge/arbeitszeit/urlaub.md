@@ -11,7 +11,7 @@ legal_references:
   - "§ 7 BUrlG — Zeitpunkt, Übertragung, Abgeltung"
   - "§ 9 BUrlG — Erkrankung während des Urlaubs"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -32,11 +32,20 @@ Gesetzlich wird in **Werktagen** (Montag–Samstag) gerechnet: 24 Werktage entsp
 
 Urlaub wird vom Betrieb **auf Antrag festgelegt**; die Wünsche der Azubis sind zu berücksichtigen, dringende betriebliche Belange (Saisonspitzen!) können entgegenstehen. Betriebsferien sind zulässig. Der Urlaub ist im laufenden Kalenderjahr zu nehmen; Übertragung ins Folgejahr nur bei dringenden Gründen — dann bis **31. März**. Eine **Abgeltung in Geld** ist nur zulässig, wenn Urlaub wegen Beendigung nicht mehr genommen werden kann (§ 7 Abs. 4 BUrlG).
 
+## Urlaubsentgelt ist nicht Urlaubsgeld *(ausführlich)*
+
+Zwei Begriffe, die oft verwechselt werden:
+
+- **Urlaubsentgelt** = die normale Fortzahlung der Vergütung während des Urlaubs. Sie steht jeder/jedem Azubi kraft Gesetzes zu.
+- **Urlaubsgeld** = eine **zusätzliche** Zahlung zum Urlaub. Sie gibt es nur, wenn Tarifvertrag, Betriebsvereinbarung oder Ausbildungsvertrag sie vorsehen — ein gesetzlicher Anspruch besteht nicht.
+
+Wer wissen will, ob Urlaubsgeld zusteht: in den Vertrag und den anwendbaren Tarifvertrag schauen; die Ausbildungsberatung hilft beim Einordnen.
+
 ## Typische Konflikte *(ausführlich)*
 
 - **„Urlaub nur im Winter“:** Saisonbetriebe dürfen lenken, aber nicht den gesamten Anspruch faktisch entwerten; die Ferienbindung für Berufsschüler bleibt zu beachten.
 - **Urlaubssperre in der Blockschulzeit:** Blockunterricht ist keine Urlaubszeit — Urlaub während der Schule ist unzulässig.
-- **Krank im Urlaub:** Attest ab dem ersten Tag sichern, Tage werden gutgeschrieben (§ 9 BUrlG).
+- **Krank im Urlaub:** Attest ab dem ersten Tag sichern, Tage werden gutgeschrieben (§ 9 BUrlG) — Meldewege im Artikel Krankmeldung.
 - **Verfall:** Der Betrieb muss auf drohenden Verfall **hinweisen** — ohne Hinweis verfällt Urlaub nach der Rechtsprechung nicht ohne Weiteres.
 
 ## Praxishinweise

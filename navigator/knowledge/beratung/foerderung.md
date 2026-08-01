@@ -10,7 +10,7 @@ legal_references:
   - "§ 66 BBiG — Ausbildungsregelungen für Menschen mit Behinderung"
   - "§§ 74 ff. SGB III — Assistierte Ausbildung (AsA flex)"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -18,7 +18,7 @@ source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 
 - **Nachteilsausgleich (§ 65 BBiG):** z. B. Zeitverlängerung, Hilfsmittel, angepasste Prüfungsformen — **rechtzeitig vor der Prüfung beantragen**, Nachweis erforderlich.
 - **Fachpraktiker/Werker-Ausbildungen (§ 66 BBiG):** eigene Ausbildungsregelungen, im grünen Bereich z. B. **Fachpraktiker/in Gartenbau** — mit späterer Anschlussoption in die Vollausbildung.
-- **AsA flex:** kostenlose Unterstützung der Agentur für Arbeit (Stützunterricht, sozialpädagogische Begleitung) — für Azubis **und** entlastend für Betriebe.
+- **AsA flex:** kostenlose Unterstützung der Agentur für Arbeit (Stützunterricht, sozialpädagogische Begleitung) — für Azubis **und** entlastend für Betriebe; oft die Rettung vor Prüfungsmisserfolg oder Vertragslösung.
 - **Finanzielle Hilfen:** Berufsausbildungsbeihilfe (BAB), ggf. Wohn- und Fahrtkostenzuschüsse.
 - Beratung und Antragswege laufen über **Agentur für Arbeit**, zuständige Stelle und ggf. Integrationsfachdienste.
 
@@ -52,7 +52,7 @@ Bei nachgewiesener Beeinträchtigung ist ein Nachteilsausgleich möglich, z. B. 
 
 ### Was ist ein Fachpraktiker im Gartenbau?
 
-Eine Ausbildung nach § 66 BBiG für Menschen mit Behinderung: praxisorientiert, mit reduzierter Theorie und eigener Prüfung. Sie kann als Sprungbrett in die reguläre Gärtner-Ausbildung dienen — Ausbildungszeiten können angerechnet werden.
+Eine Ausbildung nach § 66 BBiG für Menschen mit Behinderung: praxisorientiert, mit reduzierter Theorie und eigener Prüfung. Sie kann als Sprungbrett in die reguläre Gärtner-Ausbildung dienen — Ausbildungszeiten können angerechnet werden. Ausführlich im Themenbereich Fachwerker-Ausbildung.
 
 ## Verwandte Artikel
 

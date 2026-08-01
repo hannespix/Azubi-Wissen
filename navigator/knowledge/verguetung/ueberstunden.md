@@ -10,7 +10,7 @@ legal_references:
   - "§ 8 JArbSchG — Arbeitszeitgrenzen für Jugendliche"
   - "§ 21 JArbSchG — Ausnahmen und Ausgleich"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -24,7 +24,7 @@ source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 
 ## Saisonspitzen im Gartenbau
 
-Frühjahr und Ernte bringen lange Tage — trotzdem gilt: Bei **volljährigen** Azubis sind gelegentliche Überstunden nur mit Ausgleich (Geld oder Freizeit) zulässig und sollten die Ausnahme bleiben. Bei **Jugendlichen** erlaubt § 8 Abs. 2 JArbSchG in der Landwirtschaft zur Erntezeit für über 16-Jährige bis zu 9 Stunden täglich und 85 Stunden in der Doppelwoche — der Ausgleich auf durchschnittlich 40 Wochenstunden ist zwingend. Dauerhafte Überstunden sind ein Warnsignal für die Ausbildungsqualität.
+Frühjahr und Ernte bringen lange Tage — trotzdem gilt: Bei **volljährigen** Azubis (ArbZG-Grenzen) sind gelegentliche Überstunden nur mit Ausgleich (Geld oder Freizeit) zulässig und sollten die Ausnahme bleiben. Bei **Jugendlichen** (JArbSchG-Grenzen) erlaubt § 8 Abs. 2 JArbSchG in der Landwirtschaft zur Erntezeit für über 16-Jährige bis zu 9 Stunden täglich und 85 Stunden in der Doppelwoche — der Ausgleich auf durchschnittlich 40 Wochenstunden ist zwingend. Dauerhafte Überstunden sind ein Warnsignal für die Ausbildungsqualität.
 
 ## Ausgleich richtig handhaben *(ausführlich)*
 

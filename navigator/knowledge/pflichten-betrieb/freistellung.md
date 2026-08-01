@@ -10,7 +10,7 @@ legal_references:
   - "§§ 9, 10 JArbSchG — Berufsschule und Prüfungen bei Jugendlichen"
   - "§ 19 Abs. 1 Nr. 1 BBiG — Vergütungsfortzahlung bei Freistellung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -31,7 +31,7 @@ source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 
 ## Jugendliche: strengere Regeln *(ausführlich)*
 
-Für unter 18-Jährige gilt § 9 JArbSchG: Ein Berufsschultag mit mehr als 5 Unterrichtsstunden wird generell mit 8 Stunden angerechnet (einmal pro Woche), Blockwochen mit 40 Stunden. Nach dem Unterricht dürfen Jugendliche an solchen Tagen **nicht mehr beschäftigt** werden. Für Prüfungen gilt § 10 JArbSchG: Freistellung auch **am Arbeitstag unmittelbar vor der schriftlichen Abschlussprüfung**.
+Für unter 18-Jährige gilt § 9 JArbSchG: Ein Berufsschultag mit mehr als 5 Unterrichtsstunden wird generell mit 8 Stunden angerechnet (einmal pro Woche), Blockwochen mit 40 Stunden. Nach dem Unterricht dürfen Jugendliche an solchen Tagen **nicht mehr beschäftigt** werden. Für Prüfungen gilt § 10 JArbSchG: Freistellung auch **am Arbeitstag unmittelbar vor der schriftlichen Abschlussprüfung**. Die übrigen Zeitgrenzen stehen im Artikel Arbeitszeit für Jugendliche.
 
 ## Häufige Verstöße *(ausführlich)*
 

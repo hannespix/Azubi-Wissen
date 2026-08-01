@@ -10,7 +10,7 @@ legal_references:
   - "§ 43 Abs. 1 Nr. 1 BBiG — Teilnahme als Zulassungsvoraussetzung"
   - "§ 15 BBiG / § 10 JArbSchG — Freistellung für Prüfungen"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -31,7 +31,7 @@ Kein Grund zur Panik, aber zum Handeln:
 
 - Lücken konkret benennen (welche Themen?)
 - betrieblichen Ausbildungsplan nachsteuern, Übungsphasen einbauen
-- Unterstützung nutzen: Nachhilfe über **Assistierte Ausbildung (AsA flex)**, Lerngruppen der Berufsschule
+- Unterstützung nutzen: Nachhilfe über die Assistierte Ausbildung (AsA flex), Lerngruppen der Berufsschule
 - in schweren Fällen früh über **Verlängerung** (§ 8 Abs. 2 BBiG) sprechen
 
 Die Ausbildungsberatung unterstützt bei der Einordnung und vermittelt Fördermöglichkeiten.
@@ -55,6 +55,10 @@ Schwache Zwischenprüfungsergebnisse systematisch nachfassen (Betrieb kontaktier
 ### Kann ich durch die Zwischenprüfung fallen?
 
 Nein — die Zwischenprüfung hat kein Bestehen oder Nichtbestehen und zählt nicht für die Abschlussprüfung. Aber: Ohne Teilnahme wirst du nicht zur Abschlussprüfung zugelassen (§ 43 BBiG).
+
+### Was ist, wenn ich die Zwischenprüfung krankheitsbedingt verpasse?
+
+Sofort krankmelden und Attest einreichen — die zuständige Stelle bietet dann einen Nachhol- oder Ersatztermin an. Wichtig ist, dass die Teilnahme vor der Abschlussprüfung nachgeholt wird, denn sie bleibt Zulassungsvoraussetzung (§ 43 Abs. 1 Nr. 1 BBiG). Unentschuldigtes Fernbleiben dagegen gefährdet die Zulassung.
 
 ## Verwandte Artikel
 

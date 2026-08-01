@@ -10,7 +10,7 @@ legal_references:
   - "§ 15 BBiG — Freistellung durch den Betrieb"
   - "SchG BW — Berufsschulpflicht in Baden-Württemberg"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -52,6 +52,10 @@ Ja. Die Teilnahmepflicht aus § 13 BBiG gilt unabhängig vom Alter, und in Baden
 ### Darf mein Chef mich statt zur Schule in den Betrieb holen?
 
 Nein. Der Betrieb muss dich für den Berufsschulunterricht freistellen (§ 15 BBiG). Ein Verstoß ist eine Ordnungswidrigkeit — wende dich an die Ausbildungsberatung.
+
+### Zählt der Weg zwischen Schule und Betrieb zur Ausbildungszeit?
+
+Ja — angerechnet werden Unterrichtszeit einschließlich Pausen sowie die Wegezeit zwischen Berufsschule und Betrieb. Details und Rechenbeispiele stehen im Artikel Freistellung & Anrechnung.
 
 ## Verwandte Artikel
 

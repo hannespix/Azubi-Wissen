@@ -10,7 +10,7 @@ legal_references:
   - "§ 14 Abs. 3 BBiG — Nur dem Ausbildungszweck dienende Aufgaben"
   - "§ 14 Abs. 1 Nr. 5 BBiG — Charakterliche Förderung, Schutz vor Gefährdung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -41,7 +41,7 @@ Maßstab ist immer: Bringt die Tätigkeit die Ausbildung voran und bleibt das Au
 
 ## Konsequenzen bei Verstößen *(ausführlich)*
 
-Wird planwidrig oder ausbildungsfremd „ausgebildet“, kann die zuständige Stelle beraten, **Auflagen** machen und Fristen setzen (§ 76 BBiG); bei fortgesetzten schweren Mängeln kommt die **Untersagung des Einstellens und Ausbildens** durch die zuständige Behörde in Betracht (§ 33 BBiG). Azubis können aus wichtigem Grund **kündigen** (§ 22 Abs. 2 Nr. 1 BBiG) und haben dann ggf. einen **Schadensersatzanspruch** (§ 23 BBiG).
+Wird planwidrig oder ausbildungsfremd „ausgebildet“, kann die zuständige Stelle beraten, **Auflagen** machen und Fristen setzen (§ 76 BBiG); bei fortgesetzten schweren Mängeln kommt die **Untersagung des Einstellens und Ausbildens** durch die zuständige Behörde in Betracht (§ 33 BBiG). Azubis können aus wichtigem Grund kündigen (§ 22 Abs. 2 Nr. 1 BBiG) und haben dann ggf. einen **Schadensersatzanspruch** (§ 23 BBiG).
 
 ## Praxishinweise
 
@@ -61,7 +61,7 @@ Beschwerden über ausbildungsfremde Beschäftigung mit Berichtsheft und Ausbildu
 
 ### Darf ich als Azubi zum Putzen und Kehren eingeteilt werden?
 
-Gelegentlich ja — das gehört zum Betriebsalltag. Unzulässig wird es, wenn solche ausbildungsfremden Tätigkeiten deine Ausbildung prägen und du die eigentlichen Inhalte nicht lernst (§ 14 BBiG). Dann hilft die Ausbildungsberatung.
+Gelegentlich ja — das gehört zum Betriebsalltag. Unzulässig wird es, wenn solche ausbildungsfremden Tätigkeiten deine Ausbildung prägen und du die eigentlichen Inhalte nicht lernst (§ 14 BBiG). Dein Berichtsheft belegt das — und die Ausbildungsberatung hilft.
 
 ### Mein Betrieb kann bestimmte Inhalte gar nicht vermitteln — was nun?
 

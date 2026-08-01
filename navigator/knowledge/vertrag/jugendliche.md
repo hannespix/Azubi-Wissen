@@ -10,7 +10,7 @@ legal_references:
   - "§ 33 JArbSchG — Erste Nachuntersuchung"
   - "JArbSchG — Besondere Schutzvorschriften für Jugendliche"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -32,6 +32,17 @@ Die Untersuchung führt eine Ärztin/ein Arzt eigener Wahl durch (Berechtigungss
 - Der Betrieb soll rechtzeitig (etwa 9 Monate nach Beginn) schriftlich an die Nachuntersuchung erinnern.
 
 Wird der/die Azubi während der Ausbildung 18, entfallen künftige Nachuntersuchungen.
+
+## Weitere Schutzregeln für unter 18-Jährige *(ausführlich)*
+
+Neben den Untersuchungen enthält das JArbSchG eigene Schutzstandards:
+
+- **Arbeitszeit, Pausen und Nachtruhe** sind enger begrenzt als bei Erwachsenen
+- **gefährliche Arbeiten** (§ 22 JArbSchG) sind verboten, soweit sie nicht unter Aufsicht zum Ausbildungsziel gehören — im grünen Bereich relevant etwa bei Pflanzenschutzmitteln, Motorsäge und bestimmten Maschinen
+- **Akkord- und tempoabhängige Arbeiten** sind untersagt (§ 23 JArbSchG)
+- vor Beginn und bei wesentlichen Änderungen ist über **Unfall- und Gesundheitsgefahren zu unterweisen** (§ 29 JArbSchG)
+
+Der Betrieb muss das JArbSchG und die Aufsichtsbehörde im Betrieb **aushängen**, wenn Jugendliche beschäftigt werden (§ 47 JArbSchG).
 
 ## Praxishinweise
 
@@ -56,6 +67,10 @@ Nur Jugendliche unter 18 Jahren: vor Ausbildungsbeginn die Erstuntersuchung (§ 
 ### Was passiert, wenn die Nachuntersuchung fehlt?
 
 14 Monate nach Ausbildungsbeginn gilt ohne Nachweis ein Beschäftigungsverbot — der Betrieb darf die/den Jugendlichen nicht weiterbeschäftigen, bis die Bescheinigung vorliegt.
+
+### Gelten die Schutzregeln auch nach dem 18. Geburtstag?
+
+Nein — mit Volljährigkeit endet der Anwendungsbereich des JArbSchG. Ab dann gelten die allgemeinen Regeln des Arbeitszeitgesetzes (Arbeitszeit für Erwachsene); nur die Anrechnungs- und Freistellungsregeln für Berufsschule und Prüfungen gelten über § 15 BBiG für alle Azubis weiter.
 
 ## Verwandte Artikel
 

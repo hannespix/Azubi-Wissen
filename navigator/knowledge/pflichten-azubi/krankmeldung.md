@@ -10,7 +10,7 @@ legal_references:
   - "§ 3 EFZG — Entgeltfortzahlung im Krankheitsfall"
   - "§ 19 Abs. 1 Nr. 2 BBiG — Fortzahlung der Vergütung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -33,7 +33,7 @@ Minderjährige: Eltern kümmern sich mit — die Meldepflicht trifft aber den Az
 
 ## Fehlzeiten und Prüfungszulassung *(ausführlich)*
 
-Für die Zulassung zur Abschlussprüfung muss die Ausbildungszeit „zurückgelegt“ sein (§ 43 BBiG). Als Faustregel der Praxis gelten Fehlzeiten von **mehr als etwa 10 %** der Ausbildungszeit als kritisch — entscheidend ist der Einzelfall (Lage, Gründe, Leistungsstand). Bei absehbar hohen Fehlzeiten (lange Krankheit, Reha): früh mit der zuständigen Stelle sprechen; eine **Verlängerung nach § 8 Abs. 2 BBiG** sichert den Abschluss.
+Für die Zulassung zur Abschlussprüfung muss die Ausbildungszeit „zurückgelegt“ sein (§ 43 BBiG). Als Faustregel der Praxis gelten Fehlzeiten von **mehr als etwa 10 %** der Ausbildungszeit als kritisch — entscheidend ist der Einzelfall (Lage, Gründe, Leistungsstand). Bei absehbar hohen Fehlzeiten (lange Krankheit, Reha): früh mit der zuständigen Stelle sprechen; eine Verlängerung nach § 8 Abs. 2 BBiG sichert den Abschluss.
 
 ## Krank in der Probezeit / im Urlaub *(ausführlich)*
 
@@ -63,7 +63,7 @@ Spätestens, wenn du länger als drei Kalendertage krank bist — dann muss die 
 
 ### Bekomme ich als Azubi Geld, wenn ich krank bin?
 
-Ja — deine Ausbildungsvergütung läuft bei Arbeitsunfähigkeit bis zu sechs Wochen weiter (§ 3 EFZG, § 19 BBiG), wenn dein Ausbildungsverhältnis schon mindestens vier Wochen besteht. Danach zahlt die Krankenkasse Krankengeld.
+Ja — deine Ausbildungsvergütung läuft bei Arbeitsunfähigkeit bis zu sechs Wochen weiter (§ 3 EFZG, § 19 BBiG), wenn dein Ausbildungsverhältnis schon mindestens vier Wochen besteht. Danach zahlt die Krankenkasse Krankengeld. Details im Artikel Fortzahlung der Vergütung.
 
 ### Was ist, wenn ich am Berufsschultag krank bin?
 

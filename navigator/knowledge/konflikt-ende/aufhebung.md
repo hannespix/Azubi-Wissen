@@ -9,7 +9,7 @@ legal_references:
   - "§ 22 BBiG — Beendigungsregeln (Rahmen)"
   - "§ 12 BBiG — Grenzen zulässiger Vereinbarungen"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -25,9 +25,9 @@ source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 
 1. **Anschluss sichern:** neuen Ausbildungsbetrieb finden (Ausbildungsberatung und Agentur für Arbeit vermitteln).
 2. **Aufhebungsvertrag** mit Datum, letztem Tag, Resturlaub, Zeugnisanspruch und Herausgabe der Unterlagen schließen.
-3. **Neuen Vertrag** über die Restzeit schließen und **eintragen** lassen; Verkürzung/Verlängerung realistisch festlegen.
+3. **Neuen Vertrag** über die Restzeit schließen und eintragen lassen; Verkürzung/Verlängerung realistisch festlegen.
 4. **Berufsschule** informieren (Klassenwechsel meist unnötig).
-5. **Berichtsheft** nahtlos weiterführen — es dokumentiert beide Stationen.
+5. Berichtsheft nahtlos weiterführen — es dokumentiert beide Stationen.
 
 So geht keine Zeit verloren und die Zulassung zur Prüfung bleibt gesichert.
 

@@ -9,7 +9,7 @@ legal_references:
   - "§ 76 BBiG — Beratung durch die zuständige Stelle"
   - "§ 111 Abs. 2 ArbGG — Schlichtungsausschuss"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -17,7 +17,7 @@ source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 
 - **Stufe 1:** direktes Gespräch — Azubi mit Ausbilder/in, ggf. mit Eltern oder Vertrauensperson.
 - **Stufe 2:** innerbetriebliche Stellen — Jugend- und Auszubildendenvertretung (JAV), Betriebsrat, Ausbildungsleitung.
-- **Stufe 3:** die **Ausbildungsberatung** der zuständigen Stelle — neutral, kostenlos, für beide Seiten.
+- **Stufe 3:** die Ausbildungsberatung der zuständigen Stelle — neutral, kostenlos, für beide Seiten.
 - **Stufe 4:** Wo ein **Schlichtungsausschuss** besteht, muss er vor einer Klage aus dem Ausbildungsverhältnis angerufen werden (§ 111 Abs. 2 ArbGG).
 - Konfliktverlauf **dokumentieren** (Daten, Gespräche, Vereinbarungen) — das hilft in jeder Stufe.
 
@@ -31,7 +31,7 @@ Für Streitigkeiten aus einem **bestehenden** Berufsausbildungsverhältnis (z. B
 
 ## Eskalation vermeiden — Warnsignale ernst nehmen *(ausführlich)*
 
-Vertragslösungen kündigen sich an: häufige Fehlzeiten, Berichtsheftlücken, Rückzug im Betrieb, Konflikte über Aufgaben. Wer früh reagiert (Gespräch, Beratung, Förderinstrumente wie AsA flex), verhindert die meisten Abbrüche. Für Betriebe gilt: Abmahnungen ersetzen keine Ausbildungsgespräche; für Azubis: Nicht einfach wegbleiben — das schafft neue Pflichtverletzungen.
+Vertragslösungen kündigen sich an: häufige Fehlzeiten, Berichtsheftlücken, Rückzug im Betrieb, Konflikte über Aufgaben. Wer früh reagiert (Gespräch, Beratung, Förderinstrumente wie die Assistierte Ausbildung), verhindert die meisten Abbrüche. Für Betriebe gilt: Abmahnungen ersetzen keine Ausbildungsgespräche; für Azubis: Nicht einfach wegbleiben — das schafft neue Pflichtverletzungen.
 
 ## Praxishinweise
 

@@ -10,7 +10,7 @@ legal_references:
   - "§§ 112 ff. SGB III — Leistungen zur Teilhabe am Arbeitsleben"
   - "§ 66 BBiG — Ausbildungsregelung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netzwerkfassung 1.2 (Stand 31.07.2026)"
 ---
@@ -29,10 +29,10 @@ source: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netz
 3. **Reha-Zugang herstellen** — Berufsberatung/Reha-Beratung, Antrag auf Teilhabeleistungen
 4. **Eignung diagnostisch klären** — Unterlagen, Erprobungen, Stellungnahmen
 5. **Schriftliches Ergebnis sichern** — möglichst mit Fachrichtung und Unterstützungsbedarf
-6. **Ausbildungsmodell wählen** — betrieblich, begleitet, kooperativ, integrativ, besondere Einrichtung; Teilzeit als Querschnitt
+6. Ausbildungsmodell wählen — betrieblich, begleitet, kooperativ, integrativ, besondere Einrichtung; Teilzeit als Querschnitt
 7. **Ausbildungsplatz und Schule klären** — Kapazität, Fachrichtung, Fahrt/Internat
-8. **Betriebliche Eignung prüfen** — Anerkennung, Ausbilderqualifikation, ReZA/Kooperation
-9. **Finanzierung verbindlich klären** — Vergütung, Zuschüsse, Ausbildungsgeld, Fahrt, Lernmittel
+8. Betriebliche Eignung prüfen — Anerkennung, Ausbilderqualifikation, ReZA/Kooperation
+9. Finanzierung verbindlich klären — Vergütung, Zuschüsse, Ausbildungsgeld, Fahrt, Lernmittel
 10. **Vertrag erstellen** — richtige Berufsbezeichnung, Fachrichtung, ggf. Teilzeit
 11. **Vor Beginn einreichen und eintragen lassen**
 12. **Startkonferenz** — Ansprechpersonen, Förderplan, Krisenwege, Prüfungsvorbereitung

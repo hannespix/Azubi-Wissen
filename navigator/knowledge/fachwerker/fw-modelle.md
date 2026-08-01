@@ -10,7 +10,7 @@ legal_references:
   - "§ 61a SGB IX — Budget für Ausbildung"
   - "§ 7a BBiG — Teilzeitberufsausbildung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netzwerkfassung 1.2 (Stand 31.07.2026)"
 ---
@@ -21,7 +21,7 @@ source: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netz
 - **Modell C — kooperativ:** Der Bildungsträger ist Vertragspartner, wesentliche Praxis läuft im Kooperationsbetrieb — mit schriftlichem Kooperationsvertrag.
 - **Modell D — integrativ:** Ausbildung beim Träger als Hauptlernort; bei außerbetrieblicher Ausbildung sollen **mindestens 18 Wochen** in anerkannten Betrieben stattfinden.
 - **Modell E — besondere Einrichtung/BBW** (§ 51 SGB IX): wenn Art oder Schwere der Behinderung besondere Hilfen erfordert — Ausbildung, Schule, Wohnen und Fachdienste verzahnt.
-- **Teilzeit** (§ 7a BBiG) und das **Budget für Ausbildung** (§ 61a SGB IX) lassen sich mit den Modellen kombinieren.
+- Teilzeit (§ 7a BBiG) und das **Budget für Ausbildung** (§ 61a SGB IX) lassen sich mit den Modellen kombinieren.
 
 ## Welches Modell passt? (Entscheidungshilfe)
 
@@ -40,7 +40,7 @@ Im Modell C ist der Kooperationsbetrieb **keine bloße Praktikumsstelle**: Er ve
 
 ## Budget für Ausbildung (§ 61a SGB IX) *(ausführlich)*
 
-Für den gesetzlich bestimmten Personenkreis — insbesondere Menschen mit Anspruch auf Leistungen im Arbeitsbereich einer Werkstatt — kann das Budget für Ausbildung eine **betriebliche** Ausbildung ermöglichen: Es kann die Ausbildungsvergütung einschließlich des Arbeitgeberanteils zur Sozialversicherung sowie erforderliche Anleitung und Begleitung finanzieren. Die Voraussetzungen sind strikt im Einzelfall zu prüfen; zuständig ist der Rehabilitationsträger.
+Für den gesetzlich bestimmten Personenkreis — insbesondere Menschen mit Anspruch auf Leistungen im Arbeitsbereich einer Werkstatt — kann das Budget für Ausbildung eine **betriebliche** Ausbildung ermöglichen: Es kann die Ausbildungsvergütung einschließlich des Arbeitgeberanteils zur Sozialversicherung sowie erforderliche Anleitung und Begleitung finanzieren. Die Voraussetzungen sind strikt im Einzelfall zu prüfen; zuständig ist der Rehabilitationsträger. Alle Geldflüsse im Überblick: Finanzierung & Förderung.
 
 ## Praxishinweise
 

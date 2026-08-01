@@ -9,7 +9,7 @@ legal_references:
   - "§ 14 Abs. 1 Nr. 3 BBiG — Kostenlose Ausbildungsmittel"
   - "§ 3 Abs. 3 ArbSchG — Kosten des Arbeitsschutzes trägt der Arbeitgeber"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -23,8 +23,8 @@ source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ## Typische Streitfälle
 
 - **Berufsschulbücher/Lernmittel:** Materialien für den Schulunterricht sind keine betrieblichen Ausbildungsmittel; hier gelten die schulischen Lernmittelregeln. Fachliteratur, die der **Betrieb** für die Ausbildung voraussetzt, zahlt der Betrieb.
-- **Prüfungsmaterial:** Werkstoffe und Pflanzen für Prüfungsstücke sind seit der BBiG-Reform 2020 ausdrücklich erfasst — der Betrieb stellt sie kostenlos.
-- **Werkzeugverlust:** Bei leicht fahrlässigem Verlust haften Azubis nicht oder nur anteilig (innerbetrieblicher Schadensausgleich).
+- **Prüfungsmaterial:** Werkstoffe und Pflanzen für Prüfungsstücke sind seit der BBiG-Reform 2020 ausdrücklich erfasst — der Betrieb stellt sie für die Prüfungen kostenlos.
+- **Werkzeugverlust:** Bei leicht fahrlässigem Verlust haften Azubis nicht oder nur anteilig — es gelten die Grundsätze des innerbetrieblichen Schadensausgleichs aus dem Artikel Lernpflicht & Sorgfalt.
 - **Fahrtkosten** zur Berufsschule oder zu Lehrgängen: keine Ausbildungsmittel; ggf. Tarifvertrag, Förderprogramme oder Zuschüsse prüfen.
 
 ## Praxishinweise
@@ -50,6 +50,10 @@ Normale Arbeitskleidung ohne Schutzfunktion in der Regel ja (sofern kein Tarifve
 ### Wer zahlt das Material für mein Prüfungsstück?
 
 Der Ausbildungsbetrieb. Ausbildungsmittel, die für die Zwischen- und Abschlussprüfung erforderlich sind, sind kostenlos bereitzustellen (§ 14 Abs. 1 Nr. 3 BBiG).
+
+### Darf der Betrieb Lehrgangskosten zurückverlangen, wenn ich abbreche?
+
+Nein — Vereinbarungen, die Azubis zur Erstattung von Ausbildungskosten verpflichten, sind nach § 12 BBiG nichtig. Solche Klauseln beanstandet die zuständige Stelle schon bei der Vertragsprüfung; mehr dazu im Artikel Berufsausbildungsvertrag.
 
 ## Verwandte Artikel
 
