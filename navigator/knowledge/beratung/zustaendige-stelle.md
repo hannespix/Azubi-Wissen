@@ -10,7 +10,7 @@ legal_references:
   - "§ 76 BBiG — Überwachung und Beratung"
   - "§§ 34, 37 ff. BBiG — Verzeichnis, Prüfungswesen"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -48,6 +48,10 @@ Zuständigkeiten sauber abgrenzen (Regierungsbezirk der Ausbildungsstätte, Beru
 ### Ist für meine Gärtner-Ausbildung die IHK zuständig?
 
 Nein — für die grünen Berufe (u. a. Gärtner/in) ist in Baden-Württemberg das Regierungspräsidium die zuständige Stelle nach dem BBiG. Es übernimmt die Aufgaben, die in anderen Berufen bei IHK oder Handwerkskammer liegen.
+
+### Welches Regierungspräsidium ist für uns zuständig?
+
+Maßgeblich ist der Sitz der **Ausbildungsstätte**: Das Regierungspräsidium des Regierungsbezirks, in dem ausgebildet wird, führt das Verzeichnis und organisiert die Prüfungen. Bei Unsicherheit hilft die Ausbildungsberatung weiter und übergibt bei Fehlzuständigkeit direkt an die richtige Stelle.
 
 ## Verwandte Artikel
 

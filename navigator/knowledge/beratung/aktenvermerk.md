@@ -9,7 +9,7 @@ legal_references:
   - "LVwVfG BW — Grundsätze ordnungsgemäßer Aktenführung"
   - "DSGVO / LDSG BW — Datenschutz bei personenbezogenen Daten"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -60,6 +60,10 @@ Nutzen Sie den Vermerk-Generator im Export-Bereich: Formular ausfüllen, Themenb
 ### Wann sollte ich in der Beratung einen Aktenvermerk schreiben?
 
 Immer, wenn der Vorgang später nachvollziehbar sein muss: Beschwerden, Betriebsbesuche, Konfliktgespräche, Zusagen mit Frist, Beanstandungen. Faustregel: Was nicht im Vermerk steht, ist nicht geschehen.
+
+### Dürfen Betrieb oder Azubi meine Vermerke einsehen?
+
+Betroffene haben nach Art. 15 DSGVO ein Auskunftsrecht über ihre gespeicherten personenbezogenen Daten; im laufenden Verwaltungsverfahren kommt Akteneinsicht nach dem LVwVfG hinzu. Deshalb gilt beim Schreiben: sachlich, belegbar, ohne Polemik — ein guter Vermerk verträgt jede Einsicht. Details zum Verfahren kennt die Ausbildungsberatung.
 
 ## Verwandte Artikel
 

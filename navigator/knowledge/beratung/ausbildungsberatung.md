@@ -10,7 +10,7 @@ legal_references:
   - "§ 33 BBiG — Untersagung des Einstellens und Ausbildens"
   - "§ 32 BBiG — Eignungsfeststellung, Mängelbeseitigung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---

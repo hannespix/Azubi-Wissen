@@ -10,7 +10,7 @@ legal_references:
   - "§ 11 BBiG — Vertragsniederschrift"
   - "§ 12 BBiG — Nichtige Vereinbarungen"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -56,6 +56,10 @@ Solche Klauseln sind unwirksam, auch wenn sie unterschrieben wurden — der übr
 
 Mit dem Vierten Bürokratieentlastungsgesetz genügt seit 1. Januar 2025 die **Textform** für die Vertragsniederschrift: Der Vertrag kann z. B. als PDF übermittelt werden. Voraussetzung ist, dass das Dokument den Azubis zugänglich ist, gespeichert und gedruckt werden kann und der Empfang nachweisbar ist. Die klassische Papierform mit Unterschrift bleibt zulässig und ist in der Praxis weiterhin verbreitet.
 
+## Änderungen im laufenden Ausbildungsverhältnis *(ausführlich)*
+
+Wesentliche Änderungen — etwa Verkürzung, Verlängerung oder Wechsel in Teilzeit, eine neue Fachrichtung oder ein Ausbilderwechsel — werden als **Änderungsvertrag** schriftlich festgehalten und der zuständigen Stelle unverzüglich zur Nachtragung im Verzeichnis gemeldet (§ 36 Abs. 1 BBiG). So bleiben Verzeichnis, Vergütungsstaffel und Prüfungstermin stimmig. Mündliche Nebenabreden vermeiden: Was nicht niedergelegt ist, führt später zu Beweisproblemen.
+
 ## Praxishinweise
 
 ### Für Auszubildende
@@ -83,6 +87,10 @@ Der Vertrag mit einer/einem minderjährigen Auszubildenden braucht die Zustimmun
 ### Sind Vertragsstrafen im Ausbildungsvertrag erlaubt?
 
 Nein. Vertragsstrafen sind nach § 12 Abs. 2 BBiG nichtig — ebenso Klauseln, die Schadensersatz ausschließen oder pauschalieren.
+
+### Was gilt, wenn der Betrieb den Vertrag nicht einreicht?
+
+Der Vertrag bleibt wirksam — aber ohne Eintragung fehlt am Ende die Zulassungsgrundlage für die Abschlussprüfung, und der Betrieb verletzt seine Pflicht aus § 36 BBiG. Azubis sollten nachfragen und sich notfalls an die Ausbildungsberatung wenden — sie fordert die Unterlagen beim Betrieb an.
 
 ## Verwandte Artikel
 

@@ -11,7 +11,7 @@ legal_references:
   - "§§ 13–17 JArbSchG — Ruhezeit, Nachtruhe, 5-Tage-Woche, Wochenendruhe"
   - "§§ 22–23 JArbSchG — Gefährliche Arbeiten, Akkordverbot"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -36,11 +36,11 @@ Verboten oder nur eingeschränkt zulässig sind für Jugendliche insbesondere:
 - Arbeiten unter extremer **Hitze/Kälte/Nässe** ohne Schutz
 - **Akkord- und tempoabhängige Arbeiten** (§ 23 JArbSchG)
 
-Grundlage jeder Beschäftigung: die **Gefährdungsbeurteilung** vor Aufnahme der Tätigkeit und die dokumentierte Unterweisung.
+Grundlage jeder Beschäftigung: die **Gefährdungsbeurteilung** vor Aufnahme der Tätigkeit und die dokumentierte Unterweisung. Zu Untersuchungen und Aushangpflichten siehe Minderjährige Azubis.
 
 ## Ausnahmen mit Augenmaß *(ausführlich)*
 
-Das JArbSchG kennt Öffnungen für die Landwirtschaft (Arbeitszeit zur Erntezeit, frühere/spätere Nachtgrenzen ab 16). Sie sind **eng auszulegen**: Sie decken saisonale Notwendigkeiten der Produktion, nicht dauerhafte Personalplanung. Der Ausgleich (Durchschnitt 40 Stunden, Ersatzruhetage) ist zwingend und sollte dokumentiert werden.
+Das JArbSchG kennt Öffnungen für die Landwirtschaft (Arbeitszeit zur Erntezeit, frühere/spätere Nachtgrenzen ab 16). Sie sind **eng auszulegen**: Sie decken saisonale Notwendigkeiten der Produktion, nicht dauerhafte Personalplanung. Der Ausgleich (Durchschnitt 40 Stunden, Ersatzruhetage) ist zwingend und sollte dokumentiert werden — zur Vergütungsseite siehe Überstunden & Mehrarbeit.
 
 ## Praxishinweise
 

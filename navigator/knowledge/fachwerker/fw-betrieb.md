@@ -11,7 +11,7 @@ legal_references:
   - "§§ 27–30 BBiG — Allgemeine Eignungsanforderungen"
   - "§ 7, § 8 BBiG — Anrechnung, Verkürzung, Verlängerung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netzwerkfassung 1.2 (Stand 31.07.2026)"
 ---

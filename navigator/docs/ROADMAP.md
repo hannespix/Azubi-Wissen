@@ -21,6 +21,18 @@ Playwright-Lauf der Oberfläche ohne externe Requests).
 **Bekannte Grenzen:** kein Fuzzy in FTS5 (→ M3), KI nur Platzhalter (→ M7),
 Platzhalter-Icons, Desktop-Build via CI statt lokal.
 
+## ✅ M1.1 — Inhalts-Sync auf Azubi-Wissen-Endstand (umgesetzt 01.08.2026)
+
+**Geliefert:** Wissensbasis per `scripts/export-wissen.mjs` auf den
+Endstand des Browsertools gebracht — jetzt **39 Artikel** (neu:
+`ap-noten` — Notenberechnung & Bestehensregeln der Abschlussprüfung)
+mit allen vertieften Fakten/FAQ der D-Serie und 76 Synonymgruppen.
+Der Exporter löst die Querlink-Syntax des Browsertools
+(`[[artikel-id]]`, `[[id|Label]]`) jetzt in Klartext auf — die
+Markdown-Basis verlinkt weiterhin über „Verwandte Artikel".
+Verifiziert: Inhalts-Validierung 39/39, `cargo test -p navigator-core`,
+Vite-Browser-Build.
+
 ## Nächste Milestones (Briefing)
 
 - **M2 Wissensdatenbank:** Editor, interne Links (§-Verlinkung),

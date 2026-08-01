@@ -10,7 +10,7 @@ legal_references:
   - "SGB IV/V/VI/XI — Sozialversicherungspflicht"
   - "SvEV — Amtliche Sachbezugswerte"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -29,7 +29,7 @@ Auf der Abrechnung stehen: Bruttovergütung, angerechnete Sachbezüge, Steuerabz
 ## Weitere Leistungen und Förderungen *(ausführlich)*
 
 - **Vermögenswirksame Leistungen**: je nach Tarifvertrag
-- **Berufsausbildungsbeihilfe (BAB)** der Agentur für Arbeit: bei auswärtiger Unterbringung und geringem Einkommen — früh beantragen
+- **Berufsausbildungsbeihilfe (BAB)** der Agentur für Arbeit: bei auswärtiger Unterbringung und geringem Einkommen — früh beantragen; Überblick im Artikel Förderwege
 - **Wohn-/Fahrtkostenzuschüsse**: regionale Programme und ggf. tarifliche Regelungen prüfen
 - **Deutschlandticket/Jugendtickets**: Landes-/Verbundangebote für Azubis nutzen
 
@@ -57,7 +57,11 @@ Ja — mit Ausbildungsbeginn wirst du eigenständiges Mitglied der gesetzlichen 
 
 ### Wie viel darf der Betrieb für Zimmer und Verpflegung abziehen?
 
-Nur die amtlichen Sachbezugswerte, und insgesamt dürfen Sachleistungen höchstens 75 % deiner Bruttovergütung ausmachen (§ 17 Abs. 6 BBiG) — mindestens 25 % müssen ausgezahlt werden.
+Nur die amtlichen Sachbezugswerte, und insgesamt dürfen Sachleistungen höchstens 75 % deiner Bruttovergütung ausmachen (§ 17 Abs. 6 BBiG) — mindestens 25 % müssen ausgezahlt werden. Die Untergrenzen der Vergütung selbst stehen im Artikel Mindestausbildungsvergütung.
+
+### Zahle ich als Azubi Lohnsteuer?
+
+Nur, wenn deine Vergütung über dem steuerlichen Grundfreibetrag liegt — bei typischen Ausbildungsvergütungen fällt in Steuerklasse I meist keine oder kaum Lohnsteuer an. Sozialversicherungsbeiträge werden dagegen ab dem ersten Euro fällig (Ausnahme: bis 325 € trägt sie der Betrieb allein). Ein Blick auf die Abrechnung lohnt trotzdem.
 
 ## Verwandte Artikel
 

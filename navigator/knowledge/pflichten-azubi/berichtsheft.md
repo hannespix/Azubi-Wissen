@@ -10,7 +10,7 @@ legal_references:
   - "§ 14 Abs. 2 BBiG — Führen während der Ausbildungszeit"
   - "§ 43 Abs. 1 Nr. 2 BBiG — Zulassungsvoraussetzung zur Abschlussprüfung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -36,7 +36,11 @@ Die zuständige Stelle kann Vorgaben zur Führung machen — im Zweifel dort nac
 
 - **Monatelang nichts eingetragen:** Nacharbeiten ist mühsam und fällt bei der Zulassungsprüfung auf. Ausbilder sollten Rückstände früh ansprechen — das regelmäßige Durchsehen ist ihre Pflicht.
 - **Führen nur in der Freizeit verlangt:** unzulässig. Das Führen gehört seit 2020 ausdrücklich in die Ausbildungszeit (§ 14 Abs. 2 BBiG).
-- **Streit über die Form:** Maßgeblich ist die im Vertrag festgelegte Form; eine Umstellung (z. B. auf digital) sollte schriftlich vereinbart und der zuständigen Stelle mitgeteilt werden.
+- **Streit über die Form:** Maßgeblich ist die im Ausbildungsvertrag festgelegte Form; eine Umstellung (z. B. auf digital) sollte schriftlich vereinbart und der zuständigen Stelle mitgeteilt werden.
+
+## Elektronisch führen *(ausführlich)*
+
+Der elektronische Ausbildungsnachweis ist dem Papierheft gleichgestellt: zulässig sind einfache Textdateien und Tabellen ebenso wie Berichtsheft-Apps — entscheidend ist, dass die **Form im Vertrag festgelegt** ist, Einträge **datiert und den Azubis zurechenbar** sind und die **Gegenzeichnung** (auch elektronisch, z. B. per Freigabe-Klick) nachvollziehbar bleibt. Die Vordrucke im Download-Center der zuständigen Stelle lassen sich am Bildschirm ausfüllen; Software und Lizenzkosten zählen zu den kostenlosen Ausbildungsmitteln.
 
 ## Praxishinweise
 

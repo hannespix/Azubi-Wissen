@@ -10,7 +10,7 @@ legal_references:
   - "§ 8 BBiG — Abkürzung und Verlängerung der Ausbildungszeit"
   - "§ 45 Abs. 1 BBiG — Vorzeitige Zulassung zur Abschlussprüfung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -39,7 +39,7 @@ Mehrere Gründe können kombiniert werden; eine Mindestausbildungszeit muss erha
 
 ## Verlängerung in besonderen Fällen *(ausführlich)*
 
-Eine Verlängerung nach § 8 Abs. 2 BBiG kommt in Betracht bei längerer Krankheit, erheblichen Fehlzeiten oder wenn Förderbedarf besteht. Antragsberechtigt sind die **Auszubildenden** (bei Minderjährigen die gesetzlichen Vertreter); der Betrieb ist zu hören. Daneben verlängert sich die Ausbildung auf Verlangen automatisch **nach nicht bestandener Abschlussprüfung** (§ 21 Abs. 3 BBiG, siehe eigener Artikel).
+Eine Verlängerung nach § 8 Abs. 2 BBiG kommt in Betracht bei längerer Krankheit, erheblichen Fehlzeiten oder wenn Förderbedarf besteht. Antragsberechtigt sind die **Auszubildenden** (bei Minderjährigen die gesetzlichen Vertreter); der Betrieb ist zu hören. Daneben verlängert sich die Ausbildung auf Verlangen automatisch nach nicht bestandener Abschlussprüfung (§ 21 Abs. 3 BBiG). Für Teilzeit-, Verkürzungs- und Verlängerungsberechnungen stehen die Förderwege und die **Rechner im Schnellnachschlag** bereit.
 
 ## Praxishinweise
 
@@ -63,7 +63,11 @@ Ja — auf gemeinsamen Antrag von dir und deinem Betrieb bei der zuständigen St
 
 ### Geht eine Ausbildung auch in Teilzeit?
 
-Ja, seit 2020 für alle: Die tägliche oder wöchentliche Ausbildungszeit kann um bis zu 50 % gekürzt werden; die Gesamtdauer verlängert sich entsprechend, höchstens auf das Anderthalbfache (§ 7a BBiG).
+Ja, seit 2020 für alle: Die tägliche oder wöchentliche Ausbildungszeit kann um bis zu 50 % gekürzt werden; die Gesamtdauer verlängert sich entsprechend, höchstens auf das Anderthalbfache (§ 7a BBiG). Bei Teilzeit darf die Vergütung anteilig angepasst werden.
+
+### Wer entscheidet über Verkürzung oder Verlängerung?
+
+Die zuständige Stelle — in Baden-Württemberg das Regierungspräsidium. Sie prüft den Antrag (bei Verkürzung den gemeinsamen Antrag von Betrieb und Azubi), hört die Beteiligten an und trägt die Änderung ins Verzeichnis ein.
 
 ## Verwandte Artikel
 

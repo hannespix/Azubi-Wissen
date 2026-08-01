@@ -11,14 +11,14 @@ legal_references:
   - "GBFWVO BW — Gartenbaufachwerkerverordnung (seit 01.02.2022)"
   - "§ 2 SGB IX — Behinderungsbegriff"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Handreichung „Fachwerkerausbildung im Gartenbau“, RP Freiburg, Netzwerkfassung 1.2 (Stand 31.07.2026)"
 ---
 ## Das Wichtigste in Kürze
 
 - **Leitprinzip Regelberuf zuerst (§ 64 BBiG):** Menschen mit Behinderungen sollen grundsätzlich im anerkannten Beruf (Gärtner/in) ausgebildet werden — die Fachwerkerausbildung ist die Ausnahme mit besonderer Begründung.
-- Voraussetzung ist die **Eignungsfeststellung des zuständigen Rehabilitationsträgers** (meist Reha-Team der Agentur für Arbeit) — schlechte Noten, fehlender Schulabschluss oder SBBZ-Besuch reichen **nicht**.
+- Voraussetzung ist die Eignungsfeststellung des zuständigen Rehabilitationsträgers (meist Reha-Team der Agentur für Arbeit) — schlechte Noten, fehlender Schulabschluss oder SBBZ-Besuch reichen **nicht**.
 - **Dauer: 3 Jahre**, Teilzeit möglich; die Ausbildung orientiert sich am Berufsbild Gärtner/in.
 - **Sieben Fachrichtungen:** Baumschule, Friedhofsgärtnerei, Garten- und Landschaftsbau, Gemüsebau, Obstbau, Staudengärtnerei, Zierpflanzenbau.
 - Der Abschluss ist ein **vollwertiger Berufsabschluss nach § 66 BBiG** — aber nicht identisch mit dem Abschluss Gärtner/in; ein späterer Aufstieg ist möglich, aber nicht automatisch.
@@ -81,7 +81,7 @@ Im Kern ja: „Fachpraktiker/in“ ist der bundesweite Oberbegriff für § 66-Au
 
 ### Kann man nach der Fachwerkerausbildung noch Gärtner/in werden?
 
-Ja, der Aufstieg ist möglich — aber kein Automatismus. Nötig sind eine aktuelle Eignungsprognose, ein neuer Vertrag im anerkannten Beruf und eine individuelle Entscheidung über die Anrechnung. Pauschale Zusagen wie „nur ein Jahr zusätzlich“ gibt es nicht.
+Ja, der Aufstieg ist möglich — aber kein Automatismus. Nötig sind eine aktuelle Eignungsprognose, ein neuer Vertrag im anerkannten Beruf und eine individuelle Entscheidung über die Anrechnung. Pauschale Zusagen wie „nur ein Jahr zusätzlich“ gibt es nicht — die Details stehen im Artikel Betriebliche Eignung, ReZA & Wechsel.
 
 ## Verwandte Artikel
 

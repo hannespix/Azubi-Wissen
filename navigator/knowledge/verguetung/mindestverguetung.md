@@ -9,7 +9,7 @@ legal_references:
   - "§ 17 BBiG — Vergütungsanspruch und Mindestvergütung"
   - "§ 18 BBiG — Fälligkeit"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -37,10 +37,11 @@ Für den Gartenbau bestehen Tarifverträge mit eigenen Ausbildungsvergütungen, 
 
 ## Was zählt zur Vergütung? *(ausführlich)*
 
-- Die Vergütung ist **brutto** vereinbart; Sozialversicherungsbeiträge werden abgezogen.
+- Die Vergütung ist **brutto** vereinbart; die Abzüge erklärt der Artikel Abrechnung & Sozialversicherung.
 - **Sachleistungen** (z. B. Kost und Wohnung) können angerechnet werden — höchstens bis 75 % der Bruttovergütung und nur zu den amtlichen Sachbezugswerten (§ 17 Abs. 6 BBiG).
 - **Zulagen und Prämien** können on top kommen (Tarif/Vertrag).
-- Bei **Teilzeitausbildung** darf die Vergütung anteilig gekürzt werden (§ 17 Abs. 5 BBiG).
+- Bei Teilzeitausbildung darf die Vergütung anteilig gekürzt werden (§ 17 Abs. 5 BBiG).
+- Überstunden sind zusätzlich zu vergüten oder durch Freizeit auszugleichen (§ 17 Abs. 7 BBiG).
 - Zu niedrig vereinbarte Vergütung? Der Anspruch auf die angemessene Höhe besteht kraft Gesetzes — Differenzen können (rückwirkend, Verjährung beachten) nachgefordert werden.
 
 ## Praxishinweise
@@ -69,7 +70,11 @@ Spätestens am letzten Arbeitstag des laufenden Monats (§ 18 BBiG). Verspätete
 
 ### Darf mein Betrieb Kost und Wohnung vom Gehalt abziehen?
 
-Anrechnen ja — aber nur zu den amtlichen Sachbezugswerten und höchstens bis 75 % der Bruttovergütung (§ 17 Abs. 6 BBiG). Ein Rest von mindestens 25 % ist immer auszuzahlen.
+Anrechnen ja — aber nur zu den amtlichen Sachbezugswerten und höchstens bis 75 % der Bruttovergütung (§ 17 Abs. 6 BBiG). Ein Rest von mindestens 25 % ist immer auszuzahlen. Details im Artikel Abrechnung & Sachbezüge.
+
+### Steigt meine Vergütung, wenn die Mindestvergütung erhöht wird?
+
+Nicht automatisch — für die gesetzliche Mindestvergütung bleibt das **Jahr deines Ausbildungsbeginns** maßgeblich; spätere Erhöhungen gelten für neue Jahrgänge. Deine Vergütung steigt aber mit jedem Ausbildungsjahr (Staffel) und bei Tarifbindung mit jeder Tariferhöhung. Unabhängig davon muss sie immer „angemessen“ bleiben (§ 17 Abs. 1 BBiG).
 
 ## Verwandte Artikel
 

@@ -11,7 +11,7 @@ legal_references:
   - "§ 5 ArbZG — Ruhezeit"
   - "§§ 9–11 ArbZG — Sonn- und Feiertagsruhe"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -26,7 +26,7 @@ source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 
 ## Vertragliche vs. gesetzliche Arbeitszeit
 
-Das ArbZG setzt nur die **Obergrenzen**. Wie lange tatsächlich ausgebildet wird, bestimmen Vertrag und Tarif — Mehrzeit darüber hinaus ist Überstundenthema (§ 17 Abs. 7 BBiG). Wichtig für die Praxis: Auch in der Saison bleiben die 10-Stunden-Grenze, die Pausen und die 11-Stunden-Ruhezeit hart — sie schützen vor Übermüdung und Unfällen, gerade beim Maschineneinsatz.
+Das ArbZG setzt nur die **Obergrenzen**. Wie lange tatsächlich ausgebildet wird, bestimmen Vertrag und Tarif — Mehrzeit darüber hinaus ist Thema des Artikels Überstunden & Mehrarbeit (§ 17 Abs. 7 BBiG). Wichtig für die Praxis: Auch in der Saison bleiben die 10-Stunden-Grenze, die Pausen und die 11-Stunden-Ruhezeit hart — sie schützen vor Übermüdung und Unfällen, gerade beim Maschineneinsatz.
 
 ## Sonn- und Feiertagsarbeit in grünen Betrieben *(ausführlich)*
 
@@ -54,7 +54,7 @@ Grundsätzlich 8 Stunden am Werktag; bis zu 10 Stunden sind erlaubt, wenn innerh
 
 ### Muss ich am Sonntag gießen kommen?
 
-In Betrieben der Landwirtschaft/des Gartenbaus ist Sonntagsarbeit zur Versorgung der Pflanzen zulässig, wenn sie nicht auf Werktage verschoben werden kann (§ 10 ArbZG). Du bekommst dafür einen Ersatzruhetag innerhalb von zwei Wochen; mindestens 15 Sonntage im Jahr bleiben frei. Für Jugendliche gelten strengere Regeln.
+In Betrieben der Landwirtschaft/des Gartenbaus ist Sonntagsarbeit zur Versorgung der Pflanzen zulässig, wenn sie nicht auf Werktage verschoben werden kann (§ 10 ArbZG). Du bekommst dafür einen Ersatzruhetag innerhalb von zwei Wochen; mindestens 15 Sonntage im Jahr bleiben frei. Für Jugendliche gelten die strengeren Regeln aus dem Artikel Arbeitszeit unter 18.
 
 ## Verwandte Artikel
 

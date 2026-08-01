@@ -9,7 +9,7 @@ legal_references:
   - "§ 21 Abs. 3 BBiG — Verlängerung auf Verlangen"
   - "§ 37 Abs. 1 BBiG — Zweimalige Wiederholung"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -25,7 +25,7 @@ source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 
 1. Ergebnis analysieren: Welche Prüfungsbereiche fehlten? (Mitteilung der zuständigen Stelle)
 2. **Verlängerung erklären** — schriftlich gegenüber dem Betrieb; die zuständige Stelle informieren, damit Verzeichnis und Prüfungsanmeldung stimmen.
-3. **Lernplan** für die Wiederholung aufstellen (Betrieb, Berufsschule, ggf. Vorbereitungskurse, AsA flex).
+3. **Lernplan** für die Wiederholung aufstellen (Betrieb, Berufsschule, ggf. Vorbereitungskurse und die Assistierte Ausbildung).
 4. Anmeldung zur **Wiederholungsprüfung** über den Betrieb sicherstellen.
 
 ## Wenn das Verhältnis schon beendet ist *(ausführlich)*

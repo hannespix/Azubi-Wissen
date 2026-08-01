@@ -8,7 +8,7 @@ tags: ["Zeugnis", "Arbeitszeugnis", "Ausbildungszeugnis", "qualifiziert", "Beurt
 legal_references:
   - "§ 16 BBiG — Zeugnis"
 status: "fachlich geprüft"
-reviewed_at: "2026-07-31"
+reviewed_at: "2026-08-01"
 region: "Baden-Württemberg"
 source: "Azubi-Wissen v1 (Browsertool des RP Freiburg), Stand Juli 2026"
 ---
@@ -27,10 +27,10 @@ Für Bewerbungen ist das **qualifizierte Zeugnis** Standard — Azubis sollten e
 ## Abgrenzung: Zeugnisse und Bescheinigungen *(ausführlich)*
 
 - **Ausbildungszeugnis des Betriebs** (§ 16 BBiG) — hier behandelt
-- **Prüfungszeugnis der zuständigen Stelle** (§ 37 Abs. 2 BBiG) — dokumentiert das Prüfungsergebnis
+- **Prüfungszeugnis der zuständigen Stelle** (§ 37 Abs. 2 BBiG) — dokumentiert das Ergebnis der Abschlussprüfung
 - **Berufsschulzeugnis** der Schule
 
-Alle drei sind eigenständig. Endet die Ausbildung vorzeitig, besteht der Anspruch auf das betriebliche Zeugnis ebenso — ohne negative Hinweise auf den Beendigungsgrund.
+Alle drei sind eigenständig. Endet die Ausbildung vorzeitig — etwa durch Kündigung oder Aufhebungsvertrag — besteht der Anspruch auf das betriebliche Zeugnis ebenso, ohne negative Hinweise auf den Beendigungsgrund.
 
 ## Praxishinweise
 
