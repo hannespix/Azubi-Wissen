@@ -1,0 +1,43 @@
+// module.js — Katalog der festen Module und Funktionen dieses Werkzeugs.
+// Wird an ZWEI Stellen genutzt: vom Assistenten (Werkzeug-Navigation,
+// assistent.js) und vom Embedding-Build der Bedeutungssuche
+// (tools/semantik_index_bauen.mjs). Änderungen hier wirken in beiden.
+// `extra` sind zusätzliche Suchwörter (nicht sichtbar).
+window.MODULE = [
+  { art: "Modul", titel: "Startseite & Merkliste", ziel: "#/",
+    info: "Schnellzugriff auf alle Bereiche, gemerkte Einträge (Stern-Symbol auf Karten und Artikeln) und zuletzt Angesehenes.",
+    extra: "start home merkliste stern favoriten gemerkt merken zuletzt angesehen" },
+  { art: "Modul", titel: "Wissensdatenbank", ziel: "#/wissen",
+    info: "Alle Artikel zu Rechten und Pflichten in der Ausbildung, nach Themenbereichen sortiert.",
+    extra: "artikel themen wissen rechte pflichten" },
+  { art: "Modul", titel: "Grüne Berufe", ziel: "#/berufe",
+    info: "Alle grünen Ausbildungsberufe mit Fachrichtungen, Verordnungen und Besonderheiten.",
+    extra: "beruf berufe fachrichtung fachrichtungen verordnung ausbildungsordnung gaertner landwirt forstwirt winzer" },
+  { art: "Modul", titel: "Schnellnachschlag", ziel: "#/nachschlag",
+    info: "Tabellen und Rechner: Vergütung, Urlaub, Fristen, Arbeitszeit, Noten — dazu Fahrplan und Jahreskreis.",
+    extra: "nachschlag tabellen werte rechner uebersicht" },
+  { art: "Modul", titel: "E-Mail-Vorlagen", ziel: "#/vorlagen",
+    info: "Anschreiben für Vertrag, Prüfung und Beratungsalltag — Platzhalter ausfüllen, kopieren, versenden.",
+    extra: "vorlagen anschreiben email muster mustertext brief" },
+  { art: "Modul", titel: "Checklisten", ziel: "#/checklisten",
+    info: "Arbeitslisten zum Abhaken und Drucken — der Stand bleibt lokal gespeichert.",
+    extra: "checklisten abhaken arbeitsliste" },
+  { art: "Modul", titel: "Download-Center", ziel: "#/downloads",
+    info: "Alle Formulare, Ausbildungspläne, Gesetze und Merkblätter in einer Baumansicht mit Filter.",
+    extra: "downloads formulare dateien pdf vordrucke gesetze plaene bav herunterladen" },
+  { art: "Modul", titel: "Glossar", ziel: "#/glossar",
+    info: "Fachbegriffe kurz erklärt — von 80-Prozent-Regel bis Zwischenprüfung.",
+    extra: "glossar begriffe begriff abkuerzung abkuerzungen lexikon" },
+  { art: "Modul", titel: "Quellen & Gesetze", ziel: "#/quellen",
+    info: "Alle geprüften Quellen mit Herausgeber und Stand — Grundlage jeder Antwort.",
+    extra: "quellen gesetze verzeichnis belege" },
+  { art: "Modul", titel: "Eigene Inhalte & Sicherung", ziel: "#/eigene",
+    info: "Eigene Artikel, Dokumente und Verträge anlegen — plus Komplettsicherung als Datei (Export und Import, z. B. beim Rechnerwechsel).",
+    extra: "eigene notizen vermerke sicherung backup sichern export import uebertragen datensicherung wiederherstellen" },
+  { art: "Modul", titel: "PDF-Export & Aktenvermerk", ziel: "#/export",
+    info: "Themenpakete als PDF je Zielgruppe erzeugen und Aktenvermerke strukturiert erstellen.",
+    extra: "pdf export aktenvermerk vermerk drucken ausdrucken" },
+  { art: "Funktion", titel: "Globale Suche", ziel: "#/",
+    info: "Lupe oben rechts oder Strg+K — durchsucht Artikel, FAQ, Vorlagen, Checklisten, Berufe und Glossar tippfehlertolerant.",
+    extra: "suche suchen finden strg k palette lupe" }
+];

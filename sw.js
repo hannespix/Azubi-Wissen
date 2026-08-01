@@ -30,6 +30,7 @@ var KERN = [
   "./assets/js/glossar.js",
   "./assets/js/lokaldb.js",
   "./assets/js/app.js",
+  "./assets/js/module.js",
   "./assets/js/semantik.js",
   "./assets/js/assistent.js",
   "./assets/js/export.js",

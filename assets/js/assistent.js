@@ -176,42 +176,11 @@
       K.push({ art: art, titel: titel, ziel: ziel, info: info || "",
         hay: A.norm(titel + " " + (info || "") + " " + (extra || "")) });
     }
-    auf("Modul", "Startseite & Merkliste", "#/",
-      "Schnellzugriff auf alle Bereiche, gemerkte Einträge (Stern-Symbol auf Karten und Artikeln) und zuletzt Angesehenes.",
-      "start home merkliste stern favoriten gemerkt merken zuletzt angesehen");
-    auf("Modul", "Wissensdatenbank", "#/wissen",
-      "Alle Artikel zu Rechten und Pflichten in der Ausbildung, nach Themenbereichen sortiert.",
-      "artikel themen wissen rechte pflichten");
-    auf("Modul", "Grüne Berufe", "#/berufe",
-      "Alle grünen Ausbildungsberufe mit Fachrichtungen, Verordnungen und Besonderheiten.",
-      "beruf berufe fachrichtung fachrichtungen verordnung ausbildungsordnung gaertner landwirt forstwirt winzer");
-    auf("Modul", "Schnellnachschlag", "#/nachschlag",
-      "Tabellen und Rechner: Vergütung, Urlaub, Fristen, Arbeitszeit, Noten — dazu Fahrplan und Jahreskreis.",
-      "nachschlag tabellen werte rechner uebersicht");
-    auf("Modul", "E-Mail-Vorlagen", "#/vorlagen",
-      "Anschreiben für Vertrag, Prüfung und Beratungsalltag — Platzhalter ausfüllen, kopieren, versenden.",
-      "vorlagen anschreiben email muster mustertext brief");
-    auf("Modul", "Checklisten", "#/checklisten",
-      "Arbeitslisten zum Abhaken und Drucken — der Stand bleibt lokal gespeichert.",
-      "checklisten abhaken arbeitsliste");
-    auf("Modul", "Download-Center", "#/downloads",
-      "Alle Formulare, Ausbildungspläne, Gesetze und Merkblätter in einer Baumansicht mit Filter.",
-      "downloads formulare dateien pdf vordrucke gesetze plaene bav herunterladen");
-    auf("Modul", "Glossar", "#/glossar",
-      "Fachbegriffe kurz erklärt — von 80-Prozent-Regel bis Zwischenprüfung.",
-      "glossar begriffe begriff abkuerzung abkuerzungen lexikon");
-    auf("Modul", "Quellen & Gesetze", "#/quellen",
-      "Alle geprüften Quellen mit Herausgeber und Stand — Grundlage jeder Antwort.",
-      "quellen gesetze verzeichnis belege");
-    auf("Modul", "Eigene Inhalte & Sicherung", "#/eigene",
-      "Eigene Artikel, Dokumente und Verträge anlegen — plus Komplettsicherung als Datei (Export und Import, z. B. beim Rechnerwechsel).",
-      "eigene notizen vermerke sicherung backup sichern export import uebertragen datensicherung wiederherstellen");
-    auf("Modul", "PDF-Export & Aktenvermerk", "#/export",
-      "Themenpakete als PDF je Zielgruppe erzeugen und Aktenvermerke strukturiert erstellen.",
-      "pdf export aktenvermerk vermerk drucken ausdrucken");
-    auf("Funktion", "Globale Suche", "#/",
-      "Lupe oben rechts oder Strg+K — durchsucht Artikel, FAQ, Vorlagen, Checklisten, Berufe und Glossar tippfehlertolerant.",
-      "suche suchen finden strg k palette lupe");
+    // Feste Module/Funktionen aus dem geteilten Katalog (module.js) —
+    // derselbe speist den semantischen Index der Bedeutungssuche.
+    (window.MODULE || []).forEach(function (m) {
+      auf(m.art, m.titel, m.ziel, m.info, m.extra);
+    });
     ((window.NACHSCHLAG || {}).karten || []).forEach(function (k) {
       auf(k.rechner ? "Rechner" : "Nachschlag", k.titel, "#/nachschlag?karte=" + k.id, "",
         (k.stichworte || []).join(" ") + (k.rechner ? " rechner berechnen ausrechnen" : " tabelle"));
@@ -264,8 +233,11 @@
   }
 
   // „Wo finde ich …?" / „Gibt es ein …?" — Antworten aus dem Katalog.
-  function werkzeugAntwort(nq) {
+  // `sem` (optional): Rangliste der Bedeutungssuche; ihre werkzeug-Einträge
+  // retten Navigationsfragen, die an der Stichwortsuche vorbeiformuliert sind.
+  function werkzeugAntwort(nq, sem) {
     var A = window.AzubiApp;
+    var semWerk = sem ? sem.filter(function (s) { return s.typ === "werkzeug" && s.ziel; }) : null;
     var nqt = " " + nq + " ";
     if (/(was kannst du|was kann (das|dieses|der) (tool|werkzeug|assistent)|welche (funktionen|module|bereiche)|wie funktioniert (das tool|dieses werkzeug|die app)|was alles kannst du)/.test(nq) || nq === "hilfe") {
       return uebersichtAntwort();
@@ -320,6 +292,17 @@
     } else {
       var treffer = suchenIn(artFilter);
       if (!treffer.length && artFilter) treffer = suchenIn(null);
+      // Bedeutungs-Rettung für Navigationsfragen: Stichwörter greifen nicht,
+      // aber die Semantik sieht klar passende Werkzeug-Einträge.
+      if (!treffer.length && semWerk && semWerk[0] && semWerk[0].score >= 0.82) {
+        top = semWerk.filter(function (s) { return s.score >= 0.82; }).slice(0, 3)
+          .map(function (s) { return { e: { art: s.art || "Modul", titel: s.titel, ziel: s.ziel, info: "", extern: false, download: null }, s: s.score }; });
+        var htmlS = "<p>Das findest du hier im Werkzeug:</p><ul>" + top.map(function (t) {
+          return "<li>" + zielLink(t.e, "<strong>" + A.esc(t.e.art) + ":</strong> " + A.esc(t.e.titel)) + "</li>";
+        }).join("") + "</ul><p class=\"bw-klein bw-leise\">Über die Bedeutungssuche zugeordnet.</p>";
+        return { html: htmlS, quellen: [], folgefragen: ["Was kannst du alles?"],
+          titel: top[0].e.titel, stichworte: tokens.slice(0, 3).join(" ") };
+      }
       if (!treffer.length) return null;
       // Existenzfragen ohne Dokument-Nomen („Gibt es eine Probezeit?") sind
       // meist Wissensfragen: nur übernehmen, wenn ein Eintrag ALLE Wörter
@@ -420,11 +403,6 @@
     var verglichen = vergleichAntwort(nq);
     if (verglichen) { kontextSetzen(verglichen); return Promise.resolve(verglichen); }
 
-    // 2b) Werkzeugfrage? („Wo finde ich …?", „Was kannst du?") — aus dem
-    //     Katalog der Module, Vorlagen, Checklisten und Downloads antworten.
-    var werkzeug = werkzeugAntwort(nq);
-    if (werkzeug) { kontextSetzen(werkzeug); return Promise.resolve(werkzeug); }
-
     // 3) Folgefrage? Voriges Thema in die Suche einmischen. Findet die
     //    angereicherte Suche nichts (die Frage war doch ein Themenwechsel),
     //    zählt wieder die reine Frage.
@@ -435,12 +413,16 @@
       erg = A.suchen(frage);
     }
 
-    // 3b) Bedeutungssuche (K3), falls aktiviert: Frage einbetten und mit
-    //     der Stichwort-Rangliste verschmelzen (Reciprocal Rank Fusion).
+    // 3b) Bedeutungssuche (K3), falls aktiviert: Frage einbetten — die
+    //     Rangliste stützt Werkzeug-Navigation UND Wissensantwort.
     var semP = (window.AzubiSemantik && window.AzubiSemantik.bereit())
-      ? window.AzubiSemantik.rang(frage, 12).catch(function () { return null; })
+      ? window.AzubiSemantik.rang(frage, 16).catch(function () { return null; })
       : Promise.resolve(null);
     return semP.then(function (sem) {
+      // Werkzeugfrage? („Wo finde ich …?", „Was kannst du?") — aus dem
+      // Katalog der Module, Vorlagen, Checklisten und Downloads antworten.
+      var werkzeug = werkzeugAntwort(nq, sem);
+      if (werkzeug) { kontextSetzen(werkzeug); return werkzeug; }
       return wissensAntwort(frage, nq, erg, folge, sem);
     });
   }
@@ -542,6 +524,18 @@
     if (zweitRec && zweitRec.score >= artScore * 0.55) {
       dokumenteZu(zweitRec.id).forEach(function (d) {
         if (dokumente.length < 6 && !dokumente.some(function (x) { return x.ziel === d.ziel; })) dokumente.push(d);
+      });
+    }
+    // Semantisch klar passende Werkzeug-Einträge (Vorlagen, Checklisten,
+    // Rechner) ergänzen das Dokumente-Angebot — Module sind zu allgemein.
+    if (sem) {
+      sem.filter(function (s) {
+        return s.typ === "werkzeug" && s.ziel && s.score >= 0.84 &&
+          /^(Vorlage|Checkliste|Rechner|Nachschlag)$/.test(s.art || "");
+      }).slice(0, 2).forEach(function (s) {
+        if (dokumente.length < 6 && !dokumente.some(function (d) { return d.ziel === s.ziel; })) {
+          dokumente.push({ text: s.art + ": " + s.titel, ziel: s.ziel });
+        }
       });
     }
     if (!faqPasst && zweitRec && zweitRec.score >= artScore * 0.55) {

@@ -140,7 +140,8 @@
         var erg = index.eintraege.map(function (e) {
           var s = 0, v = e.v;
           for (var i = 0; i < v.length; i++) s += v[i] * q[i];
-          return { typ: e.typ, id: e.id, artikelId: e.artikelId || e.id, titel: e.titel, score: s };
+          return { typ: e.typ, id: e.id, artikelId: e.artikelId || e.id,
+            titel: e.titel, art: e.art || null, ziel: e.ziel || null, score: s };
         });
         erg.sort(function (a, b) { return b.score - a.score; });
         return erg.slice(0, n || 8);
