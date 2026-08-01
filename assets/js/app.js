@@ -2884,7 +2884,7 @@
   window.AzubiApp = {
     suchen: suchen, fmt: fmt, fmtInline: fmtInline, esc: esc,
     norm: norm, tokenAlternativen: tokenAlternativen, tokenScore: tokenScore, stoppwoerter: STOP,
-    artikelVon: artikelVon, themaVon: themaVon,
+    artikelVon: artikelVon, themaVon: themaVon, quelleZiel: quelleZiel,
     paletteOeffnen: paletteOeffnen, rendern: rendern,
     // Rechenkerne für den Assistenten (K1)
     miavWert: miavWert, urlaubNachAlter: urlaubNachAlter,
