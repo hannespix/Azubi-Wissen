@@ -1848,9 +1848,18 @@
 
   // ---------- Rechtliches & Impressum (S12) --------------------------------
   // Anbieterkennzeichnung, Datenschutz, Barrierefreiheit, Lizenzen, Haftung.
+  // Alle Kontaktangaben kommen aus assets/js/kontakt.js (window.KONTAKT) —
+  // dieselbe Quelle nutzt der Assistent. Nie hier hart eintragen.
   // Platzhalter in [eckigen Klammern] vor offizieller Freigabe ersetzen und
   // die Seite mit Pressestelle/Justiziariat abstimmen (Hinweis-Block unten).
+  function mailtoLink(adresse, betreff) {
+    return '<a href="mailto:' + esc(adresse) + (betreff ? "?subject=" + encodeURIComponent(betreff) : "") + '">' + esc(adresse) + "</a>";
+  }
   function viewRechtliches() {
+    var K = window.KONTAKT || {};
+    var E = K.entwickler || {};
+    var B = K.betreff || {};
+    var L = K.links || {};
     return "<h1>Rechtliches &amp; Impressum</h1>" +
       '<p class="bw-unterzeile">Anbieter, Datenschutz, Barrierefreiheit und Lizenzen dieses Werkzeugs</p>' +
 
@@ -1860,19 +1869,19 @@
       "Seiten des Regierungspräsidiums.</p></div>" +
 
       "<h2>Anbieter</h2>" +
-      "<p>Regierungspräsidium Freiburg<br>Ausbildungsberatung für die grünen Berufe<br>" +
-      "Postanschrift: 79083 Freiburg im Breisgau<br>Telefon (Zentrale): 0761 208-0<br>" +
-      'Fachlicher Kontakt: <a href="mailto:Hannes.Pix@rpf.bwl.de">Hannes.Pix@rpf.bwl.de</a><br>' +
-      'Amtlicher Zugang: <a href="mailto:poststelle@rpf.bwl.de">poststelle@rpf.bwl.de</a></p>' +
-      '<p>Verbindliche Anbieterangaben mit Vertretung und Aufsicht: <a href="https://rpf.baden-wuerttemberg.de/impressum/" target="_blank" rel="noopener">Impressum des Regierungspräsidiums Freiburg <span aria-hidden="true">↗</span></a></p>' +
+      "<p>" + esc(K.behoerde) + "<br>" + esc(K.bereich) + "<br>" +
+      "Postanschrift: " + esc(K.anschrift) + "<br>Telefon (Zentrale): " + esc(K.telefon) + "<br>" +
+      "Fachlicher Kontakt: " + mailtoLink(E.email) + "<br>" +
+      "Amtlicher Zugang: " + mailtoLink(K.poststelle) + "</p>" +
+      '<p>Verbindliche Anbieterangaben mit Vertretung und Aufsicht: <a href="' + esc(L.impressum) + '" target="_blank" rel="noopener">Impressum des Regierungspräsidiums Freiburg <span aria-hidden="true">↗</span></a></p>' +
 
       "<h2>Entwicklung &amp; Änderungswünsche</h2>" +
       "<p>Das Werkzeug wird in der Ausbildungsberatung selbst entwickelt und laufend gepflegt.</p>" +
       "<ul>" +
-      "<li><strong>Konzeption, Entwicklung und Pflege:</strong> Hannes Pix, " +
-      "Regierungspräsidium Freiburg, Ausbildungsberatung für die grünen Berufe.</li>" +
-      "<li><strong>Änderungswünsche, Fehlermeldungen und Ergänzungsvorschläge</strong> bitte direkt an Hannes Pix: " +
-      '<a href="mailto:Hannes.Pix@rpf.bwl.de?subject=Ausbildung%20Gr%C3%BCne%20Berufe%20%E2%80%94%20R%C3%BCckmeldung">Hannes.Pix@rpf.bwl.de</a>. ' +
+      "<li><strong>" + esc(E.rolle) + ":</strong> " + esc(E.name) + ", " +
+      esc(K.behoerde) + ", " + esc(K.bereich) + ".</li>" +
+      "<li><strong>Änderungswünsche, Fehlermeldungen und Ergänzungsvorschläge</strong> bitte direkt an " +
+      esc(E.name) + ": " + mailtoLink(E.email, B.rueckmeldung) + ". " +
       "Eine kurze Beschreibung genügt — bei Darstellungsfehlern hilft ein Bildschirmfoto mit Gerät und Browser.</li>" +
       "<li><strong>Updates:</strong> Die Online-Fassung aktualisiert sich beim nächsten Aufruf von selbst. Die " +
       "heruntergeladene Einzeldatei gelegentlich neu beziehen, damit Inhalte, Tabellen und Gesetzesstände aktuell " +
@@ -1892,7 +1901,7 @@
       "IP-Adressen; darauf hat das Werkzeug keinen Einfluss. Bei der Nutzung als heruntergeladene Einzeldatei " +
       "oder im internen Netz entfällt das vollständig.</li>" +
       "</ul>" +
-      '<p>Allgemeine Datenschutzinformationen der Behörde: <a href="https://rpf.baden-wuerttemberg.de/datenschutz/" target="_blank" rel="noopener">Datenschutz beim Regierungspräsidium Freiburg <span aria-hidden="true">↗</span></a></p>' +
+      '<p>Allgemeine Datenschutzinformationen der Behörde: <a href="' + esc(L.datenschutz) + '" target="_blank" rel="noopener">Datenschutz beim Regierungspräsidium Freiburg <span aria-hidden="true">↗</span></a></p>' +
 
       "<h2>Barrierefreiheit</h2>" +
       "<p>Das Werkzeug ist auf Barrierefreiheit nach WCAG 2.1 AA ausgelegt: semantisches HTML, vollständige " +
@@ -1901,8 +1910,8 @@
       "<p><strong>Bekannte Einschränkungen:</strong> Einzelne ältere PDF-Dokumente im Download-Center " +
       "(eingescannte Verwaltungsvorschriften) sind nicht voll barrierefrei; die amtlichen Online-Fassungen sind " +
       "jeweils verlinkt.</p>" +
-      '<p>Barrieren bitte melden an: <a href="mailto:Hannes.Pix@rpf.bwl.de?subject=Ausbildung%20Gr%C3%BCne%20Berufe%20%E2%80%94%20Barriere%20melden">Hannes.Pix@rpf.bwl.de</a>. ' +
-      'Offizielle Erklärung der Behörde: <a href="https://rpf.baden-wuerttemberg.de/erklaerung-zur-barrierefreiheit/" target="_blank" rel="noopener">Erklärung zur Barrierefreiheit <span aria-hidden="true">↗</span></a></p>' +
+      "<p>Barrieren bitte melden an: " + mailtoLink(E.email, B.barriere) + ". " +
+      'Offizielle Erklärung der Behörde: <a href="' + esc(L.barrierefreiheit) + '" target="_blank" rel="noopener">Erklärung zur Barrierefreiheit <span aria-hidden="true">↗</span></a></p>' +
 
       "<h2>Urheberrecht &amp; Lizenzen</h2>" +
       "<ul>" +

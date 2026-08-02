@@ -232,6 +232,77 @@
       titel: "Überblick über das Werkzeug", stichworte: "" };
   }
 
+  // Fragen zum Werkzeug selbst: Impressum, Kontakt, Entwicklung, Rückmeldungen,
+  // Datenschutz, Barrierefreiheit, Lizenz. Diese Angaben stehen nicht in der
+  // Wissensbasis, sondern in window.KONTAKT — ohne eigenen Zweig lieferte die
+  // Stichwortsuche hier Fehltreffer („Fehler melden" → Abschlussprüfung).
+  // Läuft deshalb VOR der Wissenssuche.
+  function kontaktAntwort(nq) {
+    var A = window.AzubiApp, K = window.KONTAKT;
+    if (!K) return null;
+    var nqt = " " + nq + " ";
+    // Fachliche Meldewege (Ausbildungsvertrag anmelden, Prüfung anmelden …)
+    // sind ausdrücklich KEINE Werkzeug-Rückmeldung.
+    if (/\b(vertrag|ausbildungsvertrag|prufung|abschlusspr|zwischenpr|azubi|auszubildende|betrieb|kammer|berufsschule)\b/.test(nqt)) return null;
+
+    var istImpressum = /\b(impressum|anbieter|anbieterkennzeichnung|wer (betreibt|verantwortet|steckt hinter)|verantwortlich fur (das tool|dieses tool|die seite|diese seite))\b/.test(nqt);
+    var istEntwickler = /\b(entwickler|entwicklerin|programmierer|wer hat (das|dieses|die app|es) (tool |werkzeug |app )?(entwickelt|gebaut|gemacht|programmiert)|wer (entwickelt|pflegt|betreut) (das|dieses|die))\b/.test(nqt)
+      || /\b(hannes|pix)\b/.test(nqt);
+    var istRueckmeldung = /\b(anderungswunsch|anderungswunsche|verbesserungsvorschlag|verbesserungsvorschlage|verbesserung vorschlagen|vorschlag machen|feedback|ruckmeldung|ansprechpartner fur (das tool|anderungen|updates)|an wen (wende|richte|schicke)|wen (kann|muss) ich (fragen|ansprechen|kontaktieren))\b/.test(nqt)
+      || /\b(fehler|bug|problem|schreibfehler|tippfehler|funktioniert nicht|geht nicht|falsche zahl|veraltet)\b.*\b(melden|mitteilen|schreiben|weitergeben|berichten)\b/.test(nqt)
+      || /\b(melden|mitteilen)\b.*\b(fehler|bug|problem|schreibfehler|tippfehler)\b/.test(nqt);
+    var istDatenschutz = /\b(datenschutz|datenschutzerklarung|dsgvo|werden (meine )?daten (gespeichert|ubertragen|weitergegeben)|wo werden (die |meine )?daten gespeichert|cookies|tracking|telemetrie)\b/.test(nqt);
+    var istBarriere = /\b(barrierefrei|barrierefreiheit|barriere|screenreader|vorlesefunktion|wcag)\b/.test(nqt);
+    var istLizenz = /\b(lizenz|lizenzen|urheberrecht|copyright|nachnutzung|weiterverwenden|weitergeben durfen)\b/.test(nqt);
+    var istKontakt = /\b(kontakt|kontaktdaten|e ?mail adresse|emailadresse|erreiche ich|erreichbar|telefonnummer)\b/.test(nqt);
+    if (!(istImpressum || istEntwickler || istRueckmeldung || istDatenschutz || istBarriere || istLizenz || istKontakt)) return null;
+
+    var E = K.entwickler || {}, B = K.betreff || {}, L = K.links || {};
+    function mail(betreff) {
+      return '<a href="mailto:' + A.esc(E.email) + (betreff ? "?subject=" + encodeURIComponent(betreff) : "") + '">' + A.esc(E.email) + "</a>";
+    }
+    var html, titel;
+    if (istDatenschutz && !istRueckmeldung) {
+      titel = "Datenschutz";
+      html = "<p><strong>Das Werkzeug überträgt keine Daten.</strong> Es läuft vollständig lokal: keine Cookies, " +
+        "kein Tracking, keine Telemetrie — auch der Assistent und die Bedeutungssuche rechnen nur auf diesem Gerät.</p>" +
+        "<p>Notizen, Aktenvermerke, Merkliste und Checklisten-Stände liegen ausschließlich im Browser-Speicher dieses " +
+        "Geräts und lassen sich jederzeit löschen. Beim Online-Aufruf fallen beim Hoster technisch bedingt " +
+        "Server-Protokolle an; als heruntergeladene Einzeldatei entfällt auch das.</p>" +
+        '<p>Einzelheiten: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a> im Werkzeug · " +
+        '<a href="' + A.esc(L.datenschutz) + '" target="_blank" rel="noopener">Datenschutz beim ' + A.esc(K.behoerde) + " ↗</a></p>";
+    } else if (istBarriere && !istRueckmeldung) {
+      titel = "Barrierefreiheit";
+      html = "<p>Das Werkzeug ist auf <strong>WCAG 2.1 AA</strong> ausgelegt: semantisches HTML, volle " +
+        "Tastaturbedienung mit sichtbarem Fokus, Sprungmarke zum Inhalt, ausreichende Kontraste. Bekannte " +
+        "Einschränkung: einzelne eingescannte PDF im Download-Center.</p>" +
+        "<p><strong>Barriere melden:</strong> " + mail(B.barriere) + " (" + A.esc(E.name) + ").</p>" +
+        '<p>Mehr dazu: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a> · " +
+        '<a href="' + A.esc(L.barrierefreiheit) + '" target="_blank" rel="noopener">Erklärung zur Barrierefreiheit ↗</a></p>';
+    } else if (istLizenz && !istRueckmeldung && !istEntwickler) {
+      titel = "Urheberrecht & Lizenzen";
+      html = "<p>Gesetzestexte sind amtliche Werke und gemeinfrei (§ 5 UrhG). Die Inhalte dieses Werkzeugs stammen " +
+        "von der Ausbildungsberatung des " + A.esc(K.behoerde) + "; Schriften und Logo sind lizenziert und nicht zur " +
+        "Weiterverwendung außerhalb dieses Angebots bestimmt.</p>" +
+        '<p>Vollständige Angaben: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a>.</p>";
+    } else {
+      titel = istRueckmeldung ? "Änderungswünsche & Fehlermeldungen" : "Kontakt & Impressum";
+      html = "<p>Dieses Werkzeug entwickelt und pflegt <strong>" + A.esc(E.name) + "</strong> (" + A.esc(K.bereich) +
+        ", " + A.esc(K.behoerde) + ").</p><ul>" +
+        "<li><strong>Änderungswünsche, Fehler und Vorschläge:</strong> " + mail(B.rueckmeldung) + " — kurze " +
+        "Beschreibung genügt; bei Darstellungsfehlern hilft ein Bildschirmfoto mit Gerät und Browser.</li>" +
+        "<li><strong>Barriere melden:</strong> " + mail(B.barriere) + "</li>" +
+        "<li><strong>Amtlicher Zugang:</strong> " + A.esc(K.poststelle) + " · Telefon (Zentrale) " + A.esc(K.telefon) + "</li>" +
+        "</ul>" +
+        '<p>Alle Angaben (Anbieter, Datenschutz, Barrierefreiheit, Lizenzen): <a href="' + K.seite + '">' +
+        A.esc(K.seitenTitel) + "</a> · " +
+        '<a href="' + A.esc(L.impressum) + '" target="_blank" rel="noopener">Impressum des ' + A.esc(K.behoerde) + " ↗</a></p>";
+    }
+    return { html: html, quellen: [{ text: K.seitenTitel, ziel: K.seite }],
+      folgefragen: ["Werden meine Daten gespeichert?", "Wie melde ich eine Barriere?", "Wer hat das Tool entwickelt?"],
+      titel: titel, stichworte: "" };
+  }
+
   // „Wo finde ich …?" / „Gibt es ein …?" — Antworten aus dem Katalog.
   // `sem` (optional): Rangliste der Bedeutungssuche; ihre werkzeug-Einträge
   // retten Navigationsfragen, die an der Stichwortsuche vorbeiformuliert sind.
@@ -445,6 +516,11 @@
     // 2a) Konkreter Paragraf gefragt? Wortlaut aus dem lokalen Volltext.
     var paragraf = paragrafAntwort(nq);
     if (paragraf) { kontextSetzen(paragraf); return Promise.resolve(paragraf); }
+
+    // 2b) Frage zum Werkzeug selbst (Impressum, Kontakt, Rückmeldung,
+    //     Datenschutz, Barrierefreiheit)? Angaben aus window.KONTAKT.
+    var kontakt = kontaktAntwort(nq);
+    if (kontakt) { kontextSetzen(kontakt); return Promise.resolve(kontakt); }
 
     // 3) Folgefrage? Voriges Thema in die Suche einmischen. Findet die
     //    angereicherte Suche nichts (die Frage war doch ein Themenwechsel),
