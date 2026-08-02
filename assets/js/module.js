@@ -41,8 +41,8 @@ window.MODULE = [
     info: "Themenpakete als PDF je Zielgruppe erzeugen und Aktenvermerke strukturiert erstellen.",
     extra: "pdf export aktenvermerk vermerk drucken ausdrucken" },
   { art: "Modul", titel: "Rechtliches & Impressum", ziel: "#/rechtliches",
-    info: "Anbieterkennzeichnung, Datenschutz (alles lokal, keine Übertragung), Erklärung zur Barrierefreiheit, Urheberrecht und Lizenzen, Haftungshinweis — erreichbar über den Link im Fußbereich.",
-    extra: "impressum anbieter anbieterkennzeichnung datenschutz dsgvo datenschutzerklaerung barrierefreiheit erklaerung lizenz lizenzen urheberrecht haftung kontakt rechtliches fusszeile footer" },
+    info: "Anbieterkennzeichnung, Entwicklung und Ansprechpartner für Änderungswünsche, Fehlermeldungen und Updates, Datenschutz (alles lokal, keine Übertragung), Erklärung zur Barrierefreiheit, Urheberrecht und Lizenzen, Haftungshinweis — erreichbar über den Link im Fußbereich.",
+    extra: "impressum anbieter anbieterkennzeichnung datenschutz dsgvo datenschutzerklaerung barrierefreiheit erklaerung lizenz lizenzen urheberrecht haftung kontakt rechtliches fusszeile footer entwickler entwicklung entwickelt ansprechpartner änderungswunsch änderungswünsche verbesserung vorschlag feedback fehler melden fehlermeldung update updates aktualisierung version wartung pflege weiterentwicklung" },
   { art: "Funktion", titel: "Globale Suche", ziel: "#/",
     info: "Lupe oben rechts oder Strg+K — durchsucht Artikel, FAQ, Vorlagen, Checklisten, Berufe und Glossar tippfehlertolerant.",
     extra: "suche suchen finden strg k palette lupe" }

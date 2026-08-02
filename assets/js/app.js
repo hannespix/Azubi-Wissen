@@ -1865,6 +1865,19 @@
       "E-Mail: [Funktionspostfach der Ausbildungsberatung ergänzen]</p>" +
       '<p>Verbindliche Anbieterangaben mit Vertretung und Aufsicht: <a href="https://rpf.baden-wuerttemberg.de/impressum/" target="_blank" rel="noopener">Impressum des Regierungspräsidiums Freiburg <span aria-hidden="true">↗</span></a></p>' +
 
+      "<h2>Entwicklung &amp; Änderungswünsche</h2>" +
+      "<p>Das Werkzeug wird in der Ausbildungsberatung selbst entwickelt und laufend gepflegt.</p>" +
+      "<ul>" +
+      "<li><strong>Konzeption, Entwicklung und Pflege:</strong> [Name der Entwicklerin/des Entwicklers ergänzen], " +
+      "Regierungspräsidium Freiburg, Ausbildungsberatung für die grünen Berufe.</li>" +
+      "<li><strong>Änderungswünsche, Fehlermeldungen und Ergänzungsvorschläge</strong> bitte direkt an: " +
+      "[dienstliche E-Mail der Entwicklerin/des Entwicklers ergänzen]. Eine kurze Beschreibung genügt — bei " +
+      "Darstellungsfehlern hilft ein Bildschirmfoto mit Gerät und Browser.</li>" +
+      "<li><strong>Updates:</strong> Die Online-Fassung aktualisiert sich beim nächsten Aufruf von selbst. Die " +
+      "heruntergeladene Einzeldatei gelegentlich neu beziehen, damit Inhalte, Tabellen und Gesetzesstände aktuell " +
+      "bleiben; fachliche Stände sind an den Inhalten jeweils vermerkt.</li>" +
+      "</ul>" +
+
       "<h2>Datenschutz</h2>" +
       "<ul>" +
       "<li><strong>Das Werkzeug läuft vollständig lokal.</strong> Es überträgt keine Daten, setzt keine Cookies, " +

@@ -441,6 +441,18 @@
   beantwortet „Wo finde ich das Impressum?". Tests: mini_s12 (13),
   Regressionen s7/k2/smoke_start, Offline-Check. *(PR #52)*
 
+- **S13 Entwicklung & Änderungswünsche** ✅ — Auftrag 02.08.: auch
+  die Entwicklerrolle und den Ansprechpartner für Änderungswünsche
+  und Updates ausweisen. Neuer Abschnitt auf `#/rechtliches`
+  zwischen Anbieter und Datenschutz: Konzeption/Entwicklung/Pflege
+  ([Name] als Platzhalter), Meldeweg für Änderungswünsche,
+  Fehlermeldungen und Ergänzungsvorschläge ([dienstliche E-Mail]),
+  Update-Hinweis (Online-Fassung aktualisiert sich selbst,
+  Einzeldatei gelegentlich neu beziehen). Assistent beantwortet
+  „Wo finde ich den Ansprechpartner für Änderungswünsche?"
+  (Modul-Tokens + Index). Tests: mini_s12 auf 17 Checks erweitert,
+  Regression k2, Offline-Check. *(PR #53)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
