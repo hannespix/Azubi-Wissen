@@ -452,6 +452,9 @@
   „Wo finde ich den Ansprechpartner für Änderungswünsche?"
   (Modul-Tokens + Index). Tests: mini_s12 auf 17 Checks erweitert,
   Regression k2, Offline-Check. *(PR #53)*
+  Nachtrag: Entwickler namentlich eingetragen (Hannes Pix, auf
+  eigene Freigabe); offen bleibt nur die dienstliche E-Mail als
+  [Platzhalter]. *(PR #54)*
 
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
