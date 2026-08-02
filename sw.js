@@ -28,6 +28,7 @@ var KERN = [
   "./assets/js/nachschlag.js",
   "./assets/js/checklisten.js",
   "./assets/js/glossar.js",
+  "./assets/js/gesetzestexte.js",
   "./assets/js/lokaldb.js",
   "./assets/js/app.js",
   "./assets/js/module.js",

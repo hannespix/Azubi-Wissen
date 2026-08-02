@@ -346,6 +346,40 @@
   Querverweis in der Pflanzenlisten-Beschreibung. Tests: mini_s4
   erweitert (19), Regression k2, Offline-Check. *(PR #45)*
 
+- **S6 App-Icon „Keimling"** ✅ — eigenes Zeichen statt BW-Löwe:
+  zwei Kreisbogen-Blätter, Schwarz auf Gelb, maskable; SVG-Master +
+  alle PNG-Größen + ICO generiert (icon_render im Scratchpad).
+  *(PR #46)*
+
+- **S7 BBiG im Volltext** ✅ — Auftrag 02.08.: das komplette BBiG
+  durchsuchbar und in beide Richtungen verknüpft. Bewusst NICHT als
+  Wissensartikel (Suchflutung, Pflege), sondern als eigenes
+  Gesetzes-Modul: tools/gesetz_import.py parst das amtliche gii-XML
+  von gesetze-im-internet.de (gemeinfrei, § 5 UrhG) deterministisch
+  nach assets/js/gesetzestexte.js — **121 Paragrafen** mit voller
+  Gliederungshierarchie (Teil › Kapitel › Abschnitt › Unterabschnitt),
+  nummerierte Aufzählungen als eingerückte Zeilen, Stand automatisch
+  aus den Standangaben (aktuell: Neufassung 16.04.2025, zuletzt
+  geändert 28.10.2025). Ansichten: #/gesetz/bbig (Übersicht mit
+  Teil-Gruppen + Fuzzy-Filter, direkte §-Nummer trifft immer) und
+  #/gesetz/bbig-17 (Wortlaut, Gliederungspfad, ‹/›-Nachbarn,
+  Merkliste, amtliche Einzelnorm + Gesamt-PDF). **Verlinkung in beide
+  Richtungen:** jedes §-BBiG-Zitat im ganzen Werkzeug (Fakten, FAQ,
+  Rechtsgrundlagen-Boxen, Vorlagen, Checklisten, Glossar) springt
+  jetzt intern auf die Norm statt aufs PDF (normVerlinken-Zweig);
+  Rückrichtung über GESETZ_ARTIKEL (aus den kuratierten
+  recht[]-Feldern, inkl. §§-Bereichs-Expansion) → „Behandelt in
+  diesen Artikeln" auf jeder Paragrafenseite. Globale Suche:
+  eigene Palette-Gruppe „Gesetzestexte" (UND-fuzzy über Nr, Titel,
+  Wortlaut). Assistent: „Was steht in § 17 BBiG?" — auch
+  absatzgenau („§ 22 Abs. 2 BBiG") — zitiert den Wortlaut (max.
+  900 Zeichen) mit Volltext- und Artikel-Verweisen; Modul-Eintrag
+  „BBiG im Volltext" in module.js (Werkzeug-Navigation + Semantik-
+  Index 183). Dauerpflege: nach Gesetzesänderung
+  `python3 tools/gesetz_import.py` erneut ausführen. Tests: mini_s7
+  (21) + Regressionen k1/k2/s4/k3, Offline-Check, Einzeldatei-Smoke
+  (Volltext funktioniert auch per Doppelklick). *(PR #47)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
@@ -444,4 +478,6 @@ immer verlinken; Querlinks zwischen Artikeln.
 
 - Mindestvergütung jährlich (Bundesanzeiger) · Stand-Datum in `wissen.js`
 - Handreichungs-Fassungen nachziehen (Quellenvermerke!)
+- Bei BBiG-Änderungen: `python3 tools/gesetz_import.py` (Volltext-Modul)
 - Nach jeder Inhaltsänderung: `build_singlefile.py --release` + Commit
+  (bei neuen Artikeln/FAQ zusätzlich `node tools/semantik_index_bauen.mjs`)
