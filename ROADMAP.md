@@ -488,6 +488,28 @@
   28 Checks, Regressionen k1/k2/s4/s7/smoke_start/Einzeldatei.
   *(PR #56)*
 
+- **S16 Assistent: Small Talk & hilfreicher Fallback** ✅ —
+  Fehlermeldung 02.08.: „KI scheint immer auf nicht schlaues Fallback
+  zurückzugreifen, kann nichts beantworten wie hallo oder so".
+  Reproduziert — teils schlimmer als gemeldet: „Hallo"/„Guten
+  Morgen"/„Danke" liefen in den Fallback, **„Wer bist du?" antwortete
+  mit der Gärtner-Abschlussprüfung, „ok" mit dem Berichtsheft,
+  „Tschüss" mit Fachwerker-Vergütung, „Hi" mit ausbildungsfremden
+  Arbeiten** — die Fuzzy-Suche zog aus Kurzwörtern Fehltreffer.
+  (1) Neue `sozialAntwort()` ganz vorn in der Kette: Begrüßung, Dank,
+  Verabschiedung, Befinden, Quittungen („ok", „alles klar") und
+  Selbstauskunft („Wer bist du?", „Bist du ChatGPT?" → ehrlich:
+  lokaler Assistent, nur geprüfte Wissensbasis, keine Cloud, keine
+  Rechtsberatung). Greift nur bei ≤ 5 Wörtern und **setzt den
+  Gesprächskontext nicht zurück** — nach „Danke" wirkt die nächste
+  Folgefrage weiter. (2) Fallback bleibt ehrlich („ich rate lieber
+  nicht"), hilft aber konkret: knapp verfehlte Treffer als „Meintest
+  du?" oder die neun Themenbereiche zum Anklicken, dazu der Hinweis
+  auf Rechner, Gesetzestexte, Vorlagen und Formulare — und auf die
+  Bedeutungssuche, falls sie noch nicht läuft. Tests: neue Suite
+  mini_s16 (19), Regressionen k1/k2/s1/s7/s12, smoke_start,
+  Einzeldatei, Offline-Check. *(PR #57)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

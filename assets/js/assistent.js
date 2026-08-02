@@ -232,6 +232,60 @@
       titel: "Überblick über das Werkzeug", stichworte: "" };
   }
 
+  // Begrüßung, Dank, Selbstauskunft: kurze Eingaben wie „Hallo", „ok" oder
+  // „Wer bist du?" haben keine Entsprechung in der Wissensbasis. Ohne eigenen
+  // Zweig zog die Fuzzy-Suche daraus Fehltreffer („Hi" → ausbildungsfremde
+  // Arbeiten, „ok" → Berichtsheft). Läuft deshalb als Erstes und lässt den
+  // Gesprächskontext unangetastet — nach „Danke" geht das Thema weiter.
+  function sozialAntwort(nq) {
+    var nqt = " " + nq + " ";
+    // Nur kurze Eingaben; „Hallo, wie viel Urlaub steht mir zu?" ist eine Frage.
+    var woerter = nq.split(" ").filter(Boolean);
+    if (woerter.length > 5) return null;
+
+    var gruss = /^(hallo|hallo zusammen|hi|hey|halli hallo|servus|moin|moin moin|gruezi|gruess gott|guten morgen|guten tag|guten abend|schonen guten tag|na)$/.test(nq);
+    var dank = /^(danke|danke schon|dankeschon|vielen dank|besten dank|danke dir|danke sehr|merci|super|prima|perfekt|top|klasse|sehr gut|hilfreich)$/.test(nq);
+    var tschuess = /^(tschuss|ciao|servus tschuss|auf wiedersehen|wiedersehen|bis dann|bis spater|bye|schonen feierabend|schones wochenende|gute nacht)$/.test(nq);
+    var werbist = /\b(wer bist du|was bist du|wer bin ich mit dir|bist du (eine |ein )?(ki|ai|mensch|bot|roboter|chatgpt|chat gpt)|wie heisst du|wie funktionierst du|woher (hast|nimmst) du (die |deine )?(daten|informationen|antworten))\b/.test(nqt);
+    var befinden = /^(wie geht es dir|wie gehts|wie geht s dir|alles gut bei dir|wie laufts)$/.test(nq);
+    var quittung = /^(ok|okay|okey|alles klar|verstanden|gut|passt|na gut|aha|ach so|jo|ja|nein|hm|mhm|so|und|weiter)$/.test(nq);
+    if (!(gruss || dank || tschuess || werbist || befinden || quittung)) return null;
+
+    var beispiele = ["Wie viele Urlaubstage habe ich als Azubi?", "Wie hoch ist die Mindestvergütung?", "Was kannst du alles?"];
+    var html, titel;
+    if (werbist) {
+      titel = "Über diesen Assistenten";
+      html = "<p>Ich bin der <strong>lokale Assistent dieses Werkzeugs</strong> — keine Cloud-KI. Ich laufe " +
+        "vollständig auf diesem Gerät und antworte ausschließlich aus der geprüften Wissensbasis der " +
+        "Ausbildungsberatung: Artikel, FAQ, Gesetzestexte, Vorlagen und Formulare. Jede Antwort nennt ihre Quelle.</p>" +
+        "<p>Was ich <em>nicht</em> bin: eine allgemeine Chat-KI. Ich erfinde nichts dazu — was nicht in der " +
+        "Wissensbasis steht, sage ich offen. Und ich ersetze keine Rechtsberatung im Einzelfall.</p>" +
+        "<p>Frag mich zu Urlaub, Vergütung, Arbeitszeit, Probezeit, Berichtsheft, Prüfung, Kündigung — oder lass " +
+        "mich rechnen und die passenden Vorlagen heraussuchen.</p>";
+    } else if (dank) {
+      titel = "Gern";
+      html = "<p>Gern — melde dich, wenn noch etwas offen ist.</p>";
+      beispiele = ["Was kannst du alles?", "Welche Vorlagen gibt es?", "Wie hoch ist die Mindestvergütung?"];
+    } else if (tschuess) {
+      titel = "Bis bald";
+      html = "<p>Bis bald — viel Erfolg bei der Ausbildungsberatung.</p>";
+    } else if (befinden) {
+      titel = "Bereit";
+      html = "<p>Alles bereit — ich habe die komplette Wissensbasis geladen. Womit kann ich helfen?</p>";
+    } else if (quittung) {
+      titel = "Weiter";
+      html = "<p>Wie geht es weiter? Stell einfach die nächste Frage — oder nutze eine der Anregungen unten.</p>";
+    } else {
+      titel = "Hallo";
+      html = "<p>Hallo! Ich beantworte Fragen rund um die Ausbildung in den grünen Berufen — aus der geprüften " +
+        "Wissensbasis, immer mit Quelle. Ich kann außerdem <strong>rechnen</strong> (Urlaub, Vergütung, Probezeit, " +
+        "Teilzeit, Noten), <strong>Gesetzestexte</strong> im Wortlaut zeigen und <strong>passende Vorlagen und " +
+        "Formulare</strong> heraussuchen.</p>" +
+        "<p>Womit fangen wir an?</p>";
+    }
+    return { html: html, quellen: [], folgefragen: beispiele, titel: titel, stichworte: "", sozial: true };
+  }
+
   // Fragen zum Werkzeug selbst: Impressum, Kontakt, Entwicklung, Rückmeldungen,
   // Datenschutz, Barrierefreiheit, Lizenz. Diese Angaben stehen nicht in der
   // Wissensbasis, sondern in window.KONTAKT — ohne eigenen Zweig lieferte die
@@ -505,6 +559,11 @@
     var A = window.AzubiApp;
     var nq = A.norm(frage);
 
+    // 0) Begrüßung, Dank, Selbstauskunft? Kurz antworten, Thema behalten
+    //    (kein kontextSetzen — „Danke" darf das laufende Thema nicht löschen).
+    var sozial = sozialAntwort(nq);
+    if (sozial) return Promise.resolve(sozial);
+
     // 1) Berechenbare Frage? Direkt rechnen (Kerne aus app.js).
     var gerechnet = rechnerAntwort(frage, nq);
     if (gerechnet) { kontextSetzen(gerechnet); return Promise.resolve(gerechnet); }
@@ -590,15 +649,48 @@
       topFaq = null;
     }
 
-    // Nichts Brauchbares gefunden -> ehrlicher Fallback
+    // Nichts Brauchbares gefunden -> ehrlicher Fallback. Er bleibt ehrlich,
+    // hilft aber konkret weiter: knapp verfehlte Treffer als „Meintest du?",
+    // sonst die Themenbereiche zum Anklicken statt bloßer Ratschläge.
     if (!topFaq && !topArt) {
-      return {
-        html: "<p>Dazu habe ich in der Wissensdatenbank <strong>keinen gesicherten Eintrag</strong> gefunden.</p>" +
-          "<ul><li>Formuliere die Frage anders oder nutze ein Stichwort (z. B. „Urlaub“, „Kündigung“, „Berichtsheft“).</li>" +
-          "<li>Stöbere in der <a href=\"#/wissen\">Wissensdatenbank</a> nach dem passenden Themenbereich.</li>" +
-          "<li>Im Einzelfall hilft die <a href=\"#/artikel/zustaendige-stelle\">Ausbildungsberatung der zuständigen Stelle</a> persönlich weiter.</li></ul>",
-        quellen: [], folgefragen: standardFolgefragen()
-      };
+      var html = "<p>Dazu habe ich in der Wissensdatenbank <strong>keinen gesicherten Eintrag</strong> gefunden — " +
+        "ich rate lieber nicht.</p>";
+      // Knapp unter der Schwelle gelandete Kandidaten anbieten (Stichwort- und
+      // Bedeutungssuche gemeinsam, ohne Dubletten).
+      var nahe = [], gesehen = {};
+      (erg.artikel || []).slice(0, 3).forEach(function (t) {
+        var a = A.artikelVon(t.id);
+        if (a && !gesehen[a.id]) { gesehen[a.id] = 1; nahe.push({ id: a.id, titel: a.titel }); }
+      });
+      (semArt || []).slice(0, 3).forEach(function (s) {
+        var a = A.artikelVon(s.artikelId);
+        if (a && !gesehen[a.id]) { gesehen[a.id] = 1; nahe.push({ id: a.id, titel: a.titel }); }
+      });
+      if (nahe.length) {
+        html += "<p><strong>Meintest du eines dieser Themen?</strong></p><ul>" +
+          nahe.slice(0, 3).map(function (n) {
+            return '<li><a href="#/artikel/' + A.esc(n.id) + '">' + A.esc(n.titel) + "</a></li>";
+          }).join("") + "</ul>";
+      } else {
+        var themen = ((window.WISSEN || {}).themen || []).slice(0, 9);
+        if (themen.length) {
+          html += "<p><strong>Diese Themenbereiche kann ich beantworten:</strong></p><ul>" +
+            themen.map(function (t) {
+              return '<li><a href="#/wissen?thema=' + A.esc(t.id) + '">' + A.esc(t.titel) + "</a></li>";
+            }).join("") + "</ul>";
+        }
+      }
+      html += "<p>Ich kann außerdem rechnen (Urlaub, Vergütung, Probezeit, Teilzeit, Noten), " +
+        '<a href="#/gesetz">Gesetzestexte</a> im Wortlaut zeigen und passende ' +
+        '<a href="#/vorlagen">Vorlagen</a> oder <a href="#/downloads">Formulare</a> heraussuchen. ' +
+        'Im Einzelfall hilft die <a href="#/artikel/zustaendige-stelle">Ausbildungsberatung</a> persönlich weiter.</p>';
+      // Ohne aktive Bedeutungssuche lohnt der Hinweis: sie versteht freie Sätze.
+      if (window.AzubiSemantik && window.AzubiSemantik.verfuegbar && window.AzubiSemantik.verfuegbar() &&
+          !window.AzubiSemantik.bereit()) {
+        html += "<p class=\"bw-klein bw-leise\">Tipp: Mit der <strong>Bedeutungssuche</strong> (Schalter oben) " +
+          "verstehe ich auch frei formulierte Fragen besser.</p>";
+      }
+      return { html: html, quellen: [], folgefragen: standardFolgefragen() };
     }
 
     var haupt = null, einstieg = "", kern = "";
