@@ -1074,6 +1074,7 @@ a.chip { display: inline-block; }
           <li><a href="#/checklisten">Checklisten</a></li>
           <li><a href="#/vorlagen">Vorlagen</a></li>
           <li><a href="#/downloads">Downloads</a></li>
+          <li><a href="#/gesetz/bbig">Gesetze</a></li>
           <li><a href="#/eigene">Eigene Inhalte</a></li>
           <li><a href="#/assistent">KI-Assistent</a></li>
           <li><a href="#/export">Export &amp; Vermerk</a></li>
@@ -6333,7 +6334,9 @@ window.GESETZESTEXTE = {
       var ziel = a.getAttribute("href").replace(/^#/, "").split("?")[0].replace(/\/$/, "") || "/";
       var aktuell = "/" + (view === "artikel" ? "wissen" : view === "start" ? "" : view);
       aktuell = aktuell.replace(/\/$/, "") || "/";
-      if (ziel === aktuell) a.setAttribute("aria-current", "page");
+      // Auch Unterrouten markieren: „Gesetze" (#/gesetz/bbig) ist bei jeder
+      // #/gesetz/…-Ansicht aktiv.
+      if (ziel === aktuell || (aktuell !== "/" && ziel.indexOf(aktuell + "/") === 0)) a.setAttribute("aria-current", "page");
       else a.removeAttribute("aria-current");
     });
 
@@ -6450,6 +6453,7 @@ window.GESETZESTEXTE = {
       '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
       '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
       '<a class="schnellkarte" href="#/glossar">' + ICON.buch + "<span><h3>Glossar</h3><p>Fachbegriffe von 80-Prozent-Regel bis Zwischenprüfung — kurz erklärt und verlinkt.</p></span></a>" +
+      '<a class="schnellkarte" href="#/gesetz/bbig">' + ICON.buch + "<span><h3>BBiG im Volltext</h3><p>Alle 121 Paragrafen als eigene Seiten — durchsuchbar, mit Gliederung und Artikel-Verweisen.</p></span></a>" +
       '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
       '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
       '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
