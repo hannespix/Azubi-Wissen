@@ -424,6 +424,23 @@
   Crumb-Konsistenz), Regressionen k2/s1/smoke_start, Offline-Check.
   *(PR #51)*
 
+- **S12 Rechtliches & Impressum** ✅ — Auftrag 02.08.: „brauchen wir
+  kein Impressum oder ähnliches?" Neue Seite `#/rechtliches` (Link im
+  Fußbereich jeder Seite, Name = Seitentitel): Anbieterkennzeichnung
+  (RP Freiburg, Postanschrift 79083 Freiburg, Zentrale 0761 208-0 —
+  live von rpf.baden-wuerttemberg.de verifiziert), Datenschutz
+  (Kernaussage: alles lokal, localStorage/IndexedDB erklärt inkl.
+  Löschweg; GitHub-Pages-Hinweis für den öffentlichen Testbetrieb),
+  Barrierefreiheit (WCAG-2.1-AA-Anspruch, ehrliche Einschränkung:
+  gescannte VwV-PDFs, Feedback-Weg, Link auf offizielle Erklärung),
+  Urheberrecht & Lizenzen (§ 5 UrhG, Fonts/Logo, transformers.js
+  Apache 2.0 + E5-Modell MIT), Haftung. Offene Angaben stehen als
+  [Platzhalter] mit sichtbarem Entwurfs-Hinweis — vor offizieller
+  Freigabe füllen und mit Pressestelle/Justiziariat abstimmen.
+  Modul-Katalog + Semantik-Index (184 Einträge): Assistent
+  beantwortet „Wo finde ich das Impressum?". Tests: mini_s12 (13),
+  Regressionen s7/k2/smoke_start, Offline-Check. *(PR #52)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

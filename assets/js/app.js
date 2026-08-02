@@ -843,6 +843,9 @@
       haupt.innerHTML = viewQuellen(r.params);
       quellenVerhalten(haupt, r.params);
       titel = "Formulare & Quellen — Grüne Berufe BW";
+    } else if (view === "rechtliches") {
+      haupt.innerHTML = viewRechtliches();
+      titel = "Rechtliches & Impressum — Grüne Berufe BW";
     } else if (view === "assistent") {
       if (window.AzubiAssistent) { window.AzubiAssistent.renderView(haupt, r.params); }
       else haupt.innerHTML = platzhalter("KI-Assistent", "Der lokale Assistent wird im nächsten Ausbauschritt eingebaut.");
@@ -1841,6 +1844,72 @@
       links.push('<a href="' + esc(z.href) + '"' + (z.extern ? ' target="_blank" rel="noopener"' : "") + '>Gesamt-PDF' + (z.extern ? " ↗" : "") + "</a>");
     }
     return links.join(" · ");
+  }
+
+  // ---------- Rechtliches & Impressum (S12) --------------------------------
+  // Anbieterkennzeichnung, Datenschutz, Barrierefreiheit, Lizenzen, Haftung.
+  // Platzhalter in [eckigen Klammern] vor offizieller Freigabe ersetzen und
+  // die Seite mit Pressestelle/Justiziariat abstimmen (Hinweis-Block unten).
+  function viewRechtliches() {
+    return "<h1>Rechtliches &amp; Impressum</h1>" +
+      '<p class="bw-unterzeile">Anbieter, Datenschutz, Barrierefreiheit und Lizenzen dieses Werkzeugs</p>' +
+
+      '<div class="bw-hinweis"><p><strong>Entwurf im Testbetrieb:</strong> Angaben in [eckigen Klammern] sind ' +
+      "Platzhalter und werden vor der offiziellen Freigabe ergänzt; die Seite wird mit Pressestelle und " +
+      "Justiziariat des Regierungspräsidiums abgestimmt. Verbindlich sind bis dahin die verlinkten " +
+      "offiziellen Seiten des Regierungspräsidiums.</p></div>" +
+
+      "<h2>Anbieter</h2>" +
+      "<p>Regierungspräsidium Freiburg<br>Ausbildungsberatung für die grünen Berufe<br>" +
+      "Postanschrift: 79083 Freiburg im Breisgau<br>Telefon (Zentrale): 0761 208-0<br>" +
+      "E-Mail: [Funktionspostfach der Ausbildungsberatung ergänzen]</p>" +
+      '<p>Verbindliche Anbieterangaben mit Vertretung und Aufsicht: <a href="https://rpf.baden-wuerttemberg.de/impressum/" target="_blank" rel="noopener">Impressum des Regierungspräsidiums Freiburg <span aria-hidden="true">↗</span></a></p>' +
+
+      "<h2>Datenschutz</h2>" +
+      "<ul>" +
+      "<li><strong>Das Werkzeug läuft vollständig lokal.</strong> Es überträgt keine Daten, setzt keine Cookies, " +
+      "lädt nichts von Drittservern nach und enthält keine Telemetrie. Auch der KI-Assistent und die " +
+      "Bedeutungssuche rechnen ausschließlich auf dem eigenen Gerät.</li>" +
+      "<li><strong>Lokale Speicherung im Browser:</strong> Notizen, Aktenvermerke, Merkliste, Checklisten-Stände " +
+      "und eigene Inhalte liegen nur im Browser-Speicher dieses Geräts (localStorage/IndexedDB). Löschen ist " +
+      "jederzeit über die Browserdaten oder das Modul „Eigene Inhalte &amp; Sicherung“ möglich.</li>" +
+      "<li><strong>Aufruf über das Internet:</strong> Wird das Werkzeug online aufgerufen (derzeit GitHub Pages, " +
+      "Testbetrieb), verarbeitet der Hoster (GitHub Inc., USA) technisch bedingt Server-Protokolle mit " +
+      "IP-Adressen; darauf hat das Werkzeug keinen Einfluss. Bei der Nutzung als heruntergeladene Einzeldatei " +
+      "oder im internen Netz entfällt das vollständig.</li>" +
+      "</ul>" +
+      '<p>Allgemeine Datenschutzinformationen der Behörde: <a href="https://rpf.baden-wuerttemberg.de/datenschutz/" target="_blank" rel="noopener">Datenschutz beim Regierungspräsidium Freiburg <span aria-hidden="true">↗</span></a></p>' +
+
+      "<h2>Barrierefreiheit</h2>" +
+      "<p>Das Werkzeug ist auf Barrierefreiheit nach WCAG 2.1 AA ausgelegt: semantisches HTML, vollständige " +
+      "Tastaturbedienung mit sichtbarem Fokus, Sprungmarke zum Inhalt, ausreichende Kontraste und Respekt vor " +
+      "reduzierter Bewegung (prefers-reduced-motion).</p>" +
+      "<p><strong>Bekannte Einschränkungen:</strong> Einzelne ältere PDF-Dokumente im Download-Center " +
+      "(eingescannte Verwaltungsvorschriften) sind nicht voll barrierefrei; die amtlichen Online-Fassungen sind " +
+      "jeweils verlinkt.</p>" +
+      "<p>Barrieren bitte melden an: [Funktionspostfach der Ausbildungsberatung ergänzen]. " +
+      'Offizielle Erklärung der Behörde: <a href="https://rpf.baden-wuerttemberg.de/erklaerung-zur-barrierefreiheit/" target="_blank" rel="noopener">Erklärung zur Barrierefreiheit <span aria-hidden="true">↗</span></a></p>' +
+
+      "<h2>Urheberrecht &amp; Lizenzen</h2>" +
+      "<ul>" +
+      "<li><strong>Gesetzestexte</strong> sind amtliche Werke und gemeinfrei (§ 5 UrhG); Quelle: " +
+      "gesetze-im-internet.de. Maßgeblich ist die jeweilige Verkündungsfassung.</li>" +
+      "<li><strong>Inhalte dieses Werkzeugs</strong> (Artikel, Checklisten, Vorlagen): © Regierungspräsidium " +
+      "Freiburg, Ausbildungsberatung. Nachnutzung [Lizenz bzw. Freigaberegel ergänzen].</li>" +
+      "<li><strong>Schriften (BaWue Sans/Serif) und RPF-Logo</strong> sind lizenziert bzw. geschützt und nicht " +
+      "zur Weiterverwendung außerhalb dieses Angebots bestimmt.</li>" +
+      "<li><strong>Open-Source-Komponenten</strong> (lokal gebündelt, keine Cloud): transformers.js " +
+      "(Apache License 2.0), Sprachmodell multilingual-e5-small (MIT License).</li>" +
+      "<li><strong>Dokumente Dritter</strong> im Download-Center (BIBB, MLR, Bundesagentur für Arbeit u. a.): " +
+      "Rechte bei den jeweiligen Herausgebern, Herkunft je Eintrag vermerkt.</li>" +
+      "</ul>" +
+
+      "<h2>Haftung</h2>" +
+      "<p>Dieses Werkzeug ist eine Fachinformation der Ausbildungsberatung — <strong>keine Rechtsberatung im " +
+      "Einzelfall</strong>. Alle Angaben sind sorgfältig geprüft und mit Stand versehen; verbindlich sind allein " +
+      "die amtlichen Fassungen der Gesetze, Verordnungen und Vorschriften. Für externe Links gilt: Inhalte " +
+      "fremder Seiten verantworten deren Anbieter.</p>" +
+      '<p class="stand-hinweis">Stand dieser Seite: 02.08.2026</p>';
   }
 
   function viewGesetzWerke() {
