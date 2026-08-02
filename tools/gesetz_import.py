@@ -6,8 +6,7 @@ gesetze-im-internet.de in das Datenmodul assets/js/gesetzestexte.js
 (window.GESETZESTEXTE). Amtliche Werke sind nach § 5 UrhG gemeinfrei.
 
 Aufruf (Build-Zeit, Netz erlaubt):
-    python3 tools/gesetz_import.py            # lädt BBiG-XML und schreibt das Modul
-    python3 tools/gesetz_import.py datei.xml  # nutzt eine bereits geladene XML
+    python3 tools/gesetz_import.py   # lädt alle WERKE-XMLs und schreibt das Modul
 
 Nur Python-Standardbibliothek. Nach Gesetzesänderungen einfach erneut
 ausführen (das Modul wird deterministisch überschrieben).
@@ -26,6 +25,22 @@ ZIEL = ROOT / "assets" / "js" / "gesetzestexte.js"
 WERKE = [
     {"schluessel": "bbig", "kurz": "BBiG", "xmlzip": "https://www.gesetze-im-internet.de/bbig_2005/xml.zip",
      "portal": "https://www.gesetze-im-internet.de/bbig_2005/"},
+    {"schluessel": "jarbschg", "kurz": "JArbSchG", "xmlzip": "https://www.gesetze-im-internet.de/jarbschg/xml.zip",
+     "portal": "https://www.gesetze-im-internet.de/jarbschg/"},
+    {"schluessel": "burlg", "kurz": "BUrlG", "xmlzip": "https://www.gesetze-im-internet.de/burlg/xml.zip",
+     "portal": "https://www.gesetze-im-internet.de/burlg/"},
+    {"schluessel": "arbzg", "kurz": "ArbZG", "xmlzip": "https://www.gesetze-im-internet.de/arbzg/xml.zip",
+     "portal": "https://www.gesetze-im-internet.de/arbzg/"},
+    {"schluessel": "arbschg", "kurz": "ArbSchG", "xmlzip": "https://www.gesetze-im-internet.de/arbschg/xml.zip",
+     "portal": "https://www.gesetze-im-internet.de/arbschg/"},
+    {"schluessel": "entgfg", "kurz": "EntgFG", "xmlzip": "https://www.gesetze-im-internet.de/entgfg/xml.zip",
+     "portal": "https://www.gesetze-im-internet.de/entgfg/"},
+    {"schluessel": "kschg", "kurz": "KSchG", "xmlzip": "https://www.gesetze-im-internet.de/kschg/xml.zip",
+     "portal": "https://www.gesetze-im-internet.de/kschg/"},
+    {"schluessel": "tzbfg", "kurz": "TzBfG", "xmlzip": "https://www.gesetze-im-internet.de/tzbfg/xml.zip",
+     "portal": "https://www.gesetze-im-internet.de/tzbfg/"},
+    {"schluessel": "aevo", "kurz": "AEVO", "xmlzip": "https://www.gesetze-im-internet.de/ausbeignv_2009/xml.zip",
+     "portal": "https://www.gesetze-im-internet.de/ausbeignv_2009/"},
 ]
 
 
@@ -126,8 +141,6 @@ def parse_werk(xml_bytes, meta):
 
 
 def lade_xml(meta):
-    if len(sys.argv) > 1:
-        return Path(sys.argv[1]).read_bytes()
     with urllib.request.urlopen(meta["xmlzip"], timeout=60) as antwort:
         rohzip = antwort.read()
     with zipfile.ZipFile(io.BytesIO(rohzip)) as z:

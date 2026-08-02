@@ -84,15 +84,16 @@
     return String(htmlText).split(/(<a\b[^>]*>[\s\S]*?<\/a>)/).map(function (teil, i) {
       if (i % 2 === 1) return teil;
       return teil.replace(NORM_RE, function (ganz, para, gesetz) {
-        // Liegt der Volltext im Tool (S7), springt das Zitat direkt auf die
-        // Norm — offline, ohne PDF-Umweg. Erste §-Nummer des Zitats zählt.
-        if (gesetz === "BBiG" && window.GESETZESTEXTE && window.GESETZESTEXTE.bbig) {
+        // Liegt der Volltext im Tool (S7/S9), springt das Zitat direkt auf
+        // die Norm — offline, ohne PDF-Umweg. Erste §-Nummer zählt.
+        var schl = GESETZ_VOLLTEXT[gesetz.replace(/\s+/g, " ")];
+        if (schl && window.GESETZESTEXTE && window.GESETZESTEXTE[schl]) {
           var nm = para.match(/(\d+[a-z]?)/);
           var pnr = nm && nm[1];
-          var da = pnr && window.GESETZESTEXTE.bbig.paragrafen.some(function (p) { return p.nr === pnr; });
+          var da = pnr && window.GESETZESTEXTE[schl].paragrafen.some(function (p) { return p.nr === pnr; });
           if (da) {
-            return '<a class="norm-link" href="#/gesetz/bbig-' + pnr + '" title="§ ' + pnr +
-              ' BBiG im Volltext lesen">' + para + gesetz + "</a>";
+            return '<a class="norm-link" href="#/gesetz/' + schl + "-" + pnr + '" title="§ ' + pnr +
+              " " + esc(gesetz) + ' im Volltext lesen">' + para + gesetz + "</a>";
           }
         }
         var e = null, ziel = GESETZ_QUELLE[gesetz.replace(/\s+/g, " ")];
@@ -510,20 +511,33 @@
     return S.highlight(aus, tokens.join(" "));
   }
 
-  /* ---------------- Gesetzes-Volltexte (S7) ------------------------- */
+  /* ---------------- Gesetzes-Volltexte (S7/S9) ----------------------- */
+  // Werke mit Volltext im Tool: Kurzname im Zitat -> Modul-Schlüssel.
+  // EFZG ist der gebräuchliche Zweitname des EntgFG.
+  var GESETZ_VOLLTEXT = {
+    BBiG: "bbig", JArbSchG: "jarbschg", BUrlG: "burlg", ArbZG: "arbzg",
+    ArbSchG: "arbschg", EntgFG: "entgfg", EFZG: "entgfg", KSchG: "kschg",
+    TzBfG: "tzbfg", AEVO: "aevo"
+  };
   function gesetzWerk(schluessel) {
     return (window.GESETZESTEXTE || {})[schluessel] || null;
   }
   // Rückrichtung § → Artikel: aus den kuratierten recht[]-Feldern der
   // Wissensartikel („§ 14 Abs. 2 BBiG", „§§ 60–62 BBiG") entsteht je
-  // BBiG-Paragraf die Liste der Artikel, die ihn behandeln.
+  // Paragraf (Schlüssel „werk:nr") die Liste der behandelnden Artikel.
+  // Werknamen längste zuerst prüfen — „ArbSchG" steckt in „JArbSchG".
   var GESETZ_ARTIKEL = (function () {
     var map = {};
+    var namen = Object.keys(GESETZ_VOLLTEXT).sort(function (a, b) { return b.length - a.length; });
     (W.artikel || []).forEach(function (a) {
       (a.recht || []).forEach(function (r) {
         var n = String(r.n || "");
-        var pos = n.indexOf("BBiG");
-        if (pos < 0) return;
+        var schl = null, pos = -1;
+        for (var i = 0; i < namen.length; i++) {
+          var m = n.match(new RegExp("\\b" + namen[i].replace(/\s+/g, "\\s") + "\\b"));
+          if (m) { schl = GESETZ_VOLLTEXT[namen[i]]; pos = m.index; break; }
+        }
+        if (!schl) return;
         // Absatz-/Satz-/Nummern-Zahlen dürfen nicht als §-Nummern zählen.
         var vor = n.slice(0, pos).replace(/\b(Abs|Nr|Satz|S)\.?\s?\d+[a-z]?/g, "");
         vor.replace(/(\d+)(?:\s?[–-]\s?(\d+))?([a-z])?/g, function (g, von, bis, buch) {
@@ -534,8 +548,9 @@
             nrn.push(von + (buch || ""));
           }
           nrn.forEach(function (nr) {
-            map[nr] = map[nr] || [];
-            if (map[nr].indexOf(a.id) < 0) map[nr].push(a.id);
+            var k = schl + ":" + nr;
+            map[k] = map[k] || [];
+            if (map[k].indexOf(a.id) < 0) map[k].push(a.id);
           });
           return "";
         });
@@ -782,6 +797,9 @@
           if (v.id === r.params.id) zuletztMerken("#/vorlagen?id=" + v.id, v.titel, "Vorlage");
         });
       }
+    } else if (view === "gesetz" && !r.pfad[1]) {
+      haupt.innerHTML = viewGesetzWerke();
+      titel = "Gesetze im Volltext — Grüne Berufe BW";
     } else if (view === "gesetz" && r.pfad[1]) {
       var gmatch = r.pfad[1].match(/^([a-z0-9]+?)(?:-(\d+[a-z]?))?$/) || [];
       var gschl = gmatch[1] || "";
@@ -963,7 +981,7 @@
       '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
       '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
       '<a class="schnellkarte" href="#/glossar">' + ICON.buch + "<span><h3>Glossar</h3><p>Fachbegriffe von 80-Prozent-Regel bis Zwischenprüfung — kurz erklärt und verlinkt.</p></span></a>" +
-      '<a class="schnellkarte" href="#/gesetz/bbig">' + ICON.buch + "<span><h3>BBiG im Volltext</h3><p>Alle 121 Paragrafen als eigene Seiten — durchsuchbar, mit Gliederung und Artikel-Verweisen.</p></span></a>" +
+      '<a class="schnellkarte" href="#/gesetz">' + ICON.buch + "<span><h3>Gesetze im Volltext</h3><p>BBiG, JArbSchG, BUrlG, ArbZG & Co. — jeder Paragraf als eigene Seite, mit Artikel-Verweisen.</p></span></a>" +
       '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
       '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
       '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
@@ -1825,9 +1843,28 @@
     return links.join(" · ");
   }
 
+  function viewGesetzWerke() {
+    var GT = window.GESETZESTEXTE || {};
+    var h = "<h1>Gesetze im Volltext</h1>" +
+      '<p class="bw-unterzeile">Die wichtigsten Gesetze rund um die Ausbildung — komplett offline, jeder Paragraf als eigene Seite</p>' +
+      '<ul class="karten karten--gesetze">';
+    Object.keys(GT).forEach(function (schl) {
+      var werk = GT[schl];
+      h += '<li class="karte"><a class="karte__link" href="#/gesetz/' + schl + '">' +
+        "<h2>" + esc(werk.kurz) + "</h2><p>" + esc(werk.titel) + "</p>" +
+        '<p class="bw-klein bw-leise">' + werk.paragrafen.length + " Paragrafen" +
+        (werk.stand ? " · " + esc(werk.stand.split(";")[0]) : "") + "</p></a></li>";
+    });
+    h += "</ul>" +
+      '<p class="stand-hinweis">Amtliche Texte von gesetze-im-internet.de (gemeinfrei nach § 5 UrhG). ' +
+      'Weitere Werke (BGB, SGB, Ausbildungsordnungen …) liegen als PDF im <a href="#/downloads">Download-Center</a>.</p>';
+    return h;
+  }
+
   function viewGesetzListe(schl) {
     var werk = gesetzWerk(schl);
-    var h = "<h1>" + esc(werk.titel) + " — Volltext</h1>" +
+    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/gesetz">Gesetze im Volltext</a></nav>' +
+      "<h1>" + esc(werk.titel) + " — Volltext</h1>" +
       '<p class="bw-unterzeile">Alle ' + werk.paragrafen.length + " Paragrafen, durchsuchbar und mit den Wissensartikeln verknüpft</p>" +
       '<div class="bw-hinweis"><p><strong>Amtlicher Stand:</strong> ' + esc(werk.stand) + ". " +
       "Maßgeblich ist die Verkündungsfassung — " + gesetzQuellenLinks(schl, null) + ".</p></div>" +
@@ -1877,8 +1914,8 @@
     var werk = gesetzWerk(schl), idx = -1;
     werk.paragrafen.forEach(function (p, i) { if (p.nr === nr) idx = i; });
     var p = werk.paragrafen[idx];
-    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/gesetz/' + schl + '">' + esc(werk.kurz) + " — Volltext</a> › " +
-      esc(p.teil.split(" › ")[0] || "") + "</nav>";
+    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/gesetz">Gesetze</a> › <a href="#/gesetz/' + schl + '">' + esc(werk.kurz) + "</a>" +
+      (p.teil ? " › " + esc(p.teil.split(" › ")[0]) : "") + "</nav>";
     h += '<div class="karten-kopf"><h1>§ ' + esc(p.nr) + " " + esc(werk.kurz) + " — " + esc(p.titel) + "</h1>" +
       merkKnopf("#/gesetz/" + schl + "-" + p.nr, "§ " + p.nr + " " + werk.kurz + " — " + p.titel, "Gesetz") + "</div>";
     if (p.teil) h += '<p class="bw-klein bw-leise">' + esc(p.teil) + "</p>";
@@ -1888,7 +1925,7 @@
     h += '<p class="gesetz-nav">' +
       (vor ? '<a class="bw-btn bw-btn--sekundaer" href="#/gesetz/' + schl + "-" + vor.nr + '">‹ § ' + esc(vor.nr) + "</a>" : "") +
       (nach ? '<a class="bw-btn bw-btn--sekundaer" href="#/gesetz/' + schl + "-" + nach.nr + '">§ ' + esc(nach.nr) + " ›</a>" : "") + "</p>";
-    var artikelIds = schl === "bbig" ? (GESETZ_ARTIKEL[p.nr] || []) : [];
+    var artikelIds = GESETZ_ARTIKEL[schl + ":" + p.nr] || [];
     if (artikelIds.length) {
       h += "<h2>Behandelt in diesen Artikeln</h2><ul class=\"chipzeile\">" +
         artikelIds.map(function (id) {
@@ -3086,7 +3123,7 @@
     suchen: suchen, fmt: fmt, fmtInline: fmtInline, esc: esc,
     norm: norm, tokenAlternativen: tokenAlternativen, tokenScore: tokenScore, stoppwoerter: STOP,
     artikelVon: artikelVon, themaVon: themaVon, quelleZiel: quelleZiel,
-    gesetzArtikel: function (nr) { return GESETZ_ARTIKEL[nr] || []; },
+    gesetzArtikel: function (schl, nr) { return GESETZ_ARTIKEL[schl + ":" + nr] || []; },
     paletteOeffnen: paletteOeffnen, rendern: rendern,
     // Rechenkerne für den Assistenten (K1)
     miavWert: miavWert, urlaubNachAlter: urlaubNachAlter,

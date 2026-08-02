@@ -373,17 +373,24 @@
     return aus.slice(0, 6);
   }
 
-  /* ---------------- Paragraf-Nachschlag (S7) ------------------------ */
-  // „Was steht in § 17 BBiG?" / „§ 20 BBiG" → Wortlaut aus dem lokalen
+  /* ---------------- Paragraf-Nachschlag (S7/S9) --------------------- */
+  // „Was steht in § 19 JArbSchG?" / „§ 20 BBiG" → Wortlaut aus dem lokalen
   // Volltext, mit Sprung zur Norm und den behandelnden Artikeln.
+  // Reihenfolge wichtig: jarbschg VOR arbschg (Teilwort!).
+  var WERK_NORM = { bbig: "bbig", jarbschg: "jarbschg", arbschg: "arbschg",
+    burlg: "burlg", arbzg: "arbzg", entgfg: "entgfg", efzg: "entgfg",
+    kschg: "kschg", tzbfg: "tzbfg", aevo: "aevo" };
   function paragrafAntwort(nq) {
     var GT = window.GESETZESTEXTE;
-    if (!GT || !GT.bbig) return null;
-    // nq ist normalisiert (ohne §-Zeichen/Punkte): „was steht in 17 abs 2 bbig"
-    var m = nq.match(/(?:^|\s)(\d{1,3}[a-z]?)\s(?:abs\w*\s(\d{1,2})\s)?bbig\b/);
+    if (!GT) return null;
+    // nq ist normalisiert (ohne §-Zeichen/Punkte): „was steht in 19 abs 2 jarbschg"
+    var m = nq.match(/(?:^|\s)(\d{1,3}[a-z]?)\s(?:abs\w*\s(\d{1,2})\s)?(jarbschg|arbschg|bbig|burlg|arbzg|entgfg|efzg|kschg|tzbfg|aevo)\b/);
     if (!m) return null;
+    var schl = WERK_NORM[m[3]];
+    var werk = GT[schl];
+    if (!werk) return null;
     var p = null;
-    GT.bbig.paragrafen.forEach(function (x) { if (x.nr === m[1]) p = x; });
+    werk.paragrafen.forEach(function (x) { if (x.nr === m[1]) p = x; });
     if (!p) return null;
     var A = window.AzubiApp;
     var absNr = m[2] ? parseInt(m[2], 10) : 0;
@@ -391,17 +398,17 @@
     var auszug = texte.join("\n\n");
     var gekuerzt = auszug.length > 900;
     if (gekuerzt) auszug = auszug.slice(0, 900) + " …";
-    var html = "<p><strong>§ " + A.esc(p.nr) + " BBiG — " + A.esc(p.titel) +
+    var html = "<p><strong>§ " + A.esc(p.nr) + " " + A.esc(werk.kurz) + " — " + A.esc(p.titel) +
       (absNr ? ", Absatz " + absNr : "") + ":</strong></p>" +
       '<p class="gesetz-zitat">' + A.esc(auszug).replace(/\n/g, "<br>") + "</p>" +
       (gekuerzt ? '<p class="bw-klein bw-leise">Gekürzt — der vollständige Wortlaut steht im Volltext.</p>' : "");
-    var quellen = [{ text: "§ " + p.nr + " BBiG im Volltext", ziel: "#/gesetz/bbig-" + p.nr }];
-    (A.gesetzArtikel ? A.gesetzArtikel(p.nr) : []).slice(0, 2).forEach(function (id) {
+    var quellen = [{ text: "§ " + p.nr + " " + werk.kurz + " im Volltext", ziel: "#/gesetz/" + schl + "-" + p.nr }];
+    (A.gesetzArtikel ? A.gesetzArtikel(schl, p.nr) : []).slice(0, 2).forEach(function (id) {
       var art = A.artikelVon(id);
       if (art) quellen.push({ text: "Artikel: " + art.titel, ziel: "#/artikel/" + id });
     });
     return { html: html, quellen: quellen, folgefragen: [],
-      titel: "§ " + p.nr + " BBiG", stichworte: p.titel };
+      titel: "§ " + p.nr + " " + werk.kurz, stichworte: p.titel };
   }
 
   // Kurze Anschlussfragen („und mit 16?", „gilt das auch …?") beziehen

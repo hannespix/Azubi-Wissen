@@ -380,6 +380,25 @@
   (21) + Regressionen k1/k2/s4/k3, Offline-Check, Einzeldatei-Smoke
   (Volltext funktioniert auch per Doppelklick). *(PR #47)*
 
+- **S8 Menü-Einstieg Gesetze** ✅ — Nav-Punkt „Gesetze" + Startkarte;
+  Aktiv-Marker berücksichtigt Unterrouten. *(PR #48)*
+
+- **S9 Neun Gesetze im Volltext** ✅ — Auftrag 02.08.: weitere für
+  Azubis wichtige Gesetze einpflegen. Importer-WERKE-Liste erweitert
+  um JArbSchG (68 §§), BUrlG (17), ArbZG (27), ArbSchG (29), EntgFG
+  (15), KSchG (28), TzBfG (24), AEVO (9) — zusammen mit dem BBiG
+  **338 Paragrafen / 450 KB**, alle amtlich aktuell (ArbSchG Stand
+  22.12.2025, EntgFG 12.05.2026). Neue Werkübersicht #/gesetz
+  (Menüziel), alles generisch: normVerlinken über die
+  GESETZ_VOLLTEXT-Map (EFZG→EntgFG-Alias; Werknamen-Kollision
+  JArbSchG/ArbSchG über Wortgrenzen + längste zuerst gelöst),
+  Rückverweis-Index je Werk (werk:nr), Palette und Assistent-
+  Paragrafnachschlag für alle Werke („Was steht in § 19 JArbSchG?",
+  „§ 3 BUrlG"). BGB/SGB bleiben bewusst PDF (Umfang, Randbezug).
+  Tests: mini_s7 auf 31 Checks erweitert (inkl. Kollisionscheck:
+  kein JArbSchG-Zitat zeigt auf ArbSchG), Regressionen k1/k2/
+  smoke_start, Offline-Check, Einzeldatei. *(PR #49)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
@@ -478,6 +497,7 @@ immer verlinken; Querlinks zwischen Artikeln.
 
 - Mindestvergütung jährlich (Bundesanzeiger) · Stand-Datum in `wissen.js`
 - Handreichungs-Fassungen nachziehen (Quellenvermerke!)
-- Bei BBiG-Änderungen: `python3 tools/gesetz_import.py` (Volltext-Modul)
+- Bei Gesetzesänderungen (BBiG, JArbSchG, BUrlG, ArbZG, ArbSchG, EntgFG,
+  KSchG, TzBfG, AEVO): `python3 tools/gesetz_import.py` (Volltext-Modul)
 - Nach jeder Inhaltsänderung: `build_singlefile.py --release` + Commit
   (bei neuen Artikeln/FAQ zusätzlich `node tools/semantik_index_bauen.mjs`)
