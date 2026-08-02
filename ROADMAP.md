@@ -335,6 +335,17 @@
   Dateien). Tests: mini_s4 (17) + Regressionen k1/k2, Offline-Check,
   Einzeldatei-Smoke. *(PR #44)*
 
+- **S5 pflanze-bw.de eingebunden** ✅ — Auftrag 01.08.: das
+  Pflanzenkenntnis-Werkzeug bei den Pflanzenlisten ergänzen (bisher
+  nur die Karlsruher Listen). Neuer Portal-Eintrag (gekennzeichnet
+  als privates, nicht-kommerzielles Lernangebot; ohne Konto/Tracking,
+  offline nutzbar; 14 Profile, über 2.100 Arten, alle 7 Fachrichtungen
+  + Fachwerker; Prüfmodus mit Prüfungsbögen und Notenschema) —
+  verknüpft mit Abschluss-/Zwischenprüfung und Fachwerker-Prüfung,
+  als Anhang der Prüfungs-Vorlagen (AP-Anmeldung, Externenprüfung),
+  Querverweis in der Pflanzenlisten-Beschreibung. Tests: mini_s4
+  erweitert (19), Regression k2, Offline-Check. *(PR #45)*
+
 **Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
