@@ -1854,15 +1854,16 @@
     return "<h1>Rechtliches &amp; Impressum</h1>" +
       '<p class="bw-unterzeile">Anbieter, Datenschutz, Barrierefreiheit und Lizenzen dieses Werkzeugs</p>' +
 
-      '<div class="bw-hinweis"><p><strong>Entwurf im Testbetrieb:</strong> Angaben in [eckigen Klammern] sind ' +
-      "Platzhalter und werden vor der offiziellen Freigabe ergänzt; die Seite wird mit Pressestelle und " +
-      "Justiziariat des Regierungspräsidiums abgestimmt. Verbindlich sind bis dahin die verlinkten " +
-      "offiziellen Seiten des Regierungspräsidiums.</p></div>" +
+      '<div class="bw-hinweis"><p><strong>Entwurf im Testbetrieb:</strong> Diese Seite wird vor der offiziellen ' +
+      "Freigabe mit Pressestelle und Justiziariat des Regierungspräsidiums abgestimmt; die Nachnutzungsregel für " +
+      "eigene Inhalte steht noch als [Platzhalter] aus. Verbindlich sind bis dahin die verlinkten offiziellen " +
+      "Seiten des Regierungspräsidiums.</p></div>" +
 
       "<h2>Anbieter</h2>" +
       "<p>Regierungspräsidium Freiburg<br>Ausbildungsberatung für die grünen Berufe<br>" +
       "Postanschrift: 79083 Freiburg im Breisgau<br>Telefon (Zentrale): 0761 208-0<br>" +
-      "E-Mail: [Funktionspostfach der Ausbildungsberatung ergänzen]</p>" +
+      'Fachlicher Kontakt: <a href="mailto:Hannes.Pix@rpf.bwl.de">Hannes.Pix@rpf.bwl.de</a><br>' +
+      'Amtlicher Zugang: <a href="mailto:poststelle@rpf.bwl.de">poststelle@rpf.bwl.de</a></p>' +
       '<p>Verbindliche Anbieterangaben mit Vertretung und Aufsicht: <a href="https://rpf.baden-wuerttemberg.de/impressum/" target="_blank" rel="noopener">Impressum des Regierungspräsidiums Freiburg <span aria-hidden="true">↗</span></a></p>' +
 
       "<h2>Entwicklung &amp; Änderungswünsche</h2>" +
@@ -1871,8 +1872,8 @@
       "<li><strong>Konzeption, Entwicklung und Pflege:</strong> Hannes Pix, " +
       "Regierungspräsidium Freiburg, Ausbildungsberatung für die grünen Berufe.</li>" +
       "<li><strong>Änderungswünsche, Fehlermeldungen und Ergänzungsvorschläge</strong> bitte direkt an Hannes Pix: " +
-      "[dienstliche E-Mail ergänzen]. Eine kurze Beschreibung genügt — bei " +
-      "Darstellungsfehlern hilft ein Bildschirmfoto mit Gerät und Browser.</li>" +
+      '<a href="mailto:Hannes.Pix@rpf.bwl.de?subject=Ausbildung%20Gr%C3%BCne%20Berufe%20%E2%80%94%20R%C3%BCckmeldung">Hannes.Pix@rpf.bwl.de</a>. ' +
+      "Eine kurze Beschreibung genügt — bei Darstellungsfehlern hilft ein Bildschirmfoto mit Gerät und Browser.</li>" +
       "<li><strong>Updates:</strong> Die Online-Fassung aktualisiert sich beim nächsten Aufruf von selbst. Die " +
       "heruntergeladene Einzeldatei gelegentlich neu beziehen, damit Inhalte, Tabellen und Gesetzesstände aktuell " +
       "bleiben; fachliche Stände sind an den Inhalten jeweils vermerkt.</li>" +
@@ -1900,7 +1901,7 @@
       "<p><strong>Bekannte Einschränkungen:</strong> Einzelne ältere PDF-Dokumente im Download-Center " +
       "(eingescannte Verwaltungsvorschriften) sind nicht voll barrierefrei; die amtlichen Online-Fassungen sind " +
       "jeweils verlinkt.</p>" +
-      "<p>Barrieren bitte melden an: [Funktionspostfach der Ausbildungsberatung ergänzen]. " +
+      '<p>Barrieren bitte melden an: <a href="mailto:Hannes.Pix@rpf.bwl.de?subject=Ausbildung%20Gr%C3%BCne%20Berufe%20%E2%80%94%20Barriere%20melden">Hannes.Pix@rpf.bwl.de</a>. ' +
       'Offizielle Erklärung der Behörde: <a href="https://rpf.baden-wuerttemberg.de/erklaerung-zur-barrierefreiheit/" target="_blank" rel="noopener">Erklärung zur Barrierefreiheit <span aria-hidden="true">↗</span></a></p>' +
 
       "<h2>Urheberrecht &amp; Lizenzen</h2>" +
