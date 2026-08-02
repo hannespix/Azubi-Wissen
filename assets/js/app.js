@@ -799,7 +799,7 @@
       }
     } else if (view === "gesetz" && !r.pfad[1]) {
       haupt.innerHTML = viewGesetzWerke();
-      titel = "Gesetze im Volltext — Grüne Berufe BW";
+      titel = "Gesetze & Vorschriften — Grüne Berufe BW";
     } else if (view === "gesetz" && r.pfad[1]) {
       var gmatch = r.pfad[1].match(/^([a-z0-9]+?)(?:-(\d+[a-z]?))?$/) || [];
       var gschl = gmatch[1] || "";
@@ -981,7 +981,7 @@
       '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
       '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
       '<a class="schnellkarte" href="#/glossar">' + ICON.buch + "<span><h3>Glossar</h3><p>Fachbegriffe von 80-Prozent-Regel bis Zwischenprüfung — kurz erklärt und verlinkt.</p></span></a>" +
-      '<a class="schnellkarte" href="#/gesetz">' + ICON.buch + "<span><h3>Gesetze im Volltext</h3><p>BBiG, JArbSchG, BUrlG, ArbZG & Co. — jeder Paragraf als eigene Seite, mit Artikel-Verweisen.</p></span></a>" +
+      '<a class="schnellkarte" href="#/gesetz">' + ICON.buch + "<span><h3>Gesetze &amp; Vorschriften</h3><p>BBiG, JArbSchG & Co. im Volltext — dazu die zentralen VwV des Landes und BIBB-Empfehlungen.</p></span></a>" +
       '<a class="schnellkarte" href="#/eigene">' + ICON.plus + "<span><h3>Eigene Inhalte</h3><p>Artikel, Dokumente und Verträge selbst anlegen — lokal gespeichert, überall auffindbar.</p></span></a>" +
       '<a class="schnellkarte" href="#/assistent">' + ICON.chat + "<span><h3>KI-Assistent fragen</h3><p>Freie Fragen stellen — Antworten mit Quellen, komplett offline.</p></span></a>" +
       '<a class="schnellkarte" href="#/export">' + ICON.doc + "<span><h3>PDF-Export &amp; Aktenvermerk</h3><p>Themen als PDF je Zielgruppe — und Vermerke strukturiert erstellen.</p></span></a>" +
@@ -1845,47 +1845,79 @@
 
   function viewGesetzWerke() {
     var GT = window.GESETZESTEXTE || {};
-    var h = "<h1>Gesetze im Volltext</h1>" +
-      '<p class="bw-unterzeile">Die wichtigsten Gesetze rund um die Ausbildung — komplett offline, jeder Paragraf als eigene Seite</p>' +
+    var h = "<h1>Gesetze &amp; Vorschriften</h1>" +
+      '<p class="bw-unterzeile">Alle Rechtsgrundlagen der Ausbildung an einem Ort — Gesetze im Volltext, dazu die zentralen Verwaltungsvorschriften und BIBB-Empfehlungen</p>' +
+      "<h2>Gesetze im Volltext</h2>" +
+      '<p class="bw-klein bw-leise">Komplett offline im Werkzeug — jeder Paragraf als eigene Seite, durchsuchbar und mit den Wissensartikeln verknüpft.</p>' +
       '<ul class="karten karten--gesetze">';
+    // AEVO ist formal eine Rechtsverordnung — das Etikett sagt es ehrlich.
+    var GESETZ_TYP = { aevo: "Verordnung" };
     Object.keys(GT).forEach(function (schl) {
       var werk = GT[schl];
       h += '<li class="karte"><a class="karte__link" href="#/gesetz/' + schl + '">' +
-        "<h2>" + esc(werk.kurz) + "</h2><p>" + esc(werk.titel) + "</p>" +
-        '<p class="bw-klein bw-leise">' + werk.paragrafen.length + " Paragrafen" +
+        '<span class="etikett">' + (GESETZ_TYP[schl] || "Gesetz") + "</span>" +
+        '<h3 style="margin-top:var(--bw-space-1)">' + esc(werk.kurz) + "</h3><p>" + esc(werk.titel) + "</p>" +
+        '<p class="bw-klein bw-leise" style="margin-top:var(--bw-space-1)">' + werk.paragrafen.length + " Paragrafen" +
         (werk.stand ? " · " + esc(werk.stand.split(";")[0]) : "") + "</p></a></li>";
     });
     h += "</ul>" +
       '<p class="stand-hinweis">Amtliche Texte von gesetze-im-internet.de (gemeinfrei nach § 5 UrhG). ' +
       'Weitere Werke (BGB, SGB, Ausbildungsordnungen …) liegen als PDF im <a href="#/downloads">Download-Center</a>.</p>';
 
-    // Untergesetzliche Ebene (S10): die VwV des Landes und die Empfehlungen
-    // des BIBB-Hauptausschusses gehören inhaltlich hierher — bewusst als
-    // eigene, klar beschriftete Ebene (PDF/Link), nicht als Volltext.
+    // Untergesetzliche Ebene auf Augenhöhe (S11): die zentralen VwV des
+    // Landes und BIBB-Empfehlungen als gleichrangige Karten in derselben
+    // Kartensprache — gleiche Bedienung, gleiche Optik. Die rechtliche
+    // Einordnung (keine Gesetzeskraft) steht am Etikett und im Begleittext.
     var E = (window.QUELLEN || {}).eintraege || [];
-    function vwvListe(typ) {
-      return E.filter(function (e) { return e.typ === typ; }).map(function (e) {
-        var z = quelleZiel(e);
-        return '<li><a href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : (z.extern ? ' target="_blank" rel="noopener"' : "")) + '>' +
-          '<span class="etikett">' + esc(TYP_NAME[e.typ]) + "</span> " + esc(e.titel) +
-          (z.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>" +
-          '<span class="bw-klein bw-leise"> — ' + esc(e.herausgeber) + (e.stand ? ", " + esc(e.stand) : "") + "</span></li>";
-      }).join("");
-    }
-    var vwv = vwvListe("vwv"), emp = vwvListe("empfehlung");
-    if (vwv || emp) {
+    var je = {};
+    E.forEach(function (e) { if (e.typ === "vwv" || e.typ === "empfehlung") je[e.id] = e; });
+    var WICHTIG = [
+      ["vwv-voaplandw", "VOAPLandw"],
+      ["vwv-berichtsheft", "VwV Berichtsheft"],
+      ["vwv-bbil", "VwVBBiL"],
+      ["vwv-bbig-zuvo", "BBiG-ZuVO"],
+      ["ha-120", "BIBB-HA 120"],
+      ["ha-156", "BIBB-HA 156"]
+    ];
+    var kartenHtml = "", dabei = {};
+    WICHTIG.forEach(function (w) {
+      var e = je[w[0]];
+      if (!e) return;
+      dabei[e.id] = 1;
+      var z = quelleZiel(e);
+      // Kurzname steht in der Kartenüberschrift — im Titel darunter nicht wiederholen.
+      var titel = e.titel.indexOf(w[1]) === 0 ? e.titel.slice(w[1].length).replace(/^\s*[—:–]\s*/, "") : e.titel;
+      kartenHtml += '<li class="karte"><a class="karte__link" href="' + esc(z.href) + '"' +
+        (z.download ? ' download="' + esc(z.download) + '"' : (z.extern ? ' target="_blank" rel="noopener"' : "")) + ">" +
+        '<span class="etikett">' + esc(TYP_NAME[e.typ]) + "</span>" +
+        '<h3 style="margin-top:var(--bw-space-1)">' + esc(w[1]) + "</h3>" +
+        "<p>" + esc(titel) + "</p>" +
+        '<p class="bw-klein bw-leise" style="margin-top:var(--bw-space-1)">' + esc(e.herausgeber) +
+        (e.stand ? " · " + esc(e.stand) : "") + (z.extern ? ' · Landesrecht/Web <span aria-hidden="true">↗</span>' : " · PDF") + "</p></a></li>";
+    });
+    var rest = E.filter(function (e) { return (e.typ === "vwv" || e.typ === "empfehlung") && !dabei[e.id]; });
+    if (kartenHtml) {
       h += "<h2>Verwaltungsvorschriften &amp; BIBB-Empfehlungen</h2>" +
-        '<p class="bw-klein bw-leise">Die Ebene unterhalb der Gesetze: Verwaltungsvorschriften binden die Verwaltung, ' +
-        "BIBB-Empfehlungen vereinheitlichen die Auslegung — beide ohne Gesetzeskraft, aber prägend für die Praxis der zuständigen Stellen.</p>";
-      if (vwv) h += "<h3>Land Baden-Württemberg</h3><ul class=\"quellen-liste\">" + vwv + "</ul>";
-      if (emp) h += "<h3>BIBB-Hauptausschuss (bundeseinheitlich)</h3><ul class=\"quellen-liste\">" + emp + "</ul>";
+        '<p class="bw-klein bw-leise">Gleich wichtig für die Praxis der zuständigen Stellen: Verwaltungsvorschriften binden die Verwaltung, ' +
+        "BIBB-Empfehlungen vereinheitlichen die Auslegung — beide ohne Gesetzeskraft.</p>" +
+        '<ul class="karten karten--gesetze">' + kartenHtml + "</ul>";
+    }
+    if (rest.length) {
+      h += "<h3>Weitere Vorschriften &amp; Empfehlungen</h3><ul class=\"quellen-liste\">" +
+        rest.map(function (e) {
+          var z = quelleZiel(e);
+          return '<li><a href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : (z.extern ? ' target="_blank" rel="noopener"' : "")) + ">" +
+            '<span class="etikett">' + esc(TYP_NAME[e.typ]) + "</span> " + esc(e.titel) +
+            (z.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>" +
+            '<span class="bw-klein bw-leise"> — ' + esc(e.herausgeber) + (e.stand ? ", " + esc(e.stand) : "") + "</span></li>";
+        }).join("") + "</ul>";
     }
     return h;
   }
 
   function viewGesetzListe(schl) {
     var werk = gesetzWerk(schl);
-    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/gesetz">Gesetze im Volltext</a></nav>' +
+    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/gesetz">Gesetze &amp; Vorschriften</a></nav>' +
       "<h1>" + esc(werk.titel) + " — Volltext</h1>" +
       '<p class="bw-unterzeile">Alle ' + werk.paragrafen.length + " Paragrafen, durchsuchbar und mit den Wissensartikeln verknüpft</p>" +
       '<div class="bw-hinweis"><p><strong>Amtlicher Stand:</strong> ' + esc(werk.stand) + ". " +
@@ -1936,7 +1968,7 @@
     var werk = gesetzWerk(schl), idx = -1;
     werk.paragrafen.forEach(function (p, i) { if (p.nr === nr) idx = i; });
     var p = werk.paragrafen[idx];
-    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/gesetz">Gesetze</a> › <a href="#/gesetz/' + schl + '">' + esc(werk.kurz) + "</a>" +
+    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/gesetz">Gesetze &amp; Vorschriften</a> › <a href="#/gesetz/' + schl + '">' + esc(werk.kurz) + "</a>" +
       (p.teil ? " › " + esc(p.teil.split(" › ")[0]) : "") + "</nav>";
     h += '<div class="karten-kopf"><h1>§ ' + esc(p.nr) + " " + esc(werk.kurz) + " — " + esc(p.titel) + "</h1>" +
       merkKnopf("#/gesetz/" + schl + "-" + p.nr, "§ " + p.nr + " " + werk.kurz + " — " + p.titel, "Gesetz") + "</div>";
