@@ -40,6 +40,9 @@ window.MODULE = [
   { art: "Modul", titel: "PDF-Export & Aktenvermerk", ziel: "#/export",
     info: "Themenpakete als PDF je Zielgruppe erzeugen und Aktenvermerke strukturiert erstellen.",
     extra: "pdf export aktenvermerk vermerk drucken ausdrucken" },
+  { art: "Modul", titel: "Rechtliches & Impressum", ziel: "#/rechtliches",
+    info: "Anbieterkennzeichnung, Datenschutz (alles lokal, keine Übertragung), Erklärung zur Barrierefreiheit, Urheberrecht und Lizenzen, Haftungshinweis — erreichbar über den Link im Fußbereich.",
+    extra: "impressum anbieter anbieterkennzeichnung datenschutz dsgvo datenschutzerklaerung barrierefreiheit erklaerung lizenz lizenzen urheberrecht haftung kontakt rechtliches fusszeile footer" },
   { art: "Funktion", titel: "Globale Suche", ziel: "#/",
     info: "Lupe oben rechts oder Strg+K — durchsucht Artikel, FAQ, Vorlagen, Checklisten, Berufe und Glossar tippfehlertolerant.",
     extra: "suche suchen finden strg k palette lupe" }

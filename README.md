@@ -94,7 +94,12 @@ tools/                         Offline-Check, Single-File-Builder
 ## Rechtliches
 
 Fachinformation der Ausbildungsberatung — **keine Rechtsberatung im
-Einzelfall**. Schriften (BaWue Sans/Serif) und RPF-Logo sind lizenziert →
+Einzelfall**. Das Werkzeug führt unter **`#/rechtliches`** (Link im
+Fußbereich jeder Seite) Anbieterkennzeichnung, Datenschutz-Erklärung
+(alles lokal, keine Übertragung), Erklärung zur Barrierefreiheit und
+Lizenzhinweise; Platzhalter in [eckigen Klammern] vor offizieller
+Freigabe ergänzen und mit Pressestelle/Justiziariat abstimmen.
+Schriften (BaWue Sans/Serif) und RPF-Logo sind lizenziert →
 `assets/fonts/LIZENZ.md`, `assets/logo/LIZENZ.md`; **Repo privat halten**.
 Keine personenbezogenen Echtdaten im Repo; Nutzerdaten (Notizen, Vermerke,
 Merkliste, Sicherungen) verbleiben ausschließlich lokal.
