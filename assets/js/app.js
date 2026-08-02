@@ -1858,6 +1858,28 @@
     h += "</ul>" +
       '<p class="stand-hinweis">Amtliche Texte von gesetze-im-internet.de (gemeinfrei nach § 5 UrhG). ' +
       'Weitere Werke (BGB, SGB, Ausbildungsordnungen …) liegen als PDF im <a href="#/downloads">Download-Center</a>.</p>';
+
+    // Untergesetzliche Ebene (S10): die VwV des Landes und die Empfehlungen
+    // des BIBB-Hauptausschusses gehören inhaltlich hierher — bewusst als
+    // eigene, klar beschriftete Ebene (PDF/Link), nicht als Volltext.
+    var E = (window.QUELLEN || {}).eintraege || [];
+    function vwvListe(typ) {
+      return E.filter(function (e) { return e.typ === typ; }).map(function (e) {
+        var z = quelleZiel(e);
+        return '<li><a href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : (z.extern ? ' target="_blank" rel="noopener"' : "")) + '>' +
+          '<span class="etikett">' + esc(TYP_NAME[e.typ]) + "</span> " + esc(e.titel) +
+          (z.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>" +
+          '<span class="bw-klein bw-leise"> — ' + esc(e.herausgeber) + (e.stand ? ", " + esc(e.stand) : "") + "</span></li>";
+      }).join("");
+    }
+    var vwv = vwvListe("vwv"), emp = vwvListe("empfehlung");
+    if (vwv || emp) {
+      h += "<h2>Verwaltungsvorschriften &amp; BIBB-Empfehlungen</h2>" +
+        '<p class="bw-klein bw-leise">Die Ebene unterhalb der Gesetze: Verwaltungsvorschriften binden die Verwaltung, ' +
+        "BIBB-Empfehlungen vereinheitlichen die Auslegung — beide ohne Gesetzeskraft, aber prägend für die Praxis der zuständigen Stellen.</p>";
+      if (vwv) h += "<h3>Land Baden-Württemberg</h3><ul class=\"quellen-liste\">" + vwv + "</ul>";
+      if (emp) h += "<h3>BIBB-Hauptausschuss (bundeseinheitlich)</h3><ul class=\"quellen-liste\">" + emp + "</ul>";
+    }
     return h;
   }
 
