@@ -453,8 +453,18 @@
   (Modul-Tokens + Index). Tests: mini_s12 auf 17 Checks erweitert,
   Regression k2, Offline-Check. *(PR #53)*
   Nachtrag: Entwickler namentlich eingetragen (Hannes Pix, auf
-  eigene Freigabe); offen bleibt nur die dienstliche E-Mail als
-  [Platzhalter]. *(PR #54)*
+  eigene Freigabe). *(PR #54)*
+
+- **S14 Kontaktadressen eingetragen** ✅ — dienstliche Adresse
+  `Hannes.Pix@rpf.bwl.de` an allen drei Stellen (Anbieter, Änderungs-
+  wünsche, Barrieremeldung) als `mailto:`, die beiden Meldewege mit
+  vorbelegtem Betreff; zusätzlich `poststelle@rpf.bwl.de` als
+  amtlicher Zugang im Anbieter-Block. Domain und Schema
+  Vorname.Nachname@rpf.bwl.de aus dem offiziellen RPF-Impressum
+  belegt, nicht geraten. Entwurfs-Hinweis benennt jetzt nur noch den
+  einen offenen Punkt (Nachnutzungsregel). Tests: mini_s12 20/20
+  (3 neue Checks inkl. „keine offenen Kontakt-Platzhalter"),
+  Regression k2, Offline-Check. *(PR #55)*
 
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
