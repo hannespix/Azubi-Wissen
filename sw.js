@@ -43,6 +43,7 @@ var KERN = [
   "./assets/logo/rpf-logo.png",
   "./assets/logo/rpf-logo-negativ.png",
   "./assets/favicons/favicon.ico",
+  "./assets/favicons/icon.svg",
   "./assets/favicons/favicon-16x16.png",
   "./assets/favicons/favicon-32x32.png",
   "./assets/favicons/apple-touch-icon.png",
