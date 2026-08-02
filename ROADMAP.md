@@ -466,6 +466,28 @@
   (3 neue Checks inkl. „keine offenen Kontakt-Platzhalter"),
   Regression k2, Offline-Check. *(PR #55)*
 
+- **S15 Assistent kennt Kontakt & Impressum** ✅ — Fehlermeldung
+  02.08.: „die KI scheint nicht richtig zu funktionieren, die
+  E-Mail-Adressen sind noch nicht aktuell". Reproduziert: Fragen wie
+  „Impressum", „Wie erreiche ich den Entwickler?", „An wen richte
+  ich Änderungswünsche?" landeten im Fallback (der K2-Katalog greift
+  nur bei „Wo finde ich …?"), und **„Wie kann ich einen Fehler
+  melden?" lieferte die Abschlussprüfungs-Antwort** („melden" ≈
+  „anmelden") — dasselbe Muster wie der frühere Bav-Bug. Zwei
+  Ursachen, zwei Fixes: (1) neues Datenmodul `kontakt.js`
+  (`window.KONTAKT`) als **einzige** Quelle der Anbieter- und
+  Kontaktangaben — Rechtliches-Seite und Assistent lesen dort, keine
+  Doppelpflege mehr; (2) `kontaktAntwort()` läuft VOR der
+  Wissenssuche und beantwortet Impressum/Kontakt/Entwicklung/
+  Rückmeldung/Datenschutz/Barrierefreiheit/Lizenz direkt mit Name,
+  mailto-Adresse und Seitenlink, mit eigenem Text je Themenlage.
+  Abgrenzung über einen Fach-Wächter (vertrag/prüfung/azubi/betrieb/
+  berufsschule → keine Kontaktantwort), geprüft an sieben
+  Fachfragen („krank melden", „Prüfung anmelden", „Ansprechpartner
+  bei der zuständigen Stelle" bleiben fachlich). Tests: mini_s12 auf
+  28 Checks, Regressionen k1/k2/s4/s7/smoke_start/Einzeldatei.
+  *(PR #56)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

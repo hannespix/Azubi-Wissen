@@ -82,6 +82,7 @@ bw-theme.css                   Design-System (Single Source of Truth)
 sw.js                          Service Worker (versionierte App-Shell)
 azubi-wissen-offline.html      Einzeldatei-Auslieferung (generiert, versioniert)
 assets/js/wissen.js …          Datenmodule (Inhalte — hier pflegen)
+assets/js/kontakt.js           Anbieter-/Kontaktangaben (eine Quelle für Seite + Assistent)
 assets/js/app.js               Ansichten, Suche, Rechner, Jahreskreis, Merkliste
 assets/js/assistent.js         lokaler KI-Assistent (Retrieval + Synthese)
 assets/js/export.js            PDF-Handout + Aktenvermerk-Generator

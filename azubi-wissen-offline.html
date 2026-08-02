@@ -7509,6 +7509,52 @@ window.GESETZESTEXTE = {
 
 </script>
 <script>
+/* kontakt.js — Anbieter- und Kontaktangaben des Werkzeugs.
+ *
+ * EINZIGE Quelle für diese Daten: die Rechtliches-Seite (app.js) UND der
+ * KI-Assistent (assistent.js) lesen hier — nie an zwei Stellen pflegen.
+ * Ändert sich eine Adresse, genügt eine Änderung in dieser Datei.
+ *
+ * Pflegehinweis: Domain und Schreibweise der Adressen stammen aus dem
+ * amtlichen Impressum des Regierungspräsidiums Freiburg
+ * (https://rpf.baden-wuerttemberg.de/impressum/) — Schema
+ * Vorname.Nachname@rpf.bwl.de. Keine privaten Adressen eintragen.
+ */
+window.KONTAKT = {
+  behoerde: "Regierungspräsidium Freiburg",
+  bereich: "Ausbildungsberatung für die grünen Berufe",
+  anschrift: "79083 Freiburg im Breisgau",
+  telefon: "0761 208-0",
+
+  // Fachlicher Ansprechpartner = Entwicklung und Pflege des Werkzeugs.
+  entwickler: {
+    name: "Hannes Pix",
+    email: "Hannes.Pix@rpf.bwl.de",
+    rolle: "Konzeption, Entwicklung und Pflege"
+  },
+  // Amtlicher Zugang der Behörde (für förmliche Anliegen).
+  poststelle: "poststelle@rpf.bwl.de",
+
+  // Betreffzeilen, damit Rückmeldungen zuordenbar ankommen.
+  betreff: {
+    rueckmeldung: "Ausbildung Grüne Berufe — Rückmeldung",
+    barriere: "Ausbildung Grüne Berufe — Barriere melden"
+  },
+
+  // Amtliche Seiten der Behörde (verbindlich gegenüber dieser Kurzfassung).
+  links: {
+    impressum: "https://rpf.baden-wuerttemberg.de/impressum/",
+    datenschutz: "https://rpf.baden-wuerttemberg.de/datenschutz/",
+    barrierefreiheit: "https://rpf.baden-wuerttemberg.de/erklaerung-zur-barrierefreiheit/"
+  },
+
+  // Ziel im Werkzeug, das alle Angaben ausführlich zeigt.
+  seite: "#/rechtliches",
+  seitenTitel: "Rechtliches & Impressum"
+};
+
+</script>
+<script>
 // lokaldb.js — Lokale Datenbank im Browser (IndexedDB, Fallback localStorage).
 // Speichert Nutzerdaten des Werkzeugs: Aktenvermerke, Notizen sowie eigene
 // Artikel und Dokumente. Alles bleibt auf diesem Gerät — keine Übertragung,
@@ -9475,9 +9521,18 @@ window.GESETZESTEXTE = {
 
   // ---------- Rechtliches & Impressum (S12) --------------------------------
   // Anbieterkennzeichnung, Datenschutz, Barrierefreiheit, Lizenzen, Haftung.
+  // Alle Kontaktangaben kommen aus assets/js/kontakt.js (window.KONTAKT) —
+  // dieselbe Quelle nutzt der Assistent. Nie hier hart eintragen.
   // Platzhalter in [eckigen Klammern] vor offizieller Freigabe ersetzen und
   // die Seite mit Pressestelle/Justiziariat abstimmen (Hinweis-Block unten).
+  function mailtoLink(adresse, betreff) {
+    return '<a href="mailto:' + esc(adresse) + (betreff ? "?subject=" + encodeURIComponent(betreff) : "") + '">' + esc(adresse) + "</a>";
+  }
   function viewRechtliches() {
+    var K = window.KONTAKT || {};
+    var E = K.entwickler || {};
+    var B = K.betreff || {};
+    var L = K.links || {};
     return "<h1>Rechtliches &amp; Impressum</h1>" +
       '<p class="bw-unterzeile">Anbieter, Datenschutz, Barrierefreiheit und Lizenzen dieses Werkzeugs</p>' +
 
@@ -9487,19 +9542,19 @@ window.GESETZESTEXTE = {
       "Seiten des Regierungspräsidiums.</p></div>" +
 
       "<h2>Anbieter</h2>" +
-      "<p>Regierungspräsidium Freiburg<br>Ausbildungsberatung für die grünen Berufe<br>" +
-      "Postanschrift: 79083 Freiburg im Breisgau<br>Telefon (Zentrale): 0761 208-0<br>" +
-      'Fachlicher Kontakt: <a href="mailto:Hannes.Pix@rpf.bwl.de">Hannes.Pix@rpf.bwl.de</a><br>' +
-      'Amtlicher Zugang: <a href="mailto:poststelle@rpf.bwl.de">poststelle@rpf.bwl.de</a></p>' +
-      '<p>Verbindliche Anbieterangaben mit Vertretung und Aufsicht: <a href="https://rpf.baden-wuerttemberg.de/impressum/" target="_blank" rel="noopener">Impressum des Regierungspräsidiums Freiburg <span aria-hidden="true">↗</span></a></p>' +
+      "<p>" + esc(K.behoerde) + "<br>" + esc(K.bereich) + "<br>" +
+      "Postanschrift: " + esc(K.anschrift) + "<br>Telefon (Zentrale): " + esc(K.telefon) + "<br>" +
+      "Fachlicher Kontakt: " + mailtoLink(E.email) + "<br>" +
+      "Amtlicher Zugang: " + mailtoLink(K.poststelle) + "</p>" +
+      '<p>Verbindliche Anbieterangaben mit Vertretung und Aufsicht: <a href="' + esc(L.impressum) + '" target="_blank" rel="noopener">Impressum des Regierungspräsidiums Freiburg <span aria-hidden="true">↗</span></a></p>' +
 
       "<h2>Entwicklung &amp; Änderungswünsche</h2>" +
       "<p>Das Werkzeug wird in der Ausbildungsberatung selbst entwickelt und laufend gepflegt.</p>" +
       "<ul>" +
-      "<li><strong>Konzeption, Entwicklung und Pflege:</strong> Hannes Pix, " +
-      "Regierungspräsidium Freiburg, Ausbildungsberatung für die grünen Berufe.</li>" +
-      "<li><strong>Änderungswünsche, Fehlermeldungen und Ergänzungsvorschläge</strong> bitte direkt an Hannes Pix: " +
-      '<a href="mailto:Hannes.Pix@rpf.bwl.de?subject=Ausbildung%20Gr%C3%BCne%20Berufe%20%E2%80%94%20R%C3%BCckmeldung">Hannes.Pix@rpf.bwl.de</a>. ' +
+      "<li><strong>" + esc(E.rolle) + ":</strong> " + esc(E.name) + ", " +
+      esc(K.behoerde) + ", " + esc(K.bereich) + ".</li>" +
+      "<li><strong>Änderungswünsche, Fehlermeldungen und Ergänzungsvorschläge</strong> bitte direkt an " +
+      esc(E.name) + ": " + mailtoLink(E.email, B.rueckmeldung) + ". " +
       "Eine kurze Beschreibung genügt — bei Darstellungsfehlern hilft ein Bildschirmfoto mit Gerät und Browser.</li>" +
       "<li><strong>Updates:</strong> Die Online-Fassung aktualisiert sich beim nächsten Aufruf von selbst. Die " +
       "heruntergeladene Einzeldatei gelegentlich neu beziehen, damit Inhalte, Tabellen und Gesetzesstände aktuell " +
@@ -9519,7 +9574,7 @@ window.GESETZESTEXTE = {
       "IP-Adressen; darauf hat das Werkzeug keinen Einfluss. Bei der Nutzung als heruntergeladene Einzeldatei " +
       "oder im internen Netz entfällt das vollständig.</li>" +
       "</ul>" +
-      '<p>Allgemeine Datenschutzinformationen der Behörde: <a href="https://rpf.baden-wuerttemberg.de/datenschutz/" target="_blank" rel="noopener">Datenschutz beim Regierungspräsidium Freiburg <span aria-hidden="true">↗</span></a></p>' +
+      '<p>Allgemeine Datenschutzinformationen der Behörde: <a href="' + esc(L.datenschutz) + '" target="_blank" rel="noopener">Datenschutz beim Regierungspräsidium Freiburg <span aria-hidden="true">↗</span></a></p>' +
 
       "<h2>Barrierefreiheit</h2>" +
       "<p>Das Werkzeug ist auf Barrierefreiheit nach WCAG 2.1 AA ausgelegt: semantisches HTML, vollständige " +
@@ -9528,8 +9583,8 @@ window.GESETZESTEXTE = {
       "<p><strong>Bekannte Einschränkungen:</strong> Einzelne ältere PDF-Dokumente im Download-Center " +
       "(eingescannte Verwaltungsvorschriften) sind nicht voll barrierefrei; die amtlichen Online-Fassungen sind " +
       "jeweils verlinkt.</p>" +
-      '<p>Barrieren bitte melden an: <a href="mailto:Hannes.Pix@rpf.bwl.de?subject=Ausbildung%20Gr%C3%BCne%20Berufe%20%E2%80%94%20Barriere%20melden">Hannes.Pix@rpf.bwl.de</a>. ' +
-      'Offizielle Erklärung der Behörde: <a href="https://rpf.baden-wuerttemberg.de/erklaerung-zur-barrierefreiheit/" target="_blank" rel="noopener">Erklärung zur Barrierefreiheit <span aria-hidden="true">↗</span></a></p>' +
+      "<p>Barrieren bitte melden an: " + mailtoLink(E.email, B.barriere) + ". " +
+      'Offizielle Erklärung der Behörde: <a href="' + esc(L.barrierefreiheit) + '" target="_blank" rel="noopener">Erklärung zur Barrierefreiheit <span aria-hidden="true">↗</span></a></p>' +
 
       "<h2>Urheberrecht &amp; Lizenzen</h2>" +
       "<ul>" +
@@ -11346,6 +11401,77 @@ window.MODULE = [
       titel: "Überblick über das Werkzeug", stichworte: "" };
   }
 
+  // Fragen zum Werkzeug selbst: Impressum, Kontakt, Entwicklung, Rückmeldungen,
+  // Datenschutz, Barrierefreiheit, Lizenz. Diese Angaben stehen nicht in der
+  // Wissensbasis, sondern in window.KONTAKT — ohne eigenen Zweig lieferte die
+  // Stichwortsuche hier Fehltreffer („Fehler melden" → Abschlussprüfung).
+  // Läuft deshalb VOR der Wissenssuche.
+  function kontaktAntwort(nq) {
+    var A = window.AzubiApp, K = window.KONTAKT;
+    if (!K) return null;
+    var nqt = " " + nq + " ";
+    // Fachliche Meldewege (Ausbildungsvertrag anmelden, Prüfung anmelden …)
+    // sind ausdrücklich KEINE Werkzeug-Rückmeldung.
+    if (/\b(vertrag|ausbildungsvertrag|prufung|abschlusspr|zwischenpr|azubi|auszubildende|betrieb|kammer|berufsschule)\b/.test(nqt)) return null;
+
+    var istImpressum = /\b(impressum|anbieter|anbieterkennzeichnung|wer (betreibt|verantwortet|steckt hinter)|verantwortlich fur (das tool|dieses tool|die seite|diese seite))\b/.test(nqt);
+    var istEntwickler = /\b(entwickler|entwicklerin|programmierer|wer hat (das|dieses|die app|es) (tool |werkzeug |app )?(entwickelt|gebaut|gemacht|programmiert)|wer (entwickelt|pflegt|betreut) (das|dieses|die))\b/.test(nqt)
+      || /\b(hannes|pix)\b/.test(nqt);
+    var istRueckmeldung = /\b(anderungswunsch|anderungswunsche|verbesserungsvorschlag|verbesserungsvorschlage|verbesserung vorschlagen|vorschlag machen|feedback|ruckmeldung|ansprechpartner fur (das tool|anderungen|updates)|an wen (wende|richte|schicke)|wen (kann|muss) ich (fragen|ansprechen|kontaktieren))\b/.test(nqt)
+      || /\b(fehler|bug|problem|schreibfehler|tippfehler|funktioniert nicht|geht nicht|falsche zahl|veraltet)\b.*\b(melden|mitteilen|schreiben|weitergeben|berichten)\b/.test(nqt)
+      || /\b(melden|mitteilen)\b.*\b(fehler|bug|problem|schreibfehler|tippfehler)\b/.test(nqt);
+    var istDatenschutz = /\b(datenschutz|datenschutzerklarung|dsgvo|werden (meine )?daten (gespeichert|ubertragen|weitergegeben)|wo werden (die |meine )?daten gespeichert|cookies|tracking|telemetrie)\b/.test(nqt);
+    var istBarriere = /\b(barrierefrei|barrierefreiheit|barriere|screenreader|vorlesefunktion|wcag)\b/.test(nqt);
+    var istLizenz = /\b(lizenz|lizenzen|urheberrecht|copyright|nachnutzung|weiterverwenden|weitergeben durfen)\b/.test(nqt);
+    var istKontakt = /\b(kontakt|kontaktdaten|e ?mail adresse|emailadresse|erreiche ich|erreichbar|telefonnummer)\b/.test(nqt);
+    if (!(istImpressum || istEntwickler || istRueckmeldung || istDatenschutz || istBarriere || istLizenz || istKontakt)) return null;
+
+    var E = K.entwickler || {}, B = K.betreff || {}, L = K.links || {};
+    function mail(betreff) {
+      return '<a href="mailto:' + A.esc(E.email) + (betreff ? "?subject=" + encodeURIComponent(betreff) : "") + '">' + A.esc(E.email) + "</a>";
+    }
+    var html, titel;
+    if (istDatenschutz && !istRueckmeldung) {
+      titel = "Datenschutz";
+      html = "<p><strong>Das Werkzeug überträgt keine Daten.</strong> Es läuft vollständig lokal: keine Cookies, " +
+        "kein Tracking, keine Telemetrie — auch der Assistent und die Bedeutungssuche rechnen nur auf diesem Gerät.</p>" +
+        "<p>Notizen, Aktenvermerke, Merkliste und Checklisten-Stände liegen ausschließlich im Browser-Speicher dieses " +
+        "Geräts und lassen sich jederzeit löschen. Beim Online-Aufruf fallen beim Hoster technisch bedingt " +
+        "Server-Protokolle an; als heruntergeladene Einzeldatei entfällt auch das.</p>" +
+        '<p>Einzelheiten: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a> im Werkzeug · " +
+        '<a href="' + A.esc(L.datenschutz) + '" target="_blank" rel="noopener">Datenschutz beim ' + A.esc(K.behoerde) + " ↗</a></p>";
+    } else if (istBarriere && !istRueckmeldung) {
+      titel = "Barrierefreiheit";
+      html = "<p>Das Werkzeug ist auf <strong>WCAG 2.1 AA</strong> ausgelegt: semantisches HTML, volle " +
+        "Tastaturbedienung mit sichtbarem Fokus, Sprungmarke zum Inhalt, ausreichende Kontraste. Bekannte " +
+        "Einschränkung: einzelne eingescannte PDF im Download-Center.</p>" +
+        "<p><strong>Barriere melden:</strong> " + mail(B.barriere) + " (" + A.esc(E.name) + ").</p>" +
+        '<p>Mehr dazu: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a> · " +
+        '<a href="' + A.esc(L.barrierefreiheit) + '" target="_blank" rel="noopener">Erklärung zur Barrierefreiheit ↗</a></p>';
+    } else if (istLizenz && !istRueckmeldung && !istEntwickler) {
+      titel = "Urheberrecht & Lizenzen";
+      html = "<p>Gesetzestexte sind amtliche Werke und gemeinfrei (§ 5 UrhG). Die Inhalte dieses Werkzeugs stammen " +
+        "von der Ausbildungsberatung des " + A.esc(K.behoerde) + "; Schriften und Logo sind lizenziert und nicht zur " +
+        "Weiterverwendung außerhalb dieses Angebots bestimmt.</p>" +
+        '<p>Vollständige Angaben: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a>.</p>";
+    } else {
+      titel = istRueckmeldung ? "Änderungswünsche & Fehlermeldungen" : "Kontakt & Impressum";
+      html = "<p>Dieses Werkzeug entwickelt und pflegt <strong>" + A.esc(E.name) + "</strong> (" + A.esc(K.bereich) +
+        ", " + A.esc(K.behoerde) + ").</p><ul>" +
+        "<li><strong>Änderungswünsche, Fehler und Vorschläge:</strong> " + mail(B.rueckmeldung) + " — kurze " +
+        "Beschreibung genügt; bei Darstellungsfehlern hilft ein Bildschirmfoto mit Gerät und Browser.</li>" +
+        "<li><strong>Barriere melden:</strong> " + mail(B.barriere) + "</li>" +
+        "<li><strong>Amtlicher Zugang:</strong> " + A.esc(K.poststelle) + " · Telefon (Zentrale) " + A.esc(K.telefon) + "</li>" +
+        "</ul>" +
+        '<p>Alle Angaben (Anbieter, Datenschutz, Barrierefreiheit, Lizenzen): <a href="' + K.seite + '">' +
+        A.esc(K.seitenTitel) + "</a> · " +
+        '<a href="' + A.esc(L.impressum) + '" target="_blank" rel="noopener">Impressum des ' + A.esc(K.behoerde) + " ↗</a></p>";
+    }
+    return { html: html, quellen: [{ text: K.seitenTitel, ziel: K.seite }],
+      folgefragen: ["Werden meine Daten gespeichert?", "Wie melde ich eine Barriere?", "Wer hat das Tool entwickelt?"],
+      titel: titel, stichworte: "" };
+  }
+
   // „Wo finde ich …?" / „Gibt es ein …?" — Antworten aus dem Katalog.
   // `sem` (optional): Rangliste der Bedeutungssuche; ihre werkzeug-Einträge
   // retten Navigationsfragen, die an der Stichwortsuche vorbeiformuliert sind.
@@ -11559,6 +11685,11 @@ window.MODULE = [
     // 2a) Konkreter Paragraf gefragt? Wortlaut aus dem lokalen Volltext.
     var paragraf = paragrafAntwort(nq);
     if (paragraf) { kontextSetzen(paragraf); return Promise.resolve(paragraf); }
+
+    // 2b) Frage zum Werkzeug selbst (Impressum, Kontakt, Rückmeldung,
+    //     Datenschutz, Barrierefreiheit)? Angaben aus window.KONTAKT.
+    var kontakt = kontaktAntwort(nq);
+    if (kontakt) { kontextSetzen(kontakt); return Promise.resolve(kontakt); }
 
     // 3) Folgefrage? Voriges Thema in die Suche einmischen. Findet die
     //    angereicherte Suche nichts (die Frage war doch ein Themenwechsel),
