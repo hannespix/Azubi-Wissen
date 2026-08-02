@@ -178,7 +178,13 @@ sichtbarer Fokus, Skip-Link; `prefers-reduced-motion` respektieren.
 3. CI-Checkliste (4) und Barrierefreiheit (5) vor jedem Commit durchgehen.
 4. Texte: aktive Verben, Sentence-Case, kein Füllwort; Fehlermeldungen sagen,
    was passierte und wie es weitergeht.
-5. Prozess (Branch/PR/Milestones): `AGENTS.md`.
+5. **Durchgängigkeit (Dauerregel):** Inhalte gleichen Rangs gleichrangig
+   darstellen — nicht das eine als Karte, das andere als Fußnote. Bedien- und
+   Darstellungsmuster (Kartensprache, Listen, Filter, Navigation, Benennung)
+   konsequent wiederverwenden statt Sonderlösungen zu bauen; gleiche Dinge
+   heißen überall gleich (Menü = Seitentitel = Krümelpfad). Logische
+   Durchgängigkeit und intuitive Bedienung gehen vor Einzelfall-Ästhetik.
+6. Prozess (Branch/PR/Milestones): `AGENTS.md`.
 
 > Exakte offizielle Digital-Farbtokens im Design-Portal gegenchecken und nur in
 > `bw-theme.css` anpassen.

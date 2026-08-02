@@ -399,7 +399,32 @@
   kein JArbSchG-Zitat zeigt auf ArbSchG), Regressionen k1/k2/
   smoke_start, Offline-Check, Einzeldatei. *(PR #49)*
 
-**Stand 31.07.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
+- **S10 VwV-Ebene auf der Gesetze-Seite** ✅ — Auftrag 02.08.: die
+  Verwaltungsvorschriften bei den Gesetzen unterbringen. #/gesetz
+  führt unter den Werkkarten alle 14 VwV/BIBB-Empfehlungen als
+  beschriftete Listen (Land BW / BIBB-Hauptausschuss) mit
+  Hierarchie-Hinweis auf. *(PR #50)*
+
+- **S11 Zentrale VwVs auf Augenhöhe** ✅ — Auftrag 02.08.: die
+  wichtigsten VwVs gleichrangig zu den Gesetzen zeigen („logische
+  Durchgängigkeit, konsequente intuitive Bedienung — immer daran
+  denken!"). Seite heißt jetzt **„Gesetze & Vorschriften"**
+  (Startkarte, Dokumenttitel und Krümelpfade einheitlich); sechs
+  zentrale Einträge als gleichrangige Karten im selben Karten-Grid
+  (VOAPLandw, VwV Berichtsheft, VwVBBiL, BBiG-ZuVO, BIBB-HA 120
+  Musterprüfungsordnung, BIBB-HA 156 Ausbildungsnachweise) mit
+  Typ-Etikett, PDF-/Extern-Ziel und Herausgeber/Stand; die übrigen
+  acht kompakt unter „Weitere Vorschriften & Empfehlungen".
+  Nebenbei vereinheitlicht: Gesetzeskarten nutzen jetzt das
+  App-weite Kartenmuster (Etikett + h3, AEVO ehrlich als
+  „Verordnung" etikettiert). Die Durchgängigkeits-Regel des
+  Auftraggebers steht jetzt dauerhaft in `CLAUDE.md` (Arbeitsweise
+  Nr. 5). Modul-Katalog + Semantik-Index nachgezogen. Tests:
+  mini_s7 auf 39 Checks (2 Grids, Etiketten, PDF-/Extern-Ziele,
+  Crumb-Konsistenz), Regressionen k2/s1/smoke_start, Offline-Check.
+  *(PR #51)*
+
+**Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
 
