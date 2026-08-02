@@ -84,6 +84,17 @@
     return String(htmlText).split(/(<a\b[^>]*>[\s\S]*?<\/a>)/).map(function (teil, i) {
       if (i % 2 === 1) return teil;
       return teil.replace(NORM_RE, function (ganz, para, gesetz) {
+        // Liegt der Volltext im Tool (S7), springt das Zitat direkt auf die
+        // Norm — offline, ohne PDF-Umweg. Erste §-Nummer des Zitats zählt.
+        if (gesetz === "BBiG" && window.GESETZESTEXTE && window.GESETZESTEXTE.bbig) {
+          var nm = para.match(/(\d+[a-z]?)/);
+          var pnr = nm && nm[1];
+          var da = pnr && window.GESETZESTEXTE.bbig.paragrafen.some(function (p) { return p.nr === pnr; });
+          if (da) {
+            return '<a class="norm-link" href="#/gesetz/bbig-' + pnr + '" title="§ ' + pnr +
+              ' BBiG im Volltext lesen">' + para + gesetz + "</a>";
+          }
+        }
         var e = null, ziel = GESETZ_QUELLE[gesetz.replace(/\s+/g, " ")];
         window.QUELLEN.eintraege.forEach(function (x) { if (x.id === ziel) e = x; });
         if (!e) return ganz;
@@ -499,6 +510,73 @@
     return S.highlight(aus, tokens.join(" "));
   }
 
+  /* ---------------- Gesetzes-Volltexte (S7) ------------------------- */
+  function gesetzWerk(schluessel) {
+    return (window.GESETZESTEXTE || {})[schluessel] || null;
+  }
+  // Rückrichtung § → Artikel: aus den kuratierten recht[]-Feldern der
+  // Wissensartikel („§ 14 Abs. 2 BBiG", „§§ 60–62 BBiG") entsteht je
+  // BBiG-Paragraf die Liste der Artikel, die ihn behandeln.
+  var GESETZ_ARTIKEL = (function () {
+    var map = {};
+    (W.artikel || []).forEach(function (a) {
+      (a.recht || []).forEach(function (r) {
+        var n = String(r.n || "");
+        var pos = n.indexOf("BBiG");
+        if (pos < 0) return;
+        // Absatz-/Satz-/Nummern-Zahlen dürfen nicht als §-Nummern zählen.
+        var vor = n.slice(0, pos).replace(/\b(Abs|Nr|Satz|S)\.?\s?\d+[a-z]?/g, "");
+        vor.replace(/(\d+)(?:\s?[–-]\s?(\d+))?([a-z])?/g, function (g, von, bis, buch) {
+          var nrn = [];
+          if (bis && !buch && +bis > +von && +bis - +von <= 15) {
+            for (var i = +von; i <= +bis; i++) nrn.push(String(i));
+          } else {
+            nrn.push(von + (buch || ""));
+          }
+          nrn.forEach(function (nr) {
+            map[nr] = map[nr] || [];
+            if (map[nr].indexOf(a.id) < 0) map[nr].push(a.id);
+          });
+          return "";
+        });
+      });
+    });
+    return map;
+  })();
+  // Suchliste der Paragrafen (einmalig normalisiert, für Palette & Filter).
+  var GESETZ_SUCHE = null;
+  function gesetzSuchliste() {
+    if (GESETZ_SUCHE) return GESETZ_SUCHE;
+    GESETZ_SUCHE = [];
+    Object.keys(window.GESETZESTEXTE || {}).forEach(function (schl) {
+      var werk = window.GESETZESTEXTE[schl];
+      werk.paragrafen.forEach(function (p) {
+        GESETZ_SUCHE.push({ schl: schl, kurz: werk.kurz, p: p,
+          hay: norm("§ " + p.nr + " " + p.titel + " " + p.absaetze.join(" ")) });
+      });
+    });
+    return GESETZ_SUCHE;
+  }
+  function suchenGesetz(q, limit) {
+    var alle = norm(q).split(" ").filter(Boolean);
+    var tokens = alle.filter(function (t) { return !STOP[t]; });
+    if (!tokens.length) tokens = alle;
+    if (!tokens.length) return [];
+    var treffer = [];
+    gesetzSuchliste().forEach(function (rec) {
+      var summe = 0, alleDa = true;
+      tokens.forEach(function (tok) {
+        var best = 0;
+        tokenAlternativen(tok).forEach(function (al) { best = Math.max(best, tokenScore(al, rec.hay)); });
+        if (best <= 0) alleDa = false;
+        summe += best;
+      });
+      if (alleDa && summe > 0) treffer.push({ rec: rec, score: summe });
+    });
+    treffer.sort(function (a, b) { return b.score - a.score; });
+    return treffer.slice(0, limit || 4).map(function (t) { return t.rec; });
+  }
+
   function paletteSuchen(q) {
     var erg = suchen(q);
     var html = "";
@@ -594,7 +672,16 @@
           html += eintrag("#/artikel/" + r.id + "?faq=" + r.faqIndex, S.highlight(r.titel, q), schnipsel(r.kurz, erg.tokens), "FAQ");
         });
       }
-      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length && !cerg.length && !gerg.length && !berg.length) {
+      var pgerg = suchenGesetz(q, 4);
+      if (pgerg.length) {
+        html += '<li class="palette__gruppe" role="presentation">Gesetzestexte</li>';
+        pgerg.forEach(function (rec) {
+          html += eintrag("#/gesetz/" + rec.schl + "-" + rec.p.nr,
+            S.highlight("§ " + rec.p.nr + " — " + rec.p.titel, q),
+            schnipsel(rec.p.absaetze[0], erg.tokens), rec.kurz);
+        });
+      }
+      if (!erg.artikel.length && !erg.faq.length && !erg.themen.length && !qerg.length && !verg.length && !nerg.length && !cerg.length && !gerg.length && !berg.length && !pgerg.length) {
         html = '<li class="palette__leer" role="presentation">Kein Treffer für „' + esc(q) + '“.<br>' +
           '<a class="bw-btn bw-btn--sekundaer" href="#/assistent?frage=' + encodeURIComponent(q) + '" data-schliessen-nach>Frage dem Assistenten stellen</a></li>';
       }
@@ -694,6 +781,21 @@
         window.VORLAGEN.vorlagen.forEach(function (v) {
           if (v.id === r.params.id) zuletztMerken("#/vorlagen?id=" + v.id, v.titel, "Vorlage");
         });
+      }
+    } else if (view === "gesetz" && r.pfad[1]) {
+      var gmatch = r.pfad[1].match(/^([a-z0-9]+?)(?:-(\d+[a-z]?))?$/) || [];
+      var gschl = gmatch[1] || "";
+      var gwerk = gesetzWerk(gschl);
+      if (gwerk && gmatch[2] && gwerk.paragrafen.some(function (p) { return p.nr === gmatch[2]; })) {
+        haupt.innerHTML = viewGesetzPara(gschl, gmatch[2]);
+        titel = "§ " + gmatch[2] + " " + gwerk.kurz + " — Grüne Berufe BW";
+        zuletztMerken("#/gesetz/" + gschl + "-" + gmatch[2], "§ " + gmatch[2] + " " + gwerk.kurz, "Gesetz");
+      } else if (gwerk) {
+        haupt.innerHTML = viewGesetzListe(gschl);
+        gesetzListeVerhalten(haupt, gschl);
+        titel = gwerk.kurz + " Volltext — Grüne Berufe BW";
+      } else {
+        haupt.innerHTML = platzhalter("Gesetzestext", "Dieser Gesetzestext liegt nicht im Werkzeug vor.");
       }
     } else if (view === "downloads") {
       haupt.innerHTML = viewDownloads();
@@ -1701,6 +1803,98 @@
       root.querySelectorAll(".baum details").forEach(function (d) { d.open = false; });
     });
     zeigenJetzt();
+  }
+
+  /* ---------------- Ansicht: Gesetzes-Volltext (S7) ----------------- */
+  function gesetzQuellenLinks(schl, nr) {
+    var werk = gesetzWerk(schl);
+    var links = [];
+    if (werk && werk.portal) {
+      var amtlich = nr ? werk.portal + "__" + nr + ".html" : werk.portal;
+      links.push('<a href="' + esc(amtlich) + '" target="_blank" rel="noopener">Amtliche Fassung (gesetze-im-internet.de) <span class="bw-leise">↗</span></a>');
+    }
+    var e = null;
+    ((window.QUELLEN || {}).eintraege || []).forEach(function (x) { if (x.id === "gesetz-" + schl) e = x; });
+    if (e) {
+      var z = quelleZiel(e);
+      links.push('<a href="' + esc(z.href) + '"' + (z.extern ? ' target="_blank" rel="noopener"' : "") + '>Gesamt-PDF' + (z.extern ? " ↗" : "") + "</a>");
+    }
+    return links.join(" · ");
+  }
+
+  function viewGesetzListe(schl) {
+    var werk = gesetzWerk(schl);
+    var h = "<h1>" + esc(werk.titel) + " — Volltext</h1>" +
+      '<p class="bw-unterzeile">Alle ' + werk.paragrafen.length + " Paragrafen, durchsuchbar und mit den Wissensartikeln verknüpft</p>" +
+      '<div class="bw-hinweis"><p><strong>Amtlicher Stand:</strong> ' + esc(werk.stand) + ". " +
+      "Maßgeblich ist die Verkündungsfassung — " + gesetzQuellenLinks(schl, null) + ".</p></div>" +
+      '<div class="bw-search" style="max-width:34rem"><label for="gq" class="bw-skip-link">Paragrafen filtern</label>' +
+      '<input id="gq" type="search" placeholder="Filtern: 17, Vergütung, Kündigung …" aria-label="Paragrafen filtern">' +
+      '<button type="button" aria-label="Suchen">' + ICON.suche + "</button></div>" +
+      '<div class="baum" id="gesetz-liste"></div>';
+    return h;
+  }
+
+  function gesetzListeVerhalten(root, schl) {
+    var werk = gesetzWerk(schl);
+    var eingabe = $("#gq", root), ziel = $("#gesetz-liste", root);
+    function zeigenJetzt() {
+      var q = eingabe.value.trim();
+      var treffer = null;
+      if (q) {
+        treffer = {};
+        suchenGesetz(q, 40).forEach(function (rec) { if (rec.schl === schl) treffer[rec.p.nr] = 1; });
+        // Direkte §-Nummer immer zeigen („17" oder „17a").
+        var qn = q.replace(/[^0-9a-z]/gi, "").toLowerCase();
+        werk.paragrafen.forEach(function (p) { if (p.nr === qn) treffer[p.nr] = 1; });
+      }
+      var gruppen = [], je = {};
+      werk.paragrafen.forEach(function (p) {
+        if (treffer && !treffer[p.nr]) return;
+        var teil1 = p.teil.split(" › ")[0] || werk.kurz;
+        if (!je[teil1]) { je[teil1] = []; gruppen.push(teil1); }
+        je[teil1].push(p);
+      });
+      var html = "", gesamt = 0;
+      gruppen.forEach(function (gr) {
+        gesamt += je[gr].length;
+        html += "<details" + (q ? " open" : "") + "><summary>" + esc(gr) +
+          ' <span class="etikett">' + je[gr].length + "</span></summary><ul class=\"baum-liste\">" +
+          je[gr].map(function (p) {
+            return '<li><a href="#/gesetz/' + schl + "-" + p.nr + '">§ ' + esc(p.nr) + " — " + esc(p.titel) + "</a></li>";
+          }).join("") + "</ul></details>";
+      });
+      ziel.innerHTML = gesamt ? html : '<p class="leer">Kein Paragraf passt zum Filter.</p>';
+    }
+    eingabe.addEventListener("input", function () { mitUebergang(zeigenJetzt); });
+    zeigenJetzt();
+  }
+
+  function viewGesetzPara(schl, nr) {
+    var werk = gesetzWerk(schl), idx = -1;
+    werk.paragrafen.forEach(function (p, i) { if (p.nr === nr) idx = i; });
+    var p = werk.paragrafen[idx];
+    var h = '<nav class="crumb" aria-label="Pfad"><a href="#/gesetz/' + schl + '">' + esc(werk.kurz) + " — Volltext</a> › " +
+      esc(p.teil.split(" › ")[0] || "") + "</nav>";
+    h += '<div class="karten-kopf"><h1>§ ' + esc(p.nr) + " " + esc(werk.kurz) + " — " + esc(p.titel) + "</h1>" +
+      merkKnopf("#/gesetz/" + schl + "-" + p.nr, "§ " + p.nr + " " + werk.kurz + " — " + p.titel, "Gesetz") + "</div>";
+    if (p.teil) h += '<p class="bw-klein bw-leise">' + esc(p.teil) + "</p>";
+    h += '<div class="bw-card gesetz-absaetze">' +
+      p.absaetze.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") + "</div>";
+    var vor = werk.paragrafen[idx - 1], nach = werk.paragrafen[idx + 1];
+    h += '<p class="gesetz-nav">' +
+      (vor ? '<a class="bw-btn bw-btn--sekundaer" href="#/gesetz/' + schl + "-" + vor.nr + '">‹ § ' + esc(vor.nr) + "</a>" : "") +
+      (nach ? '<a class="bw-btn bw-btn--sekundaer" href="#/gesetz/' + schl + "-" + nach.nr + '">§ ' + esc(nach.nr) + " ›</a>" : "") + "</p>";
+    var artikelIds = schl === "bbig" ? (GESETZ_ARTIKEL[p.nr] || []) : [];
+    if (artikelIds.length) {
+      h += "<h2>Behandelt in diesen Artikeln</h2><ul class=\"chipzeile\">" +
+        artikelIds.map(function (id) {
+          var a = artikelVon(id);
+          return a ? '<li><a class="chip chip--frage" href="#/artikel/' + a.id + '">' + esc(a.titel) + "</a></li>" : "";
+        }).join("") + "</ul>";
+    }
+    h += '<p class="stand-hinweis">Amtlicher Stand: ' + esc(werk.stand) + " · " + gesetzQuellenLinks(schl, p.nr) + "</p>";
+    return h;
   }
 
   /* ---------------- Ansicht: Schnellnachschlag --------------------- */
@@ -2889,6 +3083,7 @@
     suchen: suchen, fmt: fmt, fmtInline: fmtInline, esc: esc,
     norm: norm, tokenAlternativen: tokenAlternativen, tokenScore: tokenScore, stoppwoerter: STOP,
     artikelVon: artikelVon, themaVon: themaVon, quelleZiel: quelleZiel,
+    gesetzArtikel: function (nr) { return GESETZ_ARTIKEL[nr] || []; },
     paletteOeffnen: paletteOeffnen, rendern: rendern,
     // Rechenkerne für den Assistenten (K1)
     miavWert: miavWert, urlaubNachAlter: urlaubNachAlter,

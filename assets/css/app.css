@@ -736,3 +736,9 @@ a.chip { display: inline-block; }
   max-width: 75ch;
 }
 .rechner-ergebnis:empty { display: none; }
+
+/* Gesetzes-Volltext (S7): Absätze behalten die Nummerierungs-Umbrüche */
+.gesetz-absaetze p { white-space: pre-line; margin: 0 0 0.9rem; }
+.gesetz-absaetze p:last-child { margin-bottom: 0; }
+.gesetz-zitat { white-space: pre-line; }
+.gesetz-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }

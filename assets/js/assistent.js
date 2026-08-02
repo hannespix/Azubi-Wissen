@@ -373,6 +373,37 @@
     return aus.slice(0, 6);
   }
 
+  /* ---------------- Paragraf-Nachschlag (S7) ------------------------ */
+  // „Was steht in § 17 BBiG?" / „§ 20 BBiG" → Wortlaut aus dem lokalen
+  // Volltext, mit Sprung zur Norm und den behandelnden Artikeln.
+  function paragrafAntwort(nq) {
+    var GT = window.GESETZESTEXTE;
+    if (!GT || !GT.bbig) return null;
+    // nq ist normalisiert (ohne §-Zeichen/Punkte): „was steht in 17 abs 2 bbig"
+    var m = nq.match(/(?:^|\s)(\d{1,3}[a-z]?)\s(?:abs\w*\s(\d{1,2})\s)?bbig\b/);
+    if (!m) return null;
+    var p = null;
+    GT.bbig.paragrafen.forEach(function (x) { if (x.nr === m[1]) p = x; });
+    if (!p) return null;
+    var A = window.AzubiApp;
+    var absNr = m[2] ? parseInt(m[2], 10) : 0;
+    var texte = (absNr && absNr <= p.absaetze.length) ? [p.absaetze[absNr - 1]] : p.absaetze;
+    var auszug = texte.join("\n\n");
+    var gekuerzt = auszug.length > 900;
+    if (gekuerzt) auszug = auszug.slice(0, 900) + " …";
+    var html = "<p><strong>§ " + A.esc(p.nr) + " BBiG — " + A.esc(p.titel) +
+      (absNr ? ", Absatz " + absNr : "") + ":</strong></p>" +
+      '<p class="gesetz-zitat">' + A.esc(auszug).replace(/\n/g, "<br>") + "</p>" +
+      (gekuerzt ? '<p class="bw-klein bw-leise">Gekürzt — der vollständige Wortlaut steht im Volltext.</p>' : "");
+    var quellen = [{ text: "§ " + p.nr + " BBiG im Volltext", ziel: "#/gesetz/bbig-" + p.nr }];
+    (A.gesetzArtikel ? A.gesetzArtikel(p.nr) : []).slice(0, 2).forEach(function (id) {
+      var art = A.artikelVon(id);
+      if (art) quellen.push({ text: "Artikel: " + art.titel, ziel: "#/artikel/" + id });
+    });
+    return { html: html, quellen: quellen, folgefragen: [],
+      titel: "§ " + p.nr + " BBiG", stichworte: p.titel };
+  }
+
   // Kurze Anschlussfragen („und mit 16?", „gilt das auch …?") beziehen
   // sich auf das vorige Thema — dann wird der Kontext mitgesucht.
   function istFolgefrage(nq, roh) {
@@ -403,6 +434,10 @@
     // 2) Begriffs-/Vergleichsfrage? Glossar-Definitionen liefern.
     var verglichen = vergleichAntwort(nq);
     if (verglichen) { kontextSetzen(verglichen); return Promise.resolve(verglichen); }
+
+    // 2a) Konkreter Paragraf gefragt? Wortlaut aus dem lokalen Volltext.
+    var paragraf = paragrafAntwort(nq);
+    if (paragraf) { kontextSetzen(paragraf); return Promise.resolve(paragraf); }
 
     // 3) Folgefrage? Voriges Thema in die Suche einmischen. Findet die
     //    angereicherte Suche nichts (die Frage war doch ein Themenwechsel),
