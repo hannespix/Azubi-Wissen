@@ -9,6 +9,20 @@
   var RP = "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/";
   var LW = "https://lw.landwirtschaft-bw.de/";
 
+  /* Ausbildungsbetriebe-Datenbank des Landes (LEL Schwäbisch Gmünd, im
+   * Auftrag des MLR): alle anerkannten Ausbildungsbetriebe der grünen
+   * Berufe, filterbar nach Beruf, Landkreis, Betriebszweig und
+   * konventionell/ökologisch.
+   *   Einstieg:  https://lel.lgl-bw.de/azubi/index.xhtml
+   *   Beruf:     …/index.xhtml?beruf=<code>
+   * `betriebeCode` verlinkt einen Beruf direkt vorgefiltert;
+   * `betriebeCodes` bildet die Fachrichtungen einzeln ab (Schlüssel = exakt
+   * der Fachrichtungsname aus `fachrichtungen`).
+   * Pflegehinweis: Codes stammen aus der Auswahlliste der Datenbank
+   * (geprüft 02.08.2026). Berufe ohne Eintrag (Brenner, Hufbeschlagschmied,
+   * Pferdepfleger) bekommen den ungefilterten Einstieg. */
+  window.BETRIEBE_DB = "https://lel.lgl-bw.de/azubi/index.xhtml";
+
   window.BERUFE = {
     stand: "31.07.2026",
     hinweis: "Zuständige Stelle für die grünen Berufe in Baden-Württemberg sind die Regierungspräsidien — Ausbildungsberatung, Eintragung und Prüfungen laufen dort.",
@@ -16,6 +30,7 @@
       { id: "gaertner", titel: "Gärtner/in", dauer: "3 Jahre",
         verordnung: "GärtnAusbV 1996",
         fachrichtungen: ["Baumschule", "Friedhofsgärtnerei", "Garten- und Landschaftsbau", "Gemüsebau", "Obstbau", "Staudengärtnerei", "Zierpflanzenbau"],
+        betriebeCodes: { "Zierpflanzenbau": "031", "Gemüsebau": "032", "Baumschule": "033", "Obstbau": "034", "Staudengärtnerei": "035", "Garten- und Landschaftsbau": "036", "Friedhofsgärtnerei": "037" },
         kurz: "Pflanzen kultivieren, Grünflächen bauen und pflegen, beraten und verkaufen — der vielseitigste grüne Beruf mit sieben Fachrichtungen.",
         stichworte: ["gartenbau", "galabau", "zierpflanzen", "baumschule"],
         url: RP + "gaertner/", quelleTitel: "RP-Themenportal Gärtner/in",
@@ -24,6 +39,7 @@
         verordnung: "LwAusbV 1995",
         verordnungUrl: "https://www.gesetze-im-internet.de/lwausbv_1995/",
         fachrichtungen: [],
+        betriebeCode: "010",
         kurz: "Pflanzenbau und Tierhaltung im landwirtschaftlichen Betrieb: Ackerbau, Grünland, Rinder- oder Schweinehaltung, Technik und Betriebsführung.",
         stichworte: ["landwirtschaft", "ackerbau", "tierhaltung", "hof"],
         url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Ausbildungberuf_+Landwirtin_Landwirt",
@@ -32,6 +48,7 @@
         verordnung: "WinzerAusbV 1997 (zuletzt geändert 2023)",
         verordnungUrl: "https://www.gesetze-im-internet.de/winzerausbv_1997/",
         fachrichtungen: [],
+        betriebeCode: "040",
         kurz: "Vom Rebschnitt bis zum Ausbau im Keller: Trauben erzeugen, Wein bereiten und vermarkten — stark in den badischen und württembergischen Anbaugebieten.",
         stichworte: ["weinbau", "keller", "reben", "wein"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Winzer/in)" },
@@ -39,6 +56,7 @@
         verordnung: "FischwAusbV 2016",
         verordnungUrl: "https://www.gesetze-im-internet.de/fischwausbv/",
         fachrichtungen: ["Aquakultur und Binnenfischerei", "Küstenfischerei und kleine Hochseefischerei"],
+        betriebeCode: "074",
         kurz: "Fische erzeugen, hältern, fangen und vermarkten — in Baden-Württemberg vor allem Aquakultur und Binnenfischerei (Teichwirtschaft, Bodensee).",
         stichworte: ["fischerei", "aquakultur", "teich", "bodensee"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Fischwirt/in)" },
@@ -53,6 +71,7 @@
         verordnung: "TWirtAusbV 2005",
         verordnungUrl: "https://www.gesetze-im-internet.de/twirtausbv_2005/",
         fachrichtungen: ["Rinderhaltung", "Schweinehaltung", "Geflügelhaltung", "Schäferei", "Imkerei"],
+        betriebeCodes: { "Rinderhaltung": "051", "Schweinehaltung": "052", "Geflügelhaltung": "054", "Schäferei": "055", "Imkerei": "056" },
         kurz: "Nutztiere professionell halten, füttern, pflegen und züchten — von der Rinderherde bis zum Bienenvolk.",
         stichworte: ["tierhaltung", "schaeferei", "imkerei", "gefluegel"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Tierwirt/in)" },
@@ -60,6 +79,7 @@
         verordnung: "PfWirtAusbV 2010",
         verordnungUrl: "https://www.gesetze-im-internet.de/pfwirtausbv_2010/",
         fachrichtungen: ["Klassische Reitausbildung", "Pferdehaltung und Service", "Pferdezucht", "Pferderennen", "Spezialreitweisen"],
+        betriebeCodes: { "Pferdehaltung und Service": "065", "Pferdezucht": "066", "Klassische Reitausbildung": "067", "Pferderennen": "068", "Spezialreitweisen": "069", "Gangreiten": "69_1", "Westernreiten": "69_2" },
         kurz: "Pferde halten, ausbilden, züchten und Kundschaft anleiten — fünf Fachrichtungen vom Reitbetrieb bis zur Zucht.",
         stichworte: ["pferd", "reiten", "zucht", "stall"],
         url: RP + "pferdewirtin/", quelleTitel: "RP-Themenportal Pferdewirt/in" },
@@ -67,6 +87,7 @@
         verordnung: "ForstwiAusbV 1998",
         verordnungUrl: "https://www.gesetze-im-internet.de/forstwiausbv_1998/",
         fachrichtungen: [],
+        betriebeCode: "092",
         kurz: "Wald begründen, pflegen, ernten und schützen: Motorsäge und Seilwinde ebenso wie Naturschutz und Verkehrssicherung.",
         stichworte: ["wald", "forst", "holz", "motorsaege"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Forstwirt/in)" },
@@ -74,6 +95,7 @@
         verordnung: "AgrarAusbV 2009",
         verordnungUrl: "https://www.gesetze-im-internet.de/agrarausbv/",
         fachrichtungen: [],
+        betriebeCode: "080",
         kurz: "Pflanzenproduktion mit Großtechnik als Dienstleistung: Lohnunternehmen, Maschinenring, Agrarlogistik — Technik und Kundenkontakt.",
         stichworte: ["lohnunternehmen", "landtechnik", "maschinen"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Fachkraft Agrarservice)" },
@@ -81,6 +103,7 @@
         verordnung: "MilchtAusbV 2010",
         verordnungUrl: "https://www.gesetze-im-internet.de/milchtausbv/",
         fachrichtungen: [],
+        betriebeCode: "111",
         kurz: "Milch industriell zu Käse, Joghurt und Butter verarbeiten: Anlagen fahren, Prozesse steuern, Hygiene- und Qualitätssicherung.",
         stichworte: ["molkerei", "milch", "kaese", "lebensmittel"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Milchtechnologe/in)" },
@@ -88,6 +111,7 @@
         verordnung: "MilchwLabAusbV 2013",
         verordnungUrl: "https://www.gesetze-im-internet.de/milchlausbv_2013/",
         fachrichtungen: [],
+        betriebeCode: "121",
         kurz: "Milch und Milchprodukte im Labor prüfen: chemische, physikalische und mikrobiologische Analytik für die Qualitätssicherung.",
         stichworte: ["labor", "analytik", "milch", "qualitaet"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Milchw. Laborant/in)" },
@@ -95,6 +119,7 @@
         verordnung: "PflanzTechnAusbV 2013",
         verordnungUrl: "https://www.gesetze-im-internet.de/pflanztechnausbv/",
         fachrichtungen: [],
+        betriebeCode: "081",
         kurz: "Versuchs- und Züchtungswesen: Feld- und Laborversuche anlegen, Pflanzen vermehren, Daten erheben — Schnittstelle von Landwirtschaft und Forschung.",
         stichworte: ["zuechtung", "versuchswesen", "saatgut", "labor"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Pflanzentechnologe/in)" },
@@ -102,6 +127,7 @@
         verordnung: "RevjAusbV 2010",
         verordnungUrl: "https://www.gesetze-im-internet.de/revjausbv_2010/",
         fachrichtungen: [],
+        betriebeCode: "091",
         kurz: "Wildbestände hegen und bejagen, Reviere und Biotope pflegen, Jagdbetrieb organisieren — der Beruf der professionellen Jagd.",
         stichworte: ["jagd", "wild", "revier", "hege"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Revierjäger/in)" },
@@ -109,6 +135,7 @@
         verordnung: "HaWiAusbV 2020",
         verordnungUrl: "https://www.gesetze-im-internet.de/hawiausbv/",
         fachrichtungen: [],
+        betriebeCode: "021",
         kurz: "Versorgen und betreuen in Privathaushalten, Betrieben und Einrichtungen — seit 2020 mit Schwerpunkten (u. a. ländlich-agrarische Dienstleistungen).",
         stichworte: ["hauswirtschaft", "versorgung", "betreuung"],
         url: LW, quelleTitel: "Infodienst Landwirtschaft BW (Hauswirtschafter/in)" },
@@ -117,6 +144,7 @@
       { id: "gartenbaufachwerker", titel: "Gartenbaufachwerker/in (§ 66)", dauer: "3 Jahre",
         verordnung: "GBFWVO (Landesrecht BW)",
         fachrichtungen: ["wie Gärtner/in — alle 7 Fachrichtungen"],
+        betriebeCodes: { "Zierpflanzenbau": "171", "Gemüsebau": "172", "Baumschule": "173", "Obstbau": "174", "Garten- und Landschaftsbau": "176", "Friedhofsgärtnerei": "177" },
         kurz: "Die praxisorientierte Ausbildung nach § 66 BBiG im Gartenbau — ausführlich im Themenbereich Fachwerker dieses Tools.",
         stichworte: ["fachwerker", "66", "behinderung", "gartenbau"],
         url: RP + "gaertner/seiten/gartenbaufachwerker-gartenbaufachwerkerin/",
@@ -124,6 +152,7 @@
       { id: "landwirtschaftsfachwerker", titel: "Landwirtschaftsfachwerker/in (§ 66)", dauer: "3 Jahre",
         verordnung: "Regelung der zuständigen Stelle (§ 66 BBiG)",
         fachrichtungen: [],
+        betriebeCode: "015",
         kurz: "Praxisorientierte Ausbildung nach § 66 BBiG in der Landwirtschaft — Verfahren und Stopppunkte entsprechen dem Fachwerker-Weg.",
         stichworte: ["fachwerker", "66", "landwirtschaft"],
         url: RP + "seiten/landwirtschaftsfachw/",

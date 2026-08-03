@@ -688,7 +688,27 @@ window.QUELLEN = {
     url: "https://www.bibb.de/dokumente/pdf/HA162.pdf",
     beschreibung: "Maßstäbe für die Anerkennung: Verhältnis Fachkräfte/Azubis, Ausstattung, Ausbildungsplan — Grundlage der Eignungsfeststellung.",
     stichworte: ["Eignung", "Ausbildungsstätte", "Anerkennung", "Fachkräfteschlüssel", "Empfehlung"],
-    artikel: ["ausbilder", "eintragung", "fw-betrieb"] }
+    artikel: ["ausbilder", "eintragung", "fw-betrieb"] },
+
+  /* --- Ausbildungsplatzsuche (S17) -------------------------------------
+     Die Betriebsdatenbank des Landes ist die amtliche Liste der anerkannten
+     Ausbildungsbetriebe; ausbildung.farm ergänzt sie um freie Plätze und
+     Praktika (Landjugend, mit den Regierungspräsidien abgestimmt).
+     Direktlinks je Beruf/Fachrichtung stehen in berufe.js. */
+
+  { id: "betriebe-datenbank", titel: "Ausbildungsbetriebe in Baden-Württemberg — Datenbank der anerkannten Betriebe",
+    typ: "portal", herausgeber: "LEL Schwäbisch Gmünd im Auftrag des MLR (Infodienst Landwirtschaft)", stand: "laufend gepflegt",
+    datei: null, url: "https://lel.lgl-bw.de/azubi/index.xhtml",
+    beschreibung: "Alle anerkannten Ausbildungsbetriebe der grünen Berufe im Land — suchbar nach Beruf und Fachrichtung, Landkreis, Betriebszweig sowie konventionell oder ökologisch. Im Werkzeug führt bei jedem Beruf der Knopf „Ausbildungsbetriebe in BW“ direkt in die vorgefilterte Liste, bei Gärtner, Tierwirt, Pferdewirt und den Gartenbaufachwerkern sogar je Fachrichtung.",
+    stichworte: ["Ausbildungsbetrieb", "Ausbildungsplatz", "Betriebssuche", "anerkannte Betriebe", "Datenbank", "Landkreis", "ökologisch"],
+    artikel: ["eintragung", "ausbilder", "ausbildungsberatung", "betriebswechsel"] },
+
+  { id: "ausbildung-farm", titel: "ausbildung.farm — Ausbildungsbörse für Landwirt/in und Winzer/in",
+    typ: "portal", herausgeber: "Landjugendverbände BW mit den Regierungspräsidien, Bauern- und Weinbauverbänden", stand: "laufend",
+    datei: null, url: "https://www.ausbildung.farm",
+    beschreibung: "Freie Ausbildungs- und Praktikumsplätze in der Landwirtschaft und im Weinbau, von den Betrieben selbst gepflegt und nach Suchkriterien filterbar — die Ergänzung zur amtlichen Betriebsdatenbank, wenn es um freie Plätze statt um Anerkennung geht.",
+    stichworte: ["Ausbildungsplatz", "Praktikum", "Ausbildungsbörse", "Landwirt", "Winzer", "Landjugend", "freie Stellen"],
+    artikel: ["eintragung", "ausbildungsberatung"] }
 
   ]
 };

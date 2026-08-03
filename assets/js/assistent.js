@@ -357,6 +357,86 @@
       titel: titel, stichworte: "" };
   }
 
+  // Betriebssuche: „Wer bildet Gärtner aus?", „Ich suche einen
+  // Ausbildungsplatz als Landwirt". Beantwortet die Datenbank der anerkannten
+  // Ausbildungsbetriebe (berufe.js: betriebeCode/-Codes) — wenn möglich schon
+  // auf den genannten Beruf und seine Fachrichtung vorgefiltert.
+  function betriebeAntwort(nq) {
+    var A = window.AzubiApp, B = window.BERUFE;
+    if (!B) return null;
+    var nqt = " " + nq + " ";
+    // Die Anerkennung eines Betriebs ist eine Fachfrage (Eignung, § 27 BBiG)
+    // und keine Betriebssuche.
+    // Ebenso wenig sind Fragen nach Rechten, Pflichten oder Kosten des
+    // Betriebs eine Betriebssuche — dafür gibt es Wissensartikel.
+    if (/\b(anerkennung|anerkannt werden|anerkennen lassen|eignung|geeignet|voraussetzung\w*|wie wird|ausbilden durfen|ausbilder\w* sein)\b/.test(nqt)) return null;
+    if (/\b(pflicht\w*|aufgabe\w*|rechte|verantwort\w*|haftung|kosten|zahlt|zahlen|muss der betrieb|darf der betrieb|verboten|erlaubt)\b/.test(nqt)) return null;
+
+    var suchWort = /\b(ausbildungsbetrieb\w*|ausbildungsplatz\w*|ausbildungsstelle\w*|lehrstelle\w*|praktikumsplatz\w*|praktikumsbetrieb\w*|betriebsliste|ausbildungsborse)\b/.test(nqt);
+    var suchVerb = /\b(such\w*|finde\w*|finden|liste|ubersicht|wo|welche|welcher|wer|gibt es|verzeichnis|in meiner nahe|in der nahe)\b/.test(nqt);
+    var bildetAus = /\b(bildet|bilden)\b[^.]*\baus\b/.test(nqt);
+    if (!((suchWort && suchVerb) || (bildetAus && suchVerb) || (suchWort && bildetAus))) return null;
+
+    // Genannten Beruf erkennen (Titelstamm vor dem „/" und Stichworte).
+    var treffer = null;
+    B.berufe.forEach(function (b) {
+      if (treffer) return;
+      var stamm = A.norm(b.titel.split("/")[0].split(" ")[0]);
+      if (stamm.length > 3 && nqt.indexOf(stamm) >= 0) { treffer = b; return; }
+      (b.stichworte || []).forEach(function (s) {
+        if (!treffer && A.norm(s).length > 4 && nqt.indexOf(A.norm(s)) >= 0) treffer = b;
+      });
+    });
+    // Fachrichtung erkennen, wenn der Beruf welche mit eigenem Code hat.
+    var frName = null, frCode = null;
+    if (treffer && treffer.betriebeCodes) {
+      Object.keys(treffer.betriebeCodes).forEach(function (fr) {
+        if (frName) return;
+        var kern = A.norm(fr.split(" ")[0]);
+        if (kern.length > 4 && nqt.indexOf(kern) >= 0) { frName = fr; frCode = treffer.betriebeCodes[fr]; }
+      });
+    }
+    var basis = window.BETRIEBE_DB || "https://lel.lgl-bw.de/azubi/index.xhtml";
+    function db(code, text) {
+      return '<a href="' + basis + (code ? "?beruf=" + encodeURIComponent(code) : "") +
+        '" target="_blank" rel="noopener">' + text + " ↗</a>";
+    }
+    var html = "", titel = "Ausbildungsbetriebe finden";
+    if (treffer && (frCode || treffer.betriebeCode || treffer.betriebeCodes)) {
+      titel = "Ausbildungsbetriebe: " + treffer.titel;
+      html = "<p>Die anerkannten Ausbildungsbetriebe führt die <strong>Betriebsdatenbank des Landes</strong> " +
+        "(LEL im Auftrag des MLR) — suchbar nach Landkreis, Betriebszweig und konventionell/ökologisch.</p><ul>";
+      if (frCode) {
+        html += "<li>" + db(frCode, A.esc(treffer.titel) + " — " + A.esc(frName)) + " (direkt gefiltert)</li>";
+      } else if (treffer.betriebeCode) {
+        html += "<li>" + db(treffer.betriebeCode, "Betriebe für " + A.esc(treffer.titel)) + " (direkt gefiltert)</li>";
+      }
+      if (treffer.betriebeCodes && !frCode) {
+        html += "<li>Nach Fachrichtung: " + Object.keys(treffer.betriebeCodes).map(function (fr) {
+          return db(treffer.betriebeCodes[fr], A.esc(fr));
+        }).join(" · ") + "</li>";
+      }
+      html += "</ul>";
+    } else {
+      html = "<p>Die anerkannten Ausbildungsbetriebe aller grünen Berufe führt die <strong>Betriebsdatenbank des " +
+        "Landes</strong> (LEL im Auftrag des MLR) — filterbar nach Beruf und Fachrichtung, Landkreis, Betriebszweig " +
+        "sowie konventionell oder ökologisch.</p><ul><li>" + db(null, "Zur Betriebsdatenbank") + "</li></ul>";
+    }
+    // Freie Plätze und Praktika: Ausbildungsbörse der Landjugend.
+    var fuerBoerse = !treffer || treffer.id === "landwirt" || treffer.id === "winzer";
+    html += "<p>" + (fuerBoerse
+      ? 'Für <strong>freie Plätze und Praktika</strong> in Landwirtschaft und Weinbau lohnt zusätzlich die Ausbildungsbörse <a href="https://www.ausbildung.farm" target="_blank" rel="noopener">ausbildung.farm ↗</a> der Landjugendverbände (mit den Regierungspräsidien abgestimmt).'
+      : "Die Datenbank zeigt anerkannte Betriebe, nicht zwingend freie Plätze — im Zweifel direkt beim Betrieb nachfragen.") +
+      "</p>" +
+      '<p class="bw-klein bw-leise">Im Werkzeug führt außerdem jede <a href="#/berufe">Berufsseite</a> direkt in die ' +
+      "passende Liste.</p>";
+    var quellen = [{ text: "Grüne Berufe im Werkzeug", ziel: "#/berufe" }];
+    if (treffer) quellen.unshift({ text: treffer.titel, ziel: "#/berufe?b=" + treffer.id });
+    return { html: html, quellen: quellen, titel: titel,
+      folgefragen: ["Wie wird ein Betrieb als Ausbildungsbetrieb anerkannt?", "Wie läuft die Eintragung des Vertrags?", "Was kannst du alles?"],
+      stichworte: treffer ? treffer.titel : "Ausbildungsbetrieb" };
+  }
+
   // „Wo finde ich …?" / „Gibt es ein …?" — Antworten aus dem Katalog.
   // `sem` (optional): Rangliste der Bedeutungssuche; ihre werkzeug-Einträge
   // retten Navigationsfragen, die an der Stichwortsuche vorbeiformuliert sind.
@@ -580,6 +660,11 @@
     //     Datenschutz, Barrierefreiheit)? Angaben aus window.KONTAKT.
     var kontakt = kontaktAntwort(nq);
     if (kontakt) { kontextSetzen(kontakt); return Promise.resolve(kontakt); }
+
+    // 2c) Suche nach Ausbildungsbetrieben/-plätzen? Betriebsdatenbank des
+    //     Landes, wenn möglich auf Beruf und Fachrichtung vorgefiltert.
+    var betriebe = betriebeAntwort(nq);
+    if (betriebe) { kontextSetzen(betriebe); return Promise.resolve(betriebe); }
 
     // 3) Folgefrage? Voriges Thema in die Suche einmischen. Findet die
     //    angereicherte Suche nichts (die Frage war doch ein Themenwechsel),
