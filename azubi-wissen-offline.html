@@ -10471,6 +10471,18 @@ window.KONTAKT = {
       "<p>" + esc(b.kurz) + "</p></a></li>";
   }
 
+  // BERUFENET-Suche der Bundesagentur. Die frühere Route „/berufenet/suche
+  // ?text=" gibt es seit dem Relaunch der Anwendung nicht mehr — sie liefert
+  // im Browser einen 404 (der Server antwortet als Single-Page-App trotzdem
+  // mit 200, deshalb fällt das keinem Link-Checker auf). Aktuell ist
+  // „/berufenet/ergebnisseite?suchwoerter=". Der Suchbegriff wird auf die
+  // Grundform gekürzt: „Gärtner/in" → „Gärtner", „Pferdepfleger/in (§ 66)"
+  // → „Pferdepfleger" — sonst findet die Suche den Schrägstrich-Titel nicht.
+  function berufenetUrl(titel) {
+    var begriff = String(titel || "").split("/")[0].replace(/\s*\(.*$/, "").trim();
+    return "https://web.arbeitsagentur.de/berufenet/ergebnisseite?suchwoerter=" + encodeURIComponent(begriff);
+  }
+
   // Ausbildungsbetriebe-Datenbank des Landes: mit Berufscode vorgefiltert,
   // ohne Code der allgemeine Einstieg (Berufe ohne eigenen Datenbankeintrag).
   function betriebeUrl(code) {
@@ -10529,7 +10541,7 @@ window.KONTAKT = {
         h += '<div class="export-aktionen">' +
           '<a class="bw-btn" href="' + esc(b.url) + '" target="_blank" rel="noopener">' + esc(b.quelleTitel) + " ↗</a>" +
           '<a class="bw-btn bw-btn--sekundaer" href="' + esc(verordnungZiel) + '" target="_blank"' + (verordnungLokal ? "" : ' rel="noopener"') + ">Verordnung " + (verordnungLokal ? "(PDF)" : "↗") + "</a>" +
-          '<a class="bw-btn bw-btn--sekundaer" href="https://web.arbeitsagentur.de/berufenet/suche?text=' + encodeURIComponent(b.titel) + '" target="_blank" rel="noopener">BERUFENET ↗</a>' +
+          '<a class="bw-btn bw-btn--sekundaer" href="' + esc(berufenetUrl(b.titel)) + '" target="_blank" rel="noopener">BERUFENET ↗</a>' +
           // Anerkannte Ausbildungsbetriebe im Land — vorgefiltert, wo möglich.
           '<a class="bw-btn bw-btn--sekundaer" href="' + esc(betriebeUrl(b.betriebeCode)) + '" target="_blank" rel="noopener">Ausbildungsbetriebe in BW ↗</a>';
         if (berufsTitelListe().indexOf(b.titel) >= 0) {

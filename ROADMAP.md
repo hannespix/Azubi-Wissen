@@ -535,6 +535,23 @@
   vor der Mindestausbildungsvergütung. Tests: mini_s17 (17),
   Regressionen k2/s12/s16/d5/smoke_start, Offline-Check. *(PR #58)*
 
+- **S18 BERUFENET-Link repariert** ✅ — Fehlermeldung 02.08.:
+  „Berufe net 404 Fehler". Ursache: Die Bundesagentur hat BERUFENET
+  auf eine Angular-Anwendung umgestellt; die alte Route
+  `/berufenet/suche?text=` gibt es nicht mehr. Tückisch: Der Server
+  antwortet als Single-Page-App **trotzdem mit HTTP 200**, der 404
+  entsteht erst im Browser — ein Link-Checker (auch unser S2-Lauf)
+  meldet so etwas nie. Aktuelle Route aus dem Router-Bundle der
+  Anwendung ermittelt: `/berufenet/ergebnisseite?suchwoerter=`.
+  Neue Hilfsfunktion `berufenetUrl()` kürzt den Suchbegriff zudem auf
+  die Grundform („Gärtner/in" → „Gärtner", „Pferdepfleger/in (§ 66)"
+  → „Pferdepfleger"), sonst sucht BERUFENET nach dem
+  Schrägstrich-Titel. Gegenprobe: alle übrigen
+  Arbeitsagentur-Links geprüft (BerufeTV und die BA-Portalseiten
+  zeigen auf Wurzeln bzw. serverseitig gerenderte Seiten, sind also
+  in Ordnung). Tests: mini_s17 auf 20 Checks, Regressionen d5 und
+  smoke_start, Offline-Check. *(PR #59)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
