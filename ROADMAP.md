@@ -552,6 +552,31 @@
   in Ordnung). Tests: mini_s17 auf 20 Checks, Regressionen d5 und
   smoke_start, Offline-Check. *(PR #59)*
 
+- **S19 Landesrecht-Links repariert & Prüfungsrecht aktualisiert** ✅ —
+  Fehlermeldung 02.08. (Screenshot): Der Treffer „Gartenbaufachwerker-
+  verordnung (GBFWVO)" öffnete nur die **Startseite** von Landesrecht
+  BW. Ursache: Die Adresse war eine Suchadresse (`/bsbw/search?q=…`),
+  die die neue Portal-Anwendung nicht kennt. Beim Nachprüfen aller
+  Landesrecht-Links fiel ein zweiter Fall auf: Die **VOAPLandw**
+  (Prüfungsdurchführung, 2008) landete auf juris.de — sie wird im
+  Landesrecht-Bestand nicht mehr geführt; **auch der amtliche
+  Infodienst des MLR verlinkt dieses tote Kürzel noch**. An ihrer
+  Stelle stehen vier Verwaltungsvorschriften des MLR vom 22.11.2019
+  (i. d. F. 08.12.2020). Umgesetzt: GBFWVO über die juris-Kurz-
+  bezeichnung `FWerkGartAusbV BW` (serverseitig auf ein Dokument
+  auflösbar, gilt für Quelle **und** den Verordnungs-Knopf auf der
+  Berufsseite); der Eintrag `vwv-voaplandw` führt jetzt die **VwV
+  Abschlussprüfungen Landwirtschaft** (ID bewusst unverändert, damit
+  Artikel- und Kartenverweise halten); neu aufgenommen: **VwV
+  Zwischenprüfungen**, **VwV Ausbildungsstätten** (Eignung und
+  Anerkennung — Grundlage der Betriebsbesuche) und **VwV
+  Gutachterausschüsse**. Alle vier serverseitig verifiziert.
+  Kartenlabel, Modulbeschreibung und der Fachwerker-Prüfungsartikel
+  nachgezogen. Tests: mini_s7 43 (vier neue S19-Checks, u. a. „kein
+  Landesrecht-Link zeigt auf Startseite oder Suche"), mini_s4 auf 106
+  Quellen aktualisiert, Regressionen k2/s16/s17/d5/smoke_start,
+  Offline-Check. *(PR #60)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

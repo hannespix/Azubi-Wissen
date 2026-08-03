@@ -1966,7 +1966,7 @@
     var je = {};
     E.forEach(function (e) { if (e.typ === "vwv" || e.typ === "empfehlung") je[e.id] = e; });
     var WICHTIG = [
-      ["vwv-voaplandw", "VOAPLandw"],
+      ["vwv-voaplandw", "VwV Abschlussprüfung"],
       ["vwv-berichtsheft", "VwV Berichtsheft"],
       ["vwv-bbil", "VwVBBiL"],
       ["vwv-bbig-zuvo", "BBiG-ZuVO"],
@@ -2813,7 +2813,9 @@
         // oder die Regelungs-Übersicht des Bildungsservers Agrar.
         var verordnungZiel = b.verordnungUrl ||
           (b.id === "gaertner" ? "formulare/gesetze/gaertnausbv.pdf" :
-           b.id === "gartenbaufachwerker" ? "https://www.landesrecht-bw.de" :
+           // GBFWVO: Direkteinstieg über die juris-Kurzbezeichnung — die
+           // Portal-Startseite zeigte die Verordnung nicht.
+           b.id === "gartenbaufachwerker" ? "https://www.landesrecht-bw.de/jportal/?quelle=jlink&query=FWerkGartAusbV+BW&psml=bsbawueprod.psml&max=true" :
            "https://www.bildungsserveragrar.de/bildungswege/ausbildung/rechtliche-regelungen-fuer-die-ausbildung/");
         var verordnungLokal = verordnungZiel.indexOf("http") !== 0;
         h += '<div class="export-aktionen">' +

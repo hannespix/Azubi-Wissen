@@ -32,7 +32,7 @@ window.MODULE = [
     info: "Alle geprüften Quellen mit Herausgeber und Stand — Grundlage jeder Antwort.",
     extra: "quellen gesetze verzeichnis belege" },
   { art: "Modul", titel: "Gesetze & Vorschriften", ziel: "#/gesetz",
-    info: "Neun Gesetze komplett im Werkzeug — BBiG, JArbSchG, BUrlG, ArbZG, ArbSchG, EntgFG, KSchG, TzBfG, AEVO im Volltext, jeder Paragraf als eigene Seite, durchsuchbar und mit den Wissensartikeln verknüpft. Dazu gleichrangig die zentralen Verwaltungsvorschriften des Landes (VOAPLandw, VwV Berichtsheft, VwVBBiL, BBiG-ZuVO) und BIBB-Empfehlungen (Musterprüfungsordnung, Ausbildungsnachweise).",
+    info: "Neun Gesetze komplett im Werkzeug — BBiG, JArbSchG, BUrlG, ArbZG, ArbSchG, EntgFG, KSchG, TzBfG, AEVO im Volltext, jeder Paragraf als eigene Seite, durchsuchbar und mit den Wissensartikeln verknüpft. Dazu gleichrangig die zentralen Verwaltungsvorschriften des Landes (VwV Abschlussprüfungen, VwV Berichtsheft, VwVBBiL, BBiG-ZuVO) und BIBB-Empfehlungen (Musterprüfungsordnung, Ausbildungsnachweise).",
     extra: "bbig berufsbildungsgesetz jarbschg jugendarbeitsschutz burlg urlaub arbzg arbeitszeit arbschg arbeitsschutz entgfg efzg entgeltfortzahlung kschg kuendigungsschutz tzbfg teilzeit befristung aevo ausbilder eignung gesetz volltext paragraf paragrafen nachschlagen wortlaut verwaltungsvorschrift vwv empfehlung bibb hauptausschuss voaplandw pruefungsordnung vorschriften" },
   { art: "Modul", titel: "Eigene Inhalte & Sicherung", ziel: "#/eigene",
     info: "Eigene Artikel, Dokumente und Verträge anlegen — plus Komplettsicherung als Datei (Export und Import, z. B. beim Rechnerwechsel).",

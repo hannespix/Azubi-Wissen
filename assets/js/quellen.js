@@ -254,8 +254,11 @@ window.QUELLEN = {
     artikel: ["ausbildungspflicht", "abschlusspruefung"] },
   { id: "gesetz-gbfwvo", titel: "Gartenbaufachwerkerverordnung (GBFWVO) — Landesrecht BW",
     typ: "link", herausgeber: "Land BW (landesrecht-bw.de)", stand: "01.02.2022",
-    datei: null, url: "https://www.landesrecht-bw.de/bsbw/search?q=Gartenbaufachwerkerverordnung",
-    beschreibung: "Die Ausbildungsregelung für Fachwerker/innen im Gartenbau — im Landesrecht-Portal aufrufen.",
+    // Direkteinstieg über die juris-Kurzbezeichnung „FWerkGartAusbV BW"; das
+    // Portal löst sie serverseitig auf die Vorschrift auf. Eine Suchadresse
+    // (…/bsbw/search?q=…) landet dagegen auf der Startseite.
+    datei: null, url: "https://www.landesrecht-bw.de/jportal/?quelle=jlink&query=FWerkGartAusbV+BW&psml=bsbawueprod.psml&max=true",
+    beschreibung: "Die Ausbildungsregelung des Landes für Fachwerker/innen im Gartenbau (§ 66 BBiG) im amtlichen Volltext — Ausbildungsinhalte, Dauer, Prüfung.",
     stichworte: ["GBFWVO", "Gartenbaufachwerkerverordnung", "Fachwerker", "Verordnung", "Landesrecht"],
     artikel: ["fw-grundlagen", "fw-betrieb", "fw-inhalte-pruefung"] },
 
@@ -594,13 +597,44 @@ window.QUELLEN = {
     stichworte: ["VwV", "VwVBBiL", "überbetriebliche Ausbildung", "Zulassung", "Abschlussprüfung"],
     artikel: ["abschlusspruefung", "zustaendige-stelle"] },
 
-  { id: "vwv-voaplandw", titel: "VOAPLandw — VO über die Durchführung von Abschlussprüfungen in den Ausbildungsberufen der Landwirtschaft",
-    typ: "vwv", herausgeber: "MLR Baden-Württemberg (Landesrecht BW)", stand: "17.11.2008",
+  /* Prüfungs- und Anerkennungsrecht des Landes: seit 2019/2020 regeln vier
+     Verwaltungsvorschriften des MLR (alle vom 22.11.2019, i. d. F.
+     08.12.2020) das Verfahren. Die frühere Verordnung über die Durchführung
+     von Abschlussprüfungen (VOAPLandw, 2008) ist im Landesrecht-Portal nicht
+     mehr abrufbar — der Verweis darauf führte ins Leere und wurde ersetzt.
+     Die IDs bleiben unverändert, damit Artikel- und Kartenverweise halten. */
+
+  { id: "vwv-voaplandw", titel: "VwV Abschlussprüfungen Landwirtschaft — Durchführung der Abschlussprüfungen in den grünen Berufen",
+    typ: "vwv", herausgeber: "MLR Baden-Württemberg (Landesrecht BW)", stand: "22.11.2019, i. d. F. 08.12.2020",
     datei: null,
-    url: "https://landesrecht-bw.de/jportal/?quelle=jlink&query=LwAbschlPrDV+BW&psml=bsbawueprod.psml&max=true",
-    beschreibung: "Die Prüfungsdurchführungs-Verordnung des Landes für die grünen Berufe — Verfahren, Ausschüsse, Bewertung; ergänzt die Prüfungsteile der Ausbildungsordnungen.",
-    stichworte: ["VOAPLandw", "Prüfungsordnung", "Abschlussprüfung", "Durchführung", "Landesrecht"],
+    url: "https://www.landesrecht-bw.de/jportal/?quelle=jlink&query=VVBW-MLR-20191122-04-SF&psml=bsbawueprod.psml&max=true",
+    beschreibung: "Verfahren der Abschlussprüfung im Land: Prüfungsausschüsse, Zulassung, Aufgabenstellung, Bewertung und Wiederholung — die Landesregeln neben den Prüfungsteilen der Ausbildungsordnungen. Tritt an die Stelle der früheren VOAPLandw (2008), die nicht mehr im Landesrecht-Bestand geführt wird.",
+    stichworte: ["VwV Abschlussprüfungen", "VOAPLandw", "Prüfungsordnung", "Abschlussprüfung", "Durchführung", "Landesrecht"],
     artikel: ["abschlusspruefung", "ap-noten", "nichtbestehen", "zwischenpruefung"] },
+
+  { id: "vwv-zwischenpruefung-lw", titel: "VwV Zwischenprüfungen Landwirtschaft — Durchführung der Zwischenprüfungen",
+    typ: "vwv", herausgeber: "MLR Baden-Württemberg (Landesrecht BW)", stand: "22.11.2019, i. d. F. 08.12.2020",
+    datei: null,
+    url: "https://www.landesrecht-bw.de/jportal/?quelle=jlink&query=VVBW-MLR-20191122-05-SF&psml=bsbawueprod.psml&max=true",
+    beschreibung: "Landesregeln zur Zwischenprüfung: Zeitpunkt, Anmeldung, Durchführung und Bescheinigung — Grundlage der Teilnahmepflicht als Zulassungsvoraussetzung zur Abschlussprüfung.",
+    stichworte: ["Zwischenprüfung", "VwV", "Durchführung", "Zulassung", "Landesrecht"],
+    artikel: ["zwischenpruefung", "abschlusspruefung"] },
+
+  { id: "vwv-ausbildungsstaetten-lw", titel: "VwV Ausbildungsstätten Landwirtschaft — Eignung und Anerkennung von Ausbildungsbetrieben",
+    typ: "vwv", herausgeber: "MLR Baden-Württemberg (Landesrecht BW)", stand: "22.11.2019, i. d. F. 08.12.2020",
+    datei: null,
+    url: "https://www.landesrecht-bw.de/jportal/?quelle=jlink&query=VVBW-MLR-20191122-03-SF&psml=bsbawueprod.psml&max=true",
+    beschreibung: "Wie das Land die Eignung von Ausbildungsstätten feststellt (§§ 27 ff. BBiG): Anforderungen an Betrieb und Ausbildungspersonal, Verfahren der Anerkennung, Überwachung — die Grundlage der Betriebsbesuche der Ausbildungsberatung.",
+    stichworte: ["Ausbildungsstätte", "Eignung", "Anerkennung", "Betriebsbesuch", "VwV", "Landesrecht"],
+    artikel: ["eintragung", "ausbilder", "ausbildungsberatung"] },
+
+  { id: "vwv-gutachterausschuss-lw", titel: "VwV Gutachterausschüsse Landwirtschaft — Begutachtung von Ausbildungsstätten",
+    typ: "vwv", herausgeber: "MLR Baden-Württemberg (Landesrecht BW)", stand: "22.11.2019, i. d. F. 08.12.2020",
+    datei: null,
+    url: "https://www.landesrecht-bw.de/jportal/?quelle=jlink&query=VVBW-MLR-20191122-02-SF&psml=bsbawueprod.psml&max=true",
+    beschreibung: "Zusammensetzung und Arbeitsweise der Gutachterausschüsse, die Betriebe vor der Anerkennung als Ausbildungsstätte begutachten — wer mitwirkt, wie das Gutachten zustande kommt.",
+    stichworte: ["Gutachterausschuss", "Begutachtung", "Anerkennung", "Ausbildungsstätte", "VwV"],
+    artikel: ["eintragung", "ausbildungsberatung"] },
 
   { id: "vwv-bbig-zuvo", titel: "BBiG-Zuständigkeitsverordnung BW (BBiG-ZuVO) — wer ist zuständige Stelle?",
     typ: "vwv", herausgeber: "Landesregierung BW (Landesrecht BW)", stand: "03.07.2007, mehrfach geändert",
