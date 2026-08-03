@@ -510,6 +510,31 @@
   mini_s16 (19), Regressionen k1/k2/s1/s7/s12, smoke_start,
   Einzeldatei, Offline-Check. *(PR #57)*
 
+- **S17 Ausbildungsbetriebe-Datenbank integriert** ✅ — Auftrag
+  02.08.: die Infodienst-Seite „Ausbildungsbetriebe in den Berufen
+  der Landwirtschaft" verlinken oder smart einbinden. Kern der Seite
+  ist die **Betriebsdatenbank des Landes** (LEL im Auftrag des MLR,
+  `lel.lgl-bw.de/azubi`) mit fachrichtungsgenauen Berufscodes — die
+  passen 1:1 auf unsere Berufsstruktur. Deshalb nicht nur verlinkt:
+  `berufe.js` führt je Beruf `betriebeCode` bzw. `betriebeCodes`
+  (15 Berufe, alle Codes am 02.08.2026 aus der Auswahlliste geprüft);
+  jede Berufsseite hat den Knopf „Ausbildungsbetriebe in BW", und die
+  Fachrichtungs-Chips werden zu Direktlinks in die vorgefilterte
+  Liste (Gärtner 031–037, Tierwirt 051–056, Pferdewirt 065–069 inkl.
+  Gangreiten/Westernreiten, Gartenbaufachwerker 171–177). Berufe ohne
+  Datenbankeintrag (Brenner, Hufbeschlagschmied, Pferdepfleger)
+  bekommen den ungefilterten Einstieg. Neuer Assistent-Zweig
+  `betriebeAntwort()` erkennt Beruf **und** Fachrichtung in der Frage
+  („Wer bildet Tierwirte in der Imkerei aus?" → Code 056) und grenzt
+  gegen Fachfragen ab (Anerkennung, Eignung, Pflichten bleiben
+  Wissensantworten). Zwei neue Quellen: Betriebsdatenbank und
+  **ausbildung.farm** (Ausbildungsbörse der Landjugend für freie
+  Plätze/Praktika, Landwirt + Winzer), eigene Download-Gruppe
+  „Ausbildungsbetriebe & Platzsuche". Bewusst weggelassen: die
+  MLR-Broschüre „Berufsausbildung im Agrarbereich" — Stand 2016, also
+  vor der Mindestausbildungsvergütung. Tests: mini_s17 (17),
+  Regressionen k2/s12/s16/d5/smoke_start, Offline-Check. *(PR #58)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

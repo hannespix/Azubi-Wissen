@@ -1749,6 +1749,8 @@
         return ["pflanzenlisten", "schule-anmeldungen", "berichtsheft-gaertner", "berichtsheft-galabau"].indexOf(e.id) >= 0; }) },
       { titel: "Förderung & Arbeitsagentur", eintraege: nach(function (e) { return e.id.indexOf("ba-") === 0; }) },
       { titel: "Arbeitsschutz (SVLFG)", eintraege: nach(function (e) { return e.id.indexOf("svlfg") === 0; }) },
+      { titel: "Ausbildungsbetriebe & Platzsuche", eintraege: nach(function (e) {
+        return ["betriebe-datenbank", "ausbildung-farm"].indexOf(e.id) >= 0; }) },
       { titel: "Portale der zuständigen Stelle", eintraege: nach(function (e) { return e.id.indexOf("rp-") === 0; }) },
       { titel: "Weitere öffentliche Stellen (LRA Karlsruhe, BiBB, Bildungsserver)", eintraege: nach(function (e) {
         return /^(lra-|ka-|bibb-|bildungsserver|lw-)/.test(e.id); }) }
@@ -2747,6 +2749,13 @@
       "<p>" + esc(b.kurz) + "</p></a></li>";
   }
 
+  // Ausbildungsbetriebe-Datenbank des Landes: mit Berufscode vorgefiltert,
+  // ohne Code der allgemeine Einstieg (Berufe ohne eigenen Datenbankeintrag).
+  function betriebeUrl(code) {
+    var basis = window.BETRIEBE_DB || "https://lel.lgl-bw.de/azubi/index.xhtml";
+    return code ? basis + "?beruf=" + encodeURIComponent(code) : basis;
+  }
+
   function viewBerufe(params) {
     var B = window.BERUFE;
     if (!B) return platzhalter("Grüne Berufe", "Berufe-Modul nicht geladen.");
@@ -2762,9 +2771,31 @@
           '<span class="etikett etikett--recht">' + esc(b.verordnung) + "</span>" +
           (b.paragraf66 ? ' <span class="etikett etikett--eigen">§ 66 BBiG</span>' : "") + "</p>" +
           "<p>" + esc(b.kurz) + "</p>";
+        // Fachrichtungen: wo die Ausbildungsbetriebe-Datenbank einen eigenen
+        // Code führt, wird der Chip zum Direktlink in die gefilterte Liste.
         if ((b.fachrichtungen || []).length) {
-          h += "<p><strong>Fachrichtungen:</strong></p><ul class=\"chipzeile\">" +
-            b.fachrichtungen.map(function (f) { return '<li><span class="chip">' + esc(f) + "</span></li>"; }).join("") + "</ul>";
+          var codes = b.betriebeCodes || {};
+          h += "<p><strong>Fachrichtungen:</strong>" +
+            (Object.keys(codes).length ? ' <span class="bw-klein bw-leise">(Klick zeigt die Ausbildungsbetriebe im Land)</span>' : "") +
+            "</p><ul class=\"chipzeile\">" +
+            b.fachrichtungen.map(function (f) {
+              if (!codes[f]) return '<li><span class="chip">' + esc(f) + "</span></li>";
+              return '<li><a class="chip" href="' + esc(betriebeUrl(codes[f])) + '" target="_blank" rel="noopener" ' +
+                'title="Ausbildungsbetriebe ' + esc(b.titel) + " — " + esc(f) + ' in Baden-Württemberg">' +
+                esc(f) + ' <span aria-hidden="true">↗</span></a></li>';
+            }).join("") + "</ul>";
+          // Fachrichtungen, die die Datenbank kennt, die Berufsliste aber
+          // nicht einzeln führt (Sammeltext beim Fachwerker, Reitweisen beim
+          // Pferdewirt) — als eigene, gleich aussehende Zeile.
+          var offen = Object.keys(codes).filter(function (fr) { return b.fachrichtungen.indexOf(fr) < 0; });
+          if (offen.length) {
+            h += "<p><strong>Ausbildungsbetriebe nach Fachrichtung:</strong></p><ul class=\"chipzeile\">" +
+              offen.map(function (fr) {
+                return '<li><a class="chip" href="' + esc(betriebeUrl(codes[fr])) + '" target="_blank" rel="noopener" ' +
+                  'title="Ausbildungsbetriebe ' + esc(b.titel) + " — " + esc(fr) + ' in Baden-Württemberg">' +
+                  esc(fr) + ' <span aria-hidden="true">↗</span></a></li>';
+              }).join("") + "</ul>";
+          }
         }
         // Verordnungs-Ziel: verifizierter Direktlink, lokales PDF (Gärtner)
         // oder die Regelungs-Übersicht des Bildungsservers Agrar.
@@ -2776,7 +2807,9 @@
         h += '<div class="export-aktionen">' +
           '<a class="bw-btn" href="' + esc(b.url) + '" target="_blank" rel="noopener">' + esc(b.quelleTitel) + " ↗</a>" +
           '<a class="bw-btn bw-btn--sekundaer" href="' + esc(verordnungZiel) + '" target="_blank"' + (verordnungLokal ? "" : ' rel="noopener"') + ">Verordnung " + (verordnungLokal ? "(PDF)" : "↗") + "</a>" +
-          '<a class="bw-btn bw-btn--sekundaer" href="https://web.arbeitsagentur.de/berufenet/suche?text=' + encodeURIComponent(b.titel) + '" target="_blank" rel="noopener">BERUFENET ↗</a>';
+          '<a class="bw-btn bw-btn--sekundaer" href="https://web.arbeitsagentur.de/berufenet/suche?text=' + encodeURIComponent(b.titel) + '" target="_blank" rel="noopener">BERUFENET ↗</a>' +
+          // Anerkannte Ausbildungsbetriebe im Land — vorgefiltert, wo möglich.
+          '<a class="bw-btn bw-btn--sekundaer" href="' + esc(betriebeUrl(b.betriebeCode)) + '" target="_blank" rel="noopener">Ausbildungsbetriebe in BW ↗</a>';
         if (berufsTitelListe().indexOf(b.titel) >= 0) {
           h += '<button class="bw-btn bw-btn--gelb" id="beruf-vorlagen" type="button" data-beruf="' + esc(b.titel) + '">E-Mail-Vorlagen für diesen Beruf</button>';
         }
