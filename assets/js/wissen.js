@@ -1360,7 +1360,7 @@ window.WISSEN = {
     recht: [
       { n: "GBFWVO BW", t: "Ausbildungsrahmenplan, Prüfungsregelungen" },
       { n: "§ 65 BBiG", t: "Nachteilsausgleich" },
-      { n: "VOAPLandw", t: "Prüfungsverfahren der landwirtschaftlichen Berufe" }
+      { n: "VwV Abschlussprüfungen Landwirtschaft", t: "Prüfungsverfahren im Land (seit 2019/2020 an Stelle der VOAPLandw)" }
     ],
     fakten: [
       "**Pflicht-ÜBA:** mindestens **zwei Ausbildungswochen** „Einsatz von Maschinen im Gartenbau“ inklusive Arbeitssicherheit und Rückenschule (teilbar in Abschnitte).",
