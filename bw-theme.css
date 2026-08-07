@@ -208,11 +208,14 @@ input, select, textarea { font: inherit; width: 100%; padding: 0.5em 0.65em; bac
    zwischen Handy und Desktop). */
 .bw-nav__toggle { display: inline-flex; }
 
-/* Navigationspanel (Off-Canvas, einfach gehalten) */
+/* Navigationspanel — Anker ist die Navigationszeile selbst, damit das Panel
+   unter dem Menüknopf sitzt und nicht am Fensterrand klebt (der Header ist
+   vollbreit, die Navigation liegt im zentrierten Inhaltsbereich). */
+.bw-nav { position: relative; }
 .bw-nav__panel {
-  position: absolute; left: 0; right: 0; top: 100%;
-  background: var(--bw-weiss); border-bottom: var(--bw-border);
-  padding: var(--bw-space-2) var(--bw-rand);
+  position: absolute; left: 0; right: 0; top: calc(100% + 0.4rem);
+  background: var(--bw-weiss); border: var(--bw-border); border-radius: var(--bw-radius);
+  padding: var(--bw-space-2) var(--bw-space-3);
   display: none;
   z-index: 30;
 }
@@ -221,13 +224,18 @@ input, select, textarea { font: inherit; width: 100%; padding: 0.5em 0.65em; bac
 .bw-nav__links a { padding: 0.75em 0; border-bottom: 1px solid var(--bw-linie); }
 .bw-nav__links a[aria-current="page"] { border-bottom-color: var(--bw-gelb); }
 
-/* Auf breiten Schirmen bleibt das Panel angenehm schmal statt über die
-   volle Breite zu laufen. */
+/* Breite Schirme: schmales Panel, das rechts bündig unter dem Menüknopf
+   hervorkommt — es fährt sichtbar aus dem Hamburger heraus. */
 @media (min-width: 801px) {
   .bw-nav__panel {
-    left: auto; right: var(--bw-rand); width: min(22rem, calc(100vw - 2 * var(--bw-rand)));
-    border: var(--bw-border); border-radius: var(--bw-radius);
+    left: auto; right: 0; width: min(22rem, calc(100vw - 2 * var(--bw-rand)));
+    transform-origin: top right;
   }
+  .bw-nav__panel[data-open="true"] { animation: bw-nav-ausfahren 150ms ease-out; }
+}
+@keyframes bw-nav-ausfahren {
+  from { opacity: 0; transform: scaleY(0.94) translateY(-6px); }
+  to   { opacity: 1; transform: none; }
 }
 
 /* ===================== Suche ====================================== */
