@@ -1780,11 +1780,20 @@
       h += '<ul class="anlagen-liste">';
       vorgeschlagen.concat(weitere).forEach(function (e) {
         var an = !!empfohlen[e.id];
+        var ziel = quelleZiel(e);
         h += '<li' + (an ? "" : ' hidden data-weitere="1"') + '><label class="anlage-wahl">' +
           '<input type="checkbox" data-anlage="' + esc(e.id) + '"' + (e.fuer ? ' data-plan="1"' : "") +
           (an ? " checked" : "") + "> " +
           '<span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span> " + esc(e.titel) +
-          ' <span class="bw-klein bw-leise">(' + esc(e.datei.split("/").pop()) + ")</span></label></li>";
+          ' <span class="bw-klein bw-leise">(' + esc(e.datei.split("/").pop()) + ")</span></label>" +
+          // Vor dem Anhaken hineinschauen. Gleiche Benennung wie im
+          // Download-Center; in der Einzeldatei lädt der Browser die
+          // eingebettete Datei herunter, weil er data:-URLs nicht als Seite
+          // öffnet.
+          ' <a class="anlage-ansehen" href="' + esc(ziel.href) + '"' +
+          (ziel.download ? ' download="' + esc(ziel.download) + '"' : ' target="_blank" rel="noopener"') +
+          ' aria-label="' + esc(e.titel) + " — PDF öffnen\">PDF öffnen" +
+          (ziel.extern ? " ↗" : "") + "</a></li>";
       });
       h += "</ul>";
       if (weitere.length) {
