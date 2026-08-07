@@ -1479,22 +1479,38 @@
   var DATUMSFELDER = { TERMIN: 1, FRIST: 1, ANTRAGSFRIST: 1, ANMELDESCHLUSS: 1, AUSBILDUNGSBEGINN: 1, PRUEFUNGSDATUM: 1, DATUM_ENDE: 1, NEUES_ENDE: 1 };
   var FRISTFELDER = { FRIST: 1, ANTRAGSFRIST: 1 }; // Vorbelegung: heute + 14 Tage
 
-  // Anmeldeschluss der Abschlussprüfungen: feste Landestermine — 1. November
-  // für die Winter-, 1. April für die Sommerprüfung. Die Fristfelder
-  // ANMELDESCHLUSS und ANTRAGSFRIST (Externenprüfung) werden deshalb mit dem
-  // nächsten dieser Termine vorbelegt statt mit „heute + 14 Tage".
-  var PRUEFUNGSFRISTEN = [{ monat: 4, tag: 1, name: "Sommerprüfung" }, { monat: 11, tag: 1, name: "Winterprüfung" }];
-  function naechsterAnmeldeschluss() {
-    var heute = new Date(), best = null;
-    [0, 1].forEach(function (plus) {
-      PRUEFUNGSFRISTEN.forEach(function (f) {
-        var d = new Date(heute.getFullYear() + plus, f.monat - 1, f.tag);
-        if (d >= heute && (!best || d < best)) best = d;
-      });
+  // Anmeldeschluss der Abschlussprüfungen: feste Landestermine — 1. April für
+  // den Sommer-, 1. November für den Wintertermin. Der Wintertermin ist nach
+  // dem Prüfungsjahr benannt (Prüfung im Februar), sein Anmeldeschluss liegt
+  // deshalb im November DAVOR: Wintertermin 2027 → Frist 01.11.2026.
+  // Die Fristfelder ANMELDESCHLUSS und ANTRAGSFRIST folgen dem gewählten
+  // Termin; ohne Terminfeld greift der nächste anstehende Schluss.
+  var PRUEFUNGSJAHRE_VORAUS = 3;
+  function fristFuerTermin(termin) {
+    var m = /^(Sommer|Winter)termin\s+(\d{4})/.exec(String(termin || ""));
+    if (!m) return "";
+    return m[1] === "Sommer" ? m[2] + "-04-01" : (Number(m[2]) - 1) + "-11-01";
+  }
+  // Beide Durchgänge über mehrere Jahre — dadurch ist das Jahr frei wählbar.
+  // Reihenfolge = Reihenfolge der Anmeldeschlüsse.
+  function pruefungstermine() {
+    var j = new Date().getFullYear(), liste = [];
+    for (var i = 0; i <= PRUEFUNGSJAHRE_VORAUS; i++) {
+      liste.push("Sommertermin " + (j + i));
+      liste.push("Wintertermin " + (j + i + 1));
+    }
+    return liste;
+  }
+  // Vorbelegt ist der Durchgang, dessen Anmeldeschluss als nächster ansteht.
+  function naechsterTermin() {
+    var heute = heuteISO(0), liste = pruefungstermine(), treffer = "";
+    liste.forEach(function (t) {
+      if (!treffer && fristFuerTermin(t) >= heute) treffer = t;
     });
-    if (!best) return heuteISO(14);
-    return best.getFullYear() + "-" + String(best.getMonth() + 1).padStart(2, "0") +
-      "-" + String(best.getDate()).padStart(2, "0");
+    return treffer || liste[liste.length - 1];
+  }
+  function naechsterAnmeldeschluss() {
+    return fristFuerTermin(naechsterTermin()) || heuteISO(14);
   }
 
   function heuteISO(tagePlus) {
@@ -1561,15 +1577,13 @@
     }
     return ids;
   }
-  function pruefungstermine() {
-    var j = new Date().getFullYear();
-    return ["Sommertermin " + j, "Wintertermin " + j + "/" + (j + 1), "Sommertermin " + (j + 1)];
-  }
   function feldDefFuer(k) {
     if (k === "BERUF") return { typ: "auswahl", optionen: berufsTitelListe(), standard: "Gärtner/in" };
     if (k === "FACHRICHTUNG") return { typ: "auswahl", abhaengigVon: "BERUF" };
-    if (k === "PRUEFUNGSTERMIN") return { typ: "auswahl", optionen: pruefungstermine() };
-    if (k === "ANMELDESCHLUSS" || k === "ANTRAGSFRIST") return { typ: "datum", vorISO: naechsterAnmeldeschluss() };
+    if (k === "PRUEFUNGSTERMIN") return { typ: "auswahl", optionen: pruefungstermine(), standard: naechsterTermin() };
+    // `ausTermin`: Steht im selben Text ein Prüfungstermin, richtet sich die
+    // Frist nach ihm statt nach dem nächsten Schluss im Kalender.
+    if (k === "ANMELDESCHLUSS" || k === "ANTRAGSFRIST") return { typ: "datum", vorISO: naechsterAnmeldeschluss(), ausTermin: true };
     if (DATUMSFELDER[k]) return { typ: "datum", vorISO: heuteISO(FRISTFELDER[k] ? 14 : 0) };
     return { typ: "text" };
   }
@@ -1672,8 +1686,19 @@
     h += "<h1>" + esc(v.titel) + "</h1>";
     if (v.hinweise) h += '<div class="bw-hinweis"><p><strong>Hinweis:</strong> ' + fmtInline(v.hinweise) + "</p></div>";
     h += '<div class="vorlage-raster">';
+    // Gewählter Prüfungstermin — er bestimmt die Anmeldefrist, also einmal
+    // vorab auflösen (Auswahlfeld und Datumsfeld sollen dasselbe zeigen).
+    var terminWert = "";
+    if (ph.indexOf("PRUEFUNGSTERMIN") >= 0) {
+      var td = feldDefFuer("PRUEFUNGSTERMIN");
+      terminWert = td.optionen.indexOf(werte.PRUEFUNGSTERMIN) >= 0 ? werte.PRUEFUNGSTERMIN : td.standard;
+    }
     h += '<section aria-label="Angaben"><h2>Angaben</h2>' +
-      '<p class="bw-klein bw-leise">Auswahlfelder und Datum sind vorbelegt; Textfelder schlagen frühere Eingaben vor.</p>' +
+      '<p class="bw-klein bw-leise">Auswahlfelder und Datum sind vorbelegt; Textfelder schlagen frühere Eingaben vor.' +
+      (terminWert && ph.some(function (k) { return k === "ANMELDESCHLUSS" || k === "ANTRAGSFRIST"; })
+        ? " Der Prüfungstermin setzt die Anmeldefrist: 1. April für den Sommertermin, 1. November des Vorjahres " +
+          "für den Wintertermin (Prüfung im Februar)."
+        : "") + "</p>" +
       '<div class="platzhalter-felder">';
     var historie = historieLesen();
     ph.forEach(function (k) {
@@ -1693,7 +1718,9 @@
         });
         h += "</select>";
       } else if (def.typ === "datum") {
-        var iso = isoVonDe(wert) || def.vorISO;
+        // Frist folgt dem Termin — sonst gespeicherter Wert, sonst Vorbelegung.
+        var iso = (def.ausTermin && terminWert && fristFuerTermin(terminWert)) ||
+          isoVonDe(wert) || def.vorISO;
         h += '<input type="date" id="ph-' + k + '" data-ph="' + k + '" value="' + esc(iso) + '">';
       } else {
         h += '<input id="ph-' + k + '" data-ph="' + k + '" value="' + esc(wert) + '" list="hist-' + k + '" autocomplete="off">';
@@ -2167,6 +2194,17 @@
         anlagenNeuZeichnen();
       });
       frFeld.addEventListener("change", anlagenNeuZeichnen);
+    }
+    // Prüfungstermin gewählt → Anmeldefrist des Durchgangs eintragen.
+    var terminFeld = root.querySelector('[data-ph="PRUEFUNGSTERMIN"]');
+    if (terminFeld) {
+      terminFeld.addEventListener("change", function () {
+        var iso = fristFuerTermin(terminFeld.value);
+        if (!iso) return;
+        root.querySelectorAll('[data-ph="ANMELDESCHLUSS"], [data-ph="ANTRAGSFRIST"]')
+          .forEach(function (f) { f.value = iso; });
+        aktualisieren();
+      });
     }
     $("#v-kopieren", root).addEventListener("click", function () { kopieren(textFeld.value, "Text kopiert."); });
     $("#v-betreff-kopieren", root).addEventListener("click", function () { kopieren(betreffFeld.value, "Betreff kopiert."); });
