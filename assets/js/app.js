@@ -1650,7 +1650,16 @@
       '<button class="bw-btn" id="v-kopieren" type="button">Text kopieren</button>' +
       '<button class="bw-btn bw-btn--sekundaer" id="v-betreff-kopieren" type="button">Betreff kopieren</button>' +
       '<a class="bw-btn bw-btn--sekundaer" id="v-mailto" href="#">Im E-Mail-Programm öffnen</a>' +
-      '<span class="bw-klein bw-leise" id="v-status" role="status"></span></div></section>';
+      (anlagenDateien(v).length && !window.EINZELDATEI
+        ? '<button class="bw-btn bw-btn--gelb" id="v-eml" type="button">E-Mail mit ' +
+          anlagenDateien(v).length + " Anlage" + (anlagenDateien(v).length > 1 ? "n" : "") + " erzeugen</button>"
+        : "") +
+      '<span class="bw-klein bw-leise" id="v-status" role="status"></span></div>' +
+      (anlagenDateien(v).length && !window.EINZELDATEI
+        ? '<p class="bw-klein bw-leise">„E-Mail mit Anlagen erzeugen“ lädt eine fertige Nachricht (.eml) herunter — ' +
+          "Doppelklick öffnet sie im E-Mail-Programm als sendefertigen Entwurf, die PDF-Anlagen sind bereits angehängt. " +
+          "„Im E-Mail-Programm öffnen“ übernimmt nur Betreff und Text; Anhänge kann ein mailto-Link technisch nicht mitgeben.</p>"
+        : "") + "</section>";
     h += "</div>";
     if ((v.anhaenge || []).length && window.QUELLEN) {
       h += "<h2>Empfohlene Anhänge</h2><ul class=\"quellen-liste\">";
@@ -1672,6 +1681,120 @@
         }).join("") + "</ul>";
     }
     return h;
+  }
+
+  // ---------- E-Mail mit Anlagen (S21) -------------------------------------
+  // Ein mailto-Link kann keine Anhänge transportieren (RFC 6068 kennt kein
+  // Attachment-Feld). Wir bauen deshalb die komplette Nachricht als
+  // RFC-5322-Datei: multipart/mixed mit base64-Anlagen, dazu `X-Unsent: 1` —
+  // damit öffnet Outlook die .eml als sendefertigen Entwurf statt im
+  // Lesemodus. Thunderbird und Apple Mail öffnen sie ebenfalls zum Senden.
+
+  // Anhänge der Vorlage, die als lokale Datei vorliegen (nur die lassen sich
+  // wirklich anhängen; reine Online-Quellen kommen als Linkzeile in den Text).
+  function anlagenDateien(v) {
+    var raus = [];
+    if (window.EINZELDATEI) return raus; // Einzeldatei führt die PDFs nicht mit
+    ((v && v.anhaenge) || []).forEach(function (id) {
+      ((window.QUELLEN || {}).eintraege || []).forEach(function (e) {
+        if (e.id === id && e.datei) raus.push(e);
+      });
+    });
+    return raus;
+  }
+  function anlagenLinks(v) {
+    var raus = [];
+    ((v && v.anhaenge) || []).forEach(function (id) {
+      ((window.QUELLEN || {}).eintraege || []).forEach(function (e) {
+        if (e.id === id && !e.datei && e.url) raus.push(e);
+      });
+    });
+    return raus;
+  }
+
+  var MIME_TYP = { pdf: "application/pdf", doc: "application/msword", docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", txt: "text/plain" };
+
+  function base64Von(puffer) {
+    var bytes = new Uint8Array(puffer), roh = "", schritt = 0x8000;
+    for (var i = 0; i < bytes.length; i += schritt) {
+      roh += String.fromCharCode.apply(null, bytes.subarray(i, i + schritt));
+    }
+    return btoa(roh);
+  }
+  function base64Umbrechen(s) {
+    return (s.match(/.{1,76}/g) || []).join("\r\n");
+  }
+  // Betreffzeile mit Umlauten: RFC-2047-Kodierung, sonst kommt Kauderwelsch an.
+  function kopfKodieren(text) {
+    if (/^[\x20-\x7E]*$/.test(text)) return text;
+    return "=?UTF-8?B?" + btoa(unescape(encodeURIComponent(text))) + "?=";
+  }
+  // Dateiname bewusst auf ASCII eindampfen: Browser verwerfen den
+  // download-Namen, sobald Zeichen wie „—" darin vorkommen — die Datei hieße
+  // dann „download" ohne Endung und das Mailprogramm könnte sie nicht öffnen.
+  function dateiName(text, endung) {
+    var n = String(text || "Nachricht")
+      .replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue")
+      .replace(/Ä/g, "Ae").replace(/Ö/g, "Oe").replace(/Ü/g, "Ue").replace(/ß/g, "ss")
+      .replace(/[^A-Za-z0-9 ._-]+/g, " ")   // alles Übrige (§, —, /, Klammern …)
+      .replace(/\s+/g, " ").trim().slice(0, 80).replace(/[ .]+$/, "");
+    return (n || "Nachricht") + endung;
+  }
+
+  // Baut die Nachricht und stößt den Download an. Gibt ein Promise mit der
+  // Zahl der tatsächlich angehängten Dateien zurück.
+  function emlErzeugen(v, betreff, text) {
+    var dateien = anlagenDateien(v), links = anlagenLinks(v);
+    var koerper = text;
+    if (links.length) {
+      koerper += "\n\n---\nWeiterführende Online-Quellen:\n" +
+        links.map(function (e) { return "- " + e.titel + ": " + e.url; }).join("\n");
+    }
+    return Promise.all(dateien.map(function (e) {
+      return fetch(e.datei).then(function (r) {
+        if (!r.ok) throw new Error(e.datei + " (" + r.status + ")");
+        return r.arrayBuffer();
+      }).then(function (buf) {
+        var name = e.datei.split("/").pop();
+        var endung = (name.split(".").pop() || "").toLowerCase();
+        return { name: name, typ: MIME_TYP[endung] || "application/octet-stream", inhalt: base64Von(buf) };
+      });
+    })).then(function (teile) {
+      var grenze = "----bw-anlage-" + Math.random().toString(36).slice(2) + "-" + teile.length;
+      var zeilen = [
+        "Subject: " + kopfKodieren(betreff),
+        "X-Unsent: 1",                       // Outlook: als Entwurf öffnen
+        "MIME-Version: 1.0",
+        'Content-Type: multipart/mixed; boundary="' + grenze + '"',
+        "",
+        "Diese Nachricht enthält Anlagen und benötigt einen MIME-fähigen Client.",
+        "",
+        "--" + grenze,
+        "Content-Type: text/plain; charset=UTF-8",
+        "Content-Transfer-Encoding: base64",
+        "",
+        base64Umbrechen(btoa(unescape(encodeURIComponent(koerper))))
+      ];
+      teile.forEach(function (t) {
+        zeilen.push("--" + grenze,
+          'Content-Type: ' + t.typ + '; name="' + t.name + '"',
+          "Content-Transfer-Encoding: base64",
+          'Content-Disposition: attachment; filename="' + t.name + '"',
+          "",
+          base64Umbrechen(t.inhalt));
+      });
+      zeilen.push("--" + grenze + "--", "");
+      var blob = new Blob([zeilen.join("\r\n")], { type: "message/rfc822" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = dateiName(betreff, ".eml");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      return teile.length;
+    });
   }
 
   function vorlageDetailVerhalten(root, params) {
@@ -1725,6 +1848,22 @@
     $("#v-kopieren", root).addEventListener("click", function () { kopieren(textFeld.value, "Text kopiert."); });
     $("#v-betreff-kopieren", root).addEventListener("click", function () { kopieren(betreffFeld.value, "Betreff kopiert."); });
     $("#v-mailto", root).addEventListener("click", merken);
+    var emlKnopf = $("#v-eml", root);
+    if (emlKnopf) {
+      emlKnopf.addEventListener("click", function () {
+        emlKnopf.disabled = true;
+        status.textContent = "Nachricht wird gepackt …";
+        emlErzeugen(v, betreffFeld.value, textFeld.value).then(function (anzahl) {
+          status.textContent = "Datei erzeugt — Doppelklick öffnet die Nachricht mit " +
+            anzahl + " Anlage" + (anzahl > 1 ? "n" : "") + ".";
+          merken();
+        }).catch(function (fehler) {
+          // Ehrlich benennen, was fehlt — der Text steht ja weiterhin bereit.
+          status.textContent = "Anlagen konnten nicht geladen werden (" + fehler.message +
+            "). Text kopieren und Anlagen von Hand anhängen.";
+        }).then(function () { emlKnopf.disabled = false; });
+      });
+    }
     aktualisieren();
   }
 
