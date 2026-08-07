@@ -113,8 +113,8 @@
         recht: "§§ 37 ff., 43, 48, 76, 79 BBiG", artikel: ["ausbildungsberatung", "zustaendige-stelle", "abschlusspruefung"], quellen: [],
         jahreskreis: [
           { g: "Prüfungswesen", eintraege: [
-            { t: "Anmeldung Sommer-Abschlussprüfung", von: 1, bis: 2, zeit: "Januar–Februar",
-              info: "Die Betriebe melden an; die [[abschlusspruefung|Zulassungsvoraussetzungen]] früh gegenchecken (Berichtsheft! Zwischenprüfung! Eintragung!)." },
+            { t: "Anmeldung Sommer-Abschlussprüfung — Schluss 1. April", von: 2, bis: 4, zeit: "Februar–1. April (Fixtermin)",
+              info: "**Anmeldeschluss 1. April.** Die Betriebe melden an; die [[abschlusspruefung|Zulassungsvoraussetzungen]] früh gegenchecken (Berichtsheft! Zwischenprüfung! Eintragung!)." },
             { t: "Zwischenprüfungen", von: 2, bis: 4, zeit: "Februar–April",
               info: "[[zwischenpruefung|Zwischenprüfungen]] etwa zur Ausbildungsmitte — Einladung durch die zuständige Stelle; schwache Ergebnisse nachfassen." },
             { t: "Zulassung & Berichtsheftkontrolle", von: 3, bis: 4, zeit: "März–April",
@@ -125,6 +125,8 @@
               info: "Hauptprüfungszeitraum (schriftlich + praktisch). Der Arbeitstag vor der schriftlichen Prüfung ist bezahlt frei ([[freistellung|§ 15 BBiG]])." },
             { t: "Freisprechung & Zeugnisse", von: 7, bis: 9, zeit: "Juli–September",
               info: "Prüfungszeugnisse, Freisprechungsfeiern, [[ende-uebernahme|Übernahmegespräche]] — und Nachvermittlung für Unversorgte." },
+            { t: "Anmeldung Winter-Abschlussprüfung — Schluss 1. November", von: 9, bis: 11, zeit: "September–1. November (Fixtermin)",
+              info: "**Anmeldeschluss 1. November** für die Winterprüfung — auch für Wiederholende und externe Prüfungsteilnehmende (§ 45 Abs. 2 BBiG)." },
             { t: "Wiederholungs-/Winterprüfungen", von: 11, bis: 1, zeit: "November–Januar (wo angeboten)",
               info: "Wiederholungstermine für [[nichtbestehen|nicht bestandene Prüfungen]] — Verlängerungsverlangen und Anmeldung sicherstellen." },
             { t: "Aufgabenausschüsse", von: 10, bis: 1, zeit: "Oktober–Januar",

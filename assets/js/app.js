@@ -1473,7 +1473,25 @@
   }
   /* --- G2: Feldtypen, Vorbelegung und Eingabe-Historie ------------- */
   var DATUMSFELDER = { TERMIN: 1, FRIST: 1, ANTRAGSFRIST: 1, ANMELDESCHLUSS: 1, AUSBILDUNGSBEGINN: 1, PRUEFUNGSDATUM: 1, DATUM_ENDE: 1, NEUES_ENDE: 1 };
-  var FRISTFELDER = { FRIST: 1, ANTRAGSFRIST: 1, ANMELDESCHLUSS: 1 }; // Vorbelegung: heute + 14 Tage
+  var FRISTFELDER = { FRIST: 1, ANTRAGSFRIST: 1 }; // Vorbelegung: heute + 14 Tage
+
+  // Anmeldeschluss der Abschlussprüfungen: feste Landestermine — 1. November
+  // für die Winter-, 1. April für die Sommerprüfung. Die Fristfelder
+  // ANMELDESCHLUSS und ANTRAGSFRIST (Externenprüfung) werden deshalb mit dem
+  // nächsten dieser Termine vorbelegt statt mit „heute + 14 Tage".
+  var PRUEFUNGSFRISTEN = [{ monat: 4, tag: 1, name: "Sommerprüfung" }, { monat: 11, tag: 1, name: "Winterprüfung" }];
+  function naechsterAnmeldeschluss() {
+    var heute = new Date(), best = null;
+    [0, 1].forEach(function (plus) {
+      PRUEFUNGSFRISTEN.forEach(function (f) {
+        var d = new Date(heute.getFullYear() + plus, f.monat - 1, f.tag);
+        if (d >= heute && (!best || d < best)) best = d;
+      });
+    });
+    if (!best) return heuteISO(14);
+    return best.getFullYear() + "-" + String(best.getMonth() + 1).padStart(2, "0") +
+      "-" + String(best.getDate()).padStart(2, "0");
+  }
 
   function heuteISO(tagePlus) {
     var d = new Date();
@@ -1511,6 +1529,7 @@
     if (k === "BERUF") return { typ: "auswahl", optionen: berufsTitelListe(), standard: "Gärtner/in" };
     if (k === "FACHRICHTUNG") return { typ: "auswahl", abhaengigVon: "BERUF" };
     if (k === "PRUEFUNGSTERMIN") return { typ: "auswahl", optionen: pruefungstermine() };
+    if (k === "ANMELDESCHLUSS" || k === "ANTRAGSFRIST") return { typ: "datum", vorISO: naechsterAnmeldeschluss() };
     if (DATUMSFELDER[k]) return { typ: "datum", vorISO: heuteISO(FRISTFELDER[k] ? 14 : 0) };
     return { typ: "text" };
   }
@@ -1643,23 +1662,33 @@
       h += "</div>";
     });
     h += "</div></section>";
+    var anzahlAnlagen = anlagenDateien(v).length;
     h += '<section aria-label="Vorschau"><h2>Vorschau</h2>' +
+      // Empfängerfeld bewusst OHNE data-ph: E-Mail-Adressen sind
+      // personenbezogen und werden deshalb weder gespeichert noch in die
+      // Eingabe-Historie übernommen.
+      '<div class="bw-field"><label for="v-empfaenger">Empfänger-E-Mail <span class="bw-leise">(optional)</span></label>' +
+      '<input id="v-empfaenger" type="email" inputmode="email" autocomplete="off" spellcheck="false" ' +
+      'placeholder="name@betrieb.de" aria-describedby="v-empfaenger-hinweis"></div>' +
+      '<p class="bw-klein bw-leise" id="v-empfaenger-hinweis">Wird in die erzeugte Nachricht als Empfänger eingetragen — ' +
+      "leer lassen, wenn Sie die Adresse erst im E-Mail-Programm auswählen. Die Adresse wird nicht gespeichert.</p>" +
       '<div class="bw-field"><label for="v-betreff">Betreff</label><input id="v-betreff" readonly></div>' +
       '<div class="bw-field"><label for="v-text">Text</label><textarea id="v-text" rows="18" readonly></textarea></div>' +
       '<div class="export-aktionen">' +
       '<button class="bw-btn" id="v-kopieren" type="button">Text kopieren</button>' +
       '<button class="bw-btn bw-btn--sekundaer" id="v-betreff-kopieren" type="button">Betreff kopieren</button>' +
       '<a class="bw-btn bw-btn--sekundaer" id="v-mailto" href="#">Im E-Mail-Programm öffnen</a>' +
-      (anlagenDateien(v).length && !window.EINZELDATEI
-        ? '<button class="bw-btn bw-btn--gelb" id="v-eml" type="button">E-Mail mit ' +
-          anlagenDateien(v).length + " Anlage" + (anlagenDateien(v).length > 1 ? "n" : "") + " erzeugen</button>"
-        : "") +
+      '<button class="bw-btn bw-btn--gelb" id="v-eml" type="button">' +
+      (anzahlAnlagen ? "E-Mail mit " + anzahlAnlagen + " Anlage" + (anzahlAnlagen > 1 ? "n" : "") + " erzeugen"
+                     : "E-Mail-Datei erzeugen") + "</button>" +
       '<span class="bw-klein bw-leise" id="v-status" role="status"></span></div>' +
-      (anlagenDateien(v).length && !window.EINZELDATEI
-        ? '<p class="bw-klein bw-leise">„E-Mail mit Anlagen erzeugen“ lädt eine fertige Nachricht (.eml) herunter — ' +
-          "Doppelklick öffnet sie im E-Mail-Programm als sendefertigen Entwurf, die PDF-Anlagen sind bereits angehängt. " +
-          "„Im E-Mail-Programm öffnen“ übernimmt nur Betreff und Text; Anhänge kann ein mailto-Link technisch nicht mitgeben.</p>"
-        : "") + "</section>";
+      '<p class="bw-klein bw-leise">Die erzeugte Datei (.eml) öffnet sich per Doppelklick im E-Mail-Programm als ' +
+      "sendefertiger Entwurf — mit Betreff, Text" + (anzahlAnlagen ? " und den PDF-Anlagen" : "") +
+      ". „Im E-Mail-Programm öffnen“ ist der schnelle Weg über einen mailto-Link; Anhänge kann dieser Weg " +
+      "technisch nicht mitgeben." +
+      (!anzahlAnlagen && (v.anhaenge || []).length && window.EINZELDATEI
+        ? " In der Einzeldatei-Auslieferung liegen die PDF-Anlagen nicht bei — sie stehen als Link im Text."
+        : "") + "</p></section>";
     h += "</div>";
     if ((v.anhaenge || []).length && window.QUELLEN) {
       h += "<h2>Empfohlene Anhänge</h2><ul class=\"quellen-liste\">";
@@ -1743,7 +1772,7 @@
 
   // Baut die Nachricht und stößt den Download an. Gibt ein Promise mit der
   // Zahl der tatsächlich angehängten Dateien zurück.
-  function emlErzeugen(v, betreff, text) {
+  function emlErzeugen(v, betreff, text, empfaenger) {
     var dateien = anlagenDateien(v), links = anlagenLinks(v);
     var koerper = text;
     if (links.length) {
@@ -1761,7 +1790,9 @@
       });
     })).then(function (teile) {
       var grenze = "----bw-anlage-" + Math.random().toString(36).slice(2) + "-" + teile.length;
-      var zeilen = [
+      var zeilen = [];
+      if (empfaenger) zeilen.push("To: " + empfaenger);
+      zeilen = zeilen.concat([
         "Subject: " + kopfKodieren(betreff),
         "X-Unsent: 1",                       // Outlook: als Entwurf öffnen
         "MIME-Version: 1.0",
@@ -1774,7 +1805,7 @@
         "Content-Transfer-Encoding: base64",
         "",
         base64Umbrechen(btoa(unescape(encodeURIComponent(koerper))))
-      ];
+      ]);
       teile.forEach(function (t) {
         zeilen.push("--" + grenze,
           'Content-Type: ' + t.typ + '; name="' + t.name + '"',
@@ -1803,7 +1834,14 @@
     V.vorlagen.forEach(function (x) { if (x.id === params.id) v = x; });
     if (!v) return;
     var betreffFeld = $("#v-betreff", root), textFeld = $("#v-text", root), status = $("#v-status", root);
+    var empfaengerFeld = $("#v-empfaenger", root);
     var ph = platzhalterVon(v);
+    // Adresse nur benutzen, wenn sie plausibel ist — sonst käme im
+    // Mailprogramm ein unbrauchbarer Empfänger an.
+    function empfaengerWert() {
+      var a = empfaengerFeld ? empfaengerFeld.value.trim() : "";
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(a) ? a : "";
+    }
 
     function feldwert(feld) {
       if (feld.type === "date") return deDatum(feld.value);
@@ -1816,7 +1854,8 @@
       betreffFeld.value = vorlageFuellen(v.betreff, werte);
       textFeld.value = vorlageFuellen(v.text, werte);
       $("#v-mailto", root).setAttribute("href",
-        "mailto:?subject=" + encodeURIComponent(betreffFeld.value) + "&body=" + encodeURIComponent(textFeld.value));
+        "mailto:" + encodeURIComponent(empfaengerWert()) +
+        "?subject=" + encodeURIComponent(betreffFeld.value) + "&body=" + encodeURIComponent(textFeld.value));
     }
     function merken() { historieMerken(werteLesen(), ph); }
     function kopieren(text, meldung) {
@@ -1830,6 +1869,8 @@
       i.addEventListener("input", aktualisieren);
       i.addEventListener("change", aktualisieren);
     });
+    // Empfängeradresse fließt in den mailto-Link ein (nicht in die Historie).
+    if (empfaengerFeld) empfaengerFeld.addEventListener("input", aktualisieren);
     // Beruf gewählt → Fachrichtungs-Auswahl passend neu befüllen
     var berufFeld = root.querySelector('[data-ph="BERUF"]');
     var frFeld = root.querySelector('[data-ph="FACHRICHTUNG"][data-abhaengig]');
@@ -1853,9 +1894,11 @@
       emlKnopf.addEventListener("click", function () {
         emlKnopf.disabled = true;
         status.textContent = "Nachricht wird gepackt …";
-        emlErzeugen(v, betreffFeld.value, textFeld.value).then(function (anzahl) {
-          status.textContent = "Datei erzeugt — Doppelklick öffnet die Nachricht mit " +
-            anzahl + " Anlage" + (anzahl > 1 ? "n" : "") + ".";
+        var an = empfaengerWert();
+        emlErzeugen(v, betreffFeld.value, textFeld.value, an).then(function (anzahl) {
+          status.textContent = "Datei erzeugt — Doppelklick öffnet die Nachricht" +
+            (anzahl ? " mit " + anzahl + " Anlage" + (anzahl > 1 ? "n" : "") : "") +
+            (an ? " an " + an : "") + ".";
           merken();
         }).catch(function (fehler) {
           // Ehrlich benennen, was fehlt — der Text steht ja weiterhin bereit.
