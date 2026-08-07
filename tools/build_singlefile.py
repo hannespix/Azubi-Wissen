@@ -13,6 +13,7 @@ Aufruf:  python tools/build_singlefile.py
 Nur Python-Standardbibliothek, keine Abhängigkeiten.
 """
 import base64
+import json
 import mimetypes
 import re
 import sys
@@ -100,6 +101,39 @@ def inline_stylesheets(html: str, base: Path) -> str:
     return re.sub(r'<link\b[^>]*rel=["\']stylesheet["\'][^>]*>', repl, html)
 
 
+def vorlagen_anlagen() -> dict:
+    """PDFs, die als Anhang an einer E-Mail-Vorlage hängen, als data:-URLs.
+
+    Gelesen wird direkt aus den Datenmodulen: `anhaenge: [...]` in
+    vorlagen.js liefert die Quellen-IDs, `datei: "..."` in quellen.js den
+    Pfad. So wandern nur die wirklich benötigten Dateien in die Einzeldatei
+    (statt aller 27 MB unter formulare/).
+    """
+    vorlagen = (ROOT / "assets/js/vorlagen.js").read_text(encoding="utf-8")
+    quellen = (ROOT / "assets/js/quellen.js").read_text(encoding="utf-8")
+
+    gebraucht = set()
+    for block in re.findall(r"anhaenge:\s*\[([^\]]*)\]", vorlagen):
+        gebraucht.update(re.findall(r'"([^"]+)"', block))
+
+    pfade = {}
+    for eintrag in re.finditer(r'\{\s*id:\s*"([^"]+)".*?\}(?=,\s*\n|\s*\n\s*\])', quellen, re.S):
+        text = eintrag.group(0)
+        datei = re.search(r'datei:\s*"([^"]+)"', text)
+        if datei:
+            pfade[eintrag.group(1)] = datei.group(1)
+
+    raus = {}
+    for qid in sorted(gebraucht):
+        rel = pfade.get(qid)
+        if not rel:
+            continue
+        p = ROOT / rel
+        if p.exists():
+            raus[rel] = data_uri(p)
+    return raus
+
+
 def main():
     release = "--release" in sys.argv
     index = ROOT / "index.html"
@@ -108,9 +142,15 @@ def main():
     # 1) Alle lokalen Stylesheets inline (mit base64-Fonts/-Assets)
     html = inline_stylesheets(html, ROOT)
 
-    # 1b) Einzeldatei-Kennung: Die App blendet damit lokale Datei-Downloads
-    #     aus (Formulare liegen der Einzeldatei nicht bei) und verlinkt online.
-    html = html.replace("</head>", "<script>window.EINZELDATEI=true;</script></head>", 1)
+    # 1b) Einzeldatei-Kennung: Die App verlinkt damit Online-Quellen statt
+    #     lokaler Pfade. Die an E-Mail-Vorlagen hängenden PDFs kommen als
+    #     data:-URLs mit, damit „E-Mail mit Anlagen erzeugen" auch hier
+    #     funktioniert und die Formulare offline abrufbar bleiben.
+    eingebettet = vorlagen_anlagen()
+    js = "window.EINZELDATEI=true;window.EINGEBETTETE_DATEIEN=" + json.dumps(eingebettet) + ";"
+    html = html.replace("</head>", "<script>" + js + "</script></head>", 1)
+    mb = sum(len(v) for v in eingebettet.values()) / 1024 / 1024
+    print(f"    {len(eingebettet)} Vorlagen-Anlagen eingebettet ({mb:.1f} MB base64)")
 
     # 2) Manifest-Link entfernen (Offline-Einzeldatei braucht kein PWA-Manifest)
     html = re.sub(r'\s*<link[^>]+rel=["\']manifest["\'][^>]*>', "", html)
