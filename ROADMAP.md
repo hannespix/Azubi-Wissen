@@ -603,6 +603,25 @@
   (19), mini_s4 auf 107 Quellen, Regressionen k2/d5/smoke_start,
   Offline-Check. *(PR #61)*
 
+- **S21 E-Mail-Vorlagen mit angehängten Anlagen** ✅ — Auftrag 02.08.:
+  die Vorlagen-Mail soll die nötigen PDF-Anlagen direkt anhängen. Ein
+  `mailto:`-Link kann das prinzipiell nicht (RFC 6068 kennt kein
+  Attachment-Feld), deshalb ein Weg, der wirklich trägt: Der Knopf
+  **„E-Mail mit Anlagen erzeugen"** lädt die PDF-Anhänge der Vorlage,
+  baut daraus eine vollständige RFC-5322-Nachricht (multipart/mixed,
+  base64, RFC-2047-kodierter Betreff) und lädt sie als `.eml`
+  herunter — mit **`X-Unsent: 1`**, damit Outlook sie als
+  **sendefertigen Entwurf** öffnet statt im Lesemodus. Reine
+  Online-Quellen der Vorlage hängen als Linkzeile am Text. Beim Bauen
+  gefunden und behoben: Browser verwerfen den Dateinamen, sobald
+  Sonderzeichen wie „—" darin stehen (die Datei hieße dann „download"
+  ohne Endung) — der Name wird jetzt auf ASCII eingedampft. In der
+  Einzeldatei-Auslieferung erscheint der Knopf nicht, da dort keine
+  PDFs beiliegen. Tests: mini_s21 (16) prüft MIME-Struktur, X-Unsent,
+  ASCII-Dateiname und **dekodiert die Anlagen zurück: byte-identisch
+  mit den Repo-PDFs**; Regressionen s20/d5/k2/smoke_start/Einzeldatei,
+  Offline-Check. *(PR #62)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
