@@ -669,6 +669,22 @@
   Nachweis, dass eine frei gewählte Anlage tatsächlich in der Datei
   liegt. *(PR #64)*
 
+- **S25 Anlagen auch in der Einzeldatei** ✅ — Fehlermeldung: „die PDF
+  dateien der EML fehlen noch". Diagnose durch Spiegeln des **live
+  ausgelieferten Stands**: online/Ordner erzeugt die Nachricht korrekt
+  mit beiden PDFs (508 KB) — in der **Einzeldatei** fehlten sie, weil
+  dort die Formulare nie beilagen. Genau diese Fassung ist aber die
+  empfohlene für Zero-Trust-Arbeitsplätze. `build_singlefile.py`
+  bettet deshalb jetzt die an E-Mail-Vorlagen hängenden PDFs als
+  data:-URLs ein (8 Dateien, +5 MB → Einzeldatei rund 7 MB); die
+  Dateiliste liest der Builder aus `vorlagen.js`/`quellen.js`, damit
+  sie automatisch mitwächst. Die App nimmt die Anlage in der
+  Einzeldatei direkt aus dem eingebetteten Bestand statt per fetch —
+  und das Download-Center bietet diese PDFs dort jetzt **offline als
+  Download** an. Tests: neue Suite mini_s25 (7) prüft die erzeugte
+  Nachricht aus der echten Einzeldatei und **dekodiert die Anlagen
+  zurück: byte-identisch**. *(PR #65)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

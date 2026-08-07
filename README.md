@@ -17,7 +17,9 @@ Requests, keine Cloud, keine Telemetrie.**
 
 **Variante 1 — Einzeldatei (empfohlen für Zero-Trust-Arbeitsplätze):**
 [`azubi-wissen-offline.html`](azubi-wissen-offline.html) herunterladen und
-per **Doppelklick** öffnen. Eine Datei, alles enthalten; Notizen, Vermerke
+per **Doppelklick** öffnen. Eine Datei (rund 7 MB), alles enthalten — auch
+die an den E-Mail-Vorlagen hängenden PDF-Anlagen, sodass „E-Mail mit
+Anlagen erzeugen" hier genauso funktioniert wie online. Notizen, Vermerke
 und Merkliste bleiben lokal im Browser gespeichert.
 
 **Variante 2 — Repo-Ordner über lokalen Server** (für Entwicklung):

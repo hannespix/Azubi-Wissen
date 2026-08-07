@@ -375,8 +375,12 @@
     // Eigene Dokumente liegen als data:-URL in der lokalen Datenbank und
     // werden mit Original-Dateinamen heruntergeladen.
     if (e.eigen && e.dataUrl) return { href: e.dataUrl, extern: false, download: e.dateiName || (e.titel + ".pdf") };
-    // In der Einzeldatei-Auslieferung liegen die PDF-Dateien nicht bei —
-    // dort führt der Eintrag direkt zur Online-Quelle.
+    // Einzeldatei: die an Vorlagen hängenden PDFs sind als data:-URL
+    // eingebettet und damit auch offline abrufbar; alles andere führt zur
+    // Online-Quelle, weil es der Einzeldatei nicht beiliegt.
+    if (e.datei && window.EINZELDATEI && window.EINGEBETTETE_DATEIEN && window.EINGEBETTETE_DATEIEN[e.datei]) {
+      return { href: window.EINGEBETTETE_DATEIEN[e.datei], extern: false, download: e.datei.split("/").pop() };
+    }
     if (e.datei && !window.EINZELDATEI) return { href: e.datei, extern: false };
     return { href: e.url, extern: true };
   }
@@ -1694,7 +1698,7 @@
     // sich jedes andere lokale Dokument dazunehmen. Nur Dateien im Werkzeug
     // können in die Nachricht wandern — Online-Quellen gehen als Link mit.
     if (window.QUELLEN) {
-      var alleDateien = (window.QUELLEN.eintraege || []).filter(function (e) { return e.datei; });
+      var alleDateien = (window.QUELLEN.eintraege || []).filter(dateiVerfuegbar);
       var empfohlen = {};
       (v.anhaenge || []).forEach(function (id) { empfohlen[id] = 1; });
       var vorgeschlagen = alleDateien.filter(function (e) { return empfohlen[e.id]; });
@@ -1706,9 +1710,9 @@
       }).filter(Boolean);
 
       h += '<h2>Anlagen für die E-Mail</h2><div id="v-anlagen">';
-      if (window.EINZELDATEI) {
-        h += '<p class="bw-hinweis-text bw-klein">In der Einzeldatei-Auslieferung liegen die PDF-Dateien nicht bei — ' +
-          "die Nachricht enthält deshalb nur Betreff und Text. Für den Versand mit Anlagen die Ordner- oder Online-Fassung nutzen.</p>";
+      if (!alleDateien.length) {
+        h += '<p class="bw-klein bw-leise">Für diese Auslieferung liegen keine Dateien bei — ' +
+          "die Nachricht enthält Betreff und Text; verlinkte Quellen stehen im Text.</p>";
       } else {
         h += '<ul class="anlagen-liste">';
         vorgeschlagen.concat(weitere).forEach(function (e, i) {
@@ -1758,12 +1762,18 @@
 
   // Anhänge der Vorlage, die als lokale Datei vorliegen (nur die lassen sich
   // wirklich anhängen; reine Online-Quellen kommen als Linkzeile in den Text).
+  // In der Einzeldatei liegen die an Vorlagen hängenden PDFs als data:-URLs
+  // bei (build_singlefile.py). Alles andere ist dort nicht verfügbar.
+  function dateiVerfuegbar(e) {
+    if (!e || !e.datei) return false;
+    if (!window.EINZELDATEI) return true;
+    return !!(window.EINGEBETTETE_DATEIEN && window.EINGEBETTETE_DATEIEN[e.datei]);
+  }
   function anlagenDateien(v) {
     var raus = [];
-    if (window.EINZELDATEI) return raus; // Einzeldatei führt die PDFs nicht mit
     ((v && v.anhaenge) || []).forEach(function (id) {
       ((window.QUELLEN || {}).eintraege || []).forEach(function (e) {
-        if (e.id === id && e.datei) raus.push(e);
+        if (e.id === id && dateiVerfuegbar(e)) raus.push(e);
       });
     });
     return raus;
@@ -1817,13 +1827,19 @@
         links.map(function (e) { return "- " + e.titel + ": " + e.url; }).join("\n");
     }
     return Promise.all(dateien.map(function (e) {
+      var name = e.datei.split("/").pop();
+      var endung = (name.split(".").pop() || "").toLowerCase();
+      var typ = MIME_TYP[endung] || "application/octet-stream";
+      // Einzeldatei: die Anlage steckt schon als data:-URL im Dokument.
+      var eingebettet = window.EINGEBETTETE_DATEIEN && window.EINGEBETTETE_DATEIEN[e.datei];
+      if (eingebettet) {
+        return Promise.resolve({ name: name, typ: typ, inhalt: eingebettet.split(",")[1] || "" });
+      }
       return fetch(e.datei).then(function (r) {
         if (!r.ok) throw new Error(e.datei + " (" + r.status + ")");
         return r.arrayBuffer();
       }).then(function (buf) {
-        var name = e.datei.split("/").pop();
-        var endung = (name.split(".").pop() || "").toLowerCase();
-        return { name: name, typ: MIME_TYP[endung] || "application/octet-stream", inhalt: base64Von(buf) };
+        return { name: name, typ: typ, inhalt: base64Von(buf) };
       });
     })).then(function (teile) {
       var grenze = "----bw-anlage-" + Math.random().toString(36).slice(2) + "-" + teile.length;
