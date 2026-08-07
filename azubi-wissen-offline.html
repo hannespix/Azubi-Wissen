@@ -219,23 +219,32 @@ input, select, textarea { font: inherit; width: 100%; padding: 0.5em 0.65em; bac
 .bw-iconbtn:hover { background: var(--bw-grau-100); }
 .bw-iconbtn svg { width: 22px; height: 22px; display: block; }
 
-/* Hamburger nur unterhalb des Breakpoints sichtbar */
-.bw-nav__toggle { display: none; }
+/* Hamburger auf ALLEN Bildschirmgrößen — die Navigation liegt immer im
+   aufklappbaren Panel, nie als Linkleiste im Header. Das hält den Kopf
+   ruhig und die Bedienung überall gleich (kein Umschalten der Bedienlogik
+   zwischen Handy und Desktop). */
+.bw-nav__toggle { display: inline-flex; }
 
-/* Mobiles Navigationspanel (Off-Canvas, einfach gehalten) */
-.bw-nav__panel { }
-@media (max-width: 800px) {
-  .bw-nav__toggle { display: inline-flex; }
+/* Navigationspanel (Off-Canvas, einfach gehalten) */
+.bw-nav__panel {
+  position: absolute; left: 0; right: 0; top: 100%;
+  background: var(--bw-weiss); border-bottom: var(--bw-border);
+  padding: var(--bw-space-2) var(--bw-rand);
+  display: none;
+  z-index: 30;
+}
+.bw-nav__panel[data-open="true"] { display: block; }
+.bw-nav__links { flex-direction: column; gap: 0; }
+.bw-nav__links a { padding: 0.75em 0; border-bottom: 1px solid var(--bw-linie); }
+.bw-nav__links a[aria-current="page"] { border-bottom-color: var(--bw-gelb); }
+
+/* Auf breiten Schirmen bleibt das Panel angenehm schmal statt über die
+   volle Breite zu laufen. */
+@media (min-width: 801px) {
   .bw-nav__panel {
-    position: absolute; left: 0; right: 0; top: 100%;
-    background: var(--bw-weiss); border-bottom: var(--bw-border);
-    padding: var(--bw-space-2) var(--bw-rand);
-    display: none;
+    left: auto; right: var(--bw-rand); width: min(22rem, calc(100vw - 2 * var(--bw-rand)));
+    border: var(--bw-border); border-radius: var(--bw-radius);
   }
-  .bw-nav__panel[data-open="true"] { display: block; }
-  .bw-nav__links { flex-direction: column; gap: 0; }
-  .bw-nav__links a { padding: 0.75em 0; border-bottom: 1px solid var(--bw-linie); }
-  .bw-nav__links a[aria-current="page"] { border-bottom-color: var(--bw-gelb); }
 }
 
 /* ===================== Suche ====================================== */
