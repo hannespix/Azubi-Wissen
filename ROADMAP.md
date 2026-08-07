@@ -577,6 +577,32 @@
   Quellen aktualisiert, Regressionen k2/s16/s17/d5/smoke_start,
   Offline-Check. *(PR #60)*
 
+- **S20 Externenprüfung: Praxiswissen in die Vorlage** ✅ — Auftrag
+  02.08.: eine echte Beratungs-E-Mail (Externenprüfung Gärtner
+  Gemüsebau, 09.03.2026) mit Anhängen in die Vorlage übernehmen.
+  Aus der Mail übernommen: Anmeldefrist, die **fünf Pflicht-
+  unterlagen** (formloser Antrag, Anmeldebogen, Tätigkeitsnachweise,
+  Lebenslauf, letztes Schulzeugnis), die 4,5-Jahres-Regel
+  **ausdrücklich auch mit Abitur**, der konkrete Prüfungsablauf
+  (fünf praktische Aufgaben 3,5–4,5 h, Pflanzenbestimmung 20 Pflanzen
+  in 20 Minuten, 60 Minuten mündlich, davor drei schriftliche
+  Prüfungen an der Berufsschule) sowie die häufigsten Rückfragen:
+  **kein Berichtsheft, kein ÜBA-Nachweis, kein Berufsschulbesuch**,
+  Prüfungsniveau wie bei der Gesellenprüfung. Der **Anmeldebogen für
+  externe Prüfungsteilnehmer** (RP Freiburg, Stand 09.06.2020, leeres
+  Formular) liegt jetzt im Repo und hängt an der Vorlage. Die
+  mitgeschickte Buchliste wurde **nicht** übernommen: Sie besteht aus
+  Amazon-Produktlinks und teils vergriffenen Ausgaben von 2005–2009 —
+  stattdessen stehen die Standardwerke händlerneutral in der Vorlage,
+  mit Hinweis auf die aktuelle Auflage. Der mitgeschickte
+  Ausbildungsplan Gemüsebau war bereits im Repo. Neu im Wissen: drei
+  FAQ im Prüfungsartikel (ohne Ausbildung prüfen, Berichtsheft,
+  Ablauf) — damit beantwortet der Assistent die typische Anruferfrage
+  „Kann ich ohne Ausbildung die Prüfung machen?" direkt. Keine
+  personenbezogenen Daten aus der Mail übernommen. Tests: mini_s20
+  (19), mini_s4 auf 107 Quellen, Regressionen k2/d5/smoke_start,
+  Offline-Check. *(PR #61)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
