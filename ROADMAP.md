@@ -647,6 +647,28 @@
   Checks (inkl. Vorbelegung, Artikel, Jahreskreis), mini_s20
   nachgezogen, Regressionen k1/d5/smoke_start, Offline-Check. *(PR #63)*
 
+- **S23 Hamburger-Menü auf allen Bildschirmgrößen** ✅ — Auftrag
+  02.08.: „immer auf allen screengrößen das hamburger menü statt der
+  header links". Die Media-Query um den Hamburger entfällt, die
+  Navigation liegt generell im Panel; ab 801px öffnet es als schmales
+  Panel rechts unter dem Menüknopf (max. 22rem, gerahmt, ohne
+  Deko-Schatten), darunter über die volle Breite. Regel in CLAUDE.md
+  3.1 nachgezogen. Geprüft bei 1440/1024/390 px. *(PR #64)*
+- **S24 Anlagen frei wählbar** ✅ — Fehlermeldung: „jetzt fehlen die
+  wichtigen Anhänge bei der .eml datei". Ursache war kein Fehler,
+  sondern eine Lücke: **vier Vorlagen führen gar keine lokale Datei**
+  (bei „Anmeldung zur Abschlussprüfung" sind beide empfohlenen
+  Anhänge reine Online-Quellen) — die erzeugte Nachricht konnte dort
+  nichts anhängen, ohne das zu erklären. Jetzt zeigt jede Vorlage
+  einen Abschnitt **„Anlagen für die E-Mail"** mit Auswahlkästchen:
+  die vorgeschlagenen Dateien sind vorangehakt, **jedes andere der
+  49 lokalen Dokumente** lässt sich dazunehmen (aufklappbar, mit
+  Filterfeld), und der Knopf zählt live mit. Vorlagen ohne Vorschlag
+  sagen das ausdrücklich und nennen die Online-Quellen, die als Link
+  im Text mitgehen. Tests: mini_s21 auf 34 Checks — inklusive
+  Nachweis, dass eine frei gewählte Anlage tatsächlich in der Datei
+  liegt. *(PR #64)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.

@@ -1690,17 +1690,54 @@
         ? " In der Einzeldatei-Auslieferung liegen die PDF-Anlagen nicht bei — sie stehen als Link im Text."
         : "") + "</p></section>";
     h += "</div>";
-    if ((v.anhaenge || []).length && window.QUELLEN) {
-      h += "<h2>Empfohlene Anhänge</h2><ul class=\"quellen-liste\">";
-      v.anhaenge.forEach(function (id) {
-        var e = null;
-        window.QUELLEN.eintraege.forEach(function (x) { if (x.id === id) e = x; });
-        if (!e) return;
-        var z = quelleZiel(e);
-        h += '<li><a href="' + esc(z.href) + '" target="_blank" rel="noopener"><span class="etikett">' +
-          esc(TYP_NAME[e.typ] || e.typ) + "</span> " + esc(e.titel) + (z.extern ? ' <span class="bw-leise">↗ online</span>' : "") + "</a></li>";
-      });
-      h += "</ul>";
+    // Anlagen zum Anhaken: vorgeschlagen sind die der Vorlage, dazu lässt
+    // sich jedes andere lokale Dokument dazunehmen. Nur Dateien im Werkzeug
+    // können in die Nachricht wandern — Online-Quellen gehen als Link mit.
+    if (window.QUELLEN) {
+      var alleDateien = (window.QUELLEN.eintraege || []).filter(function (e) { return e.datei; });
+      var empfohlen = {};
+      (v.anhaenge || []).forEach(function (id) { empfohlen[id] = 1; });
+      var vorgeschlagen = alleDateien.filter(function (e) { return empfohlen[e.id]; });
+      var weitere = alleDateien.filter(function (e) { return !empfohlen[e.id]; });
+      var nurLinks = (v.anhaenge || []).map(function (id) {
+        var t = null;
+        (window.QUELLEN.eintraege || []).forEach(function (x) { if (x.id === id && !x.datei) t = x; });
+        return t;
+      }).filter(Boolean);
+
+      h += '<h2>Anlagen für die E-Mail</h2><div id="v-anlagen">';
+      if (window.EINZELDATEI) {
+        h += '<p class="bw-hinweis-text bw-klein">In der Einzeldatei-Auslieferung liegen die PDF-Dateien nicht bei — ' +
+          "die Nachricht enthält deshalb nur Betreff und Text. Für den Versand mit Anlagen die Ordner- oder Online-Fassung nutzen.</p>";
+      } else {
+        h += '<ul class="anlagen-liste">';
+        vorgeschlagen.concat(weitere).forEach(function (e, i) {
+          var an = !!empfohlen[e.id];
+          h += '<li' + (an ? "" : ' hidden data-weitere="1"') + '><label class="anlage-wahl">' +
+            '<input type="checkbox" data-anlage="' + esc(e.id) + '"' + (an ? " checked" : "") + "> " +
+            '<span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span> " + esc(e.titel) +
+            ' <span class="bw-klein bw-leise">(' + esc(e.datei.split("/").pop()) + ")</span></label></li>";
+        });
+        h += "</ul>";
+        if (weitere.length) {
+          h += '<button class="bw-btn bw-btn--sekundaer" id="v-mehr-anlagen" type="button" aria-expanded="false">' +
+            "Weitere Dokumente anhängen (" + weitere.length + ")</button>" +
+            '<div class="bw-search" id="v-anlagen-suche" hidden style="max-width:26rem;margin-top:var(--bw-space-2)">' +
+            '<label for="v-anlagen-filter" class="bw-skip-link">Dokumente filtern</label>' +
+            '<input id="v-anlagen-filter" type="search" placeholder="Filtern: Urlaub, Vertrag, Plan …" aria-label="Dokumente filtern">' +
+            "<button type=\"button\" aria-label=\"Suchen\">" + ICON.suche + "</button></div>";
+        }
+        if (!vorgeschlagen.length) {
+          h += '<p class="bw-klein bw-leise">Diese Vorlage schlägt keine Datei vor' +
+            (nurLinks.length ? " — ihre Anhänge sind Online-Quellen und stehen als Link im Text" : "") +
+            ". Über den Knopf oben lassen sich Dokumente aus dem Download-Center dazunehmen.</p>";
+        }
+      }
+      h += "</div>";
+      if (nurLinks.length) {
+        h += '<p class="bw-klein bw-leise">Als Link in der Nachricht: ' +
+          nurLinks.map(function (e) { return esc(e.titel); }).join(" · ") + "</p>";
+      }
     }
     if ((v.artikel || []).length) {
       h += '<h2>Fachlicher Hintergrund</h2><ul class="chipzeile">' +
@@ -1772,8 +1809,8 @@
 
   // Baut die Nachricht und stößt den Download an. Gibt ein Promise mit der
   // Zahl der tatsächlich angehängten Dateien zurück.
-  function emlErzeugen(v, betreff, text, empfaenger) {
-    var dateien = anlagenDateien(v), links = anlagenLinks(v);
+  function emlErzeugen(v, betreff, text, empfaenger, ausgewaehlt) {
+    var dateien = ausgewaehlt || anlagenDateien(v), links = anlagenLinks(v);
     var koerper = text;
     if (links.length) {
       koerper += "\n\n---\nWeiterführende Online-Quellen:\n" +
@@ -1842,6 +1879,27 @@
       var a = empfaengerFeld ? empfaengerFeld.value.trim() : "";
       return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(a) ? a : "";
     }
+    // Angehakte Anlagen (Quellen-Einträge mit lokaler Datei).
+    function gewaehlteAnlagen() {
+      var ids = [];
+      root.querySelectorAll("[data-anlage]").forEach(function (c) {
+        if (c.checked) ids.push(c.getAttribute("data-anlage"));
+      });
+      var raus = [];
+      ids.forEach(function (id) {
+        ((window.QUELLEN || {}).eintraege || []).forEach(function (e) {
+          if (e.id === id && e.datei) raus.push(e);
+        });
+      });
+      return raus;
+    }
+    function anlagenKnopfBeschriften() {
+      var k = $("#v-eml", root);
+      if (!k) return;
+      var n = gewaehlteAnlagen().length;
+      k.textContent = n ? "E-Mail mit " + n + " Anlage" + (n > 1 ? "n" : "") + " erzeugen"
+                        : "E-Mail-Datei erzeugen";
+    }
 
     function feldwert(feld) {
       if (feld.type === "date") return deDatum(feld.value);
@@ -1871,6 +1929,38 @@
     });
     // Empfängeradresse fließt in den mailto-Link ein (nicht in die Historie).
     if (empfaengerFeld) empfaengerFeld.addEventListener("input", aktualisieren);
+    // Anlagen an- und abwählen; „Weitere Dokumente" blendet den Rest ein.
+    root.querySelectorAll("[data-anlage]").forEach(function (c) {
+      c.addEventListener("change", anlagenKnopfBeschriften);
+    });
+    var mehrKnopf = $("#v-mehr-anlagen", root), anlagenSuche = $("#v-anlagen-suche", root);
+    if (mehrKnopf) {
+      mehrKnopf.addEventListener("click", function () {
+        var offen = mehrKnopf.getAttribute("aria-expanded") === "true";
+        root.querySelectorAll('[data-weitere="1"]').forEach(function (li) { li.hidden = offen; });
+        mehrKnopf.setAttribute("aria-expanded", offen ? "false" : "true");
+        mehrKnopf.textContent = offen
+          ? "Weitere Dokumente anhängen (" + root.querySelectorAll('[data-weitere="1"]').length + ")"
+          : "Weitere Dokumente ausblenden";
+        if (anlagenSuche) anlagenSuche.hidden = offen;
+        if (!offen) { var f = $("#v-anlagen-filter", root); if (f) f.focus(); }
+      });
+    }
+    // Filter über die Anlagenliste — tipptolerant wie überall im Werkzeug.
+    var anlagenFilter = $("#v-anlagen-filter", root);
+    if (anlagenFilter) {
+      anlagenFilter.addEventListener("input", function () {
+        var q = norm(anlagenFilter.value.trim());
+        root.querySelectorAll(".anlagen-liste li").forEach(function (li) {
+          var box = li.querySelector("[data-anlage]");
+          if (!q) { li.hidden = li.hasAttribute("data-weitere") && mehrKnopf &&
+            mehrKnopf.getAttribute("aria-expanded") !== "true" && !(box && box.checked); return; }
+          var treffer = tokenScore(q, norm(li.textContent)) > 0 || (box && box.checked);
+          li.hidden = !treffer;
+        });
+      });
+    }
+    anlagenKnopfBeschriften();
     // Beruf gewählt → Fachrichtungs-Auswahl passend neu befüllen
     var berufFeld = root.querySelector('[data-ph="BERUF"]');
     var frFeld = root.querySelector('[data-ph="FACHRICHTUNG"][data-abhaengig]');
@@ -1895,7 +1985,7 @@
         emlKnopf.disabled = true;
         status.textContent = "Nachricht wird gepackt …";
         var an = empfaengerWert();
-        emlErzeugen(v, betreffFeld.value, textFeld.value, an).then(function (anzahl) {
+        emlErzeugen(v, betreffFeld.value, textFeld.value, an, gewaehlteAnlagen()).then(function (anzahl) {
           status.textContent = "Datei erzeugt — Doppelklick öffnet die Nachricht" +
             (anzahl ? " mit " + anzahl + " Anlage" + (anzahl > 1 ? "n" : "") : "") +
             (an ? " an " + an : "") + ".";

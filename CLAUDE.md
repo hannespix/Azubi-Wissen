@@ -95,10 +95,13 @@ Doppelklick, ohne Netzwerk, ohne Installation. Das ist nicht verhandelbar
   (Grid), das unter 640px einspaltig umbricht.
 - **Header-Muster (CI):** Logo links; Aktionen (Suche, Menü) rechts. Aktiver
   Navigationslink trägt den **gelben Marker** (`aria-current="page"`).
-- **Hamburger-Menü** unter 800px: Button mit `data-nav-toggle`,
-  `aria-controls`, `aria-expanded`; öffnet `.bw-nav__panel`. Verhalten in
-  `assets/js/nav.js` (Escape schließt, Klick außerhalb schließt, Fokus zurück).
-  Kein eigenes Menü neu bauen — dieses verwenden.
+- **Hamburger-Menü auf ALLEN Bildschirmgrößen** — nie eine ausgeschriebene
+  Linkleiste im Header. Button mit `data-nav-toggle`, `aria-controls`,
+  `aria-expanded`; öffnet `.bw-nav__panel` (auf breiten Schirmen als schmales
+  Panel rechts, mobil über die volle Breite). Verhalten in `assets/js/nav.js`
+  (Escape schließt, Klick außerhalb schließt, Fokus zurück). Kein eigenes Menü
+  neu bauen — dieses verwenden. So bleibt der Kopf ruhig und die Bedienung
+  überall gleich.
 - **Touch-Targets ≥ 44×44px** (`.bw-iconbtn`). Footer = schwarzer Streifen
   (`.bw-footer`) mit Negativ-Logo.
 
