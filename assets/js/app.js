@@ -1491,23 +1491,29 @@
     if (!m) return "";
     return m[1] === "Sommer" ? m[2] + "-04-01" : (Number(m[2]) - 1) + "-11-01";
   }
-  // Beide Durchgänge über mehrere Jahre — dadurch ist das Jahr frei wählbar.
-  // Reihenfolge = Reihenfolge der Anmeldeschlüsse.
-  function pruefungstermine() {
+  // Durchgang und Jahr werden getrennt gewählt. Die Jahresliste beginnt beim
+  // laufenden Jahr und wächst von selbst mit — dadurch bleibt sie aktuell,
+  // ohne dass jemand eine Konstante pflegen muss.
+  var TERMIN_ARTEN = ["Sommertermin", "Wintertermin"];
+  function pruefungsjahre() {
     var j = new Date().getFullYear(), liste = [];
-    for (var i = 0; i <= PRUEFUNGSJAHRE_VORAUS; i++) {
-      liste.push("Sommertermin " + (j + i));
-      liste.push("Wintertermin " + (j + i + 1));
-    }
+    for (var i = 0; i <= PRUEFUNGSJAHRE_VORAUS; i++) liste.push(String(j + i));
     return liste;
+  }
+  function terminZerlegen(t) {
+    var m = /^(Sommer|Winter)termin\s+(\d{4})$/.exec(String(t || ""));
+    return m ? { art: m[1] + "termin", jahr: m[2] } : null;
   }
   // Vorbelegt ist der Durchgang, dessen Anmeldeschluss als nächster ansteht.
   function naechsterTermin() {
-    var heute = heuteISO(0), liste = pruefungstermine(), treffer = "";
-    liste.forEach(function (t) {
-      if (!treffer && fristFuerTermin(t) >= heute) treffer = t;
+    var heute = heuteISO(0), jahre = pruefungsjahre(), best = "", bestFrist = "";
+    jahre.forEach(function (j) {
+      TERMIN_ARTEN.forEach(function (art) {
+        var t = art + " " + j, f = fristFuerTermin(t);
+        if (f >= heute && (!bestFrist || f < bestFrist)) { best = t; bestFrist = f; }
+      });
     });
-    return treffer || liste[liste.length - 1];
+    return best || ("Wintertermin " + jahre[jahre.length - 1]);
   }
   function naechsterAnmeldeschluss() {
     return fristFuerTermin(naechsterTermin()) || heuteISO(14);
@@ -1577,10 +1583,50 @@
     }
     return ids;
   }
+  // Beschriftungen, die sich nicht sauber aus dem Platzhalter ableiten lassen
+  // (Umlaute gehen im Großbuchstaben-Schlüssel verloren, manches liest sich
+  // als Formularfeld besser ausgeschrieben).
+  var FELD_LABEL = {
+    ANREDE_NAME: "Anrede und Name",
+    AZUBI_NAME: "Name der/des Auszubildenden",
+    PRUEFUNGSTERMIN: "Prüfungstermin",
+    PRUEFUNGSDATUM: "Prüfungsdatum",
+    ANTRAGSFRIST: "Anmeldefrist",
+    ANMELDESCHLUSS: "Anmeldeschluss",
+    FEHLENDE_UNTERLAGEN: "Fehlende Unterlagen",
+    AUSBILDUNGSBEGINN: "Ausbildungsbeginn",
+    DATUM_ENDE: "Ende des Ausbildungsverhältnisses",
+    NEUES_ENDE: "Neues Ende",
+    AGENTUR_ORT: "Agentur für Arbeit (Ort)",
+    WEITERE_THEMEN: "Weitere Themen"
+  };
+  function feldLabel(k) {
+    if (FELD_LABEL[k]) return FELD_LABEL[k];
+    var t = k.replace(/_/g, " ").toLowerCase();
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  }
+  // Der Prüfungstermin bestimmt die Anmeldefrist — also gehört er im Formular
+  // davor, unabhängig davon, wo die Platzhalter im Text stehen.
+  function felderOrdnen(ph) {
+    var raus = ph.slice();
+    var termin = raus.indexOf("PRUEFUNGSTERMIN");
+    if (termin < 0) return raus;
+    var frist = -1;
+    ["ANMELDESCHLUSS", "ANTRAGSFRIST"].forEach(function (k) {
+      var i = raus.indexOf(k);
+      if (i >= 0 && (frist < 0 || i < frist)) frist = i;
+    });
+    if (frist < 0 || termin < frist) return raus;
+    raus.splice(termin, 1);
+    raus.splice(raus.indexOf(ph[frist]), 0, "PRUEFUNGSTERMIN");
+    return raus;
+  }
   function feldDefFuer(k) {
     if (k === "BERUF") return { typ: "auswahl", optionen: berufsTitelListe(), standard: "Gärtner/in" };
     if (k === "FACHRICHTUNG") return { typ: "auswahl", abhaengigVon: "BERUF" };
-    if (k === "PRUEFUNGSTERMIN") return { typ: "auswahl", optionen: pruefungstermine(), standard: naechsterTermin() };
+    // Termin: zwei Auswahlfelder (Durchgang + Jahr), zusammengesetzt ergeben
+    // sie den Wert, der in den Text wandert.
+    if (k === "PRUEFUNGSTERMIN") return { typ: "termin", standard: naechsterTermin() };
     // `ausTermin`: Steht im selben Text ein Prüfungstermin, richtet sich die
     // Frist nach ihm statt nach dem nächsten Schluss im Kalender.
     if (k === "ANMELDESCHLUSS" || k === "ANTRAGSFRIST") return { typ: "datum", vorISO: naechsterAnmeldeschluss(), ausTermin: true };
@@ -1681,17 +1727,18 @@
 
   function viewVorlageDetail(v) {
     var werte = werteLesen();
-    var ph = platzhalterVon(v);
+    var ph = felderOrdnen(platzhalterVon(v));
     var h = '<nav class="crumb" aria-label="Pfad"><a href="#/vorlagen">E-Mail-Vorlagen</a></nav>';
     h += "<h1>" + esc(v.titel) + "</h1>";
     if (v.hinweise) h += '<div class="bw-hinweis"><p><strong>Hinweis:</strong> ' + fmtInline(v.hinweise) + "</p></div>";
     h += '<div class="vorlage-raster">';
     // Gewählter Prüfungstermin — er bestimmt die Anmeldefrist, also einmal
-    // vorab auflösen (Auswahlfeld und Datumsfeld sollen dasselbe zeigen).
+    // vorab auflösen (Auswahlfelder und Datumsfeld sollen dasselbe zeigen).
     var terminWert = "";
     if (ph.indexOf("PRUEFUNGSTERMIN") >= 0) {
-      var td = feldDefFuer("PRUEFUNGSTERMIN");
-      terminWert = td.optionen.indexOf(werte.PRUEFUNGSTERMIN) >= 0 ? werte.PRUEFUNGSTERMIN : td.standard;
+      var gespeichert = terminZerlegen(werte.PRUEFUNGSTERMIN);
+      terminWert = gespeichert && pruefungsjahre().indexOf(gespeichert.jahr) >= 0
+        ? werte.PRUEFUNGSTERMIN : naechsterTermin();
     }
     h += '<section aria-label="Angaben"><h2>Angaben</h2>' +
       '<p class="bw-klein bw-leise">Auswahlfelder und Datum sind vorbelegt; Textfelder schlagen frühere Eingaben vor.' +
@@ -1702,12 +1749,26 @@
       '<div class="platzhalter-felder">';
     var historie = historieLesen();
     ph.forEach(function (k) {
-      var label = k.replace(/_/g, " ").toLowerCase();
-      label = label.charAt(0).toUpperCase() + label.slice(1);
       var def = feldDefFuer(k);
       var wert = werte[k] || "";
-      h += '<div class="bw-field"><label for="ph-' + k + '">' + esc(label) + "</label>";
-      if (def.typ === "auswahl") {
+      h += '<div class="bw-field"><label for="ph-' + k + (def.typ === "termin" ? "-art" : "") + '">' +
+        esc(feldLabel(k)) + "</label>";
+      if (def.typ === "termin") {
+        // Durchgang und Jahr getrennt wählen; der zusammengesetzte Wert steht
+        // im versteckten Feld und wandert von dort in Betreff und Text.
+        var teile = terminZerlegen(terminWert) || terminZerlegen(def.standard) || { art: TERMIN_ARTEN[0], jahr: pruefungsjahre()[0] };
+        h += '<div class="termin-wahl">' +
+          '<select id="ph-' + k + '-art" data-termin="art" aria-label="Durchgang">' +
+          TERMIN_ARTEN.map(function (a) {
+            return '<option value="' + esc(a) + '"' + (a === teile.art ? " selected" : "") + ">" +
+              esc(a.replace("termin", "")) + "</option>";
+          }).join("") + "</select>" +
+          '<select id="ph-' + k + '-jahr" data-termin="jahr" aria-label="Prüfungsjahr">' +
+          pruefungsjahre().map(function (j) {
+            return '<option value="' + j + '"' + (j === teile.jahr ? " selected" : "") + ">" + j + "</option>";
+          }).join("") + "</select></div>" +
+          '<input type="hidden" data-ph="' + k + '" value="' + esc(teile.art + " " + teile.jahr) + '">';
+      } else if (def.typ === "auswahl") {
         var optionen = def.abhaengigVon ? fachrichtungenFuerBeruf(werte.BERUF || "Gärtner/in") : def.optionen;
         var gewaehlt = optionen.indexOf(wert) >= 0 ? wert : (def.standard && optionen.indexOf(def.standard) >= 0 ? def.standard : optionen[0] || "");
         h += '<select id="ph-' + k + '" data-ph="' + k + '"' + (def.abhaengigVon ? ' data-abhaengig="' + def.abhaengigVon + '"' : "") +
@@ -2195,16 +2256,23 @@
       });
       frFeld.addEventListener("change", anlagenNeuZeichnen);
     }
-    // Prüfungstermin gewählt → Anmeldefrist des Durchgangs eintragen.
+    // Durchgang oder Jahr gewählt → Termin zusammensetzen und die
+    // Anmeldefrist des Durchgangs eintragen.
     var terminFeld = root.querySelector('[data-ph="PRUEFUNGSTERMIN"]');
-    if (terminFeld) {
-      terminFeld.addEventListener("change", function () {
+    var terminArt = root.querySelector('[data-termin="art"]');
+    var terminJahr = root.querySelector('[data-termin="jahr"]');
+    if (terminFeld && terminArt && terminJahr) {
+      var terminUebernehmen = function () {
+        terminFeld.value = terminArt.value + " " + terminJahr.value;
         var iso = fristFuerTermin(terminFeld.value);
-        if (!iso) return;
-        root.querySelectorAll('[data-ph="ANMELDESCHLUSS"], [data-ph="ANTRAGSFRIST"]')
-          .forEach(function (f) { f.value = iso; });
+        if (iso) {
+          root.querySelectorAll('[data-ph="ANMELDESCHLUSS"], [data-ph="ANTRAGSFRIST"]')
+            .forEach(function (f) { f.value = iso; });
+        }
         aktualisieren();
-      });
+      };
+      terminArt.addEventListener("change", terminUebernehmen);
+      terminJahr.addEventListener("change", terminUebernehmen);
     }
     $("#v-kopieren", root).addEventListener("click", function () { kopieren(textFeld.value, "Text kopiert."); });
     $("#v-betreff-kopieren", root).addEventListener("click", function () { kopieren(betreffFeld.value, "Betreff kopiert."); });
