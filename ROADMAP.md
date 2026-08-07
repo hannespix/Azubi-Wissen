@@ -622,6 +622,31 @@
   mit den Repo-PDFs**; Regressionen s20/d5/k2/smoke_start/Einzeldatei,
   Offline-Check. *(PR #62)*
 
+- **S22 E-Mail-Erzeugung für alle Vorlagen + Empfängerfeld** ✅ —
+  Auftrag 02.08.: die .eml-Erzeugung bei allen Vorlagen anbieten und
+  optional ein Empfängerfeld. Der Knopf steht jetzt bei **jeder**
+  Vorlage („E-Mail-Datei erzeugen" ohne, „E-Mail mit N Anlagen
+  erzeugen" mit Anhängen) — auch ohne Anlagen lohnt er, weil Betreff,
+  Umlaute und langer Text zuverlässiger ankommen als über einen
+  mailto-Link. Neues optionales Feld **Empfänger-E-Mail**: fließt in
+  den `To:`-Kopf der Datei und in den mailto-Link. Es trägt bewusst
+  **kein `data-ph`** — die Adresse ist personenbezogen und wird daher
+  weder in `aw.vorlagenwerte` noch in der Eingabe-Historie
+  gespeichert; unplausible Eingaben werden verworfen statt kaputt
+  übernommen. *(PR #63)*
+- **S22b Anmeldeschluss der Abschlussprüfungen** ✅ — fachliche
+  Korrektur des Auftraggebers: **1. November für die Winter-,
+  1. April für die Sommerprüfung**. Eingepflegt in den Prüfungsartikel
+  (Fakt + eigene FAQ), in den **Jahreskreis** (die bisherige Angabe
+  „Anmeldung Sommerprüfung: Januar–Februar" war falsch; dazu neuer
+  Eintrag für die Winteranmeldung) und in die Bearbeitungshinweise
+  beider Prüfungsvorlagen — die aus der Praxis-Mail übernommene
+  Angabe „31.03." ist damit ersetzt. Die Fristfelder ANMELDESCHLUSS
+  und ANTRAGSFRIST werden nun mit dem **nächsten fälligen Termin**
+  vorbelegt statt mit „heute + 14 Tage". Tests: mini_s21 auf 26
+  Checks (inkl. Vorbelegung, Artikel, Jahreskreis), mini_s20
+  nachgezogen, Regressionen k1/d5/smoke_start, Offline-Check. *(PR #63)*
+
 **Stand 02.08.2026: Alle beauftragten Ausbaustufen sind umgesetzt.**
 Weiterbetrieb über die Dauerpflege-Punkte unten; neue Module über
 neue Roadmap-Einträge.
