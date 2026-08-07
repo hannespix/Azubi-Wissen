@@ -108,6 +108,11 @@ def vorlagen_anlagen() -> dict:
     vorlagen.js liefert die Quellen-IDs, `datei: "..."` in quellen.js den
     Pfad. So wandern nur die wirklich benötigten Dateien in die Einzeldatei
     (statt aller 27 MB unter formulare/).
+
+    Bewusst NICHT dabei: die über `anhaengePlan` beigelegten betrieblichen
+    Ausbildungspläne. Alle 14 zusammen sind 12 MB und würden die Einzeldatei
+    verdreifachen; sie sind amtlich online abrufbar und gehen deshalb als
+    Link mit (app.js: `anlagenLinks`).
     """
     vorlagen = (ROOT / "assets/js/vorlagen.js").read_text(encoding="utf-8")
     quellen = (ROOT / "assets/js/quellen.js").read_text(encoding="utf-8")

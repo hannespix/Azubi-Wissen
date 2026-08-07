@@ -101,6 +101,10 @@
 /* ===================== Reset / Grundlagen ============================ */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+/* `hidden` muss überall greifen: Klassen mit eigenem `display` (etwa
+   .bw-search mit flex) hebeln die Browser-Grundregel sonst aus und das
+   Element bleibt sichtbar, obwohl es ausgeblendet sein soll. */
+[hidden] { display: none !important; }
 body {
   margin: 0;
   background: var(--bw-bg);

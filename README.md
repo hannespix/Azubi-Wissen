@@ -19,8 +19,10 @@ Requests, keine Cloud, keine Telemetrie.**
 [`azubi-wissen-offline.html`](azubi-wissen-offline.html) herunterladen und
 per **Doppelklick** öffnen. Eine Datei (rund 7 MB), alles enthalten — auch
 die an den E-Mail-Vorlagen hängenden PDF-Anlagen, sodass „E-Mail mit
-Anlagen erzeugen" hier genauso funktioniert wie online. Notizen, Vermerke
-und Merkliste bleiben lokal im Browser gespeichert.
+Anlagen erzeugen" hier genauso funktioniert wie online. Ausgenommen sind
+nur die 12 MB betrieblichen Ausbildungspläne: Sie würden die Datei
+verdreifachen und gehen deshalb als amtlicher Link zur RP-Seite mit.
+Notizen, Vermerke und Merkliste bleiben lokal im Browser gespeichert.
 
 **Variante 2 — Repo-Ordner über lokalen Server** (für Entwicklung):
 ```
@@ -36,11 +38,11 @@ python3 -m http.server 8000     # dann http://localhost:8000/
 | **Schnellnachschlag** | 12 Karten: Tarif-/Urlaubstabellen, Fristen, Arbeitszeit, Fachrichtungen + **6 Rechner** (Urlaub nach Alter, Mindestvergütung, Probezeit/Fristen, Teilzeit, **Ausbildungsfahrplan** mit Jugendschutz-Fristen, **Notenrechner** mit Bestehens-Checkliste nach GärtnAusbV) |
 | **Jahreskreis** | Das wiederkehrende Jahr der Ausbildungsberatung als 12-Monats-Timeline: Prüfungsrunden, Zulassung & Berichtsheftkontrolle, Schulbesuche (Eingangs-/Abschlussklassen), Anerkennungs-Fixtermine 20.04./20.09., Gremien, Jahreswechsel-Aufgaben |
 | **Suche (Strg+K oder /)** | global, multitoken, fuzzy (tippfehler- und diakritikatolerant), Synonyme, Gruppierung, Tastaturnavigation — über Artikel, FAQ, Berufe, Quellen, Vorlagen, Checklisten, Glossar und eigene Inhalte |
-| **E-Mail-Vorlagen** | 14 Vorlagen mit Automatik: Berufs- und Fachrichtungs-Dropdowns, Datums-/Fristfelder, gemerkte Eingabewerte und Eingabe-Historie — ausfüllen, kopieren, versenden. **„E-Mail mit Anlagen erzeugen"** lädt die fertige Nachricht als `.eml` inklusive der zugehörigen PDF-Anlagen; Doppelklick öffnet sie im Mailprogramm als sendefertigen Entwurf (ein `mailto:`-Link kann keine Anhänge übertragen) |
+| **E-Mail-Vorlagen** | 14 Vorlagen mit Automatik: Berufs- und Fachrichtungs-Dropdowns, Datums-/Fristfelder, gemerkte Eingabewerte und Eingabe-Historie — ausfüllen, kopieren, versenden. **„E-Mail mit Anlagen erzeugen"** lädt die fertige Nachricht als `.eml` inklusive der zugehörigen PDF-Anlagen; Doppelklick öffnet sie im Mailprogramm als sendefertigen Entwurf (ein `mailto:`-Link kann keine Anhänge übertragen). Die Datei ist eine **gestaltete HTML-Mail** (Überschriften, Aufzählungen, benannte Links) mit Nur-Text-Fassung als Rückfallebene; sie endet mit der Grußformel — **Name und Dienststelle kommen aus der Outlook-Signatur**. Bei Vertrags-, Interessen- und Externenprüfungs-Vorlagen hängt **der betriebliche Ausbildungsplan der gewählten Fachrichtung automatisch an** — er zeigt den prüfbaren Stoff; ein Wechsel der Fachrichtung tauscht den Plan mit |
 | **Checklisten** | 4 interaktive Listen (Erstberatung Fachwerker, Eintragung, Betriebsbesuch, AP-Anmeldung) mit lokal gespeichertem Abhak-Stand und Druckfassung |
 | **Glossar** | 35 Fachbegriffe von 80-Prozent-Regel bis Zwischenprüfung — mit §§-Links, Artikel- und Quellen-Chips |
 | **Gesetze & Vorschriften** | Neun Gesetze komplett im Werkzeug (`#/gesetz`): BBiG, JArbSchG, BUrlG, ArbZG, ArbSchG, EntgFG, KSchG, TzBfG, AEVO — zusammen 338 Paragrafen als eigene Seiten, durchsuchbar, mit Gliederung, Nachbar-Navigation und Rückverweisen auf die Artikel; jedes §-Zitat im Werkzeug springt direkt auf die Norm. **Gleichrangig daneben: die zentralen Verwaltungsvorschriften und BIBB-Empfehlungen als Karten** (VOAPLandw, VwV Berichtsheft, VwVBBiL, BBiG-ZuVO, Musterprüfungsordnung HA 120, Ausbildungsnachweise HA 156), die übrigen kompakt darunter. Nach Gesetzesänderungen: `python3 tools/gesetz_import.py` |
-| **Download-Center** | 107 Quellen im Baum: RP-Formulare (BAV!), Ausbildungspläne, 49 lokale PDFs, alle 14 Ausbildungsordnungen der grünen Berufe, Gesetze, **Verwaltungsvorschriften des Landes (VwV Berichtsheft, VOAPLandw, BBiG-ZuVO) und BIBB-Hauptausschuss-Empfehlungen**, BA-Förderung, SVLFG, öffentliche Portale |
+| **Download-Center** | 108 Quellen im Baum: RP-Formulare (BAV!), Ausbildungspläne, 49 lokale PDFs, alle 14 Ausbildungsordnungen der grünen Berufe, Gesetze, **Verwaltungsvorschriften des Landes (VwV Berichtsheft, VOAPLandw, BBiG-ZuVO) und BIBB-Hauptausschuss-Empfehlungen**, BA-Förderung, SVLFG, öffentliche Portale |
 | **KI-Assistent (lokal)** | Antworten ausschließlich aus der Wissensbasis mit Quellenangaben (§§ + Artikel) — rechnet (Urlaub, Vergütung, Teilzeit, Probezeit, Noten), kennt alle Module, bietet passende Vorlagen/Checklisten/Formulare an; keine Eingabe verlässt das Gerät, keine Rechtsberatung |
 | **Bedeutungssuche (optional)** | Auf Klick lädt der Assistent ein lokales Sprachmodell (multilingual-e5-small, quantisiert, ≈ 150 MB aus `assets/vendor/semantik/`) und versteht dann frei formulierte Fragen („Chef zahlt zu spät" → Vergütung). Komplett offline, keine Cloud; ohne Modell arbeitet die Stichwortsuche unverändert. Index neu bauen nach Inhaltsänderungen: `node tools/semantik_index_bauen.mjs` |
 | **Merkliste & Druck** | Stern an Artikeln und Karten → Schnellzugriff auf der Startseite; „Karte drucken" macht aus Jahreskreis, Fahrplan & Co. ein A4-Handout für Schulbesuche |

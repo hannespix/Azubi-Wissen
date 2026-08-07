@@ -1525,6 +1525,42 @@
     if (b.id === "gartenbaufachwerker") return fachrichtungenFuerBeruf("Gärtner/in");
     return (b.fachrichtungen || []).slice();
   }
+  // Beruf und Fachrichtung so, wie die Auswahlfelder sie zeigen — auch dann,
+  // wenn noch nichts gespeichert ist (dann greift die Vorbelegung).
+  function aktuelleWahl(werte) {
+    var berufe = berufsTitelListe();
+    var beruf = (werte || {}).BERUF;
+    if (berufe.indexOf(beruf) < 0) beruf = berufe.indexOf("Gärtner/in") >= 0 ? "Gärtner/in" : berufe[0] || "";
+    var frs = fachrichtungenFuerBeruf(beruf);
+    var fr = (werte || {}).FACHRICHTUNG;
+    if (frs.indexOf(fr) < 0) fr = frs[0] || "";
+    return { beruf: beruf, fachrichtung: fr };
+  }
+  // Betrieblicher Ausbildungsplan der gewählten Fachrichtung. Er zeigt den
+  // Stoff, der in der praktischen Prüfung verlangt wird. Welche Datei zu
+  // welcher Fachrichtung gehört, steht als `fuer` an der Quelle (quellen.js).
+  function planQuelleFuer(berufTitel, fachrichtung) {
+    if (!fachrichtung) return null;
+    var b = null;
+    ((window.BERUFE || {}).berufe || []).forEach(function (x) { if (x.titel === berufTitel) b = x; });
+    if (!b) return null;
+    var treffer = null;
+    ((window.QUELLEN || {}).eintraege || []).forEach(function (e) {
+      if (e.fuer && e.fuer.beruf === b.id && e.fuer.fachrichtung === fachrichtung) treffer = e;
+    });
+    return treffer;
+  }
+  // Anhänge einer Vorlage: die fest hinterlegten und — wo `anhaengePlan`
+  // gesetzt ist — der Ausbildungsplan der gerade gewählten Fachrichtung.
+  function anhaengeVon(v, werte) {
+    var ids = ((v && v.anhaenge) || []).slice();
+    if (v && v.anhaengePlan) {
+      var w = aktuelleWahl(werte);
+      var p = planQuelleFuer(w.beruf, w.fachrichtung);
+      if (p && ids.indexOf(p.id) < 0) ids.push(p.id);
+    }
+    return ids;
+  }
   function pruefungstermine() {
     var j = new Date().getFullYear();
     return ["Sommertermin " + j, "Wintertermin " + j + "/" + (j + 1), "Sommertermin " + (j + 1)];
@@ -1562,8 +1598,10 @@
     try { localStorage.setItem("aw.vorlagenwerte", JSON.stringify(w)); } catch (e) {}
   }
   function vorlageFuellen(text, werte) {
-    // **Fett**-Auszeichnung entfernen — E-Mails sind Reintext.
-    var erg = text.replace(/\*\*/g, "").replace(/\[([A-ZÄÖÜ_]+)\]/g, function (_, k) {
+    // **Fett**-Auszeichnung bleibt stehen: Die HTML-Fassung der Mail macht
+    // daraus <strong>, die Nur-Text-Fassung und die Vorschau streichen sie
+    // über textOhneMarkup wieder heraus.
+    var erg = text.replace(/\[([A-ZÄÖÜ_]+)\]/g, function (_, k) {
       var wert = (werte[k] || "").trim();
       if (wert) return wert;
       // Bewusst leere Auswahl (z. B. Fachrichtung „entfällt") füllt mit
@@ -1666,7 +1704,7 @@
       h += "</div>";
     });
     h += "</div></section>";
-    var anzahlAnlagen = anlagenDateien(v).length;
+    var anzahlAnlagen = anlagenDateien(v, anhaengeVon(v, werte)).length;
     h += '<section aria-label="Vorschau"><h2>Vorschau</h2>' +
       // Empfängerfeld bewusst OHNE data-ph: E-Mail-Adressen sind
       // personenbezogen und werden deshalb weder gespeichert noch in die
@@ -1687,9 +1725,11 @@
                      : "E-Mail-Datei erzeugen") + "</button>" +
       '<span class="bw-klein bw-leise" id="v-status" role="status"></span></div>' +
       '<p class="bw-klein bw-leise">Die erzeugte Datei (.eml) öffnet sich per Doppelklick im E-Mail-Programm als ' +
-      "sendefertiger Entwurf — mit Betreff, Text" + (anzahlAnlagen ? " und den PDF-Anlagen" : "") +
-      ". „Im E-Mail-Programm öffnen“ ist der schnelle Weg über einen mailto-Link; Anhänge kann dieser Weg " +
-      "technisch nicht mitgeben." +
+      "sendefertiger Entwurf — als gestaltete HTML-Nachricht mit Betreff, Text" +
+      (anzahlAnlagen ? " und den PDF-Anlagen" : "") +
+      ". Ihre Signatur setzt das E-Mail-Programm darunter; die Vorschau endet deshalb mit der Grußformel. " +
+      "„Im E-Mail-Programm öffnen“ ist der schnelle Weg über einen mailto-Link; Anhänge und Gestaltung kann " +
+      "dieser Weg technisch nicht mitgeben." +
       (!anzahlAnlagen && (v.anhaenge || []).length && window.EINZELDATEI
         ? " In der Einzeldatei-Auslieferung liegen die PDF-Anlagen nicht bei — sie stehen als Link im Text."
         : "") + "</p></section>";
@@ -1698,50 +1738,7 @@
     // sich jedes andere lokale Dokument dazunehmen. Nur Dateien im Werkzeug
     // können in die Nachricht wandern — Online-Quellen gehen als Link mit.
     if (window.QUELLEN) {
-      var alleDateien = (window.QUELLEN.eintraege || []).filter(dateiVerfuegbar);
-      var empfohlen = {};
-      (v.anhaenge || []).forEach(function (id) { empfohlen[id] = 1; });
-      var vorgeschlagen = alleDateien.filter(function (e) { return empfohlen[e.id]; });
-      var weitere = alleDateien.filter(function (e) { return !empfohlen[e.id]; });
-      var nurLinks = (v.anhaenge || []).map(function (id) {
-        var t = null;
-        (window.QUELLEN.eintraege || []).forEach(function (x) { if (x.id === id && !x.datei) t = x; });
-        return t;
-      }).filter(Boolean);
-
-      h += '<h2>Anlagen für die E-Mail</h2><div id="v-anlagen">';
-      if (!alleDateien.length) {
-        h += '<p class="bw-klein bw-leise">Für diese Auslieferung liegen keine Dateien bei — ' +
-          "die Nachricht enthält Betreff und Text; verlinkte Quellen stehen im Text.</p>";
-      } else {
-        h += '<ul class="anlagen-liste">';
-        vorgeschlagen.concat(weitere).forEach(function (e, i) {
-          var an = !!empfohlen[e.id];
-          h += '<li' + (an ? "" : ' hidden data-weitere="1"') + '><label class="anlage-wahl">' +
-            '<input type="checkbox" data-anlage="' + esc(e.id) + '"' + (an ? " checked" : "") + "> " +
-            '<span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span> " + esc(e.titel) +
-            ' <span class="bw-klein bw-leise">(' + esc(e.datei.split("/").pop()) + ")</span></label></li>";
-        });
-        h += "</ul>";
-        if (weitere.length) {
-          h += '<button class="bw-btn bw-btn--sekundaer" id="v-mehr-anlagen" type="button" aria-expanded="false">' +
-            "Weitere Dokumente anhängen (" + weitere.length + ")</button>" +
-            '<div class="bw-search" id="v-anlagen-suche" hidden style="max-width:26rem;margin-top:var(--bw-space-2)">' +
-            '<label for="v-anlagen-filter" class="bw-skip-link">Dokumente filtern</label>' +
-            '<input id="v-anlagen-filter" type="search" placeholder="Filtern: Urlaub, Vertrag, Plan …" aria-label="Dokumente filtern">' +
-            "<button type=\"button\" aria-label=\"Suchen\">" + ICON.suche + "</button></div>";
-        }
-        if (!vorgeschlagen.length) {
-          h += '<p class="bw-klein bw-leise">Diese Vorlage schlägt keine Datei vor' +
-            (nurLinks.length ? " — ihre Anhänge sind Online-Quellen und stehen als Link im Text" : "") +
-            ". Über den Knopf oben lassen sich Dokumente aus dem Download-Center dazunehmen.</p>";
-        }
-      }
-      h += "</div>";
-      if (nurLinks.length) {
-        h += '<p class="bw-klein bw-leise">Als Link in der Nachricht: ' +
-          nurLinks.map(function (e) { return esc(e.titel); }).join(" · ") + "</p>";
-      }
+      h += '<h2>Anlagen für die E-Mail</h2><div id="v-anlagen">' + anlagenBlockHtml(v, werte) + "</div>";
     }
     if ((v.artikel || []).length) {
       h += '<h2>Fachlicher Hintergrund</h2><ul class="chipzeile">' +
@@ -1749,6 +1746,64 @@
           var a = artikelVon(id);
           return a ? '<li><a class="chip chip--frage" href="#/artikel/' + id + '">' + esc(a.titel) + "</a></li>" : "";
         }).join("") + "</ul>";
+    }
+    return h;
+  }
+
+  // Vorlagentext plus die Online-Quellen, die nicht als Datei mitgehen. Der
+  // Block steht schon in der Vorschau, damit „Text kopieren“ und der
+  // mailto-Weg dieselbe Nachricht liefern wie die erzeugte .eml-Datei.
+  function textMitQuellen(v, werte) {
+    var text = vorlageFuellen(v.text, werte);
+    var links = anlagenLinks(v, anhaengeVon(v, werte));
+    if (!links.length) return text;
+    return text + "\n\n---\n\n**Weiterführende Links:**\n\n" +
+      links.map(function (e) { return "- " + e.titel + ": " + e.url; }).join("\n");
+  }
+
+  // Inhalt der Anlagenliste. Wird beim Wechsel von Beruf oder Fachrichtung
+  // neu gezeichnet, damit immer der passende Ausbildungsplan vorgeschlagen
+  // ist; `zusaetzlich` hält von Hand angehakte Dokumente dabei fest.
+  function anlagenBlockHtml(v, werte, zusaetzlich) {
+    var alleDateien = ((window.QUELLEN || {}).eintraege || []).filter(dateiVerfuegbar);
+    var ids = anhaengeVon(v, werte);
+    var empfohlen = {};
+    ids.concat(zusaetzlich || []).forEach(function (id) { empfohlen[id] = 1; });
+    var vorgeschlagen = alleDateien.filter(function (e) { return empfohlen[e.id]; });
+    var weitere = alleDateien.filter(function (e) { return !empfohlen[e.id]; });
+    var nurLinks = anlagenLinks(v, ids);
+    var h = "";
+    if (!alleDateien.length) {
+      h += '<p class="bw-klein bw-leise">Für diese Auslieferung liegen keine Dateien bei — ' +
+        "die Nachricht enthält Betreff und Text; verlinkte Quellen stehen im Text.</p>";
+    } else {
+      h += '<ul class="anlagen-liste">';
+      vorgeschlagen.concat(weitere).forEach(function (e) {
+        var an = !!empfohlen[e.id];
+        h += '<li' + (an ? "" : ' hidden data-weitere="1"') + '><label class="anlage-wahl">' +
+          '<input type="checkbox" data-anlage="' + esc(e.id) + '"' + (e.fuer ? ' data-plan="1"' : "") +
+          (an ? " checked" : "") + "> " +
+          '<span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span> " + esc(e.titel) +
+          ' <span class="bw-klein bw-leise">(' + esc(e.datei.split("/").pop()) + ")</span></label></li>";
+      });
+      h += "</ul>";
+      if (weitere.length) {
+        h += '<button class="bw-btn bw-btn--sekundaer" id="v-mehr-anlagen" type="button" aria-expanded="false">' +
+          "Weitere Dokumente anhängen (" + weitere.length + ")</button>" +
+          '<div class="bw-search" id="v-anlagen-suche" hidden style="max-width:26rem;margin-top:var(--bw-space-2)">' +
+          '<label for="v-anlagen-filter" class="bw-skip-link">Dokumente filtern</label>' +
+          '<input id="v-anlagen-filter" type="search" placeholder="Filtern: Urlaub, Vertrag, Plan …" aria-label="Dokumente filtern">' +
+          "<button type=\"button\" aria-label=\"Suchen\">" + ICON.suche + "</button></div>";
+      }
+      if (!vorgeschlagen.length) {
+        h += '<p class="bw-klein bw-leise">Diese Vorlage schlägt keine Datei vor' +
+          (nurLinks.length ? " — ihre Anhänge sind Online-Quellen und stehen als Link im Text" : "") +
+          ". Über den Knopf oben lassen sich Dokumente aus dem Download-Center dazunehmen.</p>";
+      }
+    }
+    if (nurLinks.length) {
+      h += '<p class="bw-klein bw-leise">Als Link in der Nachricht: ' +
+        nurLinks.map(function (e) { return esc(e.titel); }).join(" · ") + "</p>";
     }
     return h;
   }
@@ -1769,20 +1824,23 @@
     if (!window.EINZELDATEI) return true;
     return !!(window.EINGEBETTETE_DATEIEN && window.EINGEBETTETE_DATEIEN[e.datei]);
   }
-  function anlagenDateien(v) {
+  function anlagenDateien(v, ids) {
     var raus = [];
-    ((v && v.anhaenge) || []).forEach(function (id) {
+    (ids || anhaengeVon(v, werteLesen())).forEach(function (id) {
       ((window.QUELLEN || {}).eintraege || []).forEach(function (e) {
         if (e.id === id && dateiVerfuegbar(e)) raus.push(e);
       });
     });
     return raus;
   }
-  function anlagenLinks(v) {
+  // Alles, was nicht als Datei mitgeht, kommt als amtlicher Link in den Text:
+  // reine Online-Quellen ebenso wie vendorte PDFs, die der Einzeldatei nicht
+  // beiliegen (etwa die 12 MB Ausbildungspläne).
+  function anlagenLinks(v, ids) {
     var raus = [];
-    ((v && v.anhaenge) || []).forEach(function (id) {
+    (ids || anhaengeVon(v, werteLesen())).forEach(function (id) {
       ((window.QUELLEN || {}).eintraege || []).forEach(function (e) {
-        if (e.id === id && !e.datei && e.url) raus.push(e);
+        if (e.id === id && !dateiVerfuegbar(e) && e.url) raus.push(e);
       });
     });
     return raus;
@@ -1817,15 +1875,88 @@
     return (n || "Nachricht") + endung;
   }
 
+  // ---------- Aus Vorlagentext wird eine lesbare HTML-Mail ------------------
+  // Die Vorlagen schreiben **fett**, Aufzählungen mit „- " und Nummernlisten.
+  // Für die Nur-Text-Fassung fallen die Sternchen weg, für die HTML-Fassung
+  // werden daraus echte Auszeichnungen. Bewusst nur Grundtags mit
+  // Inline-Styles: Outlook rendert mit der Word-Engine und ignoriert
+  // Stylesheets, Flexbox und Grid.
+  var MAIL_SCHRIFT = "'Segoe UI', Calibri, Arial, sans-serif";
+  var MAIL_TEXT = "#2A2623", MAIL_LINIE = "#C9C5C1", MAIL_LINK = "#1F4E79";
+
+  function textOhneMarkup(text) {
+    return String(text || "").replace(/\*\*(.+?)\*\*/g, "$1");
+  }
+  function htmlEsc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  // Fett und anklickbare Links innerhalb einer Zeile.
+  function htmlInline(s) {
+    return htmlEsc(s)
+      .replace(/(https?:\/\/[^\s<]+)/g, function (u) {
+        var schwanz = "";
+        u = u.replace(/[.,;:)\]]+$/, function (r) { schwanz = r; return ""; });
+        return '<a href="' + u + '" style="color:' + MAIL_LINK + '">' + u + "</a>" + schwanz;
+      })
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  }
+  function listenPunkt(zeile, muster) {
+    var inhalt = zeile.replace(muster, "");
+    // „Titel: https://…“ liest sich als benannter Link deutlich besser als
+    // eine nackte Adresse mitten im Satz.
+    var benannt = inhalt.match(/^(.+?):\s+(https?:\/\/\S+)$/);
+    return '<li style="margin:0 0 6px 0">' + (benannt
+      ? '<a href="' + htmlEsc(benannt[2]) + '" style="color:' + MAIL_LINK + '">' +
+        htmlEsc(benannt[1]) + "</a>"
+      : htmlInline(inhalt)) + "</li>";
+  }
+  function htmlAusText(text) {
+    var absatz = "margin:0 0 12px 0";
+    var raus = [];
+    String(text || "").split("\n").forEach(function (roh) {
+      var z = roh.trim();
+      var art = z === "" ? "leer"
+        : /^-{3,}$/.test(z) ? "linie"
+        : /^-\s+/.test(z) ? "ul"
+        : /^\d+\.\s+/.test(z) ? "ol"
+        : "p";
+      var letzte = raus[raus.length - 1];
+      if (art === "leer") { if (letzte) letzte.offen = false; return; }
+      if (art === "linie") {
+        raus.push({ art: "linie", zeilen: [], offen: false });
+        return;
+      }
+      // Aufzählung, Nummernliste und Fließtext dürfen im selben Absatz
+      // aufeinander folgen — eine Überschrift steht oft direkt über der Liste.
+      if (letzte && letzte.offen && letzte.art === art) letzte.zeilen.push(z);
+      else raus.push({ art: art, zeilen: [z], offen: true });
+    });
+    var html = raus.map(function (g) {
+      if (g.art === "linie") {
+        return '<hr style="border:0;border-top:1px solid ' + MAIL_LINIE + ';margin:20px 0">';
+      }
+      if (g.art === "ul" || g.art === "ol") {
+        var muster = g.art === "ul" ? /^-\s+/ : /^\d+\.\s+/;
+        return "<" + g.art + ' style="margin:0 0 12px 0;padding-left:22px">' +
+          g.zeilen.map(function (z) { return listenPunkt(z, muster); }).join("") + "</" + g.art + ">";
+      }
+      // Ein Absatz, der nur aus Fettschrift besteht, ist eine Zwischenzeile.
+      if (g.zeilen.length === 1 && /^\*\*.+\*\*$/.test(g.zeilen[0])) {
+        return '<p style="margin:0 0 8px 0;font-size:12pt"><strong>' +
+          htmlInline(g.zeilen[0].replace(/^\*\*|\*\*$/g, "")) + "</strong></p>";
+      }
+      return '<p style="' + absatz + '">' + g.zeilen.map(htmlInline).join("<br>") + "</p>";
+    });
+    return '<div style="font-family:' + MAIL_SCHRIFT + ';font-size:11pt;line-height:1.55;' +
+      "color:" + MAIL_TEXT + ';max-width:640px">' + html.join("") + "</div>";
+  }
+
   // Baut die Nachricht und stößt den Download an. Gibt ein Promise mit der
   // Zahl der tatsächlich angehängten Dateien zurück.
   function emlErzeugen(v, betreff, text, empfaenger, ausgewaehlt) {
-    var dateien = ausgewaehlt || anlagenDateien(v), links = anlagenLinks(v);
-    var koerper = text;
-    if (links.length) {
-      koerper += "\n\n---\nWeiterführende Online-Quellen:\n" +
-        links.map(function (e) { return "- " + e.titel + ": " + e.url; }).join("\n");
-    }
+    var dateien = ausgewaehlt || anlagenDateien(v);
+    var koerper = textOhneMarkup(text);   // Linkzeilen stecken schon drin
+    var koerperHtml = htmlAusText(text);
     return Promise.all(dateien.map(function (e) {
       var name = e.datei.split("/").pop();
       var endung = (name.split(".").pop() || "").toLowerCase();
@@ -1842,7 +1973,13 @@
         return { name: name, typ: typ, inhalt: base64Von(buf) };
       });
     })).then(function (teile) {
-      var grenze = "----bw-anlage-" + Math.random().toString(36).slice(2) + "-" + teile.length;
+      // Zwei ineinander liegende Ebenen: außen die Anlagen (mixed), innen
+      // Text- und HTML-Fassung derselben Nachricht (alternative). Jedes
+      // Mailprogramm nimmt sich die Fassung, die es darstellen kann.
+      var zufall = Math.random().toString(36).slice(2);
+      var grenze = "----bw-anlage-" + zufall + "-" + teile.length;
+      var innen = "----bw-text-" + zufall;
+      function b64(s) { return base64Umbrechen(btoa(unescape(encodeURIComponent(s)))); }
       var zeilen = [];
       if (empfaenger) zeilen.push("To: " + empfaenger);
       zeilen = zeilen.concat([
@@ -1854,10 +1991,20 @@
         "Diese Nachricht enthält Anlagen und benötigt einen MIME-fähigen Client.",
         "",
         "--" + grenze,
+        'Content-Type: multipart/alternative; boundary="' + innen + '"',
+        "",
+        "--" + innen,
         "Content-Type: text/plain; charset=UTF-8",
         "Content-Transfer-Encoding: base64",
         "",
-        base64Umbrechen(btoa(unescape(encodeURIComponent(koerper))))
+        b64(koerper),
+        "--" + innen,
+        "Content-Type: text/html; charset=UTF-8",
+        "Content-Transfer-Encoding: base64",
+        "",
+        b64('<html><body style="margin:0;padding:0">' + koerperHtml + "</body></html>"),
+        "--" + innen + "--",
+        ""
       ]);
       teile.forEach(function (t) {
         zeilen.push("--" + grenze,
@@ -1925,8 +2072,8 @@
       var werte = werteLesen();
       root.querySelectorAll("[data-ph]").forEach(function (i) { werte[i.getAttribute("data-ph")] = feldwert(i); });
       werteSchreiben(werte);
-      betreffFeld.value = vorlageFuellen(v.betreff, werte);
-      textFeld.value = vorlageFuellen(v.text, werte);
+      betreffFeld.value = textOhneMarkup(vorlageFuellen(v.betreff, werte));
+      textFeld.value = textOhneMarkup(textMitQuellen(v, werte));
       $("#v-mailto", root).setAttribute("href",
         "mailto:" + encodeURIComponent(empfaengerWert()) +
         "?subject=" + encodeURIComponent(betreffFeld.value) + "&body=" + encodeURIComponent(textFeld.value));
@@ -1946,37 +2093,55 @@
     // Empfängeradresse fließt in den mailto-Link ein (nicht in die Historie).
     if (empfaengerFeld) empfaengerFeld.addEventListener("input", aktualisieren);
     // Anlagen an- und abwählen; „Weitere Dokumente" blendet den Rest ein.
-    root.querySelectorAll("[data-anlage]").forEach(function (c) {
-      c.addEventListener("change", anlagenKnopfBeschriften);
-    });
-    var mehrKnopf = $("#v-mehr-anlagen", root), anlagenSuche = $("#v-anlagen-suche", root);
-    if (mehrKnopf) {
-      mehrKnopf.addEventListener("click", function () {
-        var offen = mehrKnopf.getAttribute("aria-expanded") === "true";
-        root.querySelectorAll('[data-weitere="1"]').forEach(function (li) { li.hidden = offen; });
-        mehrKnopf.setAttribute("aria-expanded", offen ? "false" : "true");
-        mehrKnopf.textContent = offen
-          ? "Weitere Dokumente anhängen (" + root.querySelectorAll('[data-weitere="1"]').length + ")"
-          : "Weitere Dokumente ausblenden";
-        if (anlagenSuche) anlagenSuche.hidden = offen;
-        if (!offen) { var f = $("#v-anlagen-filter", root); if (f) f.focus(); }
+    // Die Liste wird beim Fachrichtungswechsel neu gezeichnet, deshalb hängen
+    // alle Zuhörer an einer Funktion, die danach erneut läuft.
+    function anlagenVerhalten() {
+      root.querySelectorAll("[data-anlage]").forEach(function (c) {
+        c.addEventListener("change", anlagenKnopfBeschriften);
       });
-    }
-    // Filter über die Anlagenliste — tipptolerant wie überall im Werkzeug.
-    var anlagenFilter = $("#v-anlagen-filter", root);
-    if (anlagenFilter) {
-      anlagenFilter.addEventListener("input", function () {
-        var q = norm(anlagenFilter.value.trim());
-        root.querySelectorAll(".anlagen-liste li").forEach(function (li) {
-          var box = li.querySelector("[data-anlage]");
-          if (!q) { li.hidden = li.hasAttribute("data-weitere") && mehrKnopf &&
-            mehrKnopf.getAttribute("aria-expanded") !== "true" && !(box && box.checked); return; }
-          var treffer = tokenScore(q, norm(li.textContent)) > 0 || (box && box.checked);
-          li.hidden = !treffer;
+      var mehrKnopf = $("#v-mehr-anlagen", root), anlagenSuche = $("#v-anlagen-suche", root);
+      if (mehrKnopf) {
+        mehrKnopf.addEventListener("click", function () {
+          var offen = mehrKnopf.getAttribute("aria-expanded") === "true";
+          root.querySelectorAll('[data-weitere="1"]').forEach(function (li) { li.hidden = offen; });
+          mehrKnopf.setAttribute("aria-expanded", offen ? "false" : "true");
+          mehrKnopf.textContent = offen
+            ? "Weitere Dokumente anhängen (" + root.querySelectorAll('[data-weitere="1"]').length + ")"
+            : "Weitere Dokumente ausblenden";
+          if (anlagenSuche) anlagenSuche.hidden = offen;
+          if (!offen) { var f = $("#v-anlagen-filter", root); if (f) f.focus(); }
         });
-      });
+      }
+      // Filter über die Anlagenliste — tipptolerant wie überall im Werkzeug.
+      var anlagenFilter = $("#v-anlagen-filter", root);
+      if (anlagenFilter) {
+        anlagenFilter.addEventListener("input", function () {
+          var q = norm(anlagenFilter.value.trim());
+          root.querySelectorAll(".anlagen-liste li").forEach(function (li) {
+            var box = li.querySelector("[data-anlage]");
+            if (!q) { li.hidden = li.hasAttribute("data-weitere") && mehrKnopf &&
+              mehrKnopf.getAttribute("aria-expanded") !== "true" && !(box && box.checked); return; }
+            var treffer = tokenScore(q, norm(li.textContent)) > 0 || (box && box.checked);
+            li.hidden = !treffer;
+          });
+        });
+      }
+      anlagenKnopfBeschriften();
     }
-    anlagenKnopfBeschriften();
+    anlagenVerhalten();
+    // Fachrichtung gewechselt → Anlagenliste neu zeichnen, damit der
+    // Ausbildungsplan der neuen Fachrichtung vorgeschlagen ist. Von Hand
+    // dazugenommene Dokumente bleiben angehakt.
+    function anlagenNeuZeichnen() {
+      var behaelter = $("#v-anlagen", root);
+      if (!behaelter || !v.anhaengePlan) return;
+      var behalten = [];
+      root.querySelectorAll("[data-anlage]").forEach(function (c) {
+        if (c.checked && !c.hasAttribute("data-plan")) behalten.push(c.getAttribute("data-anlage"));
+      });
+      behaelter.innerHTML = anlagenBlockHtml(v, werteLesen(), behalten);
+      anlagenVerhalten();
+    }
     // Beruf gewählt → Fachrichtungs-Auswahl passend neu befüllen
     var berufFeld = root.querySelector('[data-ph="BERUF"]');
     var frFeld = root.querySelector('[data-ph="FACHRICHTUNG"][data-abhaengig]');
@@ -1990,7 +2155,9 @@
         frFeld.disabled = !optionen.length;
         if (optionen.indexOf(alt) >= 0) frFeld.value = alt;
         aktualisieren();
+        anlagenNeuZeichnen();
       });
+      frFeld.addEventListener("change", anlagenNeuZeichnen);
     }
     $("#v-kopieren", root).addEventListener("click", function () { kopieren(textFeld.value, "Text kopiert."); });
     $("#v-betreff-kopieren", root).addEventListener("click", function () { kopieren(betreffFeld.value, "Betreff kopiert."); });
@@ -2001,16 +2168,19 @@
         emlKnopf.disabled = true;
         status.textContent = "Nachricht wird gepackt …";
         var an = empfaengerWert();
-        emlErzeugen(v, betreffFeld.value, textFeld.value, an, gewaehlteAnlagen()).then(function (anzahl) {
-          status.textContent = "Datei erzeugt — Doppelklick öffnet die Nachricht" +
-            (anzahl ? " mit " + anzahl + " Anlage" + (anzahl > 1 ? "n" : "") : "") +
-            (an ? " an " + an : "") + ".";
-          merken();
-        }).catch(function (fehler) {
-          // Ehrlich benennen, was fehlt — der Text steht ja weiterhin bereit.
-          status.textContent = "Anlagen konnten nicht geladen werden (" + fehler.message +
-            "). Text kopieren und Anlagen von Hand anhängen.";
-        }).then(function () { emlKnopf.disabled = false; });
+        // Für die Datei die Fassung MIT **Auszeichnung** — daraus wird der
+        // HTML-Teil gebaut; die Vorschau zeigt sie ohne Sternchen.
+        emlErzeugen(v, betreffFeld.value, textMitQuellen(v, werteLesen()), an, gewaehlteAnlagen())
+          .then(function (anzahl) {
+            status.textContent = "Datei erzeugt — Doppelklick öffnet die Nachricht" +
+              (anzahl ? " mit " + anzahl + " Anlage" + (anzahl > 1 ? "n" : "") : "") +
+              (an ? " an " + an : "") + ".";
+            merken();
+          }).catch(function (fehler) {
+            // Ehrlich benennen, was fehlt — der Text steht ja weiterhin bereit.
+            status.textContent = "Anlagen konnten nicht geladen werden (" + fehler.message +
+              "). Text kopieren und Anlagen von Hand anhängen.";
+          }).then(function () { emlKnopf.disabled = false; });
       });
     }
     aktualisieren();
