@@ -307,10 +307,11 @@ kbd.kbd {
   --schatten-1: 0 1px 2px rgba(42, 38, 35, 0.05), 0 2px 10px rgba(42, 38, 35, 0.07);
   --schatten-2: 0 2px 6px rgba(42, 38, 35, 0.07), 0 12px 28px rgba(42, 38, 35, 0.12);
   --schatten-3: 0 8px 20px rgba(42, 38, 35, 0.12), 0 28px 70px rgba(42, 38, 35, 0.20);
-  --glas-hell: rgba(255, 255, 255, 0.72);
-  --glas-rand: rgba(255, 255, 255, 0.55);
+  /* Transparenz nur dort, wo sie trägt: als Trennlinie (Haarlinie auf
+     Weiß) und als Abdunklung hinter dem Suchmodal. Textflächen sind
+     deckend — sonst hängt ihr Kontrast davon ab, was zufällig
+     dahinterliegt, und WCAG 2.1 AA lässt sich nicht mehr zusichern. */
   --glas-linie: rgba(42, 38, 35, 0.08);
-  --glas-blur: saturate(1.6) blur(18px);
   --kurve: cubic-bezier(0.32, 0.72, 0.28, 1);
   --kurve-feder: cubic-bezier(0.34, 1.35, 0.44, 1);
   --dauer-1: 0.15s;
@@ -327,14 +328,15 @@ html { scroll-behavior: smooth; }
 @keyframes vt-raus { to { opacity: 0; transform: translateY(-6px) scale(0.996); } }
 @keyframes vt-rein { from { opacity: 0; transform: translateY(10px) scale(0.996); } }
 
-/* --- Kopfzeile: schwebendes Glas über dem Inhalt ------------------ */
+/* --- Kopfzeile: deckend, damit gescrollter Text nicht durchscheint -
+   Der RP-Look weiter unten setzt die gelbe Fläche; hier steht nur noch
+   das Verhalten (klebend, über dem Inhalt). Eine durchscheinende
+   Kopfzeile hat keinen berechenbaren Kontrast — je nachdem, was gerade
+   darunter liegt. */
 .app-header {
   position: sticky; top: 0; z-index: 40;
-  background: var(--glas-hell);
-  -webkit-backdrop-filter: var(--glas-blur);
-  backdrop-filter: var(--glas-blur);
+  background: var(--bw-weiss);
   border-bottom: 1px solid var(--glas-linie);
-  box-shadow: inset 0 1px 0 var(--glas-rand), var(--schatten-1);
 }
 
 /* --- Karten & Flächen: weiche Elevation, haptisches Feedback ------ */
@@ -394,22 +396,26 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .karten > :nth-child(8), .kacheln > :nth-child(8), .fach-raster > :nth-child(8), .baum > details:nth-of-type(8) { animation-delay: 0.31s; }
 .karten > :nth-child(9), .kacheln > :nth-child(9), .baum > details:nth-of-type(9) { animation-delay: 0.35s; }
 
-/* --- Suchpalette: Liquid-Glass-Modal ------------------------------ */
+/* --- Suchpalette --------------------------------------------------
+   Der abgedunkelte, weich gezeichnete HINTERGRUND bleibt: Er nimmt die
+   Seite zurück, hält den Zusammenhang sichtbar und trägt keinen Text.
+   Genau dort ist Transparenz richtig. Das PANEL dagegen ist deckend —
+   Suchtreffer und Eingabe brauchen berechenbaren Kontrast, und der
+   hängt bei einer durchscheinenden Fläche davon ab, was zufällig
+   dahinter liegt. */
 .palette__hintergrund {
-  background: rgba(42, 38, 35, 0.30);
+  background: rgba(42, 38, 35, 0.45);
   opacity: 1;
-  -webkit-backdrop-filter: blur(10px) saturate(1.2);
-  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(8px) saturate(1.1);
+  backdrop-filter: blur(8px) saturate(1.1);
   animation: blende-rein var(--dauer-2) linear backwards;
 }
 @keyframes blende-rein { from { opacity: 0; } }
 .palette__panel {
-  background: var(--glas-hell);
-  -webkit-backdrop-filter: saturate(1.7) blur(28px);
-  backdrop-filter: saturate(1.7) blur(28px);
-  border: 1px solid var(--glas-rand);
+  background: var(--bw-weiss);
+  border: 1px solid var(--bw-grau-300);
   border-radius: var(--radius-gross);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65), var(--schatten-3);
+  box-shadow: var(--schatten-3);
   animation: panel-rein var(--dauer-2) var(--kurve-feder) backwards;
 }
 @keyframes panel-rein { from { opacity: 0; transform: translateY(16px) scale(0.97); } }
@@ -418,23 +424,10 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 .palette__fuss { border-top: 1px solid var(--glas-linie); }
 .palette__eintrag a:hover { background: rgba(42, 38, 35, 0.05); }
 
-/* --- Hamburger-Menü als Glasfläche (mobil) ------------------------ */
-@media (max-width: 800px) {
-  .bw-nav__panel {
-    background: var(--glas-hell);
-    -webkit-backdrop-filter: var(--glas-blur);
-    backdrop-filter: var(--glas-blur);
-    border: 1px solid var(--glas-rand);
-    border-top: 0;
-    border-radius: 0 0 var(--radius-gross) var(--radius-gross);
-    box-shadow: var(--schatten-3);
-  }
-}
-
-/* Ohne backdrop-filter-Unterstützung: deckende Flächen. */
+/* Ohne backdrop-filter-Unterstützung bleibt nur die Abdunklung — dann
+   etwas kräftiger, damit das Panel sich weiterhin klar abhebt. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .app-header, .palette__panel, .bw-nav__panel { background: var(--bw-weiss); }
-  .palette__hintergrund { background: var(--bw-schwarz); opacity: 0.55; }
+  .palette__hintergrund { background: rgba(42, 38, 35, 0.6); }
 }
 
 /* --- Weiches Auf-/Zuklappen von details (FAQ, Baum) --------------- */
@@ -527,15 +520,12 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
    (relevant ab ~130 % Systemschrift auf schmalen Geräten). */
 .karte, .kachel, .schnellkarte span, .nachschlag-karte, .fach-karte, .bw-card { min-width: 0; overflow-wrap: break-word; }
 
-/* Mobiles Menü: DECKEND statt Glas — ein backdrop-filter auf dem Header
-   schaltet den Blur seiner Kinder ab (Backdrop-Root), das Panel wäre nur
-   durchscheinend und der Footer schimmerte durch. Dazu: große Tap-Flächen,
-   durchgehende Trennlinien, gelber Marker für den aktiven Punkt. */
+/* Mobiles Menü: deckend, damit der Footer nicht durch die Menüpunkte
+   schimmert. Dazu große Tap-Flächen, durchgehende Trennlinien und der
+   gelbe Marker für den aktiven Punkt. */
 @media (max-width: 800px) {
   .bw-nav__panel {
     background: var(--bw-weiss);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
     border: 0; border-top: 1px solid var(--glas-linie);
     border-radius: 0 0 var(--radius-gross) var(--radius-gross);
     box-shadow: var(--schatten-3);
@@ -674,8 +664,6 @@ a.chip { display: inline-block; }
    Browser-Statusleiste bleibt weiß (theme-color). */
 .app-header {
   background: var(--bw-gelb);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
   border-bottom: 0;
   box-shadow: none;
 }

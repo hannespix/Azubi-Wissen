@@ -254,6 +254,10 @@ input, select, textarea { font: inherit; width: 100%; padding: 0.5em 0.65em; bac
   border-radius: 0 var(--bw-radius) var(--bw-radius) 0; font-weight: 700;
 }
 .bw-search button:hover { background: var(--bw-weiss); color: var(--bw-schwarz); }
+/* Das Lupensymbol braucht eine Größe: ein SVG mit viewBox, aber ohne
+   width/height fällt hier auf 0×0 zusammen — der Knopf bliebe als
+   schwarzes Kästchen ohne Symbol stehen. */
+.bw-search button svg { width: 20px; height: 20px; display: block; }
 mark.bw-treffer { background: var(--bw-gelb); color: var(--bw-schwarz); padding: 0 0.1em; } /* Treffer-Hervorhebung */
 
 /* ===================== Diagramme / Infografiken ===================
