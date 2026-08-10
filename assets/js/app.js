@@ -382,6 +382,10 @@
       return { href: window.EINGEBETTETE_DATEIEN[e.datei], extern: false, download: e.datei.split("/").pop() };
     }
     if (e.datei && !window.EINZELDATEI) return { href: e.datei, extern: false };
+    // Manche Dokumente erreichen uns direkt von der herausgebenden Stelle und
+    // stehen nirgends im Netz. Dann gibt es kein Ziel — die Oberfläche sagt
+    // das, statt einen leeren Link anzubieten.
+    if (!e.url) return { href: "", extern: false, fehlt: true };
     return { href: e.url, extern: true };
   }
 
@@ -1351,10 +1355,13 @@
       if (aktiv) eintraege = eintraege.filter(function (e) { return e.typ === aktiv; });
       liste.innerHTML = eintraege.map(function (e) {
         var z = quelleZiel(e);
-        var aktion = z.extern
-          ? '<a class="bw-btn bw-btn--sekundaer" href="' + esc(z.href) + '" target="_blank" rel="noopener">Öffnen ↗</a>'
-          : '<a class="bw-btn" href="' + esc(z.href) + '" target="_blank">PDF öffnen</a>' +
-            ' <a class="chip chip--frage" href="' + esc(e.url) + '" target="_blank" rel="noopener">Quelle online ↗</a>';
+        var aktion = z.fehlt
+          ? '<span class="bw-klein bw-leise">Liegt dieser Auslieferung nicht bei.</span>'
+          : z.extern
+            ? '<a class="bw-btn bw-btn--sekundaer" href="' + esc(z.href) + '" target="_blank" rel="noopener">Öffnen ↗</a>'
+            : '<a class="bw-btn" href="' + esc(z.href) + '" target="_blank">PDF öffnen</a>' +
+              (e.url ? ' <a class="chip chip--frage" href="' + esc(e.url) +
+                '" target="_blank" rel="noopener">Quelle online ↗</a>' : "");
         return '<li class="karte"><span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span>" +
           '<h3 style="margin-top:var(--bw-space-1)">' + (q ? S.highlight(e.titel, q) : esc(e.titel)) + "</h3>" +
           "<p>" + esc(e.beschreibung || "") + "</p>" +
