@@ -612,6 +612,13 @@ window.QUELLEN = {
      BIBB-Hauptausschusses (bundeseinheitliche Auslegung des BBiG durch
      die Bänke von Bund, Ländern, Arbeitgebern und Arbeitnehmern). */
 
+  { id: "lab-jau-empfehlung", titel: "Jugendarbeitsschutzuntersuchung — Empfehlung des Landesausschusses für Berufsbildung",
+    typ: "merkblatt", herausgeber: "Landesausschuss für Berufsbildung Baden-Württemberg", stand: "ohne Datum",
+    datei: "formulare/lab-empfehlung-jugendarbeitsschutzuntersuchung.pdf",
+    url: null,
+    beschreibung: "Empfehlung des LAB zur Erstattung der Jugendarbeitsschutzuntersuchung (§§ 32 ff. JArbSchG) samt Handreichung: Immer mehr Praxen lehnen die Untersuchung ab, weil die erstattungsfähige Gebühr seit 1976 bei 23,32 € liegt. Die Handreichung beantwortet die Fragen aus der Beratungspraxis — wer untersuchen darf, ob Praxen ablehnen dürfen, ob privat abgerechnet werden darf und ob der Betrieb die Rechnung übernehmen kann.",
+    stichworte: ["Jugendarbeitsschutzuntersuchung", "Erstuntersuchung", "§ 32 JArbSchG", "Untersuchungsberechtigungsschein", "Gebühr", "Arzt verweigert", "LAB", "Landesausschuss"],
+    artikel: ["jugendliche", "eintragung"] },
   { id: "vwv-berichtsheft", titel: "VwV schriftliche Ausbildungsnachweise und Berichtshefte (Berufe der Landwirtschaft)",
     typ: "vwv", herausgeber: "MLR Baden-Württemberg", stand: "16.04.2012 (Az. 28-8410.00)",
     datei: "formulare/vwv/vwv-ausbildungsnachweise-berichtshefte-mlr.pdf",
@@ -766,7 +773,7 @@ window.QUELLEN = {
     datei: null, url: "https://lel.lgl-bw.de/azubi/index.xhtml",
     beschreibung: "Alle anerkannten Ausbildungsbetriebe der grünen Berufe im Land — suchbar nach Beruf und Fachrichtung, Landkreis, Betriebszweig sowie konventionell oder ökologisch. Im Werkzeug führt bei jedem Beruf der Knopf „Ausbildungsbetriebe in BW“ direkt in die vorgefilterte Liste, bei Gärtner, Tierwirt, Pferdewirt und den Gartenbaufachwerkern sogar je Fachrichtung.",
     stichworte: ["Ausbildungsbetrieb", "Ausbildungsplatz", "Betriebssuche", "anerkannte Betriebe", "Datenbank", "Landkreis", "ökologisch"],
-    artikel: ["eintragung", "ausbilder", "ausbildungsberatung", "betriebswechsel"] },
+    artikel: ["eintragung", "ausbilder", "ausbildungsberatung", "aufhebung"] },
 
   { id: "ausbildung-farm", titel: "ausbildung.farm — Ausbildungsbörse für Landwirt/in und Winzer/in",
     typ: "portal", herausgeber: "Landjugendverbände BW mit den Regierungspräsidien, Bauern- und Weinbauverbänden", stand: "laufend",

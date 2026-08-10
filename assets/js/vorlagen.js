@@ -64,8 +64,8 @@ window.VORLAGEN = {
     titel: "Erinnerung: fehlende Unterlagen zur Eintragung",
     betreff: "Eintragung [AZUBI_NAME] — es fehlen noch Unterlagen",
     text: "Sehr geehrte/r [ANREDE_NAME],\n\nvielen Dank für die Einreichung des Berufsausbildungsvertrags für [AZUBI_NAME]. Für die Eintragung fehlen uns noch:\n\n- [FEHLENDE_UNTERLAGEN]\n\nBitte reichen Sie die Unterlagen bis zum [FRIST] nach — gerne per E-Mail als PDF oder postalisch. Die Eintragung (und damit u. a. die spätere Prüfungszulassung) können wir erst nach Vollständigkeit vornehmen.\n\nMit freundlichen Grüßen",
-    hinweise: "Typisch fehlen: ärztliche Erstuntersuchung (Minderjährige), Unterschrift eines Elternteils, betrieblicher Ausbildungsplan, Ausbildereignungs-Nachweis.",
-    anhaenge: ["bav-hinweise"],
+    hinweise: "Typisch fehlen: ärztliche Erstuntersuchung (Minderjährige), Unterschrift eines Elternteils, betrieblicher Ausbildungsplan, Ausbildereignungs-Nachweis. Meldet der Betrieb, dass keine Arztpraxis untersuchen will, liegt die LAB-Handreichung dazu als Anlage bei.",
+    anhaenge: ["bav-hinweise", "lab-jau-empfehlung"],
     stichworte: ["fehlende Unterlagen", "Erinnerung", "Nachreichen", "Eintragung"],
     artikel: ["eintragung", "jugendliche"] },
 
