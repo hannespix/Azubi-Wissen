@@ -38,7 +38,8 @@ async function bibliothek() {
 function datenLaden() {
   const fenster = {};
   for (const datei of ["assets/js/wissen.js", "assets/js/nachschlag.js",
-    "assets/js/vorlagen.js", "assets/js/checklisten.js", "assets/js/module.js"]) {
+    "assets/js/vorlagen.js", "assets/js/checklisten.js", "assets/js/module.js",
+    "assets/js/gesetzestexte.js"]) {
     const code = fs.readFileSync(path.join(REPO, datei), "utf8");
     new Function("window", code)(fenster);
   }
@@ -125,6 +126,32 @@ for (const w of werkzeuge) {
     v: await einbetten(klartext(w.text).slice(0, 800)) });
 }
 console.log(`${werkzeuge.length} Werkzeug-Einträge eingebettet.`);
+
+// ---- Gesetzesparagrafen (N1): Die meisten Beratungsfragen haben ihre
+// Antwort in einer Norm, deren Wortlaut die Frage nicht enthält
+// („Azubi besteht die Prüfung nicht" → § 21 Abs. 3 BBiG). Deshalb wandert
+// jeder Paragraf einzeln in den Index — mit Werk und Titel im Text, damit
+// „Probezeit BBiG" ebenso trifft wie die frei formulierte Frage.
+const GESETZE = DATEN.GESETZESTEXTE || {};
+let pAnzahl = 0;
+for (const schl of Object.keys(GESETZE)) {
+  const werk = GESETZE[schl];
+  for (const p of (werk.paragrafen || [])) {
+    const wortlaut = (p.absaetze || []).join(" ");
+    // Aufgehobene Normen tragen nichts bei und würden nur Rauschen erzeugen.
+    if (/^\(?weggefallen\)?\.?$/i.test(wortlaut.trim())) continue;
+    // Wenige Paragrafen tragen im Gesetz selbst keine Überschrift
+    // (z. B. § 21b JArbSchG) — dann steht nur die Fundstelle im Titel.
+    const titel = p.titel ? `§ ${p.nr} ${werk.kurz} — ${p.titel}` : `§ ${p.nr} ${werk.kurz}`;
+    const text = klartext(`§ ${p.nr} ${werk.kurz}${p.titel ? ": " + p.titel : ""}. ` +
+      (p.teil ? p.teil + ". " : "") + wortlaut).slice(0, 1400);
+    eintraege.push({ typ: "paragraf", id: schl + "-" + p.nr, werk: werk.kurz,
+      titel: titel, ziel: "#/gesetz/" + schl + "-" + p.nr, v: await einbetten(text) });
+    pAnzahl++;
+    if (pAnzahl % 25 === 0) process.stdout.write(`\r${pAnzahl} Paragrafen eingebettet …`);
+  }
+}
+console.log(`\r${pAnzahl} Paragrafen eingebettet.        `);
 
 const index = {
   format: "azubi-semantik-index", version: 2, modell: MODELL, dim: 384,

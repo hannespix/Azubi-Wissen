@@ -1,0 +1,11 @@
+{
+  "name": "azubi-wissen-werkzeuge",
+  "private": true,
+  "description": "Nur Build-Werkzeuge. Das ausgelieferte Tool laeuft ohne npm und ohne Netz — alle Laufzeit-Abhaengigkeiten liegen vendored unter assets/vendor/.",
+  "scripts": {
+    "semantik-index": "node tools/semantik_index_bauen.mjs"
+  },
+  "devDependencies": {
+    "@huggingface/transformers": "^4.2.0"
+  }
+}
