@@ -26,3 +26,6 @@ navigator/target/
 navigator/src-tauri/target/
 navigator/src-tauri/gen/
 navigator/**/*.db
+
+# Build-Werkzeug für den Semantik-Index (keine Laufzeitabhängigkeit)
+/node_modules/

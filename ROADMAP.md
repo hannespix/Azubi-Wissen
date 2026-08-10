@@ -779,6 +779,89 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Ausbaustufe v6: Bedeutungsnetz — Auftrag 10.08.2026
+
+**Grundgedanke.** Eine Volltextsuche findet Wörter; gefragt wird aber nach
+Sachverhalten. „Was gilt, wenn ein Azubi die Prüfung nicht besteht?" muss
+bei § 21 Abs. 3 BBiG landen, auch ohne ein gemeinsames Wort. Genau das
+leisten Vektoren: Zwei Texte über dasselbe Thema liegen nah beieinander,
+alles Weitere ist Abstandsrechnung.
+
+**Der Hebel ist, dass der Index schon existiert.** Aus K3/S1 liegt
+`assets/daten/semantik-index.json` bereit (multilingual-e5-small, 384
+Dimensionen, normalisierte Vektoren, Kosinus-Ähnlichkeit über
+`AzubiSemantik.rang`). Er wird bisher für **eine** Funktion genutzt. Die
+folgenden Stufen holen die übrigen aus demselben Index — ohne neue
+Abhängigkeit, ohne zweiten Download.
+
+- **N1 Gesetze im Bedeutungsnetz** ✅ — **335 Paragrafen** im Index (338
+  minus drei aufgehobene). Der Assistent bietet klar passende Normen als
+  Sprungziel an; der Trefferkorb wuchs von 16 auf 40, damit die Normen die
+  Artikel nicht verdrängen. Index 554 → 1.529 KB.
+  Belege: „Azubi durchgefallen, Ausbildung verlängern" → **§ 21 BBiG auf
+  Platz 1** (kein gemeinsames Wort mit dem Normtext), „Probezeit" → § 20
+  BBiG, „Urlaub 16-jährig" → § 19 JArbSchG. Der Schwellenwert **0,84** ist
+  gemessen, nicht geraten: abseitige Fragen erreichen höchstens 0,813,
+  treffende liegen darüber. Breite Fragen („was gilt, wenn jemand nicht
+  besteht") führen erwartungsgemäß zu den allgemeinen Prüfungsnormen —
+  dort trägt der Artikel die Auskunft und verlinkt § 21 selbst.
+  Test: `mini_n1` (25). *(PR #72)*
+- **N2 Verwandte Inhalte ohne Modell** — die nächsten Nachbarn jedes
+  Eintrags werden **beim Bauen** mitgeschrieben. Dadurch funktionieren
+  „Verwandte Inhalte" ohne den 150-MB-Download und damit auch in der
+  Einzeldatei, wo die Bedeutungssuche abgeschaltet ist.
+  *DoD:* Nachbarn im Index; Zeile an Artikeln, Quellen und Vorlagen;
+  Einzeldatei zeigt sie; Zuwachs der Indexgröße dokumentiert.
+- **N3 Verknüpfungs-Vorschläge** — `tools/verknuepfungen_pruefen.mjs`
+  meldet Paare, die semantisch nah beieinander liegen, aber keinen
+  `[[querverweis]]` teilen. Redaktionswerkzeug für die Inhaltspflege,
+  **nicht** in der Oberfläche.
+  *DoD:* Bericht mit Schwellenwert und Begründung des Schwellenwerts;
+  im Pflegeabschnitt der README dokumentiert.
+- **N4 Themen-Cluster** *(geplant — Freigabe offen)* — automatische
+  Gruppen konkurrieren mit den neun fachlich gesetzten Themenbereichen;
+  in der Oberfläche wäre das ein Rückschritt. Sinnvoll dagegen als
+  **Wartungsbericht**: Welcher Artikel liegt näher an einem fremden
+  Themenbereich als an seinem eigenen? Das ist ein Redaktionshinweis,
+  keine Nutzerfunktion.
+  *DoD:* Bericht als Teil von N3s Werkzeug; Entscheidung über eine
+  sichtbare Cluster-Ansicht bleibt beim Fachbereich.
+- **N5 Belegte Antworten (RAG)** *(gesperrt — Bedingungen unten)* — die
+  Retrieval-Hälfte läuft bereits: `assistent.js` sucht die nächstliegenden
+  Inhalte und setzt die Antwort aus Bausteinen mit §§-Quellenangaben
+  zusammen. Es fehlt allein der generative Teil. Der ist **heute nicht
+  zulässig**:
+  - Ein Cloud-Modell verstößt gegen die Zero-Trust-Vorgabe (`CLAUDE.md` §2,
+    keine externen Requests) und scheidet bei Personenbezug ohnehin aus
+    (§2.1: produktiv nur über BITBW/LVN).
+  - Ein lokales generatives Modell wäre mehrere GB — das Embedding-Modell
+    mit 150 MB ist bereits opt-in.
+  - Fachlich wiegt schwerer: Das Werkzeug sagt an jeder Stelle
+    „Fachinformation, keine Rechtsberatung". Ein Modell, das aus §§ frei
+    formuliert, erzeugt genau das Gegenteil — unter dem Namen der
+    Ausbildungsberatung.
+
+  *Bedingung für die Freigabe:* ein im LVN gehostetes Modell über BITBW.
+  Dann ist der Anschluss klein, weil das Retrieval steht. *DoD (später):*
+  Antworten ausschließlich aus belegten Fundstellen, jede Aussage mit
+  Quelle, Verweigerung bei fehlendem Beleg, Protokollierung der Fundstellen.
+
+**Warum die Reihenfolge so ist.** N1 verbessert die bestehende Suche
+sofort. N2 macht daraus eine zweite Funktion ohne Zusatzkosten. N3/N4
+richten sich an die Inhaltspflege und ändern nichts an der Oberfläche.
+N5 wartet auf eine Entscheidung, die nicht hier fällt.
+
+**Unterschiede zur Vorlage aus dem anderen Projekt.** Dort wachsen Notizen
+frei und mehrere Personen teilen sich einen Bestand; hier sind die Inhalte
+amtlich, fest und werden beim Bauen eingebettet — kein Nachrechnen zur
+Laufzeit, kein Aktualitätsproblem, kein geteilter Bestand. Die
+Sub-Brain-Architektur (Bereiche herausnehmen, Vektoren dabei löschen) wird
+erst relevant, wenn **eigene Inhalte** eingebettet werden sollen: Die
+stehen nicht im gebauten Index und lägen als Vektoren in der lokalen
+Datenbank. Dann gilt: Inhalt gelöscht = Vektor gelöscht. Für die
+Repo-Inhalte braucht es das nicht, sie sind öffentlich und ohne
+Personenbezug.
+
 ## Dauerpflege
 
 - Mindestvergütung jährlich (Bundesanzeiger) · Stand-Datum in `wissen.js`
@@ -786,4 +869,7 @@ immer verlinken; Querlinks zwischen Artikeln.
 - Bei Gesetzesänderungen (BBiG, JArbSchG, BUrlG, ArbZG, ArbSchG, EntgFG,
   KSchG, TzBfG, AEVO): `python3 tools/gesetz_import.py` (Volltext-Modul)
 - Nach jeder Inhaltsänderung: `build_singlefile.py --release` + Commit
-  (bei neuen Artikeln/FAQ zusätzlich `node tools/semantik_index_bauen.mjs`)
+  (bei neuen Artikeln/FAQ zusätzlich `node tools/semantik_index_bauen.mjs`;
+  einmalig `npm i @huggingface/transformers` — reines Build-Werkzeug, zur
+  Laufzeit bleibt alles vendored. Seit N1 gehört auch `gesetzestexte.js`
+  zu den eingelesenen Modulen, ein Lauf dauert rund zehn Minuten.)
