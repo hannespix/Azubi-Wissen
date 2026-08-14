@@ -798,6 +798,15 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 
 .chipzeile-frei { display: flex; flex-wrap: wrap; gap: var(--bw-space-1); align-items: center; margin-top: var(--bw-space-2); }
 
+/* --- „Passt inhaltlich dazu“ (N2) --------------------------------- */
+/* Automatisch vorgeschlagen, also bewusst zurückhaltender als die
+   geprüften Verweise darüber: normale Schriftstärke, das Art-Etikett
+   trägt die Einordnung. Keine eigene Farbe — die Gliederung macht Grau. */
+.chip--nachbar { font-weight: 400; display: inline-flex; align-items: center; gap: 0.5em; text-align: left; }
+.chip--nachbar .etikett { flex: none; }
+.nachbarn { margin-top: var(--bw-space-1); }
+.karte .nachbarn { margin-top: var(--bw-space-2); padding-top: var(--bw-space-2); border-top: 1px solid var(--bw-grau-200); }
+
 /* --- Fokus sichtbar (verstärkt, ohne Spezifitätsdruck) ------------ */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
   outline: 2px solid var(--bw-schwarz); outline-offset: 2px;
@@ -7787,6 +7796,484 @@ window.KONTAKT = {
 
 </script>
 <script>
+// nachbarn.js — ERZEUGT von tools/nachbarn_bauen.mjs, nicht von Hand ändern.
+// Die nächsten inhaltlichen Nachbarn jedes Eintrags, beim Bauen aus den
+// Vektoren von assets/daten/semantik-index.json gerechnet (N2). Dadurch
+// zeigt die Oberfläche „Passt inhaltlich dazu“ ohne Modell-Download — auch
+// in der Einzeldatei, wo die Bedeutungssuche abgeschaltet ist.
+// Schlüssel und Werte sind Ziele: artikel:<id> · faq:<artikel>#<nr> ·
+// paragraf:<werk>-<nr> · vorlage:<id> · liste:<id> · karte:<id> ·
+// modul:<ziel> · quelle:<id>. Aufgelöst wird in app.js (nachbarZiel).
+// Neu bauen nach jeder Inhaltsänderung:
+//   node tools/semantik_index_bauen.mjs   (baut Index und Nachbarn)
+//   node tools/nachbarn_bauen.mjs         (nur Nachbarn, wenige Sekunden)
+window.NACHBARN = {
+  format: "azubi-nachbarn", version: 1, modell: "Xenova/multilingual-e5-small",
+  stand: "Juli 2026", schwelle: 0.9, max: 6, proArt: 2,
+  eintraege: {
+  "artikel:abschlusspruefung": ["paragraf:bbig-43","paragraf:bbig-45","artikel:nichtbestehen","artikel:berichtsheft","quelle:anmeldebogen-extern","vorlage:externenpruefung"],
+  "artikel:ap-noten": ["artikel:fw-inhalte-pruefung","quelle:besondere-richtlinien-pruefung"],
+  "artikel:arbeitszeit-erwachsene": ["artikel:arbeitszeit-jugendliche","paragraf:arbzg-11","paragraf:arbzg-9","artikel:ueberstunden","quelle:gesetz-arbzg"],
+  "artikel:arbeitszeit-jugendliche": ["paragraf:jarbschg-8","artikel:arbeitszeit-erwachsene","paragraf:jarbschg-21a","faq:ueberstunden#1","quelle:gesetz-jarbschg"],
+  "artikel:aufhebung": ["artikel:kuendigung"],
+  "artikel:ausbilder": ["quelle:rp-anerkennung","paragraf:aevo-6","artikel:fw-betrieb","paragraf:bbig-28","artikel:mindestverguetung"],
+  "artikel:ausbildungsberatung": ["paragraf:bbig-76","paragraf:bbig-70"],
+  "artikel:ausbildungspflicht": ["faq:lernpflicht#0","paragraf:bbig-13","paragraf:bbig-14","artikel:ausbildungsvertrag"],
+  "artikel:ausbildungsvertrag": ["paragraf:bbig-11","paragraf:bbig-10","artikel:kuendigung","artikel:zeugnis"],
+  "artikel:berichtsheft": ["artikel:abschlusspruefung","quelle:ha-156","vorlage:berichtsheft-erinnerung"],
+  "artikel:berufsschulpflicht": ["paragraf:bbig-15","artikel:freistellung"],
+  "artikel:eintragung": ["artikel:zustaendige-stelle","paragraf:bbig-36","paragraf:bbig-35","artikel:ausbilder"],
+  "artikel:ende-uebernahme": ["faq:abschlusspruefung#6","paragraf:bbig-21"],
+  "artikel:foerderung": ["paragraf:bbig-66","artikel:fw-grundlagen","paragraf:bbig-65","artikel:fw-inhalte-pruefung"],
+  "artikel:fortzahlung": ["paragraf:bbig-19","faq:krankmeldung#1","artikel:freistellung","paragraf:entgfg-3"],
+  "artikel:freistellung": ["paragraf:bbig-15","paragraf:jarbschg-9","artikel:fortzahlung","faq:jugendliche#4"],
+  "artikel:fw-betrieb": ["artikel:fw-grundlagen","artikel:fw-weg","quelle:ha-154"],
+  "artikel:fw-geld": ["artikel:mindestverguetung","artikel:fw-modelle","paragraf:bbig-18","paragraf:bbig-17"],
+  "artikel:fw-grundlagen": ["faq:foerderung#1","artikel:fw-inhalte-pruefung","quelle:gesetz-gbfwvo","quelle:plan-fachwerker-staudengaertnerei","vorlage:interesse-fachwerker"],
+  "artikel:fw-inhalte-pruefung": ["artikel:fw-grundlagen","faq:abschlusspruefung#5","quelle:besondere-richtlinien-pruefung"],
+  "artikel:fw-modelle": ["artikel:fw-geld","artikel:fw-betrieb"],
+  "artikel:fw-weg": ["artikel:fw-betrieb","liste:erstberatung-fachwerker"],
+  "artikel:jugendliche": ["paragraf:jarbschg-32","paragraf:jarbschg-33","quelle:lab-jau-empfehlung"],
+  "artikel:konflikte": ["faq:kuendigung#2"],
+  "artikel:krankmeldung": ["artikel:fortzahlung","paragraf:entgfg-3"],
+  "artikel:kuendigung": ["paragraf:bbig-22","artikel:probezeit","artikel:ausbildungsvertrag","paragraf:bbig-11"],
+  "artikel:lernpflicht": ["paragraf:bbig-13","artikel:ausbildungspflicht"],
+  "artikel:mindestverguetung": ["paragraf:bbig-17","paragraf:bbig-18","artikel:fw-geld","artikel:ausbilder","karte:verguetung"],
+  "artikel:nichtbestehen": ["faq:ap-noten#3","paragraf:bbig-21","artikel:abschlusspruefung","paragraf:bbig-37","vorlage:vertragsverlaengerung-pruefung"],
+  "artikel:probezeit": ["paragraf:bbig-20","paragraf:bbig-22","artikel:kuendigung"],
+  "artikel:teilzeit-verkuerzung": ["paragraf:bbig-8","paragraf:bbig-7a","quelle:ha-129","quelle:bav-aenderung","artikel:abschlusspruefung","faq:fw-modelle#1"],
+  "artikel:ueberstunden": ["paragraf:jarbschg-8","artikel:arbeitszeit-jugendliche","paragraf:jarbschg-14","artikel:arbeitszeit-erwachsene"],
+  "artikel:urlaub": ["paragraf:jarbschg-19","paragraf:burlg-3","artikel:ueberstunden","artikel:arbeitszeit-erwachsene"],
+  "artikel:zeugnis": ["paragraf:bbig-16","artikel:ausbildungsvertrag","paragraf:bbig-13"],
+  "artikel:zustaendige-stelle": ["artikel:eintragung","quelle:rp-gaertner-portal","quelle:vwv-bbig-zuvo","faq:teilzeit-verkuerzung#2","paragraf:bbig-71"],
+  "artikel:zwischenpruefung": ["faq:ap-noten#2","artikel:abschlusspruefung","paragraf:bbig-48"],
+  "karte:arbeitszeit": ["karte:urlaub","paragraf:jarbschg-8"],
+  "karte:fristen": ["karte:rechner-fristen","karte:urlaub"],
+  "karte:rechner-fristen": ["karte:fristen","karte:rechner-teilzeit"],
+  "karte:rechner-teilzeit": ["karte:rechner-fristen","karte:rechner-urlaub"],
+  "karte:rechner-urlaub": ["karte:urlaub","karte:rechner-fristen"],
+  "karte:rechner-verguetung": ["karte:verguetung","karte:rechner-urlaub"],
+  "karte:urlaub": ["karte:rechner-urlaub","paragraf:burlg-1","quelle:urlaub-erwerbsgartenbau","paragraf:burlg-4","karte:fristen"],
+  "karte:verguetung": ["karte:rechner-verguetung","artikel:mindestverguetung"],
+  "liste:ap-anmeldung": ["liste:eintragung","liste:betriebsbesuch","faq:abschlusspruefung#0"],
+  "liste:betriebsbesuch": ["liste:ap-anmeldung","liste:eintragung","vorlage:betriebsbesuch-ankuendigung","faq:ausbildungsberatung#1"],
+  "liste:eintragung": ["liste:ap-anmeldung","liste:betriebsbesuch","quelle:bav","quelle:bav-hinweise"],
+  "liste:erstberatung-fachwerker": ["liste:betriebsbesuch","artikel:fw-weg"],
+  "paragraf:aevo-1": ["quelle:gesetz-aevo","paragraf:aevo-6","paragraf:aevo-3","artikel:ausbilder"],
+  "paragraf:aevo-2": ["quelle:gesetz-aevo","paragraf:aevo-3","paragraf:aevo-1"],
+  "paragraf:aevo-3": ["paragraf:aevo-2","paragraf:aevo-1"],
+  "paragraf:aevo-4": ["paragraf:aevo-6","paragraf:aevo-3"],
+  "paragraf:aevo-5": ["paragraf:aevo-8"],
+  "paragraf:aevo-6": ["paragraf:aevo-7","paragraf:aevo-4","artikel:ausbilder","quelle:gesetz-aevo"],
+  "paragraf:aevo-7": ["paragraf:aevo-6","paragraf:aevo-1","artikel:ausbilder"],
+  "paragraf:aevo-8": ["paragraf:aevo-5"],
+  "paragraf:arbschg-1": ["paragraf:arbzg-18","paragraf:arbschg-3","quelle:gesetz-arbschg"],
+  "paragraf:arbschg-10": ["paragraf:arbschg-9","paragraf:arbschg-3"],
+  "paragraf:arbschg-11": ["paragraf:arbschg-16","paragraf:arbschg-3","quelle:gesetz-arbschg"],
+  "paragraf:arbschg-12": ["paragraf:arbschg-15","paragraf:jarbschg-29","quelle:gesetz-arbschg"],
+  "paragraf:arbschg-13": ["paragraf:arbschg-7","paragraf:arbschg-3"],
+  "paragraf:arbschg-14": ["paragraf:arbschg-7","paragraf:arbschg-16"],
+  "paragraf:arbschg-15": ["paragraf:arbschg-12","paragraf:arbschg-16","quelle:gesetz-arbschg"],
+  "paragraf:arbschg-16": ["paragraf:arbschg-11","paragraf:arbschg-15"],
+  "paragraf:arbschg-17": ["paragraf:arbschg-3","paragraf:arbschg-15"],
+  "paragraf:arbschg-18": ["paragraf:arbschg-20","paragraf:arbschg-9"],
+  "paragraf:arbschg-19": ["paragraf:arbzg-24","paragraf:arbschg-18"],
+  "paragraf:arbschg-2": ["paragraf:arbschg-4","paragraf:arbschg-3","quelle:gesetz-arbschg"],
+  "paragraf:arbschg-20": ["paragraf:arbschg-18","paragraf:arbschg-19"],
+  "paragraf:arbschg-20a": ["paragraf:arbschg-20b","paragraf:arbschg-2"],
+  "paragraf:arbschg-20b": ["paragraf:arbschg-20a"],
+  "paragraf:arbschg-21": ["paragraf:arbschg-23","paragraf:arbschg-22"],
+  "paragraf:arbschg-22": ["paragraf:arbschg-23","paragraf:arbzg-17"],
+  "paragraf:arbschg-23": ["paragraf:arbschg-22","paragraf:arbschg-21"],
+  "paragraf:arbschg-24": ["paragraf:arbschg-23","paragraf:arbschg-18"],
+  "paragraf:arbschg-24a": ["paragraf:arbschg-20","paragraf:arbschg-23"],
+  "paragraf:arbschg-25": ["paragraf:arbzg-22","paragraf:bbig-101"],
+  "paragraf:arbschg-26": ["paragraf:arbzg-23","paragraf:arbschg-25"],
+  "paragraf:arbschg-3": ["paragraf:arbschg-4","paragraf:arbschg-9","quelle:gesetz-arbschg"],
+  "paragraf:arbschg-4": ["paragraf:arbschg-3","paragraf:arbschg-5","quelle:gesetz-arbschg"],
+  "paragraf:arbschg-5": ["paragraf:arbschg-6","paragraf:jarbschg-28a"],
+  "paragraf:arbschg-6": ["paragraf:arbschg-5","paragraf:arbschg-16"],
+  "paragraf:arbschg-7": ["paragraf:arbschg-14","paragraf:arbschg-8"],
+  "paragraf:arbschg-8": ["paragraf:arbschg-3","paragraf:arbschg-16"],
+  "paragraf:arbschg-9": ["paragraf:arbschg-3","paragraf:arbschg-18"],
+  "paragraf:arbzg-1": ["paragraf:arbschg-1","paragraf:tzbfg-1"],
+  "paragraf:arbzg-10": ["paragraf:arbzg-11","paragraf:arbzg-13","artikel:arbeitszeit-erwachsene"],
+  "paragraf:arbzg-11": ["paragraf:arbzg-12","paragraf:arbzg-9","artikel:arbeitszeit-erwachsene"],
+  "paragraf:arbzg-12": ["paragraf:arbzg-11","paragraf:arbzg-9","artikel:arbeitszeit-erwachsene"],
+  "paragraf:arbzg-13": ["paragraf:arbzg-11","paragraf:arbzg-10"],
+  "paragraf:arbzg-14": ["paragraf:arbzg-15","paragraf:arbzg-7","artikel:ueberstunden"],
+  "paragraf:arbzg-15": ["paragraf:arbzg-17","paragraf:arbzg-7"],
+  "paragraf:arbzg-16": ["paragraf:arbzg-17","paragraf:jarbschg-47"],
+  "paragraf:arbzg-17": ["paragraf:arbzg-16","paragraf:arbzg-15"],
+  "paragraf:arbzg-18": ["paragraf:arbschg-1","paragraf:arbzg-21"],
+  "paragraf:arbzg-19": ["paragraf:tzbfg-22","paragraf:arbschg-14"],
+  "paragraf:arbzg-2": ["paragraf:arbzg-4","paragraf:jarbschg-4","artikel:arbeitszeit-erwachsene","artikel:arbeitszeit-jugendliche"],
+  "paragraf:arbzg-20": ["paragraf:arbzg-21","paragraf:kschg-23"],
+  "paragraf:arbzg-21": ["paragraf:arbzg-21a","paragraf:arbzg-8"],
+  "paragraf:arbzg-21a": ["paragraf:arbzg-21","paragraf:jarbschg-21a"],
+  "paragraf:arbzg-22": ["paragraf:jarbschg-58","paragraf:arbschg-25"],
+  "paragraf:arbzg-23": ["paragraf:arbschg-26","paragraf:arbschg-25"],
+  "paragraf:arbzg-24": ["paragraf:arbschg-19","paragraf:arbschg-24"],
+  "paragraf:arbzg-25": ["paragraf:tzbfg-22"],
+  "paragraf:arbzg-3": ["paragraf:arbzg-4","paragraf:arbzg-5","artikel:arbeitszeit-erwachsene"],
+  "paragraf:arbzg-4": ["paragraf:arbzg-5","paragraf:arbzg-3","artikel:arbeitszeit-erwachsene","faq:arbeitszeit-jugendliche#1"],
+  "paragraf:arbzg-5": ["paragraf:arbzg-4","paragraf:arbzg-7","artikel:arbeitszeit-erwachsene","artikel:arbeitszeit-jugendliche"],
+  "paragraf:arbzg-6": ["paragraf:arbzg-7","paragraf:arbzg-8"],
+  "paragraf:arbzg-7": ["paragraf:arbzg-5","paragraf:arbzg-12","artikel:arbeitszeit-erwachsene"],
+  "paragraf:arbzg-8": ["paragraf:arbzg-7","paragraf:arbzg-2"],
+  "paragraf:arbzg-9": ["paragraf:arbzg-11","paragraf:arbzg-12","artikel:arbeitszeit-erwachsene"],
+  "paragraf:bbig-1": ["paragraf:bbig-30","paragraf:bbig-69","quelle:gesetz-bbig"],
+  "paragraf:bbig-10": ["paragraf:bbig-11","paragraf:bbig-13","artikel:ausbildungsvertrag"],
+  "paragraf:bbig-100": ["paragraf:bbig-89","paragraf:bbig-98"],
+  "paragraf:bbig-101": ["paragraf:bbig-11","paragraf:jarbschg-59"],
+  "paragraf:bbig-102": ["paragraf:bbig-57","paragraf:bbig-50"],
+  "paragraf:bbig-103": ["paragraf:bbig-106","paragraf:bbig-5"],
+  "paragraf:bbig-104": ["paragraf:bbig-81","paragraf:bbig-74","quelle:vwv-bbig-zuvo"],
+  "paragraf:bbig-105": ["paragraf:bbig-103","paragraf:bbig-5"],
+  "paragraf:bbig-106": ["paragraf:bbig-103","paragraf:bbig-56","artikel:abschlusspruefung"],
+  "paragraf:bbig-11": ["paragraf:bbig-10","artikel:ausbildungsvertrag","paragraf:bbig-13","artikel:kuendigung"],
+  "paragraf:bbig-12": ["paragraf:bbig-25","paragraf:bbig-26","faq:ausbildungsvertrag#2","faq:ausbildungsmittel#2"],
+  "paragraf:bbig-13": ["paragraf:bbig-14","paragraf:bbig-10","artikel:lernpflicht","artikel:ausbildungspflicht"],
+  "paragraf:bbig-14": ["paragraf:bbig-13","paragraf:bbig-28","artikel:ausbildungspflicht","artikel:ausbildungsvertrag"],
+  "paragraf:bbig-15": ["artikel:freistellung","paragraf:jarbschg-9","paragraf:bbig-19","artikel:ueberstunden"],
+  "paragraf:bbig-16": ["artikel:zeugnis","paragraf:bbig-13","paragraf:bbig-14"],
+  "paragraf:bbig-17": ["paragraf:bbig-18","artikel:mindestverguetung","paragraf:bbig-19","artikel:fw-geld"],
+  "paragraf:bbig-18": ["paragraf:bbig-17","paragraf:bbig-19","artikel:mindestverguetung","faq:fortzahlung#0"],
+  "paragraf:bbig-19": ["paragraf:bbig-18","artikel:fortzahlung","paragraf:bbig-15","faq:krankmeldung#1"],
+  "paragraf:bbig-2": ["paragraf:bbig-79","paragraf:bbig-9"],
+  "paragraf:bbig-20": ["faq:probezeit#0","paragraf:bbig-21","paragraf:bbig-22","faq:abschlusspruefung#0"],
+  "paragraf:bbig-21": ["faq:abschlusspruefung#6","paragraf:bbig-20","paragraf:bbig-22","artikel:nichtbestehen"],
+  "paragraf:bbig-22": ["artikel:kuendigung","paragraf:bbig-23","paragraf:bbig-21","artikel:probezeit"],
+  "paragraf:bbig-23": ["paragraf:bbig-26","paragraf:bbig-22","artikel:kuendigung","faq:abschlusspruefung#6"],
+  "paragraf:bbig-24": ["paragraf:bbig-26","paragraf:bbig-25","faq:abschlusspruefung#6","faq:ende-uebernahme#2"],
+  "paragraf:bbig-25": ["paragraf:bbig-12","paragraf:bbig-24","quelle:gesetz-bbig"],
+  "paragraf:bbig-26": ["paragraf:bbig-12","paragraf:bbig-23","faq:abschlusspruefung#6","faq:ausbildungsvertrag#2"],
+  "paragraf:bbig-27": ["paragraf:bbig-28","paragraf:bbig-33","quelle:vwv-ausbildungsstaetten-lw","artikel:ausbilder","quelle:ha-162"],
+  "paragraf:bbig-28": ["paragraf:bbig-27","paragraf:bbig-14","artikel:ausbilder"],
+  "paragraf:bbig-29": ["paragraf:bbig-28","paragraf:bbig-31a","artikel:ausbilder"],
+  "paragraf:bbig-3": ["paragraf:bbig-71","paragraf:bbig-53"],
+  "paragraf:bbig-30": ["paragraf:bbig-31","paragraf:bbig-31a","artikel:ausbilder"],
+  "paragraf:bbig-31": ["paragraf:bbig-31a","paragraf:bbig-30"],
+  "paragraf:bbig-31a": ["paragraf:bbig-31","paragraf:bbig-30"],
+  "paragraf:bbig-32": ["paragraf:bbig-33","paragraf:bbig-27","artikel:ausbilder","faq:ausbildungsberatung#1","quelle:vwv-ausbildungsstaetten-lw"],
+  "paragraf:bbig-33": ["paragraf:bbig-32","paragraf:bbig-27","faq:ausbildungsberatung#0","artikel:ausbilder"],
+  "paragraf:bbig-34": ["paragraf:bbig-36","paragraf:bbig-35","artikel:eintragung"],
+  "paragraf:bbig-35": ["paragraf:bbig-34","paragraf:bbig-36","artikel:eintragung","artikel:jugendliche"],
+  "paragraf:bbig-36": ["paragraf:bbig-34","paragraf:bbig-35","artikel:eintragung","faq:ausbildungsvertrag#3"],
+  "paragraf:bbig-37": ["paragraf:bbig-5","paragraf:bbig-30","artikel:nichtbestehen"],
+  "paragraf:bbig-38": ["paragraf:bbig-30","paragraf:bbig-5","faq:ende-uebernahme#1","faq:abschlusspruefung#0"],
+  "paragraf:bbig-39": ["paragraf:bbig-42","paragraf:bbig-40"],
+  "paragraf:bbig-4": ["paragraf:bbig-6","paragraf:bbig-53e","artikel:ausbilder"],
+  "paragraf:bbig-40": ["paragraf:bbig-77","paragraf:bbig-42"],
+  "paragraf:bbig-41": ["paragraf:bbig-40","paragraf:bbig-78"],
+  "paragraf:bbig-42": ["paragraf:bbig-39","paragraf:bbig-40"],
+  "paragraf:bbig-42a": ["paragraf:bbig-42","paragraf:bbig-62"],
+  "paragraf:bbig-43": ["paragraf:bbig-45","paragraf:bbig-44","artikel:abschlusspruefung","artikel:teilzeit-verkuerzung"],
+  "paragraf:bbig-44": ["paragraf:bbig-43","paragraf:bbig-45","artikel:abschlusspruefung"],
+  "paragraf:bbig-45": ["paragraf:bbig-43","paragraf:bbig-44","artikel:abschlusspruefung","faq:teilzeit-verkuerzung#0"],
+  "paragraf:bbig-46": ["paragraf:bbig-44","paragraf:bbig-45","faq:abschlusspruefung#0","faq:teilzeit-verkuerzung#0","quelle:ha-096"],
+  "paragraf:bbig-47": ["paragraf:bbig-59","paragraf:bbig-54"],
+  "paragraf:bbig-48": ["paragraf:bbig-43","paragraf:bbig-62","artikel:abschlusspruefung","faq:ende-uebernahme#1","quelle:ha-120"],
+  "paragraf:bbig-49": ["paragraf:bbig-50a","paragraf:bbig-56"],
+  "paragraf:bbig-5": ["paragraf:bbig-30","paragraf:bbig-53d","artikel:abschlusspruefung","artikel:nichtbestehen"],
+  "paragraf:bbig-50": ["paragraf:bbig-57","paragraf:bbig-63"],
+  "paragraf:bbig-50a": ["paragraf:bbig-57","paragraf:bbig-55"],
+  "paragraf:bbig-50b": ["paragraf:bbig-50d","paragraf:bbig-50c"],
+  "paragraf:bbig-50c": ["paragraf:bbig-50b","paragraf:bbig-50e"],
+  "paragraf:bbig-50d": ["paragraf:bbig-50b","paragraf:bbig-50e"],
+  "paragraf:bbig-50e": ["paragraf:bbig-50b","paragraf:bbig-50d"],
+  "paragraf:bbig-51": ["paragraf:bbig-52","paragraf:bbig-95"],
+  "paragraf:bbig-52": ["paragraf:bbig-72","paragraf:bbig-58"],
+  "paragraf:bbig-53": ["paragraf:bbig-53e","paragraf:bbig-57"],
+  "paragraf:bbig-53a": ["paragraf:bbig-53c","paragraf:bbig-53b"],
+  "paragraf:bbig-53b": ["paragraf:bbig-53c","paragraf:bbig-53d"],
+  "paragraf:bbig-53c": ["paragraf:bbig-53d","paragraf:bbig-53b"],
+  "paragraf:bbig-53d": ["paragraf:bbig-53c","paragraf:bbig-53b"],
+  "paragraf:bbig-53e": ["paragraf:bbig-53","paragraf:bbig-6"],
+  "paragraf:bbig-54": ["paragraf:bbig-53b","paragraf:bbig-53"],
+  "paragraf:bbig-55": ["paragraf:bbig-61","paragraf:bbig-56","quelle:ha-129","quelle:ha-096","faq:abschlusspruefung#0","faq:teilzeit-verkuerzung#0"],
+  "paragraf:bbig-56": ["paragraf:bbig-62","paragraf:bbig-55"],
+  "paragraf:bbig-57": ["paragraf:bbig-50","paragraf:bbig-63"],
+  "paragraf:bbig-58": ["paragraf:bbig-63","paragraf:bbig-6"],
+  "paragraf:bbig-59": ["paragraf:bbig-47","paragraf:bbig-54"],
+  "paragraf:bbig-6": ["paragraf:bbig-4","paragraf:bbig-53e"],
+  "paragraf:bbig-60": ["paragraf:bbig-58","paragraf:bbig-59","faq:teilzeit-verkuerzung#0"],
+  "paragraf:bbig-61": ["paragraf:bbig-55","paragraf:bbig-60","faq:teilzeit-verkuerzung#0","quelle:ha-129"],
+  "paragraf:bbig-62": ["paragraf:bbig-56","paragraf:bbig-79","artikel:abschlusspruefung"],
+  "paragraf:bbig-63": ["paragraf:bbig-50","paragraf:bbig-57"],
+  "paragraf:bbig-64": ["paragraf:bbig-67","paragraf:bbig-66"],
+  "paragraf:bbig-65": ["paragraf:bbig-66","paragraf:bbig-64","artikel:foerderung"],
+  "paragraf:bbig-66": ["paragraf:bbig-64","paragraf:bbig-65","artikel:foerderung","quelle:ha-136"],
+  "paragraf:bbig-67": ["paragraf:bbig-64","paragraf:bbig-65"],
+  "paragraf:bbig-68": ["paragraf:bbig-64","paragraf:bbig-69"],
+  "paragraf:bbig-69": ["paragraf:bbig-1","paragraf:bbig-68"],
+  "paragraf:bbig-7": ["paragraf:bbig-7a","paragraf:bbig-8"],
+  "paragraf:bbig-70": ["paragraf:bbig-76","paragraf:bbig-69","artikel:ausbildungsberatung"],
+  "paragraf:bbig-71": ["paragraf:bbig-73","paragraf:bbig-77","quelle:vwv-bbig-zuvo","artikel:zustaendige-stelle"],
+  "paragraf:bbig-72": ["paragraf:bbig-73","paragraf:bbig-75","quelle:vwv-bbig-zuvo"],
+  "paragraf:bbig-73": ["paragraf:bbig-75","paragraf:bbig-74"],
+  "paragraf:bbig-74": ["paragraf:bbig-75","paragraf:bbig-73"],
+  "paragraf:bbig-75": ["paragraf:bbig-74","paragraf:bbig-73"],
+  "paragraf:bbig-75a": ["paragraf:bbig-75b","paragraf:bbig-73"],
+  "paragraf:bbig-75b": ["paragraf:bbig-74","paragraf:bbig-75","quelle:vwv-bbig-zuvo"],
+  "paragraf:bbig-76": ["artikel:ausbildungsberatung","paragraf:bbig-77","paragraf:bbig-70"],
+  "paragraf:bbig-77": ["paragraf:bbig-82","paragraf:bbig-40"],
+  "paragraf:bbig-78": ["paragraf:bbig-75b","paragraf:bbig-72"],
+  "paragraf:bbig-79": ["paragraf:bbig-80","paragraf:bbig-83"],
+  "paragraf:bbig-7a": ["paragraf:bbig-8","artikel:teilzeit-verkuerzung","paragraf:bbig-7","faq:fw-modelle#1","quelle:ha-129","quelle:bav-aenderung"],
+  "paragraf:bbig-8": ["paragraf:bbig-7a","artikel:teilzeit-verkuerzung","quelle:ha-129","paragraf:bbig-7","quelle:bav-aenderung","faq:fw-modelle#1"],
+  "paragraf:bbig-80": ["paragraf:bbig-79","paragraf:bbig-83"],
+  "paragraf:bbig-81": ["paragraf:bbig-73","paragraf:bbig-75b","quelle:vwv-bbig-zuvo"],
+  "paragraf:bbig-82": ["paragraf:bbig-77","paragraf:bbig-83"],
+  "paragraf:bbig-83": ["paragraf:bbig-79","paragraf:bbig-82"],
+  "paragraf:bbig-84": ["paragraf:bbig-85","paragraf:bbig-87"],
+  "paragraf:bbig-85": ["paragraf:bbig-84","paragraf:bbig-87"],
+  "paragraf:bbig-86": ["paragraf:bbig-90","paragraf:bbig-4"],
+  "paragraf:bbig-87": ["paragraf:bbig-90","paragraf:bbig-85"],
+  "paragraf:bbig-88": ["paragraf:bbig-34","paragraf:bbig-11"],
+  "paragraf:bbig-89": ["paragraf:bbig-100","paragraf:bbig-98","quelle:gesetz-bbig"],
+  "paragraf:bbig-9": ["paragraf:bbig-60","paragraf:bbig-4","quelle:gesetz-bbig"],
+  "paragraf:bbig-90": ["paragraf:bbig-87","paragraf:bbig-94"],
+  "paragraf:bbig-91": ["paragraf:bbig-98","paragraf:bbig-92"],
+  "paragraf:bbig-92": ["paragraf:bbig-98","paragraf:bbig-90"],
+  "paragraf:bbig-93": ["paragraf:bbig-99","paragraf:bbig-92"],
+  "paragraf:bbig-94": ["paragraf:bbig-90","paragraf:bbig-92"],
+  "paragraf:bbig-95": ["paragraf:bbig-94","paragraf:bbig-92"],
+  "paragraf:bbig-96": ["paragraf:bbig-98","paragraf:bbig-97"],
+  "paragraf:bbig-97": ["paragraf:bbig-92","paragraf:bbig-96"],
+  "paragraf:bbig-98": ["paragraf:bbig-91","paragraf:bbig-92"],
+  "paragraf:bbig-99": ["paragraf:bbig-93","paragraf:bbig-90"],
+  "paragraf:burlg-1": ["paragraf:burlg-4","paragraf:burlg-6","karte:urlaub","quelle:gesetz-burlg"],
+  "paragraf:burlg-10": ["paragraf:burlg-9","paragraf:burlg-15a"],
+  "paragraf:burlg-11": ["paragraf:burlg-12","paragraf:burlg-8"],
+  "paragraf:burlg-12": ["paragraf:entgfg-10","paragraf:entgfg-11"],
+  "paragraf:burlg-13": ["paragraf:tzbfg-22","paragraf:burlg-7"],
+  "paragraf:burlg-14": ["paragraf:kschg-25a","paragraf:burlg-16"],
+  "paragraf:burlg-15a": ["paragraf:entgfg-13","paragraf:burlg-10"],
+  "paragraf:burlg-16": ["paragraf:burlg-14"],
+  "paragraf:burlg-2": ["paragraf:burlg-12"],
+  "paragraf:burlg-3": ["paragraf:burlg-1","paragraf:burlg-4","artikel:urlaub","karte:urlaub"],
+  "paragraf:burlg-4": ["paragraf:burlg-5","paragraf:burlg-1","artikel:urlaub","karte:urlaub"],
+  "paragraf:burlg-5": ["paragraf:burlg-4","paragraf:burlg-1","artikel:urlaub"],
+  "paragraf:burlg-6": ["paragraf:burlg-1","paragraf:burlg-8"],
+  "paragraf:burlg-7": ["paragraf:burlg-5","paragraf:burlg-3"],
+  "paragraf:burlg-8": ["paragraf:burlg-6","paragraf:burlg-11"],
+  "paragraf:burlg-9": ["faq:urlaub#2","paragraf:burlg-10","paragraf:burlg-8"],
+  "paragraf:entgfg-1": ["paragraf:entgfg-2","quelle:gesetz-entgfg","paragraf:entgfg-11"],
+  "paragraf:entgfg-10": ["paragraf:entgfg-11","paragraf:burlg-12"],
+  "paragraf:entgfg-11": ["paragraf:entgfg-10","paragraf:burlg-12"],
+  "paragraf:entgfg-12": ["paragraf:bbig-25"],
+  "paragraf:entgfg-13": ["paragraf:burlg-15a","paragraf:entgfg-3"],
+  "paragraf:entgfg-2": ["paragraf:entgfg-1","paragraf:entgfg-4"],
+  "paragraf:entgfg-3": ["paragraf:entgfg-8","paragraf:entgfg-5","artikel:fortzahlung","artikel:krankmeldung"],
+  "paragraf:entgfg-3a": ["paragraf:entgfg-3"],
+  "paragraf:entgfg-4": ["paragraf:entgfg-2","paragraf:entgfg-3"],
+  "paragraf:entgfg-4a": ["paragraf:entgfg-3"],
+  "paragraf:entgfg-5": ["paragraf:entgfg-9","paragraf:entgfg-3"],
+  "paragraf:entgfg-6": ["paragraf:entgfg-3","paragraf:entgfg-7"],
+  "paragraf:entgfg-7": ["paragraf:entgfg-8","paragraf:entgfg-3"],
+  "paragraf:entgfg-8": ["paragraf:entgfg-3","paragraf:entgfg-7"],
+  "paragraf:entgfg-9": ["paragraf:entgfg-5","paragraf:jarbschg-46"],
+  "paragraf:jarbschg-1": ["paragraf:jarbschg-62","paragraf:jarbschg-5","faq:jugendliche#4","quelle:gesetz-jarbschg"],
+  "paragraf:jarbschg-10": ["paragraf:jarbschg-9","paragraf:jarbschg-21a","faq:freistellung#1","artikel:arbeitszeit-jugendliche"],
+  "paragraf:jarbschg-11": ["paragraf:jarbschg-12","paragraf:jarbschg-13","artikel:arbeitszeit-jugendliche","quelle:gesetz-jarbschg","artikel:arbeitszeit-erwachsene"],
+  "paragraf:jarbschg-12": ["paragraf:jarbschg-8","paragraf:jarbschg-13","artikel:arbeitszeit-jugendliche","quelle:gesetz-jarbschg","faq:ueberstunden#1"],
+  "paragraf:jarbschg-13": ["paragraf:jarbschg-8","paragraf:jarbschg-15","artikel:arbeitszeit-jugendliche","quelle:gesetz-jarbschg","faq:ueberstunden#1"],
+  "paragraf:jarbschg-14": ["paragraf:jarbschg-8","paragraf:jarbschg-16","artikel:arbeitszeit-jugendliche","quelle:gesetz-jarbschg","artikel:ueberstunden"],
+  "paragraf:jarbschg-15": ["paragraf:jarbschg-13","paragraf:jarbschg-8","artikel:arbeitszeit-jugendliche","quelle:gesetz-jarbschg","faq:ueberstunden#1"],
+  "paragraf:jarbschg-16": ["paragraf:jarbschg-17","paragraf:jarbschg-21a","artikel:arbeitszeit-jugendliche","faq:freistellung#1"],
+  "paragraf:jarbschg-17": ["paragraf:jarbschg-16","paragraf:jarbschg-21a","artikel:arbeitszeit-jugendliche","faq:arbeitszeit-erwachsene#1"],
+  "paragraf:jarbschg-18": ["paragraf:jarbschg-17","paragraf:jarbschg-16","artikel:arbeitszeit-jugendliche"],
+  "paragraf:jarbschg-19": ["artikel:urlaub","paragraf:jarbschg-9","paragraf:jarbschg-13","artikel:arbeitszeit-jugendliche"],
+  "paragraf:jarbschg-2": ["paragraf:jarbschg-7","faq:jugendliche#4","paragraf:jarbschg-15","quelle:gesetz-jarbschg"],
+  "paragraf:jarbschg-20": ["paragraf:jarbschg-21a","paragraf:jarbschg-8","artikel:arbeitszeit-jugendliche","faq:freistellung#1"],
+  "paragraf:jarbschg-21": ["paragraf:jarbschg-8","paragraf:jarbschg-13","quelle:gesetz-jarbschg","artikel:ueberstunden","faq:jugendliche#4"],
+  "paragraf:jarbschg-21a": ["paragraf:jarbschg-8","paragraf:jarbschg-16","artikel:arbeitszeit-jugendliche","artikel:ueberstunden","quelle:gesetz-jarbschg"],
+  "paragraf:jarbschg-21b": ["paragraf:jarbschg-21a","paragraf:jarbschg-9","quelle:gesetz-jarbschg","artikel:arbeitszeit-jugendliche","faq:jugendliche#4"],
+  "paragraf:jarbschg-22": ["paragraf:jarbschg-26","paragraf:jarbschg-27","faq:arbeitszeit-jugendliche#2","quelle:gesetz-jarbschg"],
+  "paragraf:jarbschg-23": ["paragraf:jarbschg-24","paragraf:jarbschg-22","artikel:arbeitszeit-jugendliche"],
+  "paragraf:jarbschg-24": ["paragraf:jarbschg-23","paragraf:jarbschg-12","artikel:arbeitszeit-jugendliche","quelle:gesetz-jarbschg","faq:freistellung#1"],
+  "paragraf:jarbschg-25": ["paragraf:jarbschg-27","paragraf:jarbschg-5"],
+  "paragraf:jarbschg-26": ["paragraf:jarbschg-27","paragraf:jarbschg-28","quelle:gesetz-jarbschg"],
+  "paragraf:jarbschg-27": ["paragraf:jarbschg-26","paragraf:jarbschg-25"],
+  "paragraf:jarbschg-28": ["paragraf:jarbschg-29","paragraf:jarbschg-26"],
+  "paragraf:jarbschg-28a": ["paragraf:jarbschg-29","paragraf:jarbschg-3","quelle:gesetz-jarbschg"],
+  "paragraf:jarbschg-29": ["paragraf:jarbschg-28","paragraf:jarbschg-28a","quelle:gesetz-jarbschg"],
+  "paragraf:jarbschg-3": ["paragraf:jarbschg-28a","paragraf:jarbschg-48","quelle:gesetz-jarbschg"],
+  "paragraf:jarbschg-30": ["paragraf:jarbschg-28","paragraf:jarbschg-29"],
+  "paragraf:jarbschg-31": ["paragraf:jarbschg-25","paragraf:jarbschg-22"],
+  "paragraf:jarbschg-32": ["paragraf:jarbschg-33","paragraf:jarbschg-36","artikel:jugendliche"],
+  "paragraf:jarbschg-33": ["paragraf:jarbschg-36","paragraf:jarbschg-32","artikel:jugendliche"],
+  "paragraf:jarbschg-34": ["paragraf:jarbschg-36","paragraf:jarbschg-33","faq:jugendliche#0"],
+  "paragraf:jarbschg-35": ["paragraf:jarbschg-37","paragraf:jarbschg-32","faq:jugendliche#0"],
+  "paragraf:jarbschg-36": ["paragraf:jarbschg-33","paragraf:jarbschg-32","artikel:jugendliche"],
+  "paragraf:jarbschg-37": ["paragraf:jarbschg-39","paragraf:jarbschg-35","artikel:jugendliche"],
+  "paragraf:jarbschg-38": ["paragraf:jarbschg-45","paragraf:jarbschg-35"],
+  "paragraf:jarbschg-39": ["paragraf:jarbschg-37","paragraf:jarbschg-40","artikel:jugendliche"],
+  "paragraf:jarbschg-4": ["paragraf:jarbschg-12","paragraf:jarbschg-11","artikel:arbeitszeit-jugendliche","artikel:arbeitszeit-erwachsene"],
+  "paragraf:jarbschg-40": ["paragraf:jarbschg-39","paragraf:jarbschg-42"],
+  "paragraf:jarbschg-41": ["paragraf:jarbschg-36","paragraf:jarbschg-40","artikel:jugendliche"],
+  "paragraf:jarbschg-42": ["paragraf:jarbschg-40","paragraf:jarbschg-45"],
+  "paragraf:jarbschg-43": ["paragraf:jarbschg-44","paragraf:jarbschg-32","faq:freistellung#1"],
+  "paragraf:jarbschg-44": ["paragraf:jarbschg-43","paragraf:jarbschg-37"],
+  "paragraf:jarbschg-45": ["paragraf:jarbschg-37","paragraf:jarbschg-32","artikel:jugendliche"],
+  "paragraf:jarbschg-46": ["paragraf:jarbschg-37","paragraf:jarbschg-39","artikel:jugendliche"],
+  "paragraf:jarbschg-47": ["paragraf:jarbschg-48","paragraf:jarbschg-50","quelle:gesetz-jarbschg"],
+  "paragraf:jarbschg-48": ["paragraf:jarbschg-47","paragraf:jarbschg-49","quelle:gesetz-jarbschg","artikel:arbeitszeit-jugendliche"],
+  "paragraf:jarbschg-49": ["paragraf:jarbschg-47","paragraf:jarbschg-50"],
+  "paragraf:jarbschg-5": ["paragraf:jarbschg-7","paragraf:jarbschg-25","artikel:arbeitszeit-jugendliche"],
+  "paragraf:jarbschg-50": ["paragraf:jarbschg-47","paragraf:jarbschg-49"],
+  "paragraf:jarbschg-51": ["paragraf:arbzg-17","paragraf:jarbschg-57"],
+  "paragraf:jarbschg-53": ["paragraf:jarbschg-47","paragraf:jarbschg-42"],
+  "paragraf:jarbschg-54": ["paragraf:arbzg-15","paragraf:jarbschg-6"],
+  "paragraf:jarbschg-55": ["paragraf:jarbschg-56","paragraf:jarbschg-57"],
+  "paragraf:jarbschg-56": ["paragraf:jarbschg-55","paragraf:jarbschg-57","quelle:gesetz-jarbschg"],
+  "paragraf:jarbschg-57": ["paragraf:jarbschg-56","paragraf:jarbschg-55"],
+  "paragraf:jarbschg-58": ["paragraf:jarbschg-59","paragraf:arbzg-22"],
+  "paragraf:jarbschg-59": ["paragraf:jarbschg-58","paragraf:bbig-101"],
+  "paragraf:jarbschg-6": ["paragraf:jarbschg-5","paragraf:jarbschg-27","artikel:arbeitszeit-jugendliche","artikel:jugendliche"],
+  "paragraf:jarbschg-60": ["paragraf:jarbschg-59","paragraf:arbschg-24"],
+  "paragraf:jarbschg-61": ["paragraf:kschg-24","paragraf:jarbschg-62"],
+  "paragraf:jarbschg-62": ["paragraf:jarbschg-25","paragraf:jarbschg-16"],
+  "paragraf:jarbschg-7": ["paragraf:jarbschg-5","paragraf:jarbschg-2","faq:jugendliche#4","artikel:arbeitszeit-jugendliche"],
+  "paragraf:jarbschg-72": ["paragraf:jarbschg-26","paragraf:jarbschg-56"],
+  "paragraf:jarbschg-8": ["paragraf:jarbschg-13","paragraf:jarbschg-15","artikel:arbeitszeit-jugendliche","faq:ueberstunden#1","quelle:gesetz-jarbschg","karte:arbeitszeit"],
+  "paragraf:jarbschg-9": ["paragraf:jarbschg-10","paragraf:jarbschg-13","artikel:freistellung","artikel:arbeitszeit-jugendliche"],
+  "paragraf:kschg-1": ["paragraf:kschg-4","paragraf:kschg-8"],
+  "paragraf:kschg-10": ["paragraf:kschg-1a","paragraf:kschg-9"],
+  "paragraf:kschg-11": ["paragraf:kschg-12"],
+  "paragraf:kschg-12": ["paragraf:kschg-16","paragraf:kschg-9"],
+  "paragraf:kschg-13": ["paragraf:kschg-7","paragraf:kschg-9"],
+  "paragraf:kschg-14": ["paragraf:arbzg-18","paragraf:kschg-16"],
+  "paragraf:kschg-15": ["paragraf:kschg-1","paragraf:kschg-3"],
+  "paragraf:kschg-16": ["paragraf:kschg-12","paragraf:kschg-1"],
+  "paragraf:kschg-17": ["paragraf:kschg-18","paragraf:kschg-21"],
+  "paragraf:kschg-18": ["paragraf:kschg-17","paragraf:kschg-20"],
+  "paragraf:kschg-19": ["paragraf:kschg-17","paragraf:kschg-18"],
+  "paragraf:kschg-1a": ["paragraf:kschg-10","paragraf:kschg-9"],
+  "paragraf:kschg-2": ["paragraf:kschg-8","paragraf:kschg-1"],
+  "paragraf:kschg-20": ["paragraf:kschg-21","paragraf:kschg-17"],
+  "paragraf:kschg-21": ["paragraf:kschg-20","paragraf:kschg-17"],
+  "paragraf:kschg-23": ["paragraf:kschg-24","paragraf:arbzg-15"],
+  "paragraf:kschg-24": ["paragraf:kschg-23","paragraf:jarbschg-61"],
+  "paragraf:kschg-25": ["paragraf:kschg-7"],
+  "paragraf:kschg-25a": ["paragraf:burlg-14"],
+  "paragraf:kschg-3": ["paragraf:kschg-4","paragraf:kschg-1"],
+  "paragraf:kschg-4": ["paragraf:kschg-6","paragraf:kschg-3"],
+  "paragraf:kschg-5": ["paragraf:kschg-4","paragraf:kschg-6"],
+  "paragraf:kschg-6": ["paragraf:kschg-4","paragraf:tzbfg-17","faq:konflikte#1"],
+  "paragraf:kschg-7": ["paragraf:kschg-13","paragraf:kschg-6"],
+  "paragraf:kschg-8": ["paragraf:kschg-2","paragraf:kschg-1"],
+  "paragraf:kschg-9": ["paragraf:kschg-13","paragraf:kschg-1a"],
+  "paragraf:tzbfg-1": ["paragraf:tzbfg-6","paragraf:tzbfg-23","quelle:gesetz-tzbfg"],
+  "paragraf:tzbfg-10": ["paragraf:tzbfg-19","paragraf:tzbfg-6"],
+  "paragraf:tzbfg-11": ["paragraf:tzbfg-16","paragraf:kschg-16"],
+  "paragraf:tzbfg-12": ["paragraf:tzbfg-8","paragraf:tzbfg-9a","artikel:arbeitszeit-erwachsene"],
+  "paragraf:tzbfg-13": ["paragraf:tzbfg-8","paragraf:tzbfg-9"],
+  "paragraf:tzbfg-14": ["faq:ende-uebernahme#2","paragraf:tzbfg-15","paragraf:tzbfg-3","quelle:gesetz-tzbfg"],
+  "paragraf:tzbfg-15": ["paragraf:tzbfg-17","paragraf:tzbfg-14","faq:ende-uebernahme#2"],
+  "paragraf:tzbfg-16": ["paragraf:tzbfg-17","paragraf:tzbfg-15","faq:ende-uebernahme#2"],
+  "paragraf:tzbfg-17": ["paragraf:tzbfg-16","paragraf:tzbfg-15","faq:ende-uebernahme#2"],
+  "paragraf:tzbfg-18": ["paragraf:tzbfg-7","paragraf:tzbfg-20","quelle:gesetz-tzbfg"],
+  "paragraf:tzbfg-19": ["paragraf:tzbfg-10","paragraf:tzbfg-20","quelle:gesetz-tzbfg"],
+  "paragraf:tzbfg-2": ["paragraf:tzbfg-4","paragraf:tzbfg-3"],
+  "paragraf:tzbfg-20": ["paragraf:tzbfg-18","paragraf:tzbfg-19","quelle:gesetz-tzbfg"],
+  "paragraf:tzbfg-21": ["quelle:gesetz-tzbfg","paragraf:tzbfg-23","paragraf:tzbfg-16"],
+  "paragraf:tzbfg-22": ["paragraf:tzbfg-23","paragraf:arbzg-19"],
+  "paragraf:tzbfg-23": ["quelle:gesetz-tzbfg","paragraf:tzbfg-1","paragraf:tzbfg-21"],
+  "paragraf:tzbfg-3": ["paragraf:tzbfg-14","paragraf:tzbfg-4"],
+  "paragraf:tzbfg-4": ["paragraf:tzbfg-2","paragraf:tzbfg-14"],
+  "paragraf:tzbfg-5": ["paragraf:tzbfg-23","paragraf:tzbfg-6"],
+  "paragraf:tzbfg-6": ["paragraf:tzbfg-10","paragraf:tzbfg-1","quelle:gesetz-tzbfg"],
+  "paragraf:tzbfg-7": ["paragraf:tzbfg-9","paragraf:tzbfg-18"],
+  "paragraf:tzbfg-8": ["paragraf:tzbfg-9a","paragraf:tzbfg-12"],
+  "paragraf:tzbfg-9": ["paragraf:tzbfg-7","paragraf:tzbfg-8","quelle:gesetz-tzbfg"],
+  "paragraf:tzbfg-9a": ["paragraf:tzbfg-8","paragraf:tzbfg-12"],
+  "quelle:anmeldebogen-extern": ["vorlage:externenpruefung","artikel:abschlusspruefung"],
+  "quelle:ba-bab": ["quelle:gesetz-bafoeg"],
+  "quelle:ba-berufenet": ["quelle:ba-berufetv"],
+  "quelle:ba-berufetv": ["quelle:ba-berufenet"],
+  "quelle:ba-planetberuf": ["quelle:ba-berufetv"],
+  "quelle:bav": ["quelle:praktikantenvertrag","faq:eintragung#0","liste:eintragung"],
+  "quelle:bav-abmeldung": ["vorlage:aufloesungsvertrag","quelle:bav-aenderung"],
+  "quelle:bav-aenderung": ["vorlage:vertragsaenderung","artikel:teilzeit-verkuerzung","quelle:bav-abmeldung","paragraf:bbig-8","paragraf:bbig-7a"],
+  "quelle:bav-hinweise": ["liste:eintragung"],
+  "quelle:bav-zusatz-praktikum": ["quelle:rp-unterlagen-ausbildende"],
+  "quelle:besondere-richtlinien-pruefung": ["faq:abschlusspruefung#5","artikel:fw-inhalte-pruefung","quelle:pruefungsplan-winter-2027"],
+  "quelle:bibb-ausbildung-gestalten": ["quelle:ha-174"],
+  "quelle:bildungsserver-agrar": ["quelle:ausbv-agrarservice","faq:eintragung#0"],
+  "quelle:gesetz-aevo": ["paragraf:aevo-2","paragraf:aevo-1"],
+  "quelle:gesetz-arbschg": ["paragraf:arbschg-12","quelle:gesetz-kschg","paragraf:arbschg-15"],
+  "quelle:gesetz-arbzg": ["quelle:gesetz-burlg","artikel:arbeitszeit-erwachsene"],
+  "quelle:gesetz-bafoeg": ["quelle:ba-bab"],
+  "quelle:gesetz-bbig": ["paragraf:bbig-9","quelle:gesetz-bafoeg","paragraf:bbig-1"],
+  "quelle:gesetz-burlg": ["quelle:gesetz-arbzg","paragraf:burlg-1"],
+  "quelle:gesetz-entgfg": ["paragraf:entgfg-1"],
+  "quelle:gesetz-gaertnausbv": ["quelle:plan-gaertner-galabau"],
+  "quelle:gesetz-gartausbsteignv": ["quelle:gesetz-gaertnausbv","faq:ausbilder#2","paragraf:bbig-27"],
+  "quelle:gesetz-gbfwvo": ["quelle:plan-fachwerker-galabau","artikel:fw-grundlagen","faq:foerderung#1"],
+  "quelle:gesetz-jarbschg": ["paragraf:jarbschg-48","artikel:arbeitszeit-jugendliche","paragraf:jarbschg-14","faq:jugendliche#4","quelle:gesetz-arbzg"],
+  "quelle:gesetz-tzbfg": ["paragraf:tzbfg-23","paragraf:tzbfg-21","faq:ende-uebernahme#2","quelle:gesetz-arbzg"],
+  "quelle:ha-096": ["vorlage:externenpruefung","quelle:ha-129","paragraf:bbig-55","paragraf:bbig-46","faq:abschlusspruefung#4"],
+  "quelle:ha-120": ["quelle:ha-096","paragraf:bbig-48"],
+  "quelle:ha-129": ["paragraf:bbig-8","faq:teilzeit-verkuerzung#0","quelle:ha-096","paragraf:bbig-7a"],
+  "quelle:ha-136": ["quelle:gesetz-gbfwvo","paragraf:bbig-66"],
+  "quelle:ha-154": ["faq:fw-betrieb#2"],
+  "quelle:ha-156": ["quelle:ha-162","artikel:berichtsheft"],
+  "quelle:ha-162": ["quelle:gesetz-gartausbsteignv","paragraf:bbig-27"],
+  "quelle:ha-174": ["quelle:ha-129","paragraf:bbig-7a","vorlage:teilzeitausbildung"],
+  "quelle:infoblatt-azubi": ["quelle:bildungsserver-agrar"],
+  "quelle:infodienst-gaertner": ["quelle:lra-ka-infodienst","artikel:zustaendige-stelle"],
+  "quelle:ka-buergerdienst-ap": ["quelle:lra-ka-infodienst"],
+  "quelle:kmk-rahmenlehrplan": ["quelle:gesetz-gaertnausbv"],
+  "quelle:lab-jau-empfehlung": ["artikel:jugendliche"],
+  "quelle:lra-ka-faq": ["quelle:lra-ka-infodienst","faq:konflikte#0"],
+  "quelle:lra-ka-infodienst": ["quelle:lra-ka-faq"],
+  "quelle:lw-bw-rechtsgrundlagen": ["quelle:vwv-bbil"],
+  "quelle:pflanze-bw": ["quelle:pflanzenlisten"],
+  "quelle:pflanzenlisten": ["quelle:pflanze-bw"],
+  "quelle:plan-fachwerker-baumschule": ["quelle:plan-gaertner-baumschule","faq:eintragung#0","artikel:fw-grundlagen"],
+  "quelle:plan-fachwerker-friedhofsgaertnerei": ["quelle:plan-gaertner-friedhofsgaertnerei","faq:eintragung#0","artikel:fw-grundlagen"],
+  "quelle:plan-fachwerker-galabau": ["quelle:plan-gaertner-galabau","faq:eintragung#0","artikel:fw-grundlagen"],
+  "quelle:plan-fachwerker-gemuesebau": ["quelle:plan-gaertner-gemuesebau","faq:eintragung#0"],
+  "quelle:plan-fachwerker-obstbau": ["quelle:plan-gaertner-obstbau","faq:eintragung#0"],
+  "quelle:plan-fachwerker-staudengaertnerei": ["quelle:plan-gaertner-staudengaertnerei","artikel:fw-grundlagen","faq:eintragung#0"],
+  "quelle:plan-fachwerker-zierpflanzenbau": ["quelle:plan-gaertner-zierpflanzenbau","faq:eintragung#0"],
+  "quelle:plan-gaertner-baumschule": ["quelle:plan-fachwerker-baumschule","faq:eintragung#0"],
+  "quelle:plan-gaertner-friedhofsgaertnerei": ["quelle:plan-fachwerker-friedhofsgaertnerei","faq:eintragung#0"],
+  "quelle:plan-gaertner-galabau": ["quelle:plan-fachwerker-galabau","faq:eintragung#0","vorlage:interesse-gaertner"],
+  "quelle:plan-gaertner-gemuesebau": ["quelle:plan-fachwerker-gemuesebau","faq:eintragung#0"],
+  "quelle:plan-gaertner-obstbau": ["quelle:plan-fachwerker-obstbau","faq:eintragung#0"],
+  "quelle:plan-gaertner-staudengaertnerei": ["quelle:plan-fachwerker-staudengaertnerei","faq:eintragung#0"],
+  "quelle:plan-gaertner-zierpflanzenbau": ["quelle:plan-fachwerker-zierpflanzenbau","faq:eintragung#0"],
+  "quelle:rp-anerkennung": ["faq:ausbilder#2","quelle:gesetz-gartausbsteignv"],
+  "quelle:rp-gaertner-portal": ["artikel:zustaendige-stelle","quelle:berichtsheft-gaertner"],
+  "quelle:rp-unterlagen-ausbildende": ["quelle:ueba-deula"],
+  "quelle:schule-anmeldungen": ["quelle:rp-gaertner-portal"],
+  "quelle:urlaub-erwerbsgartenbau": ["quelle:urlaub-galabau","karte:urlaub"],
+  "quelle:verguetung-tabelle": ["quelle:plan-gaertner-galabau"],
+  "quelle:vwv-ausbildungsstaetten-lw": ["quelle:gesetz-gartausbsteignv","paragraf:bbig-27","paragraf:bbig-32"],
+  "quelle:vwv-bbig-zuvo": ["quelle:vwv-zustaendigkeiten-rp","artikel:zustaendige-stelle","paragraf:bbig-71","paragraf:bbig-81"],
+  "quelle:vwv-zustaendigkeiten-rp": ["quelle:vwv-bbig-zuvo","artikel:zustaendige-stelle"],
+  "vorlage:ap-anmeldung": ["vorlage:vertragsunterlagen","vorlage:betriebsbesuch-ankuendigung"],
+  "vorlage:aufloesungsvertrag": ["vorlage:vertragsaenderung","vorlage:vertragsverlaengerung-pruefung","quelle:bav-abmeldung"],
+  "vorlage:ausbildung-mit-kind": ["vorlage:teilzeitausbildung","vorlage:vertragsunterlagen"],
+  "vorlage:berichtsheft-erinnerung": ["vorlage:fehlende-unterlagen","vorlage:aufloesungsvertrag","artikel:berichtsheft"],
+  "vorlage:betriebsbesuch-ankuendigung": ["vorlage:vertragsunterlagen","vorlage:ap-anmeldung","liste:betriebsbesuch"],
+  "vorlage:externenpruefung": ["quelle:ha-096","faq:abschlusspruefung#4","vorlage:ap-anmeldung","quelle:anmeldebogen-extern"],
+  "vorlage:fehlende-unterlagen": ["vorlage:berichtsheft-erinnerung","vorlage:aufloesungsvertrag"],
+  "vorlage:interesse-fachwerker": ["vorlage:interesse-gaertner","vorlage:teilzeitausbildung","artikel:fw-grundlagen"],
+  "vorlage:interesse-gaertner": ["vorlage:interesse-fachwerker","vorlage:teilzeitausbildung","quelle:plan-gaertner-galabau"],
+  "vorlage:pruefung-nachteilsausgleich": ["vorlage:vertragsaenderung","vorlage:vertragsverlaengerung-pruefung"],
+  "vorlage:teilzeitausbildung": ["vorlage:ausbildung-mit-kind","vorlage:interesse-fachwerker","quelle:ha-174"],
+  "vorlage:vertragsaenderung": ["vorlage:aufloesungsvertrag","vorlage:vertragsverlaengerung-pruefung","quelle:bav-aenderung"],
+  "vorlage:vertragsunterlagen": ["vorlage:vertragsaenderung","vorlage:betriebsbesuch-ankuendigung"],
+  "vorlage:vertragsverlaengerung-pruefung": ["vorlage:aufloesungsvertrag","vorlage:vertragsaenderung","artikel:nichtbestehen"]
+  }
+};
+
+</script>
+<script>
 // lokaldb.js — Lokale Datenbank im Browser (IndexedDB, Fallback localStorage).
 // Speichert Nutzerdaten des Werkzeugs: Aktenvermerke, Notizen sowie eigene
 // Artikel und Dokumente. Alles bleibt auf diesem Gerät — keine Übertragung,
@@ -8292,6 +8779,95 @@ window.KONTAKT = {
     // das, statt einen leeren Link anzubieten.
     if (!e.url) return { href: "", extern: false, fehlt: true };
     return { href: e.url, extern: true };
+  }
+
+  /* ---------------- Passt inhaltlich dazu (N2) ---------------------- */
+  // Die Nachbarn stehen fertig in assets/js/nachbarn.js — beim Bauen aus den
+  // Vektoren des Semantik-Index gerechnet (tools/nachbarn_bauen.mjs). Deshalb
+  // steht die Zeile ohne den 150-MB-Modelldownload bereit und auch in der
+  // Einzeldatei, wo die Bedeutungssuche abgeschaltet ist.
+  // Gespeichert sind nur Schlüssel; Titel und Ziel löst die Oberfläche aus den
+  // Datenmodulen auf. Das hält die Datei klein und einen geänderten Titel
+  // überall gleich.
+  var NACHBAR_ART = { artikel: "Artikel", faq: "Frage", paragraf: "Gesetz",
+    vorlage: "Vorlage", liste: "Checkliste", karte: "Nachschlag" };
+
+  function nachbarZiel(schluessel) {
+    var i = String(schluessel).indexOf(":");
+    if (i < 0) return null;
+    var art = schluessel.slice(0, i), id = schluessel.slice(i + 1), t = null;
+    if (art === "artikel") {
+      t = artikelVon(id);
+      return t ? { art: art, titel: t.titel, href: "#/artikel/" + t.id } : null;
+    }
+    if (art === "faq") {
+      var teile = id.split("#"), a = artikelVon(teile[0]);
+      var f = a && (a.faq || [])[Number(teile[1])];
+      return f ? { art: art, titel: f.f, href: "#/artikel/" + a.id + "?faq=" + teile[1] } : null;
+    }
+    if (art === "paragraf") {
+      var trenn = id.lastIndexOf("-");
+      var werk = gesetzWerk(id.slice(0, trenn)), nr = id.slice(trenn + 1), p = null;
+      if (werk) werk.paragrafen.forEach(function (x) { if (x.nr === nr) p = x; });
+      return p ? { art: art, href: "#/gesetz/" + id,
+        titel: "§ " + p.nr + " " + werk.kurz + (p.titel ? " — " + p.titel : "") } : null;
+    }
+    if (art === "vorlage") {
+      ((window.VORLAGEN || {}).vorlagen || []).forEach(function (v) { if (v.id === id) t = v; });
+      return t ? { art: art, titel: t.titel, href: "#/vorlagen?id=" + t.id } : null;
+    }
+    if (art === "liste") {
+      t = checklisteVon(id);
+      return t ? { art: art, titel: t.titel, href: "#/checklisten?id=" + t.id } : null;
+    }
+    if (art === "karte") {
+      ((window.NACHSCHLAG || {}).karten || []).forEach(function (k) { if (k.id === id) t = k; });
+      return t ? { art: art, titel: t.titel, href: "#/nachschlag?karte=" + t.id } : null;
+    }
+    if (art === "quelle") {
+      ((window.QUELLEN || {}).eintraege || []).forEach(function (q) { if (q.id === id) t = q; });
+      if (!t) return null;
+      var z = quelleZiel(t);
+      // Ohne Fundstelle kein Link: manche Dokumente liegen dieser
+      // Auslieferung schlicht nicht bei (siehe Download-Center).
+      if (z.fehlt) return null;
+      return { art: art, titel: t.titel, href: z.href, extern: !!z.extern,
+        download: z.download || null, etikett: TYP_NAME[t.typ] || t.typ };
+    }
+    return null;
+  }
+
+  function nachbarChip(schluessel) {
+    var z = nachbarZiel(schluessel);
+    if (!z) return "";
+    return '<a class="chip chip--nachbar" href="' + esc(z.href) + '"' +
+      (z.download ? ' download="' + esc(z.download) + '"' : z.extern ? ' target="_blank" rel="noopener"' : "") +
+      '><span class="etikett">' + esc(z.etikett || NACHBAR_ART[z.art] || "") + "</span> " +
+      esc(z.titel) + (z.extern ? " ↗" : "") + "</a>";
+  }
+
+  // Zeile „Passt inhaltlich dazu“. `ausser` nimmt Schlüssel auf, die auf der
+  // Seite schon stehen — geprüfte Verweise gehen vor, dieselbe Sache soll
+  // nicht zweimal untereinander erscheinen. `kurz` liefert die schmale Form
+  // für Karten (ohne Überschrift, höchstens so viele Chips wie angegeben),
+  // sonst kommt der Block mit Überschrift.
+  function verwandtesHtml(schluessel, ausser, kurz) {
+    var liste = ((window.NACHBARN || {}).eintraege || {})[schluessel] || [];
+    if (!liste.length) return "";
+    var raus = {};
+    (ausser || []).forEach(function (k) { if (k) raus[k] = 1; });
+    var chips = liste.map(function (k) { return raus[k] ? "" : nachbarChip(k); })
+      .filter(Boolean);
+    if (kurz) chips = chips.slice(0, typeof kurz === "number" ? kurz : 3);
+    if (!chips.length) return "";
+    if (kurz) {
+      return '<div class="chipzeile-frei nachbarn"><span class="bw-klein bw-leise">Passt inhaltlich dazu:</span> ' +
+        chips.join("") + "</div>";
+    }
+    return '<h2>Passt inhaltlich dazu</h2>' +
+      '<p class="bw-klein bw-leise">Nach inhaltlicher Nähe vorgeschlagen — die Verweise darüber sind redaktionell geprüft.</p>' +
+      '<ul class="chipzeile nachbarn">' +
+      chips.map(function (c) { return "<li>" + c + "</li>"; }).join("") + "</ul>";
   }
 
   // Füllwörter, die für das Ranking ignoriert werden (außer die Anfrage
@@ -9122,6 +9698,12 @@ window.KONTAKT = {
       h += "</ul>";
     }
 
+    // Was inhaltlich in der Nähe liegt, aber nirgends von Hand verknüpft ist
+    // (N2). Schon Genanntes fliegt raus, damit nichts doppelt dasteht.
+    h += verwandtesHtml("artikel:" + a.id,
+      (a.verwandt || []).map(function (id) { return "artikel:" + id; })
+        .concat(passende.map(function (e) { return "quelle:" + e.id; })));
+
     if (window.LokalDB) {
       h += '<div class="notiz"><h2>Eigene Notiz</h2>' +
         '<div class="bw-card"><label for="artikel-notiz">Notiz zu diesem Artikel (bleibt lokal auf diesem Gerät)</label>' +
@@ -9271,7 +9853,12 @@ window.KONTAKT = {
           '<h3 style="margin-top:var(--bw-space-1)">' + (q ? S.highlight(e.titel, q) : esc(e.titel)) + "</h3>" +
           "<p>" + esc(e.beschreibung || "") + "</p>" +
           '<p class="bw-klein bw-leise">' + esc(e.herausgeber) + (e.stand ? " · Stand " + esc(e.stand) : "") + "</p>" +
-          '<span class="meta">' + aktion + "</span></li>";
+          '<span class="meta">' + aktion + "</span>" +
+          // Vom Dokument zurück in die Wissensbasis (N2): Was erklärt dieses
+          // Formular, welche Vorlage geht damit raus? Zwei Chips je Karte —
+          // die Liste bleibt sonst nicht mehr überfliegbar.
+          verwandtesHtml("quelle:" + e.id,
+            (e.artikel || []).map(function (id) { return "artikel:" + id; }), 2) + "</li>";
       }).join("");
       leer.hidden = eintraege.length > 0;
     }
@@ -9747,6 +10334,9 @@ window.KONTAKT = {
           return a ? '<li><a class="chip chip--frage" href="#/artikel/' + id + '">' + esc(a.titel) + "</a></li>" : "";
         }).join("") + "</ul>";
     }
+    h += verwandtesHtml("vorlage:" + v.id,
+      (v.artikel || []).map(function (id) { return "artikel:" + id; })
+        .concat(anhaengeVon(v, werte).map(function (id) { return "quelle:" + id; })));
     return h;
   }
 
@@ -10566,6 +11156,10 @@ window.KONTAKT = {
           return a ? '<li><a class="chip chip--frage" href="#/artikel/' + a.id + '">' + esc(a.titel) + "</a></li>" : "";
         }).join("") + "</ul>";
     }
+    // Vorgänger und Nachfolger stehen schon als Knöpfe über der Zeile.
+    h += verwandtesHtml("paragraf:" + schl + "-" + p.nr,
+      artikelIds.map(function (id) { return "artikel:" + id; }).concat(
+        [vor, nach].filter(Boolean).map(function (x) { return "paragraf:" + schl + "-" + x.nr; })));
     h += '<p class="stand-hinweis">Amtlicher Stand: ' + esc(werk.stand) + " · " + gesetzQuellenLinks(schl, p.nr) + "</p>";
     return h;
   }
@@ -10627,6 +11221,9 @@ window.KONTAKT = {
         }
       });
       if (chips) h += '<div class="chipzeile-frei">' + chips + "</div>";
+      h += verwandtesHtml("karte:" + k.id,
+        (k.artikel || []).map(function (id) { return "artikel:" + id; })
+          .concat((k.quellen || []).map(function (id) { return "quelle:" + id; })), true);
       h += "</section>";
     });
     h += '<p class="stand-hinweis">' + esc(N.hinweis) + " Stand: " + esc(N.stand) + ".</p>";
@@ -11076,6 +11673,8 @@ window.KONTAKT = {
           return a ? '<li><a class="chip chip--frage" href="#/artikel/' + id + '">' + esc(a.titel) + "</a></li>" : "";
         }).join("") + "</ul>";
     }
+    h += verwandtesHtml("liste:" + l.id,
+      (l.artikel || []).map(function (id) { return "artikel:" + id; }));
     return h;
   }
 
@@ -12711,9 +13310,11 @@ window.MODULE = [
     //     Rangliste stützt Werkzeug-Navigation UND Wissensantwort.
     //     Seit N1 stecken auch die 338 Gesetzesparagrafen im Index. Sie
     //     würden bei 16 Plätzen die Artikel verdrängen, deshalb ein
-    //     größerer Korb — die Rechnung über 529 Einträge kostet nichts.
+    //     größerer Korb — die Rechnung über 644 Einträge kostet nichts.
+    //     Mit den Quellen (N2) wuchs der Index um gut ein Fünftel; der Korb
+    //     wächst mit, damit dieselben Treffer wie zuvor darin Platz haben.
     var semP = (window.AzubiSemantik && window.AzubiSemantik.bereit())
-      ? window.AzubiSemantik.rang(frage, 40).catch(function () { return null; })
+      ? window.AzubiSemantik.rang(frage, 48).catch(function () { return null; })
       : Promise.resolve(null);
     return semP.then(function (sem) {
       // Werkzeugfrage? („Wo finde ich …?", „Was kannst du?") — aus dem

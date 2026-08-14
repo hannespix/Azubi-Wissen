@@ -806,12 +806,36 @@ Abhängigkeit, ohne zweiten Download.
   besteht") führen erwartungsgemäß zu den allgemeinen Prüfungsnormen —
   dort trägt der Artikel die Auskunft und verlinkt § 21 selbst.
   Test: `mini_n1` (25). *(PR #72)*
-- **N2 Verwandte Inhalte ohne Modell** — die nächsten Nachbarn jedes
-  Eintrags werden **beim Bauen** mitgeschrieben. Dadurch funktionieren
-  „Verwandte Inhalte" ohne den 150-MB-Download und damit auch in der
-  Einzeldatei, wo die Bedeutungssuche abgeschaltet ist.
-  *DoD:* Nachbarn im Index; Zeile an Artikeln, Quellen und Vorlagen;
-  Einzeldatei zeigt sie; Zuwachs der Indexgröße dokumentiert.
+- **N2 Verwandte Inhalte ohne Modell** ✅ — die nächsten Nachbarn jedes
+  Eintrags werden **beim Bauen** gerechnet und als reine Schlüsselliste
+  abgelegt (`assets/js/nachbarn.js`, **40 KB**, 458 Einträge). Titel und
+  Ziel löst die Oberfläche aus den Datenmodulen auf — deshalb bleibt die
+  Datei klein und ein geänderter Titel überall gleich. **„Passt inhaltlich
+  dazu"** steht damit an Artikeln, Paragrafen, Vorlagen, Checklisten,
+  Nachschlag-Karten und Dokumentkarten — **ohne den 150-MB-Download und
+  auch in der Einzeldatei**, wo die Bedeutungssuche abgeschaltet ist.
+  Geprüfte Verweise stehen darüber und werden nicht doppelt gezeigt.
+  Damit Dokumente überhaupt Nachbarn haben können, wanderten die **116
+  Quellen** in den Index (528 → 644 Einträge, 1.529 → 1.870 KB); der
+  Trefferkorb des Assistenten wuchs mit (40 → 48), damit die Normen aus N1
+  darin Platz behalten — `mini_n1` bestätigt das unverändert (§ 21 BBiG
+  weiter auf Platz 1).
+  Auswahl: höchstens 6 Nachbarn, davon 2 je Art (sonst hängen an einem
+  Prüfungsartikel sechs Paragrafen und keine Vorlage). Schwelle **0,90**,
+  gemessen: zwei beliebige Einträge ähneln sich im Median mit 0,840, im
+  99. Perzentil mit 0,919 — die Auswahl trifft also die Rangfolge, die
+  Schwelle schneidet den Rest ab; in den Stichproben liegt der letzte
+  brauchbare Treffer bei 0,899, der erste unpassende bei 0,898.
+  Zwei Regeln halten die Zeile brauchbar statt bloß rechnerisch richtig:
+  an einer Dokumentkarte steht höchstens **ein** weiteres Dokument (sonst
+  verweist ein Ausbildungsplan auf zwei Ausbildungspläne statt zurück in
+  die Wissensbasis), und eine Zeile, die **nur** auf Dokumente derselben
+  Sorte führt, entfällt ganz — die 14 Ausbildungsordnungen ähneln einander
+  nur, weil sie Ausbildungsordnungen sind. Auf der Paragrafenseite fallen
+  Vorgänger und Nachfolger heraus, weil sie schon als Knöpfe darüber stehen.
+  Werkzeug: `tools/nachbarn_bauen.mjs` (kein Modell, Sekunden; läuft am
+  Ende von `semantik_index_bauen.mjs` automatisch mit).
+  Test: `mini_n2` (33). *(PR #76)*
 - **N3 Verknüpfungs-Vorschläge** — `tools/verknuepfungen_pruefen.mjs`
   meldet Paare, die semantisch nah beieinander liegen, aber keinen
   `[[querverweis]]` teilen. Redaktionswerkzeug für die Inhaltspflege,

@@ -39,7 +39,7 @@ function datenLaden() {
   const fenster = {};
   for (const datei of ["assets/js/wissen.js", "assets/js/nachschlag.js",
     "assets/js/vorlagen.js", "assets/js/checklisten.js", "assets/js/module.js",
-    "assets/js/gesetzestexte.js"]) {
+    "assets/js/gesetzestexte.js", "assets/js/quellen.js"]) {
     const code = fs.readFileSync(path.join(REPO, datei), "utf8");
     new Function("window", code)(fenster);
   }
@@ -153,6 +153,18 @@ for (const schl of Object.keys(GESETZE)) {
 }
 console.log(`\r${pAnzahl} Paragrafen eingebettet.        `);
 
+// ---- Formulare, Merkblätter und geprüfte Links (N2): Damit ein Artikel
+// auch das Dokument nennen kann, das niemand von Hand zugeordnet hat.
+// Das Ziel bleibt offen — die Oberfläche löst es über quelleZiel() auf,
+// weil lokale Datei und Online-Fundstelle je nach Auslieferung wechseln.
+const QUELLEN = (DATEN.QUELLEN || {}).eintraege || [];
+for (const q of QUELLEN) {
+  const text = klartext(`${q.titel}. ${q.beschreibung || ""} ` +
+    `Herausgeber: ${q.herausgeber || ""}. Stichworte: ${(q.stichworte || []).join(", ")}`).slice(0, 900);
+  eintraege.push({ typ: "quelle", id: q.id, titel: q.titel, v: await einbetten(text) });
+}
+console.log(`${QUELLEN.length} Quellen eingebettet.`);
+
 const index = {
   format: "azubi-semantik-index", version: 2, modell: MODELL, dim: 384,
   praefixFrage: "query: ", stand: W.stand || "", eintraege
@@ -160,3 +172,7 @@ const index = {
 fs.mkdirSync(path.dirname(ZIEL), { recursive: true });
 fs.writeFileSync(ZIEL, JSON.stringify(index));
 console.log(`OK -> ${ZIEL} (${(fs.statSync(ZIEL).size / 1024).toFixed(0)} KB, ${eintraege.length} Einträge)`);
+
+// ---- Nachbarn gleich mitziehen (N2), damit sie nie veralten. Der Schritt
+// braucht kein Modell und läuft in Sekunden — Einzelheiten im Werkzeug.
+await import(pathToFileURL(path.join(REPO, "tools", "nachbarn_bauen.mjs")).href);

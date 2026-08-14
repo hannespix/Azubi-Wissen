@@ -45,6 +45,7 @@ python3 -m http.server 8000     # dann http://localhost:8000/
 | **Download-Center** | 116 Quellen im Baum: RP-Formulare (BAV!), Ausbildungspläne, 49 lokale PDFs, alle 14 Ausbildungsordnungen der grünen Berufe, Gesetze, **Verwaltungsvorschriften des Landes (VwV Berichtsheft, VOAPLandw, BBiG-ZuVO) und BIBB-Hauptausschuss-Empfehlungen**, BA-Förderung, SVLFG, öffentliche Portale |
 | **KI-Assistent (lokal)** | Antworten ausschließlich aus der Wissensbasis mit Quellenangaben (§§ + Artikel) — rechnet (Urlaub, Vergütung, Teilzeit, Probezeit, Noten), kennt alle Module, bietet passende Vorlagen/Checklisten/Formulare an; keine Eingabe verlässt das Gerät, keine Rechtsberatung |
 | **Bedeutungssuche (optional)** | Auf Klick lädt der Assistent ein lokales Sprachmodell (multilingual-e5-small, quantisiert, ≈ 150 MB aus `assets/vendor/semantik/`) und versteht dann frei formulierte Fragen („Chef zahlt zu spät" → Vergütung). Komplett offline, keine Cloud; ohne Modell arbeitet die Stichwortsuche unverändert. **Im Index stecken auch die 335 Gesetzesparagrafen** — „Azubi durchgefallen, Ausbildung verlängern" landet bei § 21 BBiG, obwohl die Norm keins dieser Wörter enthält; passende §§ bietet der Assistent als Sprungziel an. Index neu bauen nach Inhaltsänderungen: `npm i @huggingface/transformers && node tools/semantik_index_bauen.mjs` |
+| **Passt inhaltlich dazu** | An Artikeln, Paragrafen, Vorlagen, Checklisten, Nachschlag-Karten und Dokumenten steht, was inhaltlich in der Nähe liegt, aber nirgends von Hand verknüpft ist — ein Artikel nennt die Norm, ein Formular den erklärenden Artikel. Die Nachbarn werden **beim Bauen** aus denselben Vektoren gerechnet und als Schlüsselliste abgelegt (`assets/js/nachbarn.js`, 40 KB): **kein Modell-Download nötig**, funktioniert deshalb auch in der Einzeldatei. Geprüfte Verweise stehen darüber und werden nicht doppelt gezeigt |
 | **Merkliste & Druck** | Stern an Artikeln und Karten → Schnellzugriff auf der Startseite; „Karte drucken" macht aus Jahreskreis, Fahrplan & Co. ein A4-Handout für Schulbesuche |
 | **Export & Vermerk** | PDF-Handout je Zielgruppe und Detailgrad; formulargestützter Aktenvermerk mit Rechtsgrundlagen-Bausteinen und Autosave |
 | **Eigene Inhalte** | Artikel und Dokumente selbst anlegen (lokal, überall auffindbar) + **Komplettsicherung** als JSON: eigene Inhalte, Vermerke, Notizen, Checklisten-Stände und Einstellungen — für Netzlaufwerk-Ablage und Gerätewechsel |
@@ -66,6 +67,11 @@ in den Dateiköpfen): `wissen.js` (Artikel), `berufe.js`, `quellen.js`,
   im Gartenbau" (Netzwerkfassung 1.2, 31.07.2026) — bei neuer Fassung
   Artikel und Quellenvermerke nachziehen. Der personenbezogene Kontaktteil
   der Handreichung wird bewusst **nicht** im Repo geführt.
+- **Bedeutungsnetz** (Semantik-Index + „Passt inhaltlich dazu"): nach
+  Inhaltsänderungen `npm i @huggingface/transformers && node
+  tools/semantik_index_bauen.mjs` — der Lauf braucht rund zehn Minuten und
+  schreibt die Nachbarn gleich mit. Wurden nur Titel oder Verweise geändert,
+  genügt `node tools/nachbarn_bauen.mjs` (Sekunden, ohne Modell).
 - Nach Inhaltsänderungen: `python3 tools/build_singlefile.py --release`
   ausführen und die neue `azubi-wissen-offline.html` mitcommitten.
 
@@ -75,6 +81,7 @@ in den Dateiköpfen): `wissen.js` (Artikel), `berufe.js`, `quellen.js`,
 python3 tools/check_offline.py              # Offline-/CDN-Gate (läuft im CI)
 python3 tools/build_singlefile.py           # dist/index.html (unversioniert)
 python3 tools/build_singlefile.py --release # + azubi-wissen-offline.html
+node tools/nachbarn_bauen.mjs --bericht     # Nachbarn messen, nichts schreiben
 node --check assets/js/*.js                 # Syntax
 ```
 
@@ -87,13 +94,14 @@ sw.js                          Service Worker (versionierte App-Shell)
 azubi-wissen-offline.html      Einzeldatei-Auslieferung (generiert, versioniert)
 assets/js/wissen.js …          Datenmodule (Inhalte — hier pflegen)
 assets/js/kontakt.js           Anbieter-/Kontaktangaben (eine Quelle für Seite + Assistent)
+assets/js/nachbarn.js          „Passt inhaltlich dazu" (generiert — nicht von Hand ändern)
 assets/js/app.js               Ansichten, Suche, Rechner, Jahreskreis, Merkliste
 assets/js/assistent.js         lokaler KI-Assistent (Retrieval + Synthese)
 assets/js/export.js            PDF-Handout + Aktenvermerk-Generator
 assets/js/lokaldb.js           lokale Datenbank (IndexedDB/localStorage)
 assets/css/app.css             App-Komponenten (nur --bw-*-Tokens) + Druck (A4)
 formulare/                     36 lokale PDFs mit Herkunftsnachweis (QUELLEN.md)
-tools/                         Offline-Check, Single-File-Builder
+tools/                         Offline-Check, Single-File-Builder, Index + Nachbarn
 ```
 
 ## Rechtliches

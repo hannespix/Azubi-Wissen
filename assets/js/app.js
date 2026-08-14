@@ -389,6 +389,95 @@
     return { href: e.url, extern: true };
   }
 
+  /* ---------------- Passt inhaltlich dazu (N2) ---------------------- */
+  // Die Nachbarn stehen fertig in assets/js/nachbarn.js — beim Bauen aus den
+  // Vektoren des Semantik-Index gerechnet (tools/nachbarn_bauen.mjs). Deshalb
+  // steht die Zeile ohne den 150-MB-Modelldownload bereit und auch in der
+  // Einzeldatei, wo die Bedeutungssuche abgeschaltet ist.
+  // Gespeichert sind nur Schlüssel; Titel und Ziel löst die Oberfläche aus den
+  // Datenmodulen auf. Das hält die Datei klein und einen geänderten Titel
+  // überall gleich.
+  var NACHBAR_ART = { artikel: "Artikel", faq: "Frage", paragraf: "Gesetz",
+    vorlage: "Vorlage", liste: "Checkliste", karte: "Nachschlag" };
+
+  function nachbarZiel(schluessel) {
+    var i = String(schluessel).indexOf(":");
+    if (i < 0) return null;
+    var art = schluessel.slice(0, i), id = schluessel.slice(i + 1), t = null;
+    if (art === "artikel") {
+      t = artikelVon(id);
+      return t ? { art: art, titel: t.titel, href: "#/artikel/" + t.id } : null;
+    }
+    if (art === "faq") {
+      var teile = id.split("#"), a = artikelVon(teile[0]);
+      var f = a && (a.faq || [])[Number(teile[1])];
+      return f ? { art: art, titel: f.f, href: "#/artikel/" + a.id + "?faq=" + teile[1] } : null;
+    }
+    if (art === "paragraf") {
+      var trenn = id.lastIndexOf("-");
+      var werk = gesetzWerk(id.slice(0, trenn)), nr = id.slice(trenn + 1), p = null;
+      if (werk) werk.paragrafen.forEach(function (x) { if (x.nr === nr) p = x; });
+      return p ? { art: art, href: "#/gesetz/" + id,
+        titel: "§ " + p.nr + " " + werk.kurz + (p.titel ? " — " + p.titel : "") } : null;
+    }
+    if (art === "vorlage") {
+      ((window.VORLAGEN || {}).vorlagen || []).forEach(function (v) { if (v.id === id) t = v; });
+      return t ? { art: art, titel: t.titel, href: "#/vorlagen?id=" + t.id } : null;
+    }
+    if (art === "liste") {
+      t = checklisteVon(id);
+      return t ? { art: art, titel: t.titel, href: "#/checklisten?id=" + t.id } : null;
+    }
+    if (art === "karte") {
+      ((window.NACHSCHLAG || {}).karten || []).forEach(function (k) { if (k.id === id) t = k; });
+      return t ? { art: art, titel: t.titel, href: "#/nachschlag?karte=" + t.id } : null;
+    }
+    if (art === "quelle") {
+      ((window.QUELLEN || {}).eintraege || []).forEach(function (q) { if (q.id === id) t = q; });
+      if (!t) return null;
+      var z = quelleZiel(t);
+      // Ohne Fundstelle kein Link: manche Dokumente liegen dieser
+      // Auslieferung schlicht nicht bei (siehe Download-Center).
+      if (z.fehlt) return null;
+      return { art: art, titel: t.titel, href: z.href, extern: !!z.extern,
+        download: z.download || null, etikett: TYP_NAME[t.typ] || t.typ };
+    }
+    return null;
+  }
+
+  function nachbarChip(schluessel) {
+    var z = nachbarZiel(schluessel);
+    if (!z) return "";
+    return '<a class="chip chip--nachbar" href="' + esc(z.href) + '"' +
+      (z.download ? ' download="' + esc(z.download) + '"' : z.extern ? ' target="_blank" rel="noopener"' : "") +
+      '><span class="etikett">' + esc(z.etikett || NACHBAR_ART[z.art] || "") + "</span> " +
+      esc(z.titel) + (z.extern ? " ↗" : "") + "</a>";
+  }
+
+  // Zeile „Passt inhaltlich dazu“. `ausser` nimmt Schlüssel auf, die auf der
+  // Seite schon stehen — geprüfte Verweise gehen vor, dieselbe Sache soll
+  // nicht zweimal untereinander erscheinen. `kurz` liefert die schmale Form
+  // für Karten (ohne Überschrift, höchstens so viele Chips wie angegeben),
+  // sonst kommt der Block mit Überschrift.
+  function verwandtesHtml(schluessel, ausser, kurz) {
+    var liste = ((window.NACHBARN || {}).eintraege || {})[schluessel] || [];
+    if (!liste.length) return "";
+    var raus = {};
+    (ausser || []).forEach(function (k) { if (k) raus[k] = 1; });
+    var chips = liste.map(function (k) { return raus[k] ? "" : nachbarChip(k); })
+      .filter(Boolean);
+    if (kurz) chips = chips.slice(0, typeof kurz === "number" ? kurz : 3);
+    if (!chips.length) return "";
+    if (kurz) {
+      return '<div class="chipzeile-frei nachbarn"><span class="bw-klein bw-leise">Passt inhaltlich dazu:</span> ' +
+        chips.join("") + "</div>";
+    }
+    return '<h2>Passt inhaltlich dazu</h2>' +
+      '<p class="bw-klein bw-leise">Nach inhaltlicher Nähe vorgeschlagen — die Verweise darüber sind redaktionell geprüft.</p>' +
+      '<ul class="chipzeile nachbarn">' +
+      chips.map(function (c) { return "<li>" + c + "</li>"; }).join("") + "</ul>";
+  }
+
   // Füllwörter, die für das Ranking ignoriert werden (außer die Anfrage
   // besteht nur aus solchen Wörtern).
   var STOP = {};
@@ -1217,6 +1306,12 @@
       h += "</ul>";
     }
 
+    // Was inhaltlich in der Nähe liegt, aber nirgends von Hand verknüpft ist
+    // (N2). Schon Genanntes fliegt raus, damit nichts doppelt dasteht.
+    h += verwandtesHtml("artikel:" + a.id,
+      (a.verwandt || []).map(function (id) { return "artikel:" + id; })
+        .concat(passende.map(function (e) { return "quelle:" + e.id; })));
+
     if (window.LokalDB) {
       h += '<div class="notiz"><h2>Eigene Notiz</h2>' +
         '<div class="bw-card"><label for="artikel-notiz">Notiz zu diesem Artikel (bleibt lokal auf diesem Gerät)</label>' +
@@ -1366,7 +1461,12 @@
           '<h3 style="margin-top:var(--bw-space-1)">' + (q ? S.highlight(e.titel, q) : esc(e.titel)) + "</h3>" +
           "<p>" + esc(e.beschreibung || "") + "</p>" +
           '<p class="bw-klein bw-leise">' + esc(e.herausgeber) + (e.stand ? " · Stand " + esc(e.stand) : "") + "</p>" +
-          '<span class="meta">' + aktion + "</span></li>";
+          '<span class="meta">' + aktion + "</span>" +
+          // Vom Dokument zurück in die Wissensbasis (N2): Was erklärt dieses
+          // Formular, welche Vorlage geht damit raus? Zwei Chips je Karte —
+          // die Liste bleibt sonst nicht mehr überfliegbar.
+          verwandtesHtml("quelle:" + e.id,
+            (e.artikel || []).map(function (id) { return "artikel:" + id; }), 2) + "</li>";
       }).join("");
       leer.hidden = eintraege.length > 0;
     }
@@ -1842,6 +1942,9 @@
           return a ? '<li><a class="chip chip--frage" href="#/artikel/' + id + '">' + esc(a.titel) + "</a></li>" : "";
         }).join("") + "</ul>";
     }
+    h += verwandtesHtml("vorlage:" + v.id,
+      (v.artikel || []).map(function (id) { return "artikel:" + id; })
+        .concat(anhaengeVon(v, werte).map(function (id) { return "quelle:" + id; })));
     return h;
   }
 
@@ -2661,6 +2764,10 @@
           return a ? '<li><a class="chip chip--frage" href="#/artikel/' + a.id + '">' + esc(a.titel) + "</a></li>" : "";
         }).join("") + "</ul>";
     }
+    // Vorgänger und Nachfolger stehen schon als Knöpfe über der Zeile.
+    h += verwandtesHtml("paragraf:" + schl + "-" + p.nr,
+      artikelIds.map(function (id) { return "artikel:" + id; }).concat(
+        [vor, nach].filter(Boolean).map(function (x) { return "paragraf:" + schl + "-" + x.nr; })));
     h += '<p class="stand-hinweis">Amtlicher Stand: ' + esc(werk.stand) + " · " + gesetzQuellenLinks(schl, p.nr) + "</p>";
     return h;
   }
@@ -2722,6 +2829,9 @@
         }
       });
       if (chips) h += '<div class="chipzeile-frei">' + chips + "</div>";
+      h += verwandtesHtml("karte:" + k.id,
+        (k.artikel || []).map(function (id) { return "artikel:" + id; })
+          .concat((k.quellen || []).map(function (id) { return "quelle:" + id; })), true);
       h += "</section>";
     });
     h += '<p class="stand-hinweis">' + esc(N.hinweis) + " Stand: " + esc(N.stand) + ".</p>";
@@ -3171,6 +3281,8 @@
           return a ? '<li><a class="chip chip--frage" href="#/artikel/' + id + '">' + esc(a.titel) + "</a></li>" : "";
         }).join("") + "</ul>";
     }
+    h += verwandtesHtml("liste:" + l.id,
+      (l.artikel || []).map(function (id) { return "artikel:" + id; }));
     return h;
   }
 
