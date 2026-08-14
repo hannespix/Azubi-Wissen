@@ -836,20 +836,35 @@ Abhängigkeit, ohne zweiten Download.
   Werkzeug: `tools/nachbarn_bauen.mjs` (kein Modell, Sekunden; läuft am
   Ende von `semantik_index_bauen.mjs` automatisch mit).
   Test: `mini_n2` (33). *(PR #76)*
-- **N3 Verknüpfungs-Vorschläge** — `tools/verknuepfungen_pruefen.mjs`
-  meldet Paare, die semantisch nah beieinander liegen, aber keinen
-  `[[querverweis]]` teilen. Redaktionswerkzeug für die Inhaltspflege,
-  **nicht** in der Oberfläche.
-  *DoD:* Bericht mit Schwellenwert und Begründung des Schwellenwerts;
-  im Pflegeabschnitt der README dokumentiert.
-- **N4 Themen-Cluster** *(geplant — Freigabe offen)* — automatische
-  Gruppen konkurrieren mit den neun fachlich gesetzten Themenbereichen;
-  in der Oberfläche wäre das ein Rückschritt. Sinnvoll dagegen als
-  **Wartungsbericht**: Welcher Artikel liegt näher an einem fremden
-  Themenbereich als an seinem eigenen? Das ist ein Redaktionshinweis,
-  keine Nutzerfunktion.
-  *DoD:* Bericht als Teil von N3s Werkzeug; Entscheidung über eine
-  sichtbare Cluster-Ansicht bleibt beim Fachbereich.
+- **N3 Verknüpfungs-Vorschläge** ✅ — `tools/verknuepfungen_pruefen.mjs`
+  meldet vier Sorten offener Verbindungen: **Artikelpaare ohne
+  Querverweis** (14), **Normen, die ein naher Artikel nie nennt** (9
+  Artikel), **Dokumente ohne `artikel:`-Zuordnung** (5) und die
+  Themen-Drift aus N4. Redaktionswerkzeug für die Inhaltspflege, **nicht**
+  in der Oberfläche: es ändert nichts und schlägt nur vor. Kein Modell,
+  keine npm-Abhängigkeit, Laufzeit Sekunden — es rechnet auf den fertigen
+  Vektoren. `--top N` kürzt, `--md` gibt Markdown aus.
+  Zitate erkennt es in allen Schreibweisen des Werkzeugs (`§ 8 JArbSchG`,
+  `§ 22 Abs. 1 BBiG`, `§§ 34–36 BBiG`, `§§ 22, 23 JArbSchG`) — inklusive
+  der Rechtsgrundlagen-Liste, sonst meldet der Bericht zitierte Normen als
+  fehlend.
+  Die Schwellen sind nicht gesetzt, sondern **gemessen und im Bericht
+  ausgewiesen**: jede der drei Vergleichsarten bekommt ihre Verteilung
+  (Median, 90 %, 99 %, Maximum) und das Perzentil der eingestellten
+  Schwelle. Artikelpaare 0,90 (93,9. Perzentil), Normen 0,91 (99,5.),
+  Dokumente 0,90 (99,6.). Bei 0,92 meldet der Artikelabschnitt **nichts**
+  mehr — die Querverlinkung aus R2 sitzt.
+  Test: `mini_n3` (21). *(PR #77)*
+- **N4 Themen-Cluster** — **Wartungsbericht ✅, sichtbare Ansicht weiter
+  offen.** Automatische Gruppen konkurrieren mit den neun fachlich
+  gesetzten Themenbereichen; in der Oberfläche wäre das ein Rückschritt.
+  Als Abschnitt 4 von N3s Werkzeug beantwortet der Bericht die nützliche
+  Hälfte: Welcher Artikel liegt im Schnitt näher an einem fremden
+  Themenbereich als an seinem eigenen? 18 Artikel driften, am deutlichsten
+  „Nachteilsausgleich, Fachpraktiker & Förderwege" (+0,043 Richtung
+  Fachwerker) und „Überstunden & Mehrarbeit" (+0,034 Richtung Arbeitszeit).
+  Das sind Redaktionshinweise, keine Umsortierung — die **Entscheidung über
+  eine sichtbare Cluster-Ansicht bleibt beim Fachbereich**.
 - **N5 Belegte Antworten (RAG)** *(gesperrt — Bedingungen unten)* — die
   Retrieval-Hälfte läuft bereits: `assistent.js` sucht die nächstliegenden
   Inhalte und setzt die Antwort aus Bausteinen mit §§-Quellenangaben
