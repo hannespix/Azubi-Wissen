@@ -464,6 +464,15 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 
 .chipzeile-frei { display: flex; flex-wrap: wrap; gap: var(--bw-space-1); align-items: center; margin-top: var(--bw-space-2); }
 
+/* --- „Passt inhaltlich dazu“ (N2) --------------------------------- */
+/* Automatisch vorgeschlagen, also bewusst zurückhaltender als die
+   geprüften Verweise darüber: normale Schriftstärke, das Art-Etikett
+   trägt die Einordnung. Keine eigene Farbe — die Gliederung macht Grau. */
+.chip--nachbar { font-weight: 400; display: inline-flex; align-items: center; gap: 0.5em; text-align: left; }
+.chip--nachbar .etikett { flex: none; }
+.nachbarn { margin-top: var(--bw-space-1); }
+.karte .nachbarn { margin-top: var(--bw-space-2); padding-top: var(--bw-space-2); border-top: 1px solid var(--bw-grau-200); }
+
 /* --- Fokus sichtbar (verstärkt, ohne Spezifitätsdruck) ------------ */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
   outline: 2px solid var(--bw-schwarz); outline-offset: 2px;

@@ -680,9 +680,11 @@
     //     Rangliste stützt Werkzeug-Navigation UND Wissensantwort.
     //     Seit N1 stecken auch die 338 Gesetzesparagrafen im Index. Sie
     //     würden bei 16 Plätzen die Artikel verdrängen, deshalb ein
-    //     größerer Korb — die Rechnung über 529 Einträge kostet nichts.
+    //     größerer Korb — die Rechnung über 644 Einträge kostet nichts.
+    //     Mit den Quellen (N2) wuchs der Index um gut ein Fünftel; der Korb
+    //     wächst mit, damit dieselben Treffer wie zuvor darin Platz haben.
     var semP = (window.AzubiSemantik && window.AzubiSemantik.bereit())
-      ? window.AzubiSemantik.rang(frage, 40).catch(function () { return null; })
+      ? window.AzubiSemantik.rang(frage, 48).catch(function () { return null; })
       : Promise.resolve(null);
     return semP.then(function (sem) {
       // Werkzeugfrage? („Wo finde ich …?", „Was kannst du?") — aus dem
