@@ -72,6 +72,17 @@ in den Dateiköpfen): `wissen.js` (Artikel), `berufe.js`, `quellen.js`,
   tools/semantik_index_bauen.mjs` — der Lauf braucht rund zehn Minuten und
   schreibt die Nachbarn gleich mit. Wurden nur Titel oder Verweise geändert,
   genügt `node tools/nachbarn_bauen.mjs` (Sekunden, ohne Modell).
+- **Verknüpfungen prüfen** (nach jeder Inhaltstranche empfohlen):
+  `node tools/verknuepfungen_pruefen.mjs` meldet, was inhaltlich
+  zusammengehört, aber nicht verknüpft ist — Artikelpaare ohne
+  `[[querverweis]]`, Normen, die ein naher Artikel nie nennt, Dokumente ohne
+  `artikel:`-Zuordnung und Artikel, die näher an einem fremden Themenbereich
+  liegen als an ihrem eigenen. Das Werkzeug **ändert nichts** und erscheint
+  nicht in der Oberfläche: es schlägt vor, die Redaktion entscheidet. Jeder
+  Bericht nennt am Ende die gemessenen Ähnlichkeitsverteilungen und das
+  Perzentil der eingestellten Schwelle — wer mehr Vorschläge sehen will,
+  senkt sie im Kopf der Datei. `--top 10` kürzt je Abschnitt, `--md` gibt
+  Markdown zum Ablegen aus.
 - Nach Inhaltsänderungen: `python3 tools/build_singlefile.py --release`
   ausführen und die neue `azubi-wissen-offline.html` mitcommitten.
 
@@ -82,6 +93,7 @@ python3 tools/check_offline.py              # Offline-/CDN-Gate (läuft im CI)
 python3 tools/build_singlefile.py           # dist/index.html (unversioniert)
 python3 tools/build_singlefile.py --release # + azubi-wissen-offline.html
 node tools/nachbarn_bauen.mjs --bericht     # Nachbarn messen, nichts schreiben
+node tools/verknuepfungen_pruefen.mjs       # Redaktionsbericht: fehlende Verweise
 node --check assets/js/*.js                 # Syntax
 ```
 
@@ -101,7 +113,7 @@ assets/js/export.js            PDF-Handout + Aktenvermerk-Generator
 assets/js/lokaldb.js           lokale Datenbank (IndexedDB/localStorage)
 assets/css/app.css             App-Komponenten (nur --bw-*-Tokens) + Druck (A4)
 formulare/                     36 lokale PDFs mit Herkunftsnachweis (QUELLEN.md)
-tools/                         Offline-Check, Single-File-Builder, Index + Nachbarn
+tools/                         Offline-Check, Single-File-Builder, Index + Nachbarn, Redaktionsbericht
 ```
 
 ## Rechtliches
