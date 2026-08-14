@@ -2764,8 +2764,10 @@
           return a ? '<li><a class="chip chip--frage" href="#/artikel/' + a.id + '">' + esc(a.titel) + "</a></li>" : "";
         }).join("") + "</ul>";
     }
+    // Vorgänger und Nachfolger stehen schon als Knöpfe über der Zeile.
     h += verwandtesHtml("paragraf:" + schl + "-" + p.nr,
-      artikelIds.map(function (id) { return "artikel:" + id; }));
+      artikelIds.map(function (id) { return "artikel:" + id; }).concat(
+        [vor, nach].filter(Boolean).map(function (x) { return "paragraf:" + schl + "-" + x.nr; })));
     h += '<p class="stand-hinweis">Amtlicher Stand: ' + esc(werk.stand) + " · " + gesetzQuellenLinks(schl, p.nr) + "</p>";
     return h;
   }

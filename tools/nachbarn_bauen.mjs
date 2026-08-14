@@ -64,6 +64,16 @@ const idx = JSON.parse(fs.readFileSync(INDEX, "utf8"));
 const E = idx.eintraege;
 if (!E || !E.length) { console.error("Kein Index unter " + INDEX); process.exit(1); }
 
+// Dokumentsorte je Quelle (formular, plan, gesetz …). Sie steht nicht im
+// Index, wird aber gebraucht, um belanglose Zeilen zu erkennen: die 14
+// Ausbildungsordnungen ähneln einander nur deshalb, weil sie
+// Ausbildungsordnungen sind — ein Verweis von der einen auf die andere sagt
+// niemandem etwas.
+const fenster = {};
+new Function("window", fs.readFileSync(path.join(REPO, "assets", "js", "quellen.js"), "utf8"))(fenster);
+const SORTE = {};
+((fenster.QUELLEN || {}).eintraege || []).forEach(q => { SORTE[q.id] = q.typ; });
+
 // Vektoren in einen flachen Float32Array — 644 × 384 Werte lassen sich so
 // deutlich schneller multiplizieren als über Objekt-Arrays.
 const DIM = idx.dim || E[0].v.length;
@@ -92,10 +102,15 @@ for (let i = 0; i < E.length; i++) {
   if (kandidaten.length) alleWerte.push(kandidaten[0].s);
 
   const gewaehlt = [], jeArt = {}, jeHeimat = {};
+  // Die Zeile an einer Dokumentkarte soll zurück in die Wissensbasis führen.
+  // Ohne Deckelung stehen an einem Ausbildungsplan zwei weitere
+  // Ausbildungspläne — richtig gerechnet, aber ein Schritt zur Seite statt
+  // hinein. Deshalb dort höchstens ein weiteres Dokument.
+  const proArt = a => (E[i].typ === "quelle" && a === "quelle") ? 1 : PRO_ART;
   for (const k of kandidaten) {
     if (gewaehlt.length >= MAX || k.s < SCHWELLE) break;
     const e = E[k.j], a = art(e), hm = heimat(e);
-    if ((jeArt[a] || 0) >= PRO_ART) continue;
+    if ((jeArt[a] || 0) >= proArt(a)) continue;
     // Höchstens ein Treffer je Artikel: entweder der Artikel oder eine
     // seiner Fragen, nicht beides.
     if (hm && jeHeimat[hm]) continue;
@@ -103,7 +118,13 @@ for (let i = 0; i < E.length; i++) {
     if (hm) jeHeimat[hm] = 1;
     gewaehlt.push(schluessel(e));
   }
-  if (gewaehlt.length) { nachbarn[meinSchluessel] = gewaehlt; mitNachbarn++; summe += gewaehlt.length; }
+  // Führt die Zeile eines Dokuments nur auf Dokumente derselben Sorte,
+  // bleibt sie weg — lieber nichts als ein Verweis, der nichts weiterhilft.
+  const belanglos = E[i].typ === "quelle" && gewaehlt.length && gewaehlt.every(k =>
+    k.slice(0, 7) === "quelle:" && SORTE[k.slice(7)] === SORTE[E[i].id]);
+  if (gewaehlt.length && !belanglos) {
+    nachbarn[meinSchluessel] = gewaehlt; mitNachbarn++; summe += gewaehlt.length;
+  }
 }
 
 // ---- Bericht: der Schwellenwert soll nachvollziehbar sein --------------
