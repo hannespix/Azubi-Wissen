@@ -779,6 +779,35 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Inhaltstranche S36: Einstiegsqualifizierung — Auftrag 09.09.2026
+
+- **S36 Einstiegsqualifizierung (§ 54a SGB III)** ✅ — neuer Artikel
+  `einstiegsqualifizierung` (12 Abschnitte, 8 Fakten, 8 FAQ) im Themenbereich
+  „Vertrag & Ausbildungsstart". Kern ist die Frage, die in der Beratung am
+  häufigsten falsch beantwortet wird: Für eine **geförderte** EQ ist die
+  Eignung von Ausbildungsstätte und Ausbildungspersonal nach §§ 27–33 BBiG
+  **keine Fördervoraussetzung** — der Betrieb muss also weder anerkannt sein
+  noch einen Meister beschäftigen. Der rechtliche Grund steht in
+  § 68 Abs. 2 BBiG; die Fachlichen Weisungen der BA sagen es wörtlich.
+  Gegenprobe im Artikel: Wo die Anerkennung sehr wohl gebraucht wird (reguläre
+  Ausbildung, § 27 Abs. 3 BBiG mit GartAusbStEignV) und was der Betrieb
+  trotzdem können muss.
+  **Acht Dokumente vendort** (`formulare/einstiegsqualifizierung/`): EQ-Vertrag,
+  Qualifizierungsbausteine GaLaBau/Obstbau/Zierpflanzenbau, Ausbildungsnachweis,
+  betriebliches Zeugnis, Praktikantenvertrag zur Berufsorientierung und die
+  Fachlichen Weisungen der BA (**Anlage 1 zur Weisung 202607008, gültig ab
+  15.07.2026**). Dazu drei Linkquellen (MiLoG, EQFAO, GartAusbStEignV) und die
+  drei Werke in `GESETZ_QUELLE`, damit die §§-Zitate klicken.
+  Neu außerdem: Glossarbegriff und die **fünfte Checkliste** „Einstiegs-
+  qualifizierung prüfen" (22 Punkte) — ihr Maßstab ist ausdrücklich die
+  **Durchführbarkeit**, nicht die Anerkennung, weil die Agentur für Arbeit im
+  Zweifelsfall genau diese Einschätzung bei der zuständigen Stelle einholt.
+  Alle Angaben gegen die Primärquellen geprüft (§ 54a SGB III, § 22 MiLoG,
+  §§ 26/27/68 BBiG im Volltext, BA-Weisung im Wortlaut).
+  Bestand danach: 40 Artikel, 117 FAQ, 127 Quellen, 37 Glossarbegriffe,
+  5 Checklisten. Index 644 → 665 Einträge.
+  Tests: `mini_s36` (37), `smoke_bestand` (18). *(PR #78)*
+
 ## Ausbaustufe v6: Bedeutungsnetz — Auftrag 10.08.2026
 
 **Grundgedanke.** Eine Volltextsuche findet Wörter; gefragt wird aber nach

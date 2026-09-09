@@ -5,7 +5,7 @@ Amtliche Gesetzestexte, Verordnungen und Verwaltungsvorschriften sind nach
 § 5 UrhG gemeinfrei; BIBB-Hauptausschuss-Empfehlungen sind amtliche
 Verlautbarungen (Veröffentlichung im Bundesanzeiger); Formulare der
 zuständigen Stelle sind zur Verwendung im Ausbildungsverfahren bestimmt.
-Stand der Sammlung: 31.07.2026.
+Stand der Sammlung: 09.09.2026.
 
 | Datei | Titel | Herausgeber | Stand | Quelle |
 |---|---|---|---|---|
@@ -66,3 +66,11 @@ Stand der Sammlung: 31.07.2026.
 | `vwv/bibb-ha136.pdf` | BIBB-HA 136: Rahmenregelung für Ausbildungsregelungen nach § 66 BBiG (Fachpraktiker) | BIBB-Hauptausschuss | 15.12.2010 | https://www.bibb.de/dokumente/pdf/HA136.pdf |
 | `vwv/bibb-ha154.pdf` | BIBB-HA 154: Rahmencurriculum ReZA — rehabilitationspädagogische Zusatzqualifikation | BIBB-Hauptausschuss | 2012 | https://www.bibb.de/dokumente/pdf/HA154.pdf |
 | `vwv/bibb-ha162.pdf` | BIBB-HA 162: Empfehlung zur Eignung der Ausbildungsstätten | BIBB-Hauptausschuss | 16.12.2015 | https://www.bibb.de/dokumente/pdf/HA162.pdf |
+| `einstiegsqualifizierung/eq-vertrag-gaertner.pdf` | Einstiegsqualifizierungsvertrag Gärtner/in (§ 54a SGB III) | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/ |
+| `einstiegsqualifizierung/eq-bausteine-galabau.pdf` | Qualifizierungsbausteine EQ — Garten- und Landschaftsbau | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/ |
+| `einstiegsqualifizierung/eq-bausteine-obstbau.pdf` | Qualifizierungsbausteine EQ — Obstbau | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/ |
+| `einstiegsqualifizierung/eq-bausteine-zierpflanzenbau.pdf` | Qualifizierungsbausteine EQ — Zierpflanzenbau | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/ |
+| `einstiegsqualifizierung/eq-ausbildungsnachweis.pdf` | Ausbildungsnachweis für die Einstiegsqualifizierung (EQ / EQ Plus) | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/ |
+| `einstiegsqualifizierung/eq-betriebliches-zeugnis.pdf` | Betriebliches Zeugnis über die Einstiegsqualifizierung | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/ |
+| `einstiegsqualifizierung/praktikantenvertrag-berufsorientierung.pdf` | Praktikantenvertrag zur Berufsorientierung (Gärtner/in) | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/ |
+| `einstiegsqualifizierung/ba-fachliche-weisungen-eq.pdf` | Fachliche Weisungen Einstiegsqualifizierung (§ 54a SGB III) | Bundesagentur für Arbeit, BA-Zentrale FGL 13 | 15.07.2026 | https://www.arbeitsagentur.de/datei/dok_ba014606.pdf |
