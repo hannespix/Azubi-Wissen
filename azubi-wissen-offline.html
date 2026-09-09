@@ -1349,13 +1349,13 @@ a.chip { display: inline-block; }
 //    "- " am Zeilenanfang, **fett** für Hervorhebungen. Kein HTML.
 //  - Querverweise: [[artikel-id]] oder [[artikel-id|Linktext]] in fakten,
 //    abschnitte.text, faq.a und rollen erlaubt — NICHT im kurz-Feld
-//    (Trefferlisten zeigen kurz unformatiert). Normzitate („§ 20 BBiG",
-//    „§§ 34–36 BBiG") werden automatisch verlinkt, wenn das Werk in
+//    (Trefferlisten zeigen kurz unformatiert). Normzitate („§ 20 BBiG“,
+//    „§§ 34–36 BBiG“) werden automatisch verlinkt, wenn das Werk in
 //    GESETZ_QUELLE (app.js) eingetragen ist.
 //  - Detailstufen: kurz+fakten = Stufe 1 (Kurzübersicht); Abschnitte mit d:2
 //    ab Stufe "Standard"; d:3 nur in Stufe "Ausführlich".
 window.WISSEN = {
-  stand: "Juli 2026",
+  stand: "September 2026",
   hinweis: "Fachinformation der Ausbildungsberatung — sorgfältig geprüft, aber keine Rechtsberatung im Einzelfall. Maßgeblich sind Gesetz, Ausbildungsordnung und Tarifvertrag in der jeweils geltenden Fassung.",
 
   themen: [
@@ -1521,6 +1521,61 @@ window.WISSEN = {
       { f: "Gelten die Schutzregeln auch nach dem 18. Geburtstag?", a: "Nein — mit Volljährigkeit endet der Anwendungsbereich des JArbSchG. Ab dann gelten die allgemeinen Regeln des Arbeitszeitgesetzes ([[arbeitszeit-erwachsene|Arbeitszeit für Erwachsene]]); nur die Anrechnungs- und Freistellungsregeln für Berufsschule und Prüfungen gelten über § 15 BBiG für alle Azubis weiter." }
     ],
     verwandt: ["arbeitszeit-jugendliche", "eintragung", "ausbildungsvertrag"]
+  },
+
+  {
+    id: "einstiegsqualifizierung",
+    thema: "vertrag",
+    titel: "Einstiegsqualifizierung (EQ) — der Weg vor der Ausbildung",
+    kurz: "Die betriebliche Einstiegsqualifizierung nach § 54a SGB III bereitet vier bis zwölf Monate lang auf eine Ausbildung vor. Sie ist keine Berufsausbildung — deshalb muss der Betrieb dafür weder anerkannt sein noch einen Meister beschäftigen.",
+    stichworte: ["EQ", "Einstiegsqualifizierung", "54a", "Praktikum", "Langzeitpraktikum", "EQ Plus", "Vorbereitung", "Qualifizierungsbausteine", "Praktikantenvertrag", "Agentur für Arbeit", "vor der Ausbildung"],
+    recht: [
+      { n: "§ 54a SGB III", t: "Einstiegsqualifizierung" },
+      { n: "§ 26 BBiG", t: "Andere Vertragsverhältnisse" },
+      { n: "§ 68 BBiG", t: "Berufsausbildungsvorbereitung" },
+      { n: "§ 22 MiLoG", t: "Ausnahme vom Mindestlohn" },
+      { n: "§ 8 BBiG", t: "Verkürzung nach der EQ" }
+    ],
+    fakten: [
+      "**Vier bis höchstens zwölf Monate**, in Vollzeit oder in Teilzeit ab **20 Wochenstunden** (§ 54a Abs. 2 SGB III).",
+      "Grundlage ist ein Vertrag nach **§ 26 BBiG** — also **keine Berufsausbildung**, sondern ein anderes Vertragsverhältnis.",
+      "**Der Betrieb muss kein anerkannter Ausbildungsbetrieb sein und keinen Meister beschäftigen**: Die Eignung nach §§ 27–33 BBiG ist ausdrücklich **keine Fördervoraussetzung**. Die Agentur für Arbeit will damit auch nicht oder nicht mehr ausbildende Betriebe gewinnen.",
+      "Fachlich muss der Betrieb trotzdem liefern können — die vereinbarten **Qualifizierungsbausteine** müssen echt vermittelt werden.",
+      "Der Vertragsabschluss wird der **zuständigen Stelle angezeigt**; in Baden-Württemberg trägt das [[zustaendige-stelle|Regierungspräsidium]] ihn in das **Verzeichnis der Praktikantenverhältnisse** ein.",
+      "Über die **Förderung entscheidet die Agentur für Arbeit** — Zuschuss zur Vergütung höchstens **276 € im Monat** plus pauschalierter Sozialversicherungsbeitrag.",
+      "Zum Schluss: **betriebliches Zeugnis** vom Betrieb, auf Antrag zusätzlich das **Zertifikat der zuständigen Stelle**.",
+      "Eine EQ verkürzt die spätere Ausbildung **nicht automatisch** — die Verkürzung wird nach [[teilzeit-verkuerzung|§ 8 BBiG]] gesondert beantragt."
+    ],
+    abschnitte: [
+      { t: "Was die EQ ist — und was nicht", d: 2, text: "Die Einstiegsqualifizierung ist ein **betriebliches Langzeitpraktikum mit Förderung**, das gezielt auf einen anerkannten Ausbildungsberuf vorbereitet. Sie steht im **Vorfeld** der Ausbildung und gehört zur Berufsausbildungsvorbereitung.\n\nDaraus folgt die wichtigste Abgrenzung für die Beratung:\n\n- Der Vertrag ist **kein [[ausbildungsvertrag|Berufsausbildungsvertrag]]**, sondern ein Vertrag nach § 26 BBiG.\n- Es entsteht **kein Ausbildungsverhältnis** und kein Arbeitsverhältnis.\n- Die Zeit wird **nicht automatisch** auf eine spätere Ausbildung angerechnet.\n\nÜber § 26 BBiG gelten aber viele Ausbildungsregeln entsprechend — unter anderem die Pflicht zu einer angemessenen Vergütung (§ 17 Abs. 1 BBiG), die Regeln zu Probezeit und Kündigung sowie das [[zeugnis|Zeugnis]]." },
+      { t: "Der Betrieb muss nicht anerkannt sein", d: 2, text: "Das ist die Frage, die in der Beratung am häufigsten falsch beantwortet wird. Die Fachlichen Weisungen der Bundesagentur für Arbeit sagen es wörtlich:\n\n> Um mit der EQ-Förderung auch nicht oder nicht mehr ausbildende Betriebe für die Ausbildung zu gewinnen, ist das Vorliegen der Eignung der Ausbildungsstätte und des Ausbildungspersonals im Sinne der §§ 27–33 BBiG nicht Voraussetzung für eine Förderung.\n\nEin Gartenbaubetrieb kann also eine EQ durchführen, obwohl er **noch nie ausgebildet hat**, **nicht als Ausbildungsstätte anerkannt ist** oder **derzeit keinen Ausbilder nach §§ 28–30 BBiG** beschäftigt. Die fehlende Anerkennung allein ist kein Ablehnungsgrund.\n\nDer rechtliche Grund steht in **§ 68 Abs. 2 BBiG**: Die §§ 27 bis 33 BBiG gelten nur für Berufsausbildungsvorbereitung, die **nicht** im Rahmen des SGB III oder einer vergleichbaren öffentlich geförderten Maßnahme durchgeführt wird. Bei einer geförderten EQ greifen sie deshalb nicht. Bei einem rein privaten Praktikum ohne Förderung können sie sehr wohl entsprechend gelten — deshalb lohnt zu Beginn die Frage: **echte EQ nach § 54a SGB III oder einfach ein Praktikum?**" },
+      { t: "Was der Betrieb trotzdem können muss", d: 2, text: "„Nicht anerkannt“ heißt nicht „egal“. Inhalt und Vermittlung müssen geeignet sein, auf den Ausbildungsberuf vorzubereiten, und die geplanten **Qualifizierungsbausteine** gehören in den Vertrag. Der baden-württembergische Vordruck verlangt außerdem eine **verantwortliche Praktikumsleitung** namentlich.\n\nFür die fachliche Einschätzung durch die Ausbildungsberatung sind vier Fragen praktisch:\n\n- Wer leitet die Person im Alltag an, und welche gärtnerische Qualifikation oder Berufserfahrung bringt diese Person mit?\n- Welche Tätigkeiten stehen im Betrieb tatsächlich an?\n- Kann der Betrieb die angekreuzten Bausteine über die vereinbarte Dauer wirklich abdecken?\n- Läuft die EQ auf einen [[ausbildungsvertrag|Ausbildungsvertrag]] zu, oder ersetzt sie einen?\n\nDas ist eine **Qualitätsprüfung der Maßnahme**, keine Anerkennungsprüfung nach §§ 27–30 BBiG. Die Bewertungsmaßstäbe sind unterschiedlich, und dieser Unterschied sollte im Vermerk auch benannt werden." },
+      { t: "Wenn die Agentur für Arbeit nachfragt", d: 2, text: "Der Arbeitgeber bestätigt im Förderantrag, dass er den EQ-Vertrag der zuständigen Stelle angezeigt hat. Bestehen Zweifel daran **oder an den Voraussetzungen des Betriebs, eine EQ im Sinne des Gesetzes durchführen zu können**, soll die Agentur für Arbeit eine **Bestätigung bzw. Einschätzung der zuständigen Stelle** einholen.\n\nGenau an dieser Stelle kommt die Ausbildungsberatung ins Spiel. Die Frage lautet dann **nicht** „Erfüllt der Betrieb alle Voraussetzungen für eine Anerkennung als Ausbildungsbetrieb?“, sondern: **„Ist dieser Betrieb fachlich und organisatorisch in der Lage, die vereinbarte Einstiegsqualifizierung sinnvoll durchzuführen?“**" },
+      { t: "Vertrag, Anzeige und Unterlagen in Baden-Württemberg", d: 2, text: "Für Gärtner/in stellen die Regierungspräsidien einen eigenen **Einstiegsqualifizierungsvertrag nach § 54a SGB III** bereit — **3-fach** auszufertigen. Er enthält Beginn und Ende, Probezeit (in Wochen), Vergütung und abgeführten Sozialversicherungsbeitrag, tägliche und wöchentliche Qualifizierungszeit, Urlaub nach BUrlG bzw. JArbSchG, den vorgesehenen Berufsschulbesuch, die zuständige Agentur für Arbeit und die verantwortliche Praktikumsleitung. Oben trägt das Regierungspräsidium die **Nummer im Verzeichnis der Praktikantenverhältnisse** ein.\n\nDazu gehören je Fachrichtung die **Qualifizierungsbausteine** als Anlage — im Garten- und Landschaftsbau sind aus zwanzig Bausteinen (Rasenpflege, Pflege von Beeten und Pflanzungen, Pflasterarbeiten, wassergebundene Decken, Entwässerung, Teichbau, Trockenmauerbau, Gehölzschnitt, Bodenkunde, Staudenverwendung u. a.) **mindestens drei** anzukreuzen; für Obstbau und Zierpflanzenbau gibt es eigene Formulare.\n\n**Die Registrierung des EQ-Vertrags ist keine Anerkennung des Betriebs als Ausbildungsstätte.** Das gehört in jedes Beratungsgespräch, damit später niemand überrascht ist." },
+      { t: "Wer gefördert werden kann", d: 3, text: "§ 54a Abs. 4 SGB III nennt drei Gruppen:\n\n- bei der Agentur gemeldete **Ausbildungsbewerberinnen und -bewerber mit eingeschränkten Vermittlungsperspektiven**, die auch nach den Nachvermittlungsaktionen keine Stelle haben\n- **Ausbildungsuchende, die noch nicht in vollem Maße über die Ausbildungsreife verfügen**\n- **lernbeeinträchtigte und sozial benachteiligte** Ausbildungsuchende\n\nFür **Menschen mit Behinderungen** kann eine EQ auch gefördert werden, wenn sie auf eine Ausbildung nach [[fw-grundlagen|§ 66 BBiG]] vorbereitet — für die Fachwerkerausbildung im Gartenbau ist die EQ deshalb ein regulärer Zugangsweg.\n\nDie Zugehörigkeit zum förderfähigen Personenkreis stellt **die Agentur für Arbeit** fest, nicht das Regierungspräsidium — auch dann, wenn der Betrieb die Person selbst gefunden hat.\n\nDie Anordnung des BA-Verwaltungsrats (EQFAO) setzt zwei Vorrangregeln: Die Vermittlung in eine **betriebliche Ausbildung geht der EQ vor**, und die Förderung soll **vorrangig Ausbildungsuchenden ohne (Fach-)Abitur** zugutekommen — bei (Fach-)Abitur ist sie nur im begründeten Einzelfall möglich (befristet bis 31.12.2029)." },
+      { t: "Ausschlüsse", d: 3, text: "Nach § 54a Abs. 5 SGB III ist eine Förderung ausgeschlossen, wenn die Person\n\n- bereits eine EQ **im selben Betrieb oder Unternehmen** durchlaufen hat oder\n- in den **letzten drei Jahren** vor Beginn im Unternehmen oder einem verbundenen Unternehmen **versicherungspflichtig beschäftigt** war.\n\nDasselbe gilt, wenn die EQ **im Betrieb der Eltern, Ehegatten oder Lebenspartner** stattfindet. Für vorzeitig gelöste Ausbildungsverhältnisse sieht das Gesetz eine Ausnahme vor." },
+      { t: "Dauer, Beginn und Zeit im Betrieb", d: 3, text: "Gefördert werden **vier bis zwölf Monate**. Nach der EQFAO müssen grundsätzlich **mindestens 70 Prozent der Gesamtzeit im Betrieb** stattfinden; nimmt die Person an einem erforderlichen Berufssprachkurs teil, kann dieser Anteil sinken.\n\nBeim Beginn wirkt der Vorrang der Ausbildungsvermittlung nach: Für Bewerberinnen und Bewerber nach § 54a Abs. 4 Nr. 1 SGB III soll die Förderung in der Regel **nicht vor dem 1. Oktober** beginnen, für die übrigen Gruppen **nicht vor dem 1. August**. Die EQ soll im Regelfall **im Monat vor dem nächsten Ausbildungsjahr enden** — damit der Übergang in die Ausbildung passt." },
+      { t: "Berufsschule", d: 3, text: "Die EQ ist kein Ausbildungsvertrag, aber die Schule bleibt wichtig. Auf die Einhaltung einer bestehenden **Berufsschulpflicht** ist hinzuwirken; darüber hinaus wird ausdrücklich empfohlen, die Teilnehmenden in der **entsprechenden Fachklasse mitlaufen** zu lassen. Der BW-Vertrag hat dafür ein eigenes Feld.\n\nDas zahlt sich doppelt aus: Der Übergang in die Ausbildung fällt leichter, und eine spätere [[teilzeit-verkuerzung|Verkürzung]] wird plausibler. Bei schulpflichtigen Teilnehmenden die schulrechtliche Einordnung **früh** klären, nicht erst im November." },
+      { t: "Geld: Zuschuss, Vergütung, Mindestlohn", d: 3, text: "Der Arbeitgeber kann einen Zuschuss zur vereinbarten Vergütung erhalten — **höchstens 276 Euro monatlich** (§ 54a Abs. 1 SGB III) — zuzüglich des pauschalierten Anteils am Gesamtsozialversicherungsbeitrag. Den **aktuellen Förderbetrag** veröffentlicht die BA gesondert; die tatsächlich gezahlte Vergütung kann höher liegen, tarifliche Regelungen sind einzuhalten. Der Zuschuss ist **vor Beginn** zu beantragen.\n\nDer **gesetzliche Mindestlohn gilt für die EQ nicht** (§ 22 Abs. 1 Satz 2 Nr. 4 MiLoG) — ebenso wenig für ein Orientierungspraktikum bis zu drei Monaten. Die [[mindestverguetung|Mindestausbildungsvergütung]] der regulären Ausbildung ist damit ausdrücklich **nicht** der Maßstab; über § 26 BBiG bleibt es aber bei einer **angemessenen** Vergütung.\n\nWährend der EQ besteht Versicherungspflicht in Kranken-, Pflege-, Renten- und Arbeitslosenversicherung sowie in der gesetzlichen Unfallversicherung. Bei Minderjährigen gilt das [[arbeitszeit-jugendliche|Jugendarbeitsschutzgesetz]] — im Gartenbau besonders bei Maschinen, Fahrzeugen, Pflanzenschutzmitteln und Arbeitszeiten." },
+      { t: "Zeugnis, Zertifikat und der Weg in die Ausbildung", d: 3, text: "Nach § 54a Abs. 3 SGB III bescheinigt der Betrieb die vermittelten Fertigkeiten, Kenntnisse und Fähigkeiten. Empfohlen ist ein **betriebliches Zeugnis mit differenzierter Leistungsbeurteilung** — es ist die Grundlage für das **Zertifikat**, das die zuständige Stelle **auf Antrag des Arbeitgebers oder der teilnehmenden Person** ausstellt. Beide sind darauf hinzuweisen, dass sie es beantragen müssen; von allein kommt es nicht.\n\nEine erfolgreiche EQ führt **nicht automatisch** ins zweite Ausbildungsjahr. Richtig ist: Auszubildende und Ausbildende können nach **§ 8 Abs. 1 BBiG gemeinsam eine Verkürzung beantragen**; die zuständige Stelle kürzt, wenn zu erwarten ist, dass das Ausbildungsziel in der kürzeren Zeit erreicht wird. Der EQ-Vertrag sagt es selbst: Über die Anrechnung entscheidet die zuständige Stelle.\n\nSobald die reguläre Ausbildung beginnen soll, gelten die normalen Regeln vollständig — die Ausbildungsstätte muss nach **§ 27 Abs. 3 BBiG** anerkannt sein (für Gärtner/in nach der GartAusbStEignV), und es braucht einen persönlich und fachlich geeigneten [[ausbilder|Ausbilder]]. Ein Meistertitel ist dafür der klassische, aber nicht der einzige Weg (§ 30 BBiG). **Wer die EQ als Einstieg plant, klärt die Anerkennung am besten schon während der EQ** — sie braucht Vorlauf." },
+      { t: "Vier Sätze, die in der Beratung häufig falsch fallen", d: 3, text: "**„Der Betrieb ist nicht anerkannt, also geht keine EQ.“** — Falsch. Die Eignung nach §§ 27–33 BBiG ist keine Fördervoraussetzung.\n\n**„Ohne Meister keine EQ.“** — Falsch. Eine formale Ausbildereignung nach §§ 28–30 BBiG verlangt die EQ nicht.\n\n**„Dann kann also jeder Betrieb eine EQ machen.“** — Ebenfalls falsch. Der Betrieb muss die vereinbarten Inhalte tatsächlich vermitteln können; bei Zweifeln holt die Agentur die Einschätzung der zuständigen Stelle ein.\n\n**„Nach der EQ bildet der Betrieb einfach weiter aus.“** — Falsch. Vor der regulären Ausbildung müssen Anerkennung der Ausbildungsstätte und Ausbildereignung vorliegen." }
+    ],
+    rollen: {
+      azubi: "Eine EQ ist kein verlorenes Jahr, sondern ein Türöffner: vier bis zwölf Monate im Betrieb, mit Vergütung und Sozialversicherung. Geh möglichst in die Berufsschulklasse mit und führe den Ausbildungsnachweis von Anfang an — beides hilft dir, wenn es um den Ausbildungsvertrag und eine Verkürzung geht. Und denk daran: Das Zertifikat der zuständigen Stelle bekommst du nur auf Antrag.",
+      betrieb: "Sie müssen für eine EQ weder anerkannter Ausbildungsbetrieb sein noch einen Meister beschäftigen. Beantragen Sie den Zuschuss **vor Beginn** bei der Agentur für Arbeit, kreuzen Sie mindestens drei Qualifizierungsbausteine an und reichen Sie den Vertrag 3-fach beim Regierungspräsidium ein. Wenn Sie danach ausbilden wollen: Anerkennung als Ausbildungsstätte und Ausbildereignung rechtzeitig während der EQ klären.",
+      beratung: "Zuerst klären: echte EQ nach § 54a SGB III oder nur ein Praktikum? Danach nicht die Anerkennungsvoraussetzungen prüfen, sondern die Durchführbarkeit — Praktikumsleitung, tatsächliche Tätigkeiten, Bausteine, Dauer. Auf Substitution achten: Hat der Betrieb seine Ausbildungstätigkeit verringert und durch EQ-Plätze ersetzt? Die Einschätzung für die Agentur für Arbeit sauber begründen und den Maßstabsunterschied im Vermerk benennen."
+    },
+    faq: [
+      { f: "Muss der Betrieb für eine Einstiegsqualifizierung anerkannter Ausbildungsbetrieb sein?", a: "Nein. Bei einer geförderten EQ nach § 54a SGB III ist die Eignung von Ausbildungsstätte und Ausbildungspersonal nach §§ 27–33 BBiG ausdrücklich **keine Fördervoraussetzung** — die Bundesagentur will damit auch nicht oder nicht mehr ausbildende Betriebe für die Ausbildung gewinnen. Fachlich muss der Betrieb die vereinbarten Qualifizierungsbausteine aber tatsächlich vermitteln können." },
+      { f: "Braucht der Betrieb einen Gärtnermeister für die EQ?", a: "Nein. Weder ein Meistertitel noch eine formale Ausbildereignung nach §§ 28–30 BBiG ist für die EQ erforderlich. Der BW-Vertrag verlangt allerdings eine namentlich benannte **verantwortliche Praktikumsleitung** — jemand muss die Person im Alltag anleiten." },
+      { f: "Wie lange dauert eine Einstiegsqualifizierung?", a: "Vier bis höchstens zwölf Monate, in Vollzeit oder in Teilzeit mit mindestens 20 Wochenstunden (§ 54a Abs. 2 SGB III). Mindestens 70 Prozent der Zeit müssen grundsätzlich im Betrieb stattfinden." },
+      { f: "Wird die EQ auf die Ausbildung angerechnet?", a: "Nicht automatisch. „Zwölf Monate EQ = Einstieg ins zweite Lehrjahr“ ist falsch. Auszubildende und Ausbildende können nach § 8 Abs. 1 BBiG gemeinsam eine **Verkürzung beantragen**; die zuständige Stelle entscheidet, ob das Ausbildungsziel in der kürzeren Zeit zu erwarten ist. Ein Berufsschulbesuch während der EQ macht den Antrag deutlich plausibler." },
+      { f: "Gilt für die EQ der Mindestlohn?", a: "Nein — § 22 Abs. 1 Satz 2 Nr. 4 MiLoG nimmt die Einstiegsqualifizierung ausdrücklich aus. Über § 26 BBiG bleibt es aber bei einer angemessenen Vergütung; die Agentur für Arbeit bezuschusst sie mit höchstens 276 Euro monatlich zuzüglich pauschaliertem Sozialversicherungsbeitrag." },
+      { f: "Wo wird der EQ-Vertrag angezeigt?", a: "Bei der zuständigen Stelle — für Gärtner/in in Baden-Württemberg beim [[zustaendige-stelle|Regierungspräsidium]]. Es trägt den Vertrag in das **Verzeichnis der Praktikantenverhältnisse** ein. Diese Registrierung ist ausdrücklich **keine** Anerkennung des Betriebs als Ausbildungsstätte." },
+      { f: "Wer stellt das Zertifikat über die EQ aus?", a: "Die zuständige Stelle — aber nur **auf Antrag** des Arbeitgebers oder der teilnehmenden Person, und nur gegen Vorlage des betrieblichen Zeugnisses. Beide Seiten sollten früh darauf hingewiesen werden, sonst bleibt am Ende nur das Betriebszeugnis." },
+      { f: "Kann eine EQ auf eine Fachwerkerausbildung vorbereiten?", a: "Ja. § 54a Abs. 2 SGB III lässt die Förderung für Menschen mit Behinderungen ausdrücklich auch zu, wenn die EQ auf eine Ausbildung nach [[fw-grundlagen|§ 66 BBiG]] vorbereitet — im Gartenbau also auf die Fachwerkerausbildung." }
+    ],
+    verwandt: ["ausbildungsvertrag", "foerderung", "fw-grundlagen"]
   },
 
   {
@@ -2534,6 +2589,7 @@ window.WISSEN = {
       "**Fachpraktiker/Werker-Ausbildungen (§ 66 BBiG):** eigene Ausbildungsregelungen, im grünen Bereich z. B. **Fachpraktiker/in Gartenbau** — mit späterer Anschlussoption in die Vollausbildung.",
       "**AsA flex:** kostenlose Unterstützung der Agentur für Arbeit (Stützunterricht, sozialpädagogische Begleitung) — für Azubis **und** entlastend für Betriebe; oft die Rettung vor [[nichtbestehen|Prüfungsmisserfolg]] oder [[kuendigung|Vertragslösung]].",
       "**Finanzielle Hilfen:** Berufsausbildungsbeihilfe (BAB), ggf. Wohn- und Fahrtkostenzuschüsse.",
+      "**[[einstiegsqualifizierung|Einstiegsqualifizierung (§ 54a SGB III)]]:** vier bis zwölf Monate im Betrieb vor der Ausbildung — auch in Betrieben, die nicht als Ausbildungsstätte anerkannt sind.",
       "Beratung und Antragswege laufen über **Agentur für Arbeit**, zuständige Stelle und ggf. Integrationsfachdienste."
     ],
     abschnitte: [
@@ -2979,7 +3035,7 @@ window.WISSEN = {
 // (Beruf-ID aus berufe.js). Vorlagen mit `anhaengePlan` hängen darüber den
 // passenden Ausbildungsplan an — neue Pläne brauchen dieses Feld.
 window.QUELLEN = {
-  stand: "31.07.2026",
+  stand: "09.09.2026",
   eintraege: [
 
   /* ---------- Verträge & Anträge (zuständige Stelle, vendored) ------ */
@@ -3802,7 +3858,83 @@ window.QUELLEN = {
     datei: null, url: "https://www.ausbildung.farm",
     beschreibung: "Freie Ausbildungs- und Praktikumsplätze in der Landwirtschaft und im Weinbau, von den Betrieben selbst gepflegt und nach Suchkriterien filterbar — die Ergänzung zur amtlichen Betriebsdatenbank, wenn es um freie Plätze statt um Anerkennung geht.",
     stichworte: ["Ausbildungsplatz", "Praktikum", "Ausbildungsbörse", "Landwirt", "Winzer", "Landjugend", "freie Stellen"],
-    artikel: ["eintragung", "ausbildungsberatung"] }
+    artikel: ["eintragung", "ausbildungsberatung"] },
+
+  /* ---------- Einstiegsqualifizierung (§ 54a SGB III) ------------ */
+  { id: "eq-vertrag-gaertner", titel: "Einstiegsqualifizierungsvertrag Gärtner/in (§ 54a SGB III)",
+    typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
+    datei: "formulare/einstiegsqualifizierung/eq-vertrag-gaertner.pdf",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    beschreibung: "Der Vertragsvordruck für die betriebliche Einstiegsqualifizierung zum Beruf Gärtner/in, 3-fach auszufertigen. Enthält Dauer, Probezeit, Vergütung, Qualifizierungszeit, Urlaub, Berufsschulbesuch und die verantwortliche Praktikumsleitung; oben trägt das Regierungspräsidium die Nummer im Verzeichnis der Praktikantenverhältnisse ein.",
+    stichworte: ["EQ", "Einstiegsqualifizierung", "54a", "Praktikum", "Vertrag", "Praktikantenverhältnis", "Vordruck"],
+    artikel: ["einstiegsqualifizierung", "eintragung"] },
+  { id: "eq-bausteine-galabau", titel: "Qualifizierungsbausteine EQ — Garten- und Landschaftsbau",
+    typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
+    datei: "formulare/einstiegsqualifizierung/eq-bausteine-galabau.pdf",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    beschreibung: "Anlage zum EQ-Vertrag: Aus 20 Bausteinen (Rasenpflege, Pflasterarbeiten, Entwässerung, Gehölzschnitt, Bodenkunde, Staudenverwendung u. a.) sind mindestens drei anzukreuzen.",
+    stichworte: ["Qualifizierungsbausteine", "EQ", "GaLaBau", "Anlage", "Rasenpflege", "Pflasterarbeiten"],
+    artikel: ["einstiegsqualifizierung"] },
+  { id: "eq-bausteine-obstbau", titel: "Qualifizierungsbausteine EQ — Obstbau",
+    typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
+    datei: "formulare/einstiegsqualifizierung/eq-bausteine-obstbau.pdf",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    beschreibung: "Anlage zum EQ-Vertrag für die Fachrichtung Obstbau — mindestens drei Bausteine ankreuzen.",
+    stichworte: ["Qualifizierungsbausteine", "EQ", "Obstbau", "Anlage"],
+    artikel: ["einstiegsqualifizierung"] },
+  { id: "eq-bausteine-zierpflanzenbau", titel: "Qualifizierungsbausteine EQ — Zierpflanzenbau",
+    typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
+    datei: "formulare/einstiegsqualifizierung/eq-bausteine-zierpflanzenbau.pdf",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    beschreibung: "Anlage zum EQ-Vertrag für die Fachrichtung Zierpflanzenbau — mindestens drei Bausteine ankreuzen.",
+    stichworte: ["Qualifizierungsbausteine", "EQ", "Zierpflanzenbau", "Anlage"],
+    artikel: ["einstiegsqualifizierung"] },
+  { id: "eq-ausbildungsnachweis", titel: "Ausbildungsnachweis für die Einstiegsqualifizierung (EQ / EQ Plus)",
+    typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
+    datei: "formulare/einstiegsqualifizierung/eq-ausbildungsnachweis.pdf",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    beschreibung: "Berichtsheft für die EQ: Infoteil mit den gewählten Qualifizierungsbausteinen und Wochenberichten über die vermittelten Tätigkeiten — die Grundlage für das betriebliche Zeugnis.",
+    stichworte: ["Ausbildungsnachweis", "Berichtsheft", "EQ", "Wochenbericht", "Nachweis"],
+    artikel: ["einstiegsqualifizierung", "berichtsheft"] },
+  { id: "eq-betriebliches-zeugnis", titel: "Betriebliches Zeugnis über die Einstiegsqualifizierung",
+    typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
+    datei: "formulare/einstiegsqualifizierung/eq-betriebliches-zeugnis.pdf",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    beschreibung: "Vordruck für das Zeugnis nach § 54a Abs. 3 SGB III: vermittelte Fertigkeiten, Kenntnisse und Fähigkeiten. Es ist Voraussetzung für das Zertifikat der zuständigen Stelle.",
+    stichworte: ["Zeugnis", "EQ", "Bescheinigung", "Zertifikat", "Abschluss"],
+    artikel: ["einstiegsqualifizierung", "zeugnis"] },
+  { id: "praktikantenvertrag-berufsorientierung", titel: "Praktikantenvertrag zur Berufsorientierung (Gärtner/in)",
+    typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
+    datei: "formulare/einstiegsqualifizierung/praktikantenvertrag-berufsorientierung.pdf",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    beschreibung: "Für das kurze Orientierungspraktikum vor der Ausbildung — die kleine Schwester der Einstiegsqualifizierung, ohne Förderung durch die Agentur für Arbeit.",
+    stichworte: ["Praktikum", "Berufsorientierung", "Schnupperpraktikum", "Vertrag", "vor der Ausbildung"],
+    artikel: ["einstiegsqualifizierung", "ausbildungsvertrag"] },
+  { id: "ba-weisung-eq", titel: "Fachliche Weisungen Einstiegsqualifizierung (§ 54a SGB III)",
+    typ: "vwv", herausgeber: "Bundesagentur für Arbeit, BA-Zentrale FGL 13", stand: "15.07.2026",
+    datei: "formulare/einstiegsqualifizierung/ba-fachliche-weisungen-eq.pdf",
+    url: "https://www.arbeitsagentur.de/datei/dok_ba014606.pdf",
+    beschreibung: "Anlage 1 zur Weisung 202607008, gültig ab 15.07.2026, Gültigkeit fortlaufend. Die verbindliche Auslegung der BA zur EQ-Förderung — darin auch die für die zuständige Stelle zentrale Aussage, dass die Eignung nach §§ 27–33 BBiG keine Fördervoraussetzung ist (Abschnitt 54a.11).",
+    stichworte: ["Fachliche Weisung", "BA", "Bundesagentur", "EQ", "54a", "Förderung", "Weisung 202607008"],
+    artikel: ["einstiegsqualifizierung", "foerderung"] },
+  { id: "gesetz-milog", titel: "Mindestlohngesetz (MiLoG)",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/milog/",
+    beschreibung: "Der allgemeine gesetzliche Mindestlohn. § 22 Abs. 1 Satz 2 nimmt die Einstiegsqualifizierung und die Berufsausbildungsvorbereitung ausdrücklich aus — ebenso Orientierungspraktika bis zu drei Monaten.",
+    stichworte: ["MiLoG", "Mindestlohn", "Praktikum", "Ausnahme", "Gesetz"],
+    artikel: ["einstiegsqualifizierung", "mindestverguetung"] },
+  { id: "gesetz-eqfao", titel: "Anordnung über die betriebliche Einstiegsqualifizierung (EQFAO)",
+    typ: "vwv", herausgeber: "Bundesagentur für Arbeit", stand: "Fassung ab 01.06.2024",
+    datei: null, url: "https://www.arbeitsagentur.de/datei/dok_ba014606.pdf",
+    beschreibung: "Die Anordnung des Verwaltungsrats der BA füllt § 54a SGB III aus: Vorrang der Ausbildungsvermittlung, mindestens 70 % Zeit im Betrieb, Beginntermine und der bis Ende 2029 befristete Vorrang für Ausbildungsuchende ohne (Fach-)Abitur. Der Volltext steht als Anhang in den Fachlichen Weisungen.",
+    stichworte: ["EQFAO", "Anordnung", "EQ", "70 Prozent", "Verwaltungsrat"],
+    artikel: ["einstiegsqualifizierung"] },
+  { id: "gesetz-gartausbsteignv", titel: "Verordnung über die Eignung der Ausbildungsstätte Gärtner/in (GartAusbStEignV)",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "12.08.1997",
+    datei: null, url: "https://www.gesetze-im-internet.de/gartausbsteignv/",
+    beschreibung: "Mindestanforderungen an Größe, Einrichtung und Bewirtschaftungszustand einer Gärtner-Ausbildungsstätte — die Grundlage der Anerkennung nach § 27 Abs. 3 BBiG. Für eine Einstiegsqualifizierung gilt sie nicht.",
+    stichworte: ["GartAusbStEignV", "Eignung", "Ausbildungsstätte", "Anerkennung", "Gärtner"],
+    artikel: ["einstiegsqualifizierung", "ausbilder", "eintragung"] },
 
   ]
 };
@@ -4168,7 +4300,7 @@ window.VORLAGEN = {
   "use strict";
 
   window.CHECKLISTEN = {
-    stand: "31.07.2026",
+    stand: "09.09.2026",
     hinweis: "Checklisten sind Arbeitshilfen der Ausbildungsberatung — sie ersetzen keine Einzelfallprüfung.",
     listen: [
 
@@ -4223,6 +4355,44 @@ window.VORLAGEN = {
             { t: "Vertrag ins Verzeichnis eingetragen" },
             { t: "Berufsschulanmeldung angestoßen bzw. nachgewiesen" },
             { t: "Eintragungsbestätigung an Betrieb (und ggf. gesetzliche Vertretung) versandt" }
+          ] }
+        ] },
+
+      { id: "einstiegsqualifizierung",
+        titel: "Einstiegsqualifizierung prüfen (§ 54a SGB III)",
+        kurz: "Für Anzeige, Registrierung und die Einschätzung, die die Agentur für Arbeit im Zweifelsfall anfordert — der Maßstab ist die Durchführbarkeit, nicht die Anerkennung.",
+        stichworte: ["eq", "einstiegsqualifizierung", "54a", "praktikum", "anzeige", "einschätzung"],
+        artikel: ["einstiegsqualifizierung", "ausbildungsvertrag", "foerderung"],
+        gruppen: [
+          { t: "Was für eine Maßnahme ist es?", punkte: [
+            { t: "Geförderte EQ nach § 54a SGB III — oder nur ein Praktikum?", h: "Entscheidet alles Weitere: Bei nicht geförderter Berufsausbildungsvorbereitung gelten §§ 27–33 BBiG über § 68 Abs. 2 BBiG entsprechend." },
+            { t: "Agentur für Arbeit bzw. Leistungsträger eingebunden", h: "Über die Förderung und den förderfähigen Personenkreis entscheidet die Agentur, nicht die zuständige Stelle." },
+            { t: "Zielberuf und Fachrichtung festgelegt (Gärtner/in — welche Fachrichtung?)" },
+            { t: "Bei Menschen mit Behinderungen: Vorbereitung auf [[fw-grundlagen|§ 66 BBiG]] geprüft", h: "§ 54a Abs. 2 SGB III lässt das ausdrücklich zu." }
+          ] },
+          { t: "Formale Voraussetzungen", punkte: [
+            { t: "EQ-Vertrag vollständig und 3-fach vorgelegt" },
+            { t: "Dauer 4 bis 12 Monate" },
+            { t: "Vollzeit oder mindestens 20 Wochenstunden" },
+            { t: "Mindestens 70 % der Gesamtzeit im Betrieb" },
+            { t: "Verantwortliche Praktikumsleitung namentlich benannt" },
+            { t: "Mindestens drei Qualifizierungsbausteine angekreuzt", h: "Je Fachrichtung eigenes Formular (GaLaBau, Obstbau, Zierpflanzenbau)." },
+            { t: "Vertrag im Verzeichnis der Praktikantenverhältnisse eingetragen", h: "Die Registrierung ist keine Anerkennung als Ausbildungsstätte." }
+          ] },
+          { t: "Fachliche Einschätzung — Durchführbarkeit", punkte: [
+            { t: "NICHT zu prüfen: Anerkennung der Ausbildungsstätte und Ausbildereignung", h: "Die Eignung nach §§ 27–33 BBiG ist keine Fördervoraussetzung (Fachliche Weisungen der BA, 54a.11)." },
+            { t: "Kann der Betrieb die angekreuzten Bausteine tatsächlich vermitteln?" },
+            { t: "Passen die betrieblichen Tätigkeiten fachlich zum Zielberuf?" },
+            { t: "Wer leitet im Alltag an — Qualifikation oder Berufserfahrung geklärt?" },
+            { t: "Keine Substitution: Hat der Betrieb Ausbildungsplätze durch EQ-Plätze ersetzt?", h: "Bei Anhaltspunkten festhalten — die Agentur lehnt den Antrag dann ab." }
+          ] },
+          { t: "Schule, Schutz und Abschluss", punkte: [
+            { t: "Berufsschulpflicht geklärt, Fachklassenbesuch angestrebt", h: "Erleichtert den Übergang und eine spätere Verkürzung." },
+            { t: "Bei Minderjährigen: [[arbeitszeit-jugendliche|Jugendarbeitsschutz]] beachtet" },
+            { t: "Betriebliches Zeugnis am Ende vereinbart" },
+            { t: "Auf die Antragstellung für das Zertifikat hingewiesen", h: "Die zuständige Stelle stellt es nur auf Antrag aus — gegen Vorlage des Zeugnisses." },
+            { t: "Anschluss geplant: Anerkennung des Betriebs und Ausbildereignung rechtzeitig klären" },
+            { t: "Verkürzung gewünscht? Antrag nach [[teilzeit-verkuerzung|§ 8 Abs. 1 BBiG]] vorbereiten", h: "Keine automatische Anrechnung der EQ-Zeit." }
           ] }
         ] },
 
@@ -4288,7 +4458,7 @@ window.VORLAGEN = {
   "use strict";
 
   window.GLOSSAR = {
-    stand: "31.07.2026",
+    stand: "09.09.2026",
     begriffe: [
       { id: "aevo", b: "AEVO (Ausbilder-Eignungsverordnung)",
         k: "Regelt die berufs- und arbeitspädagogische Eignung der Ausbilder/innen („Ausbilderschein“). Im Gartenbau ist sie in der Meisterprüfung enthalten; andere Qualifikationen weisen sie gesondert nach.",
@@ -4338,6 +4508,9 @@ window.VORLAGEN = {
       { id: "eintragung", b: "Eintragung (Verzeichnis)",
         k: "Aufnahme des Ausbildungsverhältnisses in das Verzeichnis der zuständigen Stelle (§§ 34 ff. BBiG) — Voraussetzung sind vollständige Unterlagen, Eignung und rechtskonformer Vertrag.",
         stichworte: ["verzeichnis", "vertrag"], artikel: ["eintragung"] },
+      { id: "einstiegsqualifizierung", b: "Einstiegsqualifizierung (EQ)",
+        k: "Gefördertes betriebliches Langzeitpraktikum von vier bis zwölf Monaten im Vorfeld der Ausbildung (§ 54a SGB III), auf Grundlage eines Vertrags nach § 26 BBiG. Der Betrieb braucht dafür weder Anerkennung als Ausbildungsstätte noch einen Ausbilder nach §§ 28–30 BBiG.",
+        stichworte: ["eq", "praktikum", "54a", "vorbereitung"], artikel: ["einstiegsqualifizierung"], quelle: "eq-vertrag-gaertner" },
       { id: "eignungsuntersuchung", b: "Eignungsuntersuchung (§ 66)",
         k: "Feststellung des Reha-Trägers, dass ein Regelberuf nicht in Betracht kommt und eine Ausbildung nach § 66 BBiG geeignet ist; ohne schriftliches Ergebnis keine Eintragung eines Fachwerker-Vertrags (§ 3 GBFWVO).",
         stichworte: ["fachwerker", "reha", "eignung"], artikel: ["fw-weg"] },
@@ -7820,18 +7993,19 @@ window.NACHBARN = {
   "artikel:ausbildungsberatung": ["paragraf:bbig-76","paragraf:bbig-70"],
   "artikel:ausbildungspflicht": ["faq:lernpflicht#0","paragraf:bbig-13","paragraf:bbig-14","artikel:ausbildungsvertrag"],
   "artikel:ausbildungsvertrag": ["paragraf:bbig-11","paragraf:bbig-10","artikel:kuendigung","artikel:zeugnis"],
-  "artikel:berichtsheft": ["artikel:abschlusspruefung","quelle:ha-156","vorlage:berichtsheft-erinnerung"],
+  "artikel:berichtsheft": ["artikel:abschlusspruefung","quelle:ha-156","vorlage:berichtsheft-erinnerung","quelle:eq-ausbildungsnachweis"],
   "artikel:berufsschulpflicht": ["paragraf:bbig-15","artikel:freistellung"],
+  "artikel:einstiegsqualifizierung": ["quelle:eq-vertrag-gaertner","quelle:eq-betriebliches-zeugnis","artikel:foerderung","liste:einstiegsqualifizierung","artikel:abschlusspruefung"],
   "artikel:eintragung": ["artikel:zustaendige-stelle","paragraf:bbig-36","paragraf:bbig-35","artikel:ausbilder"],
   "artikel:ende-uebernahme": ["faq:abschlusspruefung#6","paragraf:bbig-21"],
-  "artikel:foerderung": ["paragraf:bbig-66","artikel:fw-grundlagen","paragraf:bbig-65","artikel:fw-inhalte-pruefung"],
+  "artikel:foerderung": ["artikel:einstiegsqualifizierung","artikel:fw-grundlagen","paragraf:bbig-65","paragraf:bbig-66"],
   "artikel:fortzahlung": ["paragraf:bbig-19","faq:krankmeldung#1","artikel:freistellung","paragraf:entgfg-3"],
   "artikel:freistellung": ["paragraf:bbig-15","paragraf:jarbschg-9","artikel:fortzahlung","faq:jugendliche#4"],
   "artikel:fw-betrieb": ["artikel:fw-grundlagen","artikel:fw-weg","quelle:ha-154"],
   "artikel:fw-geld": ["artikel:mindestverguetung","artikel:fw-modelle","paragraf:bbig-18","paragraf:bbig-17"],
   "artikel:fw-grundlagen": ["faq:foerderung#1","artikel:fw-inhalte-pruefung","quelle:gesetz-gbfwvo","quelle:plan-fachwerker-staudengaertnerei","vorlage:interesse-fachwerker"],
   "artikel:fw-inhalte-pruefung": ["artikel:fw-grundlagen","faq:abschlusspruefung#5","quelle:besondere-richtlinien-pruefung"],
-  "artikel:fw-modelle": ["artikel:fw-geld","artikel:fw-betrieb"],
+  "artikel:fw-modelle": ["artikel:fw-geld","artikel:foerderung"],
   "artikel:fw-weg": ["artikel:fw-betrieb","liste:erstberatung-fachwerker"],
   "artikel:jugendliche": ["paragraf:jarbschg-32","paragraf:jarbschg-33","quelle:lab-jau-empfehlung"],
   "artikel:konflikte": ["faq:kuendigung#2"],
@@ -7857,6 +8031,7 @@ window.NACHBARN = {
   "karte:verguetung": ["karte:rechner-verguetung","artikel:mindestverguetung"],
   "liste:ap-anmeldung": ["liste:eintragung","liste:betriebsbesuch","faq:abschlusspruefung#0"],
   "liste:betriebsbesuch": ["liste:ap-anmeldung","liste:eintragung","vorlage:betriebsbesuch-ankuendigung","faq:ausbildungsberatung#1"],
+  "liste:einstiegsqualifizierung": ["quelle:eq-betriebliches-zeugnis","artikel:einstiegsqualifizierung","liste:betriebsbesuch","quelle:eq-vertrag-gaertner","liste:ap-anmeldung"],
   "liste:eintragung": ["liste:ap-anmeldung","liste:betriebsbesuch","quelle:bav","quelle:bav-hinweise"],
   "liste:erstberatung-fachwerker": ["liste:betriebsbesuch","artikel:fw-weg"],
   "paragraf:aevo-1": ["quelle:gesetz-aevo","paragraf:aevo-6","paragraf:aevo-3","artikel:ausbilder"],
@@ -7948,13 +8123,13 @@ window.NACHBARN = {
   "paragraf:bbig-24": ["paragraf:bbig-26","paragraf:bbig-25","faq:abschlusspruefung#6","faq:ende-uebernahme#2"],
   "paragraf:bbig-25": ["paragraf:bbig-12","paragraf:bbig-24","quelle:gesetz-bbig"],
   "paragraf:bbig-26": ["paragraf:bbig-12","paragraf:bbig-23","faq:abschlusspruefung#6","faq:ausbildungsvertrag#2"],
-  "paragraf:bbig-27": ["paragraf:bbig-28","paragraf:bbig-33","quelle:vwv-ausbildungsstaetten-lw","artikel:ausbilder","quelle:ha-162"],
+  "paragraf:bbig-27": ["paragraf:bbig-28","paragraf:bbig-33","quelle:gesetz-gartausbsteignv","quelle:vwv-ausbildungsstaetten-lw","artikel:ausbilder","faq:einstiegsqualifizierung#0"],
   "paragraf:bbig-28": ["paragraf:bbig-27","paragraf:bbig-14","artikel:ausbilder"],
   "paragraf:bbig-29": ["paragraf:bbig-28","paragraf:bbig-31a","artikel:ausbilder"],
   "paragraf:bbig-3": ["paragraf:bbig-71","paragraf:bbig-53"],
   "paragraf:bbig-30": ["paragraf:bbig-31","paragraf:bbig-31a","artikel:ausbilder"],
-  "paragraf:bbig-31": ["paragraf:bbig-31a","paragraf:bbig-30"],
-  "paragraf:bbig-31a": ["paragraf:bbig-31","paragraf:bbig-30"],
+  "paragraf:bbig-31": ["paragraf:bbig-31a","paragraf:bbig-30","faq:einstiegsqualifizierung#0"],
+  "paragraf:bbig-31a": ["paragraf:bbig-31","paragraf:bbig-30","faq:einstiegsqualifizierung#0"],
   "paragraf:bbig-32": ["paragraf:bbig-33","paragraf:bbig-27","artikel:ausbilder","faq:ausbildungsberatung#1","quelle:vwv-ausbildungsstaetten-lw"],
   "paragraf:bbig-33": ["paragraf:bbig-32","paragraf:bbig-27","faq:ausbildungsberatung#0","artikel:ausbilder"],
   "paragraf:bbig-34": ["paragraf:bbig-36","paragraf:bbig-35","artikel:eintragung"],
@@ -8194,6 +8369,7 @@ window.NACHBARN = {
   "quelle:ba-berufenet": ["quelle:ba-berufetv"],
   "quelle:ba-berufetv": ["quelle:ba-berufenet"],
   "quelle:ba-planetberuf": ["quelle:ba-berufetv"],
+  "quelle:ba-weisung-eq": ["faq:einstiegsqualifizierung#0","quelle:gesetz-eqfao"],
   "quelle:bav": ["quelle:praktikantenvertrag","faq:eintragung#0","liste:eintragung"],
   "quelle:bav-abmeldung": ["vorlage:aufloesungsvertrag","quelle:bav-aenderung"],
   "quelle:bav-aenderung": ["vorlage:vertragsaenderung","artikel:teilzeit-verkuerzung","quelle:bav-abmeldung","paragraf:bbig-8","paragraf:bbig-7a"],
@@ -8202,6 +8378,9 @@ window.NACHBARN = {
   "quelle:besondere-richtlinien-pruefung": ["faq:abschlusspruefung#5","artikel:fw-inhalte-pruefung","quelle:pruefungsplan-winter-2027"],
   "quelle:bibb-ausbildung-gestalten": ["quelle:ha-174"],
   "quelle:bildungsserver-agrar": ["quelle:ausbv-agrarservice","faq:eintragung#0"],
+  "quelle:eq-ausbildungsnachweis": ["quelle:eq-betriebliches-zeugnis","artikel:berichtsheft"],
+  "quelle:eq-betriebliches-zeugnis": ["quelle:eq-vertrag-gaertner","artikel:einstiegsqualifizierung","liste:einstiegsqualifizierung"],
+  "quelle:eq-vertrag-gaertner": ["artikel:einstiegsqualifizierung","quelle:eq-betriebliches-zeugnis","liste:einstiegsqualifizierung"],
   "quelle:gesetz-aevo": ["paragraf:aevo-2","paragraf:aevo-1"],
   "quelle:gesetz-arbschg": ["paragraf:arbschg-12","quelle:gesetz-kschg","paragraf:arbschg-15"],
   "quelle:gesetz-arbzg": ["quelle:gesetz-burlg","artikel:arbeitszeit-erwachsene"],
@@ -8209,10 +8388,12 @@ window.NACHBARN = {
   "quelle:gesetz-bbig": ["paragraf:bbig-9","quelle:gesetz-bafoeg","paragraf:bbig-1"],
   "quelle:gesetz-burlg": ["quelle:gesetz-arbzg","paragraf:burlg-1"],
   "quelle:gesetz-entgfg": ["paragraf:entgfg-1"],
+  "quelle:gesetz-eqfao": ["faq:einstiegsqualifizierung#0","quelle:ba-weisung-eq","liste:einstiegsqualifizierung"],
   "quelle:gesetz-gaertnausbv": ["quelle:plan-gaertner-galabau"],
-  "quelle:gesetz-gartausbsteignv": ["quelle:gesetz-gaertnausbv","faq:ausbilder#2","paragraf:bbig-27"],
+  "quelle:gesetz-gartausbsteignv": ["quelle:gesetz-gartausbsteignv","paragraf:bbig-27","faq:einstiegsqualifizierung#0"],
   "quelle:gesetz-gbfwvo": ["quelle:plan-fachwerker-galabau","artikel:fw-grundlagen","faq:foerderung#1"],
   "quelle:gesetz-jarbschg": ["paragraf:jarbschg-48","artikel:arbeitszeit-jugendliche","paragraf:jarbschg-14","faq:jugendliche#4","quelle:gesetz-arbzg"],
+  "quelle:gesetz-milog": ["faq:einstiegsqualifizierung#4"],
   "quelle:gesetz-tzbfg": ["paragraf:tzbfg-23","paragraf:tzbfg-21","faq:ende-uebernahme#2","quelle:gesetz-arbzg"],
   "quelle:ha-096": ["vorlage:externenpruefung","quelle:ha-129","paragraf:bbig-55","paragraf:bbig-46","faq:abschlusspruefung#4"],
   "quelle:ha-120": ["quelle:ha-096","paragraf:bbig-48"],
@@ -8262,7 +8443,7 @@ window.NACHBARN = {
   "vorlage:betriebsbesuch-ankuendigung": ["vorlage:vertragsunterlagen","vorlage:ap-anmeldung","liste:betriebsbesuch"],
   "vorlage:externenpruefung": ["quelle:ha-096","faq:abschlusspruefung#4","vorlage:ap-anmeldung","quelle:anmeldebogen-extern"],
   "vorlage:fehlende-unterlagen": ["vorlage:berichtsheft-erinnerung","vorlage:aufloesungsvertrag"],
-  "vorlage:interesse-fachwerker": ["vorlage:interesse-gaertner","vorlage:teilzeitausbildung","artikel:fw-grundlagen"],
+  "vorlage:interesse-fachwerker": ["vorlage:interesse-gaertner","vorlage:teilzeitausbildung","faq:einstiegsqualifizierung#7","artikel:fw-grundlagen"],
   "vorlage:interesse-gaertner": ["vorlage:interesse-fachwerker","vorlage:teilzeitausbildung","quelle:plan-gaertner-galabau"],
   "vorlage:pruefung-nachteilsausgleich": ["vorlage:vertragsaenderung","vorlage:vertragsverlaengerung-pruefung"],
   "vorlage:teilzeitausbildung": ["vorlage:ausbildung-mit-kind","vorlage:interesse-fachwerker","quelle:ha-174"],
@@ -8453,6 +8634,7 @@ window.NACHBARN = {
     BGB: "gesetz-bgb", ArbSchG: "gesetz-arbschg", KSchG: "gesetz-kschg",
     BetrVG: "gesetz-betrvg", TzBfG: "gesetz-tzbfg", "SGB III": "gesetz-sgb3", "SGB IV": "gesetz-sgb4",
     "SGB IX": "gesetz-sgb9", "BAföG": "gesetz-bafoeg", DSGVO: "gesetz-dsgvo",
+    MiLoG: "gesetz-milog", EQFAO: "gesetz-eqfao", GartAusbStEignV: "gesetz-gartausbsteignv",
     LwAusbV: "ausbv-landwirt", WinzerAusbV: "ausbv-winzer",
     FischwAusbV: "ausbv-fischwirt", BrennAusbV: "ausbv-brenner",
     TWirtAusbV: "ausbv-tierwirt", PfWirtAusbV: "ausbv-pferdewirt",

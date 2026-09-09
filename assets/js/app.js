@@ -61,6 +61,7 @@
     BGB: "gesetz-bgb", ArbSchG: "gesetz-arbschg", KSchG: "gesetz-kschg",
     BetrVG: "gesetz-betrvg", TzBfG: "gesetz-tzbfg", "SGB III": "gesetz-sgb3", "SGB IV": "gesetz-sgb4",
     "SGB IX": "gesetz-sgb9", "BAföG": "gesetz-bafoeg", DSGVO: "gesetz-dsgvo",
+    MiLoG: "gesetz-milog", EQFAO: "gesetz-eqfao", GartAusbStEignV: "gesetz-gartausbsteignv",
     LwAusbV: "ausbv-landwirt", WinzerAusbV: "ausbv-winzer",
     FischwAusbV: "ausbv-fischwirt", BrennAusbV: "ausbv-brenner",
     TWirtAusbV: "ausbv-tierwirt", PfWirtAusbV: "ausbv-pferdewirt",

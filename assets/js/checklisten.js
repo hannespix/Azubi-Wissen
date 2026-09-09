@@ -8,7 +8,7 @@
   "use strict";
 
   window.CHECKLISTEN = {
-    stand: "31.07.2026",
+    stand: "09.09.2026",
     hinweis: "Checklisten sind Arbeitshilfen der Ausbildungsberatung — sie ersetzen keine Einzelfallprüfung.",
     listen: [
 
@@ -63,6 +63,44 @@
             { t: "Vertrag ins Verzeichnis eingetragen" },
             { t: "Berufsschulanmeldung angestoßen bzw. nachgewiesen" },
             { t: "Eintragungsbestätigung an Betrieb (und ggf. gesetzliche Vertretung) versandt" }
+          ] }
+        ] },
+
+      { id: "einstiegsqualifizierung",
+        titel: "Einstiegsqualifizierung prüfen (§ 54a SGB III)",
+        kurz: "Für Anzeige, Registrierung und die Einschätzung, die die Agentur für Arbeit im Zweifelsfall anfordert — der Maßstab ist die Durchführbarkeit, nicht die Anerkennung.",
+        stichworte: ["eq", "einstiegsqualifizierung", "54a", "praktikum", "anzeige", "einschätzung"],
+        artikel: ["einstiegsqualifizierung", "ausbildungsvertrag", "foerderung"],
+        gruppen: [
+          { t: "Was für eine Maßnahme ist es?", punkte: [
+            { t: "Geförderte EQ nach § 54a SGB III — oder nur ein Praktikum?", h: "Entscheidet alles Weitere: Bei nicht geförderter Berufsausbildungsvorbereitung gelten §§ 27–33 BBiG über § 68 Abs. 2 BBiG entsprechend." },
+            { t: "Agentur für Arbeit bzw. Leistungsträger eingebunden", h: "Über die Förderung und den förderfähigen Personenkreis entscheidet die Agentur, nicht die zuständige Stelle." },
+            { t: "Zielberuf und Fachrichtung festgelegt (Gärtner/in — welche Fachrichtung?)" },
+            { t: "Bei Menschen mit Behinderungen: Vorbereitung auf [[fw-grundlagen|§ 66 BBiG]] geprüft", h: "§ 54a Abs. 2 SGB III lässt das ausdrücklich zu." }
+          ] },
+          { t: "Formale Voraussetzungen", punkte: [
+            { t: "EQ-Vertrag vollständig und 3-fach vorgelegt" },
+            { t: "Dauer 4 bis 12 Monate" },
+            { t: "Vollzeit oder mindestens 20 Wochenstunden" },
+            { t: "Mindestens 70 % der Gesamtzeit im Betrieb" },
+            { t: "Verantwortliche Praktikumsleitung namentlich benannt" },
+            { t: "Mindestens drei Qualifizierungsbausteine angekreuzt", h: "Je Fachrichtung eigenes Formular (GaLaBau, Obstbau, Zierpflanzenbau)." },
+            { t: "Vertrag im Verzeichnis der Praktikantenverhältnisse eingetragen", h: "Die Registrierung ist keine Anerkennung als Ausbildungsstätte." }
+          ] },
+          { t: "Fachliche Einschätzung — Durchführbarkeit", punkte: [
+            { t: "NICHT zu prüfen: Anerkennung der Ausbildungsstätte und Ausbildereignung", h: "Die Eignung nach §§ 27–33 BBiG ist keine Fördervoraussetzung (Fachliche Weisungen der BA, 54a.11)." },
+            { t: "Kann der Betrieb die angekreuzten Bausteine tatsächlich vermitteln?" },
+            { t: "Passen die betrieblichen Tätigkeiten fachlich zum Zielberuf?" },
+            { t: "Wer leitet im Alltag an — Qualifikation oder Berufserfahrung geklärt?" },
+            { t: "Keine Substitution: Hat der Betrieb Ausbildungsplätze durch EQ-Plätze ersetzt?", h: "Bei Anhaltspunkten festhalten — die Agentur lehnt den Antrag dann ab." }
+          ] },
+          { t: "Schule, Schutz und Abschluss", punkte: [
+            { t: "Berufsschulpflicht geklärt, Fachklassenbesuch angestrebt", h: "Erleichtert den Übergang und eine spätere Verkürzung." },
+            { t: "Bei Minderjährigen: [[arbeitszeit-jugendliche|Jugendarbeitsschutz]] beachtet" },
+            { t: "Betriebliches Zeugnis am Ende vereinbart" },
+            { t: "Auf die Antragstellung für das Zertifikat hingewiesen", h: "Die zuständige Stelle stellt es nur auf Antrag aus — gegen Vorlage des Zeugnisses." },
+            { t: "Anschluss geplant: Anerkennung des Betriebs und Ausbildereignung rechtzeitig klären" },
+            { t: "Verkürzung gewünscht? Antrag nach [[teilzeit-verkuerzung|§ 8 Abs. 1 BBiG]] vorbereiten", h: "Keine automatische Anrechnung der EQ-Zeit." }
           ] }
         ] },
 

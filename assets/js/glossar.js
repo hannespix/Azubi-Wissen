@@ -5,7 +5,7 @@
   "use strict";
 
   window.GLOSSAR = {
-    stand: "31.07.2026",
+    stand: "09.09.2026",
     begriffe: [
       { id: "aevo", b: "AEVO (Ausbilder-Eignungsverordnung)",
         k: "Regelt die berufs- und arbeitspädagogische Eignung der Ausbilder/innen („Ausbilderschein“). Im Gartenbau ist sie in der Meisterprüfung enthalten; andere Qualifikationen weisen sie gesondert nach.",
@@ -55,6 +55,9 @@
       { id: "eintragung", b: "Eintragung (Verzeichnis)",
         k: "Aufnahme des Ausbildungsverhältnisses in das Verzeichnis der zuständigen Stelle (§§ 34 ff. BBiG) — Voraussetzung sind vollständige Unterlagen, Eignung und rechtskonformer Vertrag.",
         stichworte: ["verzeichnis", "vertrag"], artikel: ["eintragung"] },
+      { id: "einstiegsqualifizierung", b: "Einstiegsqualifizierung (EQ)",
+        k: "Gefördertes betriebliches Langzeitpraktikum von vier bis zwölf Monaten im Vorfeld der Ausbildung (§ 54a SGB III), auf Grundlage eines Vertrags nach § 26 BBiG. Der Betrieb braucht dafür weder Anerkennung als Ausbildungsstätte noch einen Ausbilder nach §§ 28–30 BBiG.",
+        stichworte: ["eq", "praktikum", "54a", "vorbereitung"], artikel: ["einstiegsqualifizierung"], quelle: "eq-vertrag-gaertner" },
       { id: "eignungsuntersuchung", b: "Eignungsuntersuchung (§ 66)",
         k: "Feststellung des Reha-Trägers, dass ein Regelberuf nicht in Betracht kommt und eine Ausbildung nach § 66 BBiG geeignet ist; ohne schriftliches Ergebnis keine Eintragung eines Fachwerker-Vertrags (§ 3 GBFWVO).",
         stichworte: ["fachwerker", "reha", "eignung"], artikel: ["fw-weg"] },
