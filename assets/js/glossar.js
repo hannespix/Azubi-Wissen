@@ -5,7 +5,7 @@
   "use strict";
 
   window.GLOSSAR = {
-    stand: "09.09.2026",
+    stand: "15.09.2026",
     begriffe: [
       { id: "aevo", b: "AEVO (Ausbilder-Eignungsverordnung)",
         k: "Regelt die berufs- und arbeitspädagogische Eignung der Ausbilder/innen („Ausbilderschein“). Im Gartenbau ist sie in der Meisterprüfung enthalten; andere Qualifikationen weisen sie gesondert nach.",
@@ -61,6 +61,9 @@
       { id: "eignungsuntersuchung", b: "Eignungsuntersuchung (§ 66)",
         k: "Feststellung des Reha-Trägers, dass ein Regelberuf nicht in Betracht kommt und eine Ausbildung nach § 66 BBiG geeignet ist; ohne schriftliches Ergebnis keine Eintragung eines Fachwerker-Vertrags (§ 3 GBFWVO).",
         stichworte: ["fachwerker", "reha", "eignung"], artikel: ["fw-weg"] },
+      { id: "fehlzeiten", b: "Fehlzeiten (Prüfungszulassung)",
+        k: "Versäumte Ausbildungszeit in Betrieb und Berufsschule — entschuldigt wie unentschuldigt, ohne Urlaub. Das BBiG nennt keine Höchstzahl; bis etwa 10 % der maßgeblichen Ausbildungszeit gelten sie als geringfügig, darüber wird im Einzelfall geprüft, ob die Ausbildung im Wesentlichen stattgefunden hat (§ 43 Abs. 1 BBiG).",
+        stichworte: ["fehltage", "krank", "zulassung", "10 prozent"], artikel: ["fehlzeiten-zulassung"] },
       { id: "externenpruefung", b: "Externenprüfung",
         k: "Zulassung zur Abschlussprüfung ohne Ausbildungsverhältnis nach § 45 Abs. 2 BBiG — in der Regel bei mindestens dem Anderthalbfachen der Ausbildungszeit an einschlägiger Berufspraxis (Gärtner: 4,5 Jahre).",
         stichworte: ["quereinstieg", "pruefung extern"], artikel: ["abschlusspruefung"] },

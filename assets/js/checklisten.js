@@ -8,7 +8,7 @@
   "use strict";
 
   window.CHECKLISTEN = {
-    stand: "09.09.2026",
+    stand: "15.09.2026",
     hinweis: "Checklisten sind Arbeitshilfen der Ausbildungsberatung — sie ersetzen keine Einzelfallprüfung.",
     listen: [
 
@@ -101,6 +101,48 @@
             { t: "Auf die Antragstellung für das Zertifikat hingewiesen", h: "Die zuständige Stelle stellt es nur auf Antrag aus — gegen Vorlage des Zeugnisses." },
             { t: "Anschluss geplant: Anerkennung des Betriebs und Ausbildereignung rechtzeitig klären" },
             { t: "Verkürzung gewünscht? Antrag nach [[teilzeit-verkuerzung|§ 8 Abs. 1 BBiG]] vorbereiten", h: "Keine automatische Anrechnung der EQ-Zeit." }
+          ] }
+        ] },
+
+      { id: "fehlzeiten",
+        titel: "Fehlzeiten & Prüfungszulassung prüfen",
+        kurz: "Für die Einzelfallprüfung bei hohen Fehlzeiten — erst die Zählweise, dann der Ausbildungsstand, dann die Entscheidung über Zulassung oder Verlängerung.",
+        stichworte: ["fehlzeiten", "fehltage", "zulassung", "krank", "verlängerung", "ausbildungsstand"],
+        artikel: ["fehlzeiten-zulassung", "abschlusspruefung", "krankmeldung"],
+        gruppen: [
+          { t: "Zählweise prüfen — vor jeder Bewertung", punkte: [
+            { t: "Tatsächlich ausgefallene Ausbildungstage erfasst, nicht Kalendertage der Krankschreibung", h: "Häufigster Fehler: Eine Woche Attest wird als sieben Fehltage gemeldet." },
+            { t: "Wochenenden und Feiertage nicht mitgezählt" },
+            { t: "Jeder Ausfall dem Lernort zugeordnet (Betrieb / Berufsschule / Lehrgang)" },
+            { t: "Berufsschul- und Lehrgangstage NICHT als Fehlzeit gewertet", h: "Sie sind nach § 15 BBiG selbst Ausbildungszeit — nur versäumte Tage zählen." },
+            { t: "Doppelzählungen bereinigt (Schultag nicht zusätzlich als Betriebstag)" },
+            { t: "Urlaub nicht als Fehlzeit geführt" },
+            { t: "Teilweise versäumte Tage in Stunden dokumentiert, Umrechnung abgestimmt" },
+            { t: "Elternzeit gesondert ausgewiesen", h: "§ 46 Abs. 2 BBiG: Aus Elternzeit darf bei der Zulassung kein Nachteil erwachsen." }
+          ] },
+          { t: "Bezugsgröße und Richtwert", punkte: [
+            { t: "Maßgebliche Ausbildungszeit bestimmt (Verkürzung, Teilzeit, angerechnete Zeiten?)" },
+            { t: "Bewertungsstichtag geklärt" },
+            { t: "Anteil der Fehlzeiten berechnet — Richtwert etwa 10 %", h: "Kein Anspruch auf Fehltage und keine automatische Ablehnungsgrenze; bezieht sich auf die gesamte Ausbildungszeit, nicht nur aufs letzte Jahr." },
+            { t: "Örtliche Staffel bewusst als Praxis behandelt, nicht als Norm", h: "66/75 Tage sind Praxisangabe des RP Freiburg; § 46 Abs. 1 BBiG kann den Prüfungsausschuss auch darunter erfordern." }
+          ] },
+          { t: "Ausbildungsstand belegen", punkte: [
+            { t: "Betroffene Ausbildungsabschnitte und Tätigkeiten benannt" },
+            { t: "Betriebliche Stellungnahme liegt vor — konkret, nicht „zu viele Fehltage“", h: "Was gelingt selbstständig, was wurde nachgeholt, wo fehlt Übung?" },
+            { t: "Ergebnis der Zwischenprüfung herangezogen", h: "Mit der Entwicklung seither lesen; keine Anrechnung auf die Abschlussnote." },
+            { t: "Aktuelles Berufsschulzeugnis vorhanden, ggf. Stellungnahme der Schule" },
+            { t: "[[berichtsheft|Ausbildungsnachweis]] und Lehrgangsnachweise ausgewertet" },
+            { t: "Nachholplan vereinbart — Aufgabe, Anleitung, Zeitraum, Nachweis", h: "Im Gartenbau die Jahreszeit berücksichtigen: Nicht jede Arbeit lässt sich jederzeit nachholen." },
+            { t: "Keine Diagnosen angefordert", h: "Erkrankungen werden weder angezweifelt noch medizinisch bewertet." }
+          ] },
+          { t: "Entscheidung und Weg", punkte: [
+            { t: "Zuständigkeit klar: zuständige Stelle entscheidet, bei Zweifeln der Prüfungsausschuss (§ 46 Abs. 1 BBiG)" },
+            { t: "Reicht die verbleibende Zeit für die fehlenden Inhalte?" },
+            { t: "Falls nein: Verlängerung nach § 8 Abs. 2 BBiG besprochen", h: "Antrag stellt die auszubildende Person; der Betrieb wird angehört, stimmt aber nicht zu." },
+            { t: "Antrag rechtzeitig vor Vertragsende gestellt, nächster Prüfungstermin einbezogen" },
+            { t: "Nichtzulassung und Nichtbestehen auseinandergehalten", h: "§ 21 Abs. 3 BBiG greift nur nach einer abgelegten, nicht bestandenen Prüfung." },
+            { t: "Bei Ablehnung: Begründung und Rechtsbehelfsbelehrung beachtet" },
+            { t: "Nachteilsausgleich getrennt geprüft (§ 65 BBiG)", h: "Betrifft die Prüfungsbedingungen, nicht die fehlende Ausbildung." }
           ] }
         ] },
 
