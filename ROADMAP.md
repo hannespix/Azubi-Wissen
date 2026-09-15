@@ -779,6 +779,37 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Inhaltstranche S37: Fehlzeiten & Zulassung — Auftrag 15.09.2026
+
+- **S37 Fehlzeiten & Zulassung zur Abschlussprüfung** ✅ — neuer Artikel
+  `fehlzeiten-zulassung` (15 Abschnitte, 8 Fakten, 9 FAQ) im Themenbereich
+  „Berufsschule & Prüfungen". Er räumt mit drei verbreiteten Irrtümern auf:
+  Das BBiG nennt **keine Höchstzahl an Fehltagen**; der 10-%-Richtwert ist
+  weder ein Anspruch auf Fehltage noch eine Ablehnungsgrenze; **Berufsschul-
+  und Lehrgangstage sind selbst Ausbildungszeit** (§ 15 BBiG) und gehören
+  nicht in die Fehlzeitenübersicht. Dazu die Zählregeln mit Rechenbeispiel
+  (fünf statt sieben Tagen bei einer Wochen-Krankschreibung), was die
+  Einzelfallprüfung bewertet, wer entscheidet (§ 46 Abs. 1 BBiG) und die für
+  die Beratung zentrale Abgrenzung: **Nichtzulassung ist nicht Nichtbestehen**
+  — § 21 Abs. 3 BBiG greift nur nach einer abgelegten Prüfung, sonst bleibt
+  nur der Antrag nach § 8 Abs. 2 BBiG, den die **auszubildende Person** stellt.
+  **Die örtliche 66/75-Tage-Staffel des RP Freiburg steht ausdrücklich als
+  Praxisangabe im Artikel, nicht als Rechtsnorm** — für die 75-Tage-Schwelle
+  gibt es keine öffentlich zugängliche Regelung, und § 46 Abs. 1 BBiG kann den
+  Prüfungsausschuss auch darunter erforderlich machen.
+  Neu außerdem: die **sechste Checkliste** „Fehlzeiten & Prüfungszulassung
+  prüfen" (26 Punkte, beginnt bewusst mit der Zählweise), die **15. E-Mail-
+  Vorlage** „Stellungnahme zum Ausbildungsstand anfordern" (fragt die fünf
+  Leitfragen ab und erklärt dem Betrieb die Zählregeln), der Glossarbegriff
+  und zwei Quellen (GärtnAusbV Anlage 3a, IHK-Rechenweise mit dem Hinweis auf
+  die fehlende Zuständigkeit für die grünen Berufe).
+  Alle Normzitate gegen den vendorierten Volltext geprüft; § 65 Abs. 2 Satz 2
+  BBiG kam dabei als Fund dazu. Bestehende Kurzstellen in `krankmeldung` und
+  `abschlusspruefung` verweisen jetzt auf den Tiefenartikel.
+  Bestand danach: 41 Artikel, 126 FAQ, 129 Quellen, 38 Glossarbegriffe,
+  6 Checklisten, 15 Vorlagen. Index 665 → 679 Einträge.
+  Tests: `mini_s37` (44), `smoke_bestand` (18). *(PR #79)*
+
 ## Inhaltstranche S36: Einstiegsqualifizierung — Auftrag 09.09.2026
 
 - **S36 Einstiegsqualifizierung (§ 54a SGB III)** ✅ — neuer Artikel

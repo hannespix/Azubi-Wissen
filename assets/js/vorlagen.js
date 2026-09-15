@@ -9,7 +9,7 @@
 // Dienststelle kommen aus der Signatur des E-Mail-Programms.
 // PFLEGE: Texte fachlich prüfen wie Wissensartikel; Stand unten aktualisieren.
 window.VORLAGEN = {
-  stand: "31.07.2026",
+  stand: "15.09.2026",
   kategorien: [
     { id: "vertrag",   titel: "Vertragsangelegenheiten" },
     { id: "pruefung",  titel: "Prüfungen & Externenprüfung" },
@@ -91,6 +91,16 @@ window.VORLAGEN = {
     anhaengePlan: true,
     stichworte: ["Externenprüfung", "extern", "§ 45", "ohne Ausbildung", "Zulassung", "Literatur", "Quereinstieg"],
     artikel: ["abschlusspruefung", "zustaendige-stelle"] },
+
+  { id: "stellungnahme-ausbildungsstand",
+    kategorie: "pruefung",
+    titel: "Stellungnahme zum Ausbildungsstand anfordern (hohe Fehlzeiten)",
+    betreff: "Abschlussprüfung [AZUBI_NAME] — Stellungnahme zum Ausbildungsstand erbeten",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nfür die Entscheidung über die Zulassung von [AZUBI_NAME] zur Abschlussprüfung im Beruf [BERUF], Fachrichtung [FACHRICHTUNG], benötigen wir Ihre fachliche Einschätzung. Anlass sind die gemeldeten Fehlzeiten; über die Zulassung entscheidet die zuständige Stelle, bei Zweifeln der Prüfungsausschuss (§ 46 Abs. 1 BBiG).\n\n**Vorab zur Einordnung:** Wir stellen die Erkrankungen nicht infrage und benötigen keine Diagnosen. Es geht allein darum, welche Ausbildungsinhalte tatsächlich vermittelt und erworben wurden.\n\nBitte beantworten Sie uns bis zum [FRIST] folgende Punkte:\n\n1. Welche Ausbildungsabschnitte und Tätigkeiten waren von den Ausfällen betroffen?\n2. Welche Inhalte wurden inzwischen nachgeholt — wann, wie und unter wessen Anleitung?\n3. Welche Tätigkeiten erledigt [AZUBI_NAME] bereits selbstständig und sicher?\n4. Wo fehlen noch Anleitung, Übung oder praktische Erfahrung?\n5. Welche Lücken lassen sich bis zum Prüfungstermin realistisch schließen — mit welchem Plan?\n\nHilfreich sind konkrete Beobachtungen statt allgemeiner Einschätzungen. Ein Satz wie „zu viele Fehltage“ beschreibt noch keine fehlende Fähigkeit und trägt die Entscheidung nicht.\n\nBitte legen Sie außerdem bei:\n\n- eine **Fehlzeitenübersicht** (Zeitraum, Ausbildungsjahr, Lernort, ausgefallene Tage, entschuldigt ja/nein)\n- den aktuellen **Ausbildungsnachweis**\n- vorhandene **Lehrgangsnachweise**\n\nBitte beachten Sie bei der Übersicht: Berufsschul- und Lehrgangstage sind selbst Ausbildungszeit (§ 15 BBiG) und keine Fehlzeit; zu erfassen sind nur tatsächlich ausgefallene Ausbildungstage, nicht die Kalendertage einer Krankschreibung.\n\nFalls wesentliche Inhalte bis zum Prüfungstermin nicht nachzuholen sind, sprechen Sie uns bitte frühzeitig an — eine Verlängerung nach § 8 Abs. 2 BBiG ist auf Antrag der auszubildenden Person möglich und oft der bessere Weg als eine Nichtzulassung.\n\nMit freundlichen Grüßen",
+    hinweise: "Vor dem Versand die gemeldeten Fehlzeiten auf Zählfehler prüfen — Kalendertage statt Ausbildungstage, mitgezählte Wochenenden und doppelt gewertete Schultage sind die häufigsten. Die Frist so setzen, dass die Unterlagen vor dem Anmeldeschluss vorliegen.",
+    anhaenge: [],
+    stichworte: ["Stellungnahme", "Fehlzeiten", "Ausbildungsstand", "Zulassung", "Einzelfallprüfung", "Nachholplan"],
+    artikel: ["fehlzeiten-zulassung", "abschlusspruefung"] },
 
   { id: "pruefung-nachteilsausgleich",
     kategorie: "pruefung",

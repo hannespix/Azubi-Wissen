@@ -8,7 +8,7 @@
 // (Beruf-ID aus berufe.js). Vorlagen mit `anhaengePlan` hängen darüber den
 // passenden Ausbildungsplan an — neue Pläne brauchen dieses Feld.
 window.QUELLEN = {
-  stand: "09.09.2026",
+  stand: "15.09.2026",
   eintraege: [
 
   /* ---------- Verträge & Anträge (zuständige Stelle, vendored) ------ */
@@ -832,6 +832,19 @@ window.QUELLEN = {
     beschreibung: "Freie Ausbildungs- und Praktikumsplätze in der Landwirtschaft und im Weinbau, von den Betrieben selbst gepflegt und nach Suchkriterien filterbar — die Ergänzung zur amtlichen Betriebsdatenbank, wenn es um freie Plätze statt um Anerkennung geht.",
     stichworte: ["Ausbildungsplatz", "Praktikum", "Ausbildungsbörse", "Landwirt", "Winzer", "Landjugend", "freie Stellen"],
     artikel: ["eintragung", "ausbildungsberatung"] },
+
+  { id: "gaertnausbv-anlage3a", titel: "GärtnAusbV Anlage 3a — Ausbildungsrahmenplan Garten- und Landschaftsbau",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/g_rtnausbv/anlage_3a.html",
+    beschreibung: "Die sachliche Gliederung der Ausbildungsinhalte im GaLaBau — Maßstab dafür, welche Tätigkeiten vermittelt sein müssen. Bei hohen Fehlzeiten die Grundlage, um Lücken konkret zu benennen statt pauschal zu bewerten.",
+    stichworte: ["Ausbildungsrahmenplan", "Anlage 3a", "GaLaBau", "Inhalte", "Gliederung"],
+    artikel: ["fehlzeiten-zulassung", "ausbildungspflicht"] },
+  { id: "ihk-fehlzeiten", titel: "Fehlzeiten, Zulassung und Freistellung (IHK Reutlingen)",
+    typ: "link", herausgeber: "IHK Reutlingen", stand: "laufend",
+    datei: null, url: "https://www.reutlingen.ihk.de/ausbildung/ausbildungspruefungen/fehlzeiten-zulassung-freistellung/",
+    beschreibung: "Öffentlich beschriebene Zählweise einer Kammer: 220 Arbeitstage im Jahr als Berechnungsgrundlage, Berücksichtigung des bereits zurückgelegten Zeitraums. Erklärt, woher der oft genannte Wert von 66 Tagen kommt. Achtung: Für die grünen Berufe ist die IHK nicht zuständig — als Verfahrensregel für Gärtner/innen gilt das nicht.",
+    stichworte: ["Fehlzeiten", "220 Tage", "66 Tage", "Berechnung", "Zulassung", "IHK"],
+    artikel: ["fehlzeiten-zulassung"] },
 
   /* ---------- Einstiegsqualifizierung (§ 54a SGB III) ------------ */
   { id: "eq-vertrag-gaertner", titel: "Einstiegsqualifizierungsvertrag Gärtner/in (§ 54a SGB III)",

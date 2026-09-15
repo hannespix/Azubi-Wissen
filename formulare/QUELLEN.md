@@ -5,7 +5,7 @@ Amtliche Gesetzestexte, Verordnungen und Verwaltungsvorschriften sind nach
 § 5 UrhG gemeinfrei; BIBB-Hauptausschuss-Empfehlungen sind amtliche
 Verlautbarungen (Veröffentlichung im Bundesanzeiger); Formulare der
 zuständigen Stelle sind zur Verwendung im Ausbildungsverfahren bestimmt.
-Stand der Sammlung: 09.09.2026.
+Stand der Sammlung: 15.09.2026.
 
 | Datei | Titel | Herausgeber | Stand | Quelle |
 |---|---|---|---|---|
