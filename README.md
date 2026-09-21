@@ -1,4 +1,4 @@
-# Ausbildung Grüne Berufe — Wissens- und Arbeitstool der Ausbildungsberatung (RP Freiburg)
+# Azubi Wissen — Wissens- und Arbeitstool der Ausbildungsberatung (RP Freiburg)
 
 Offline-Wissensdatenbank und Arbeitswerkzeug der Ausbildungsberatung für
 **alle grünen Berufe** (Gärtner/in, Landwirt/in, Winzer/in, Fischwirt/in,

@@ -26,8 +26,8 @@ window.KONTAKT = {
 
   // Betreffzeilen, damit Rückmeldungen zuordenbar ankommen.
   betreff: {
-    rueckmeldung: "Ausbildung Grüne Berufe — Rückmeldung",
-    barriere: "Ausbildung Grüne Berufe — Barriere melden"
+    rueckmeldung: "Azubi Wissen — Rückmeldung",
+    barriere: "Azubi Wissen — Barriere melden"
   },
 
   // Amtliche Seiten der Behörde (verbindlich gegenüber dieser Kurzfassung).

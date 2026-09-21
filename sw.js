@@ -1,4 +1,4 @@
-// sw.js — Service Worker für Azubi-Wissen (PWA).
+// sw.js — Service Worker für Azubi Wissen (PWA).
 // Cacht ausschließlich eigene Dateien desselben Ursprungs — keine externen
 // Requests (Zero-Trust).
 //
