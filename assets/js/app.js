@@ -1,4 +1,4 @@
-// app.js — Anwendungskern von „Ausbildung Grüne Berufe" (vormals Azubi-Wissen).
+// app.js — Anwendungskern von „Azubi Wissen“.
 // Hash-Router, Ansichten (Start / Wissen / Artikel), globale Suchpalette.
 // Assistent und Export liegen in eigenen Modulen (assistent.js, export.js)
 // und werden hier nur eingehängt, falls vorhanden.
@@ -861,7 +861,7 @@
     catch (fehler) {
       var haupt = $("#inhalt");
       if (haupt) {
-        haupt.innerHTML = "<h1>Ausbildung Grüne Berufe</h1>" +
+        haupt.innerHTML = "<h1>Azubi Wissen</h1>" +
           '<div class="bw-hinweis bw-hinweis--fehler"><p><strong>Diese Ansicht konnte nicht aufgebaut werden.</strong> ' +
           'Bitte die Seite neu laden (Strg+F5). Bleibt der Fehler, hilft die Browser-Konsole bei der Ursache.</p></div>' +
           '<p><a class="bw-btn" href="#/">Zur Startseite</a></p>';
@@ -874,22 +874,22 @@
     var r = parseHash();
     var haupt = $("#inhalt");
     var view = r.pfad[0] || "start";
-    var titel = "Ausbildung Grüne Berufe — RP Freiburg";
+    var titel = "Azubi Wissen — RP Freiburg";
 
     if (view === "artikel" && r.pfad[1] && artikelVon(r.pfad[1])) {
       var a = artikelVon(r.pfad[1]);
       haupt.innerHTML = viewArtikel(a, r.params);
       artikelVerhalten(haupt, a, r.params);
-      titel = a.titel + " — Grüne Berufe BW";
+      titel = a.titel + " — Azubi Wissen";
       zuletztMerken("#/artikel/" + a.id, a.titel, "Artikel");
     } else if (view === "wissen") {
       haupt.innerHTML = viewWissen(r.params);
       wissenVerhalten(haupt, r.params);
-      titel = "Wissensdatenbank — Grüne Berufe BW";
+      titel = "Wissensdatenbank — Azubi Wissen";
     } else if (view === "vorlagen") {
       haupt.innerHTML = viewVorlagen(r.params);
       vorlagenVerhalten(haupt, r.params);
-      titel = "E-Mail-Vorlagen — Grüne Berufe BW";
+      titel = "E-Mail-Vorlagen — Azubi Wissen";
       if (r.params.id && window.VORLAGEN) {
         window.VORLAGEN.vorlagen.forEach(function (v) {
           if (v.id === r.params.id) zuletztMerken("#/vorlagen?id=" + v.id, v.titel, "Vorlage");
@@ -897,61 +897,61 @@
       }
     } else if (view === "gesetz" && !r.pfad[1]) {
       haupt.innerHTML = viewGesetzWerke();
-      titel = "Gesetze & Vorschriften — Grüne Berufe BW";
+      titel = "Gesetze & Vorschriften — Azubi Wissen";
     } else if (view === "gesetz" && r.pfad[1]) {
       var gmatch = r.pfad[1].match(/^([a-z0-9]+?)(?:-(\d+[a-z]?))?$/) || [];
       var gschl = gmatch[1] || "";
       var gwerk = gesetzWerk(gschl);
       if (gwerk && gmatch[2] && gwerk.paragrafen.some(function (p) { return p.nr === gmatch[2]; })) {
         haupt.innerHTML = viewGesetzPara(gschl, gmatch[2]);
-        titel = "§ " + gmatch[2] + " " + gwerk.kurz + " — Grüne Berufe BW";
+        titel = "§ " + gmatch[2] + " " + gwerk.kurz + " — Azubi Wissen";
         zuletztMerken("#/gesetz/" + gschl + "-" + gmatch[2], "§ " + gmatch[2] + " " + gwerk.kurz, "Gesetz");
       } else if (gwerk) {
         haupt.innerHTML = viewGesetzListe(gschl);
         gesetzListeVerhalten(haupt, gschl);
-        titel = gwerk.kurz + " Volltext — Grüne Berufe BW";
+        titel = gwerk.kurz + " Volltext — Azubi Wissen";
       } else {
         haupt.innerHTML = platzhalter("Gesetzestext", "Dieser Gesetzestext liegt nicht im Werkzeug vor.");
       }
     } else if (view === "downloads") {
       haupt.innerHTML = viewDownloads();
       downloadsVerhalten(haupt);
-      titel = "Download-Center — Grüne Berufe BW";
+      titel = "Download-Center — Azubi Wissen";
     } else if (view === "nachschlag") {
       haupt.innerHTML = viewNachschlag();
       nachschlagVerhalten(haupt, r.params);
-      titel = "Schnellnachschlag — Grüne Berufe BW";
+      titel = "Schnellnachschlag — Azubi Wissen";
     } else if (view === "checklisten") {
       haupt.innerHTML = viewChecklisten(r.params);
       checklistenVerhalten(haupt, r.params);
-      titel = "Checklisten — Grüne Berufe BW";
+      titel = "Checklisten — Azubi Wissen";
     } else if (view === "glossar") {
       haupt.innerHTML = viewGlossar();
       glossarVerhalten(haupt, r.params);
-      titel = "Glossar — Grüne Berufe BW";
+      titel = "Glossar — Azubi Wissen";
     } else if (view === "berufe") {
       haupt.innerHTML = viewBerufe(r.params);
       berufeVerhalten(haupt, r.params);
-      titel = "Grüne Berufe — Grüne Berufe BW";
+      titel = "Grüne Berufe — Azubi Wissen";
     } else if (view === "eigene") {
       haupt.innerHTML = viewEigene();
       eigeneVerhalten(haupt, r.params);
-      titel = "Eigene Inhalte — Grüne Berufe BW";
+      titel = "Eigene Inhalte — Azubi Wissen";
     } else if (view === "quellen") {
       haupt.innerHTML = viewQuellen(r.params);
       quellenVerhalten(haupt, r.params);
-      titel = "Formulare & Quellen — Grüne Berufe BW";
+      titel = "Formulare & Quellen — Azubi Wissen";
     } else if (view === "rechtliches") {
       haupt.innerHTML = viewRechtliches();
-      titel = "Rechtliches & Impressum — Grüne Berufe BW";
+      titel = "Rechtliches & Impressum — Azubi Wissen";
     } else if (view === "assistent") {
       if (window.AzubiAssistent) { window.AzubiAssistent.renderView(haupt, r.params); }
       else haupt.innerHTML = platzhalter("KI-Assistent", "Der lokale Assistent wird im nächsten Ausbauschritt eingebaut.");
-      titel = "KI-Assistent — Grüne Berufe BW";
+      titel = "KI-Assistent — Azubi Wissen";
     } else if (view === "export") {
       if (window.AzubiExport) { window.AzubiExport.renderView(haupt, r.params); }
       else haupt.innerHTML = platzhalter("Export & Aktenvermerk", "PDF-Export und Aktenvermerk-Generator folgen im nächsten Ausbauschritt.");
-      titel = "Export & Vermerk — Grüne Berufe BW";
+      titel = "Export & Vermerk — Azubi Wissen";
     } else {
       haupt.innerHTML = viewStart();
       startVerhalten(haupt);
@@ -1068,7 +1068,7 @@
   function viewStart() {
     var anzahlFaq = W.artikel.reduce(function (s, a) { return s + (a.faq || []).length; }, 0);
     var h = '<div class="hero"><div>' +
-      '<h1>Ausbildung Grüne Berufe</h1>' +
+      '<h1>Azubi Wissen</h1>' +
       '<p class="bw-unterzeile">Wissensdatenbank und Arbeitshilfen der Ausbildungsberatung — alle grünen Berufe, komplett offline</p>' +
       '<button type="button" class="suchfeld-gross" data-palette>' + ICON.suche +
       '<span>Suchen: Urlaub, Kündigung, Vergütung …</span><kbd class="kbd">Strg K</kbd></button>' +
@@ -1078,7 +1078,7 @@
     h += '<div class="schnellzeile">' +
       '<a class="schnellkarte" href="#/nachschlag">' + ICON.blitz + "<span><h3>Schnellnachschlag</h3><p>Vergütung, Urlaub nach Alter, Fristen, Arbeitszeit, Fachrichtungen — auf einen Blick.</p></span></a>" +
       '<a class="schnellkarte" href="#/berufe">' + ICON.blatt + "<span><h3>Grüne Berufe</h3><p>Alle Ausbildungsberufe mit Fachrichtungen, Verordnungen und Ansprechseiten.</p></span></a>" +
-      '<a class="schnellkarte" href="#/checklisten">' + ICON.check + "<span><h3>Checklisten</h3><p>Erstberatung, Eintragung, Betriebsbesuch, AP-Anmeldung — abhaken, drucken, ablegen.</p></span></a>" +
+      '<a class="schnellkarte" href="#/checklisten">' + ICON.check + "<span><h3>Checklisten</h3><p>Erstberatung, Eintragung, Einstiegsqualifizierung, Fehlzeiten, Betriebsbesuch, AP-Anmeldung — abhaken, drucken, ablegen.</p></span></a>" +
       '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
       '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
       '<a class="schnellkarte" href="#/glossar">' + ICON.buch + "<span><h3>Glossar</h3><p>Fachbegriffe von 80-Prozent-Regel bis Zwischenprüfung — kurz erklärt und verlinkt.</p></span></a>" +
@@ -3936,7 +3936,7 @@
         var url = URL.createObjectURL(blob);
         var a = document.createElement("a");
         a.href = url;
-        a.download = "gruene-berufe-sicherung-" + new Date().toISOString().slice(0, 10) + ".json";
+        a.download = "azubi-wissen-sicherung-" + new Date().toISOString().slice(0, 10) + ".json";
         document.body.appendChild(a); a.click(); a.remove();
         setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
         sichStatus.textContent = "Komplettsicherung heruntergeladen (" + EIGENE.artikel.length + " Artikel, " +

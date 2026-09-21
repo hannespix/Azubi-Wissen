@@ -1,6 +1,6 @@
-# ROADMAP — Ausbildung Grüne Berufe (vormals Azubi-Wissen)
+# ROADMAP — Azubi Wissen
 
-> **Tool-Zweck:** „Ausbildung Grüne Berufe" — Wissensdatenbank und
+> **Tool-Zweck:** „Azubi Wissen" — Wissensdatenbank und
 > Arbeitshilfen der Ausbildungsberatung für alle grünen Berufe: Suche,
 > Berufe, Nachschlag mit Rechnern, Checklisten, Vorlagen, Downloads,
 > Glossar, eigener Assistent, PDF-Export, Aktenvermerke — komplett offline.
@@ -695,7 +695,9 @@ neue Roadmap-Einträge.
 > Dropdowns, Automatisierung, Eingabe-Historie — einfach, intuitiv, schnell."
 
 - **G1 Berufe-Grundausbau** ✅ — Umbenennung in „Ausbildung Grüne Berufe"
-  (Kurzname „Grüne Berufe BW"; Speicher-IDs unverändert für Datenerhalt);
+  (Kurzname „Grüne Berufe BW"; Speicher-IDs unverändert für Datenerhalt) —
+  **seit 21.09.2026 heißt das Werkzeug „Azubi Wissen"**, die Speicher-IDs
+  blieben erneut unverändert;
   neues Datenmodul `berufe.js` mit 18 Berufen (14 BBiG-Berufe inkl.
   Landwirt, Winzer, Fischwirt, Brenner, Tierwirt, Pferdewirt, Forstwirt,
   Hauswirtschafter, Milchtechnologe, Milchw. Laborant, Pflanzentechnologe,
