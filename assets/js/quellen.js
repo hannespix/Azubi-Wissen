@@ -8,7 +8,7 @@
 // (Beruf-ID aus berufe.js). Vorlagen mit `anhaengePlan` hängen darüber den
 // passenden Ausbildungsplan an — neue Pläne brauchen dieses Feld.
 window.QUELLEN = {
-  stand: "15.09.2026",
+  stand: "30.09.2026",
   eintraege: [
 
   /* ---------- Verträge & Anträge (zuständige Stelle, vendored) ------ */
@@ -33,6 +33,13 @@ window.QUELLEN = {
     beschreibung: "Kompakte Erstinformation für Azubis der grünen Berufe zum Ausbildungsstart.",
     stichworte: ["Infoblatt", "Azubi", "Start", "Erstinformation"],
     artikel: ["ausbildungsvertrag", "lernpflicht"] },
+  { id: "antrag-ausbilder-gartenbau", titel: "Antrag auf Anerkennung als Ausbilder/in im Gartenbau",
+    typ: "formular", herausgeber: "RP Freiburg", stand: "12/2016",
+    datei: "formulare/antrag-anerkennung-ausbilder-gartenbau.pdf",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/",
+    beschreibung: "Antrag auf Anerkennung der persönlichen und fachlichen Eignung als Ausbilder/in im Gartenbau. Beizufügen: Meisterprüfungszeugnis bzw. Techniker- oder Hochschulabschluss, aktuelles erweitertes Führungszeugnis, tabellarischer Lebenslauf mit den Betrieben der Praxiszeiten, bei Hochschulabsolventen der Nachweis der Ausbildereignung. Der Vordruck selbst ist online nicht veröffentlicht — der Link führt zur Verfahrensbeschreibung der Regierungspräsidien.",
+    stichworte: ["Ausbilder", "Ausbilderin", "Anerkennung", "Eignung", "Führungszeugnis", "Meister", "Antrag", "Ausbildereignung", "AEVO"],
+    artikel: ["ausbilder", "eintragung"] },
   { id: "bav-abmeldung", titel: "Abmeldung/Auflösung eines Berufsausbildungsverhältnisses",
     typ: "formular", herausgeber: "MLR/Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/bav-abmeldung-aufloesung.pdf",
@@ -575,11 +582,11 @@ window.QUELLEN = {
     stichworte: ["Anerkennung", "Ausbildungsbetrieb", "Eignung", "Ausbilder", "Frist", "20. April", "20. September"],
     artikel: ["ausbilder", "eintragung"] },
   { id: "gesetz-gartausbsteignv", titel: "Eignungsverordnung Ausbildungsstätte Gärtner (GartAusbStEignV)",
-    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "1997 (geltend)",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "12.08.1997 (geltend)",
     datei: null, url: "https://www.gesetze-im-internet.de/gartausbsteignv/",
-    beschreibung: "Verordnung über die Eignung der Ausbildungsstätte für die Berufsausbildung zum Gärtner/zur Gärtnerin — Grundlage der Betriebsanerkennung, Anforderungen je Fachrichtung.",
-    stichworte: ["Eignung", "Ausbildungsstätte", "Verordnung", "Anerkennung", "GartAusbStEignV"],
-    artikel: ["ausbilder"] },
+    beschreibung: "Verordnung über die Eignung der Ausbildungsstätte für die Berufsausbildung zum Gärtner/zur Gärtnerin — Mindestanforderungen an Größe, Einrichtung und Bewirtschaftungszustand je Fachrichtung, Grundlage der Betriebsanerkennung nach § 27 Abs. 3 BBiG. Für eine Einstiegsqualifizierung gilt sie nicht.",
+    stichworte: ["Eignung", "Ausbildungsstätte", "Verordnung", "Anerkennung", "GartAusbStEignV", "Gärtner"],
+    artikel: ["ausbilder", "eintragung", "einstiegsqualifizierung"] },
   { id: "kmk-rahmenlehrplan", titel: "KMK-Rahmenlehrplan Gärtner/Gärtnerin (Berufsschule)",
     typ: "merkblatt", herausgeber: "Kultusministerkonferenz", stand: "Beschluss 08.12.1995",
     datei: "formulare/kmk-rahmenlehrplan-gaertner.pdf",
@@ -903,6 +910,12 @@ window.QUELLEN = {
     beschreibung: "Anlage 1 zur Weisung 202607008, gültig ab 15.07.2026, Gültigkeit fortlaufend. Die verbindliche Auslegung der BA zur EQ-Förderung — darin auch die für die zuständige Stelle zentrale Aussage, dass die Eignung nach §§ 27–33 BBiG keine Fördervoraussetzung ist (Abschnitt 54a.11).",
     stichworte: ["Fachliche Weisung", "BA", "Bundesagentur", "EQ", "54a", "Förderung", "Weisung 202607008"],
     artikel: ["einstiegsqualifizierung", "foerderung"] },
+  { id: "gesetz-bzrg", titel: "Bundeszentralregistergesetz (BZRG)",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    datei: null, url: "https://www.gesetze-im-internet.de/bzrg/",
+    beschreibung: "Regelt das Führungszeugnis. Nach § 30a gibt es ein erweitertes Führungszeugnis für Tätigkeiten mit Minderjährigen — beantragt werden kann es nur mit einer schriftlichen Aufforderung der Stelle, die es verlangt (§ 30a Abs. 2).",
+    stichworte: ["BZRG", "Führungszeugnis", "erweitertes Führungszeugnis", "30a", "Gesetz"],
+    artikel: ["ausbilder"] },
   { id: "gesetz-milog", titel: "Mindestlohngesetz (MiLoG)",
     typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
     datei: null, url: "https://www.gesetze-im-internet.de/milog/",
@@ -915,12 +928,6 @@ window.QUELLEN = {
     beschreibung: "Die Anordnung des Verwaltungsrats der BA füllt § 54a SGB III aus: Vorrang der Ausbildungsvermittlung, mindestens 70 % Zeit im Betrieb, Beginntermine und der bis Ende 2029 befristete Vorrang für Ausbildungsuchende ohne (Fach-)Abitur. Der Volltext steht als Anhang in den Fachlichen Weisungen.",
     stichworte: ["EQFAO", "Anordnung", "EQ", "70 Prozent", "Verwaltungsrat"],
     artikel: ["einstiegsqualifizierung"] },
-  { id: "gesetz-gartausbsteignv", titel: "Verordnung über die Eignung der Ausbildungsstätte Gärtner/in (GartAusbStEignV)",
-    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "12.08.1997",
-    datei: null, url: "https://www.gesetze-im-internet.de/gartausbsteignv/",
-    beschreibung: "Mindestanforderungen an Größe, Einrichtung und Bewirtschaftungszustand einer Gärtner-Ausbildungsstätte — die Grundlage der Anerkennung nach § 27 Abs. 3 BBiG. Für eine Einstiegsqualifizierung gilt sie nicht.",
-    stichworte: ["GartAusbStEignV", "Eignung", "Ausbildungsstätte", "Anerkennung", "Gärtner"],
-    artikel: ["einstiegsqualifizierung", "ausbilder", "eintragung"] },
 
   ]
 };

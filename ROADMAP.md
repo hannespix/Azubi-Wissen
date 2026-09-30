@@ -781,6 +781,39 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Inhaltstranche S38: Anerkennung als Ausbilder/in — Auftrag 30.09.2026
+
+- **S38 Vorlage und Formular „Anerkennung als Ausbilder/in im Gartenbau"** ✅ —
+  der Vordruck des RP Freiburg (Stand 12/2016) liegt jetzt unter
+  `formulare/antrag-anerkennung-ausbilder-gartenbau.pdf`, erscheint im
+  Download-Center unter „Verträge & Anträge", in der Suche und unter
+  „Formulare & Links" im Artikel `ausbilder`. Online ist er nicht als PDF
+  veröffentlicht; die Quelle verlinkt deshalb die Verfahrensbeschreibung der
+  Regierungspräsidien und sagt das auch.
+  Die **16. E-Mail-Vorlage** entstand aus dem Entwurf der Beratung und hängt
+  das Formular an. Gegen den Vordruck geprüft und präzisiert: Der Lebenslauf
+  braucht die Praxiszeiten **mit den jeweiligen Betrieben**, die fachliche
+  Eignung belegt das Meister-, Techniker- oder Hochschulzeugnis. Dazu ein
+  Satz, der die Vorlage erst praxistauglich macht: Das **erweiterte**
+  Führungszeugnis stellt das Bürgerbüro nur gegen eine schriftliche
+  Aufforderung der verlangenden Stelle aus (**§ 30a Abs. 2 BZRG**, im Wortlaut
+  geprüft) — die E-Mail enthält diese Bestätigung gleich mit. Von der
+  RP-Seite übernommen: Die Anerkennung gilt persönlich, beim Betriebswechsel
+  ist keine neue nötig. Für die Beratung im Hinweisfeld: die Löschpflicht
+  nach § 30a Abs. 3 BZRG.
+  Artikel `ausbilder`: neuer Abschnitt zum Antragsverfahren (Betriebsleitung
+  weist nur die persönliche Eignung nach, Ausbilder/in persönliche und
+  fachliche), eine FAQ, § 30a BZRG als Rechtsgrundlage, BZRG als Linkquelle.
+  **Aufgeräumt:** Die GartAusbStEignV stand seit S36 **doppelt** in
+  `quellen.js` — beim Anlegen damals übersehen, dass es die ID schon gab.
+  Zusammengeführt. Ebenso zwei Selbstverweise im Artikel `abschlusspruefung`
+  (einer aus S35) entfernt. `smoke_bestand` prüft beides ab jetzt: keine
+  doppelten IDs in irgendeinem Datenmodul, kein Artikel verlinkt auf sich.
+  Bestand danach: 130 Quellen, 16 Vorlagen, 66 lokale PDFs. Index 679 → 682
+  Einträge, Einzeldatei 7,7 MB (das Formular ist eingebettet, damit die
+  E-Mail mit Anlage auch offline entsteht).
+  Tests: `mini_s38` (32), `smoke_bestand` (28). *(PR #81)*
+
 ## Inhaltstranche S37: Fehlzeiten & Zulassung — Auftrag 15.09.2026
 
 - **S37 Fehlzeiten & Zulassung zur Abschlussprüfung** ✅ — neuer Artikel
