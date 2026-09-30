@@ -9,7 +9,7 @@
 // Dienststelle kommen aus der Signatur des E-Mail-Programms.
 // PFLEGE: Texte fachlich prüfen wie Wissensartikel; Stand unten aktualisieren.
 window.VORLAGEN = {
-  stand: "15.09.2026",
+  stand: "30.09.2026",
   kategorien: [
     { id: "vertrag",   titel: "Vertragsangelegenheiten" },
     { id: "pruefung",  titel: "Prüfungen & Externenprüfung" },
@@ -58,6 +58,16 @@ window.VORLAGEN = {
     anhaenge: ["bav-abmeldung"],
     stichworte: ["Auflösung", "Aufhebungsvertrag", "Abmeldung", "Betriebswechsel"],
     artikel: ["aufhebung", "kuendigung"] },
+
+  { id: "anerkennung-ausbilder",
+    kategorie: "vertrag",
+    titel: "Anerkennung als Ausbilder/in im Gartenbau — Antragsformular",
+    betreff: "Ihre Anerkennung als Ausbilderin bzw. Ausbilder im Gartenbau — Antragsformular",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nanbei erhalten Sie das Formular „Antrag auf Anerkennung als Ausbilderin bzw. Ausbilder im Gartenbau“. Bitte senden Sie es uns vollständig ausgefüllt und unterschrieben zurück — zusammen mit diesen Unterlagen:\n\n- **tabellarischer Lebenslauf** — bitte mit allen Zeiten Ihrer gärtnerischen Berufspraxis und den jeweiligen Betrieben\n- **Nachweis der fachlichen Eignung** — Kopie des Meisterprüfungszeugnisses bzw. des Techniker- oder Hochschulabschlusses\n- **Nachweis der berufs- und arbeitspädagogischen Eignung** (Ausbildereignungsprüfung), sofern sie nicht bereits in Ihrem Abschluss enthalten ist — in der Gärtnermeisterprüfung ist sie das\n- **aktuelles erweitertes Führungszeugnis**\n\n**Zum Führungszeugnis:** Das erweiterte Führungszeugnis stellt das Bürgerbüro nur gegen eine schriftliche Aufforderung aus. Dafür können Sie diese E-Mail vorlegen. Wir bestätigen hiermit, dass wir das erweiterte Führungszeugnis benötigen, um Ihre persönliche Eignung für die berufliche Ausbildung — auch minderjähriger — Auszubildender zu prüfen (§ 30a Abs. 1 Nr. 2 Buchst. a und Abs. 2 BZRG).\n\nSobald alles vollständig bei uns ist, prüfen wir Ihre persönliche und fachliche Eignung. Liegen alle Voraussetzungen vor, sprechen wir die Anerkennung aus. Sie gilt für Sie persönlich — wechseln Sie später in einen anderen Betrieb, ist keine neue Anerkennung nötig.\n\nBei Fragen melden Sie sich gerne bei mir.\n\nMit freundlichen Grüßen",
+    hinweise: "Für die Person, die selbst ausbilden soll. Die Betriebsleitung weist nur ihre persönliche Eignung nach; bildet sie nicht selbst aus, bestellt sie eine anerkannte Ausbilderin oder einen anerkannten Ausbilder. Das Führungszeugnis nach Prüfung nur für die Eignungsentscheidung verwenden und nach § 30a Abs. 3 BZRG löschen, sobald die Person die Tätigkeit nicht ausübt — spätestens sechs Monate nach ihrer letzten Ausübung.",
+    anhaenge: ["antrag-ausbilder-gartenbau"],
+    stichworte: ["Ausbilder", "Ausbilderin", "Anerkennung", "Eignung", "Führungszeugnis", "Ausbildereignung", "Meister", "Antrag"],
+    artikel: ["ausbilder", "eintragung"] },
 
   { id: "fehlende-unterlagen",
     kategorie: "vertrag",

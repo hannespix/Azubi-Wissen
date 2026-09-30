@@ -5,13 +5,14 @@ Amtliche Gesetzestexte, Verordnungen und Verwaltungsvorschriften sind nach
 § 5 UrhG gemeinfrei; BIBB-Hauptausschuss-Empfehlungen sind amtliche
 Verlautbarungen (Veröffentlichung im Bundesanzeiger); Formulare der
 zuständigen Stelle sind zur Verwendung im Ausbildungsverfahren bestimmt.
-Stand der Sammlung: 15.09.2026.
+Stand der Sammlung: 30.09.2026.
 
 | Datei | Titel | Herausgeber | Stand | Quelle |
 |---|---|---|---|---|
 | `berufsausbildungsvertrag-gruene-berufe-bw.pdf` | Berufsausbildungsvertrag (BAV) grüne Berufe BW — ausfüllbarer Vordruck | MLR/Regierungspräsidien BW | 07/2024 | https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag |
 | `bav-hinweise-einreichung.pdf` | Hinweise zur Einreichung des Berufsausbildungsvertrags | Regierungspräsidien BW | 09/2024 | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
 | `infoblatt-azubis-2026.pdf` | Infoblatt für Auszubildende (RP Karlsruhe) | RP Karlsruhe | 02/2026 | https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag |
+| `antrag-anerkennung-ausbilder-gartenbau.pdf` | Antrag auf Anerkennung als Ausbilder/in im Gartenbau | RP Freiburg | 12/2016 | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/ |
 | `bav-abmeldung-aufloesung.pdf` | Abmeldung/Auflösung eines Berufsausbildungsverhältnisses | MLR/Regierungspräsidien BW | aktuell | https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag |
 | `bav-antrag-aenderung-eintragung.pdf` | Antrag auf Änderung der Eintragung (Verkürzung/Verlängerung u. a.) | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
 | `praktikantenvertrag.pdf` | Praktikantenvertrag (grüne Berufe) | MLR BW | aktuell | https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag |
