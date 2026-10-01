@@ -5,14 +5,13 @@ Amtliche Gesetzestexte, Verordnungen und Verwaltungsvorschriften sind nach
 § 5 UrhG gemeinfrei; BIBB-Hauptausschuss-Empfehlungen sind amtliche
 Verlautbarungen (Veröffentlichung im Bundesanzeiger); Formulare der
 zuständigen Stelle sind zur Verwendung im Ausbildungsverfahren bestimmt.
-Stand der Sammlung: 30.09.2026.
+Stand der Sammlung: 01.10.2026.
 
 | Datei | Titel | Herausgeber | Stand | Quelle |
 |---|---|---|---|---|
 | `berufsausbildungsvertrag-gruene-berufe-bw.pdf` | Berufsausbildungsvertrag (BAV) grüne Berufe BW — ausfüllbarer Vordruck | MLR/Regierungspräsidien BW | 07/2024 | https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag |
 | `bav-hinweise-einreichung.pdf` | Hinweise zur Einreichung des Berufsausbildungsvertrags | Regierungspräsidien BW | 09/2024 | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
 | `infoblatt-azubis-2026.pdf` | Infoblatt für Auszubildende (RP Karlsruhe) | RP Karlsruhe | 02/2026 | https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag |
-| `antrag-anerkennung-ausbilder-gartenbau.pdf` | Antrag auf Anerkennung als Ausbilder/in im Gartenbau | RP Freiburg | 12/2016 | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/ |
 | `bav-abmeldung-aufloesung.pdf` | Abmeldung/Auflösung eines Berufsausbildungsverhältnisses | MLR/Regierungspräsidien BW | aktuell | https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag |
 | `bav-antrag-aenderung-eintragung.pdf` | Antrag auf Änderung der Eintragung (Verkürzung/Verlängerung u. a.) | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
 | `praktikantenvertrag.pdf` | Praktikantenvertrag (grüne Berufe) | MLR BW | aktuell | https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag |
@@ -25,6 +24,13 @@ Stand der Sammlung: 30.09.2026.
 | `ausbildungsverguetung-gaertner.pdf` | Ausbildungsvergütung Gärtner/in — aktuelle Tabelle | Regierungspräsidien BW | 03/2026 | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
 | `urlaubstabelle-erwerbsgartenbau.pdf` | Urlaubstabelle Erwerbsgartenbau | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
 | `urlaubstabelle-galabau.pdf` | Urlaubstabelle Garten- und Landschaftsbau | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
+| `anerkennung/antrag-anerkennung-ausbildungsstaette-gartenbau.pdf` | Antrag auf Anerkennung der Ausbildungsstätte im Gartenbau | RP Freiburg | 12/2006 | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/ |
+| `antrag-anerkennung-ausbilder-gartenbau.pdf` | Antrag auf Anerkennung als Ausbilder/in im Gartenbau | RP Freiburg | 12/2016 | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/ |
+| `anerkennung/merkblatt-anerkennung-ausbildungsstaette-gartenbau.pdf` | Merkblatt: Anerkennung gärtnerischer Ausbildungsstätten | RP Freiburg | 08/2010 | – |
+| `anerkennung/bilanzen-bestaetigung-steuerbuero.pdf` | Anerkennung als Ausbildungsstätte — Bilanzen bzw. Bestätigung des Steuerbüros | RP Freiburg | 02/2018 | – |
+| `anerkennung/einverstaendnis-ausbildungsstaettenverzeichnis.pdf` | Einverständniserklärung zur Veröffentlichung im Ausbildungsstättenverzeichnis | RP Freiburg | 08/2010 | – |
+| `anerkennung/datenschutzhinweise-anerkennung.pdf` | Datenschutzhinweise zur Anerkennung von Ausbildungsbetrieben und Ausbilder/innen | Regierungspräsidien BW | 19.11.2020 | – |
+| `anerkennung/gewerbeaufsicht-regierungsbezirk-freiburg.pdf` | Gewerbeaufsicht im Regierungsbezirk Freiburg — Anschriften | RP Freiburg | 12/2010 | https://gewerbeaufsicht.baden-wuerttemberg.de/kontakt |
 | `ausbildungsplaene/gaertner-baumschule.pdf` | Betrieblicher Ausbildungsplan Gärtner/in — Baumschule | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
 | `ausbildungsplaene/gaertner-friedhofsgaertnerei.pdf` | Betrieblicher Ausbildungsplan Gärtner/in — Friedhofsgärtnerei | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
 | `ausbildungsplaene/gaertner-galabau.pdf` | Betrieblicher Ausbildungsplan Gärtner/in — Garten- und Landschaftsbau | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |

@@ -2429,13 +2429,21 @@
   function downloadBaum() {
     var E = window.QUELLEN ? window.QUELLEN.eintraege : [];
     function nach(f) { return E.filter(f); }
+    // Alles, was ein Betrieb für die Anerkennung braucht, an einer Stelle —
+    // dieselben Dokumente hängen an der Vorlage „anerkennung-ausbildungsbetrieb“.
+    var ANERKENNUNG = ["antrag-ausbildungsstaette-gartenbau", "antrag-ausbilder-gartenbau",
+      "merkblatt-anerkennung-ausbildungsstaette", "bilanzen-bestaetigung-steuerbuero",
+      "einverstaendnis-ausbildungsstaettenverzeichnis", "datenschutz-anerkennung-ausbildungsbetrieb",
+      "gewerbeaufsicht-rb-freiburg"];
+    function anerkennung(e) { return ANERKENNUNG.indexOf(e.id) >= 0; }
     var baum = [
-      { titel: "Verträge & Anträge", eintraege: nach(function (e) { return e.typ === "formular"; }) },
+      { titel: "Verträge & Anträge", eintraege: nach(function (e) { return e.typ === "formular" && !anerkennung(e); }) },
+      { titel: "Anerkennung als Ausbildungsbetrieb & Ausbilder/in", eintraege: nach(anerkennung) },
       { titel: "Betriebliche Ausbildungspläne", kinder: [
         { titel: "Gärtner/in (7 Fachrichtungen)", eintraege: nach(function (e) { return e.id.indexOf("plan-gaertner-") === 0; }) },
         { titel: "Fachwerker/in (7 Fachrichtungen)", eintraege: nach(function (e) { return e.id.indexOf("plan-fachwerker-") === 0; }) }
       ] },
-      { titel: "Tabellen & Merkblätter", eintraege: nach(function (e) { return e.typ === "merkblatt"; }) },
+      { titel: "Tabellen & Merkblätter", eintraege: nach(function (e) { return e.typ === "merkblatt" && !anerkennung(e); }) },
       { titel: "Gesetze & Verordnungen", eintraege: nach(function (e) { return e.typ === "gesetz" && e.id.indexOf("ausbv-") !== 0 || e.id.indexOf("gesetz-") === 0; }) },
       { titel: "Verwaltungsvorschriften & BIBB-Empfehlungen", kinder: [
         { titel: "Land Baden-Württemberg (MLR)", eintraege: nach(function (e) { return e.typ === "vwv"; }) },
