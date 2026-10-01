@@ -781,6 +781,50 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Inhaltstranche S39: Vorlagen-Kategorien — Auftrag 01.10.2026
+
+- **S39 Vorlagen nach dem Ausbildungsverlauf geordnet** ✅ — die drei alten
+  Kategorien trennten nicht sauber: „Beratungsalltag“ sammelte vom
+  Erstkontakt bis zur Berichtsheft-Erinnerung alles, „Vertragsangelegenheiten“
+  mischte Vertragsstart, Auflösung und Ausbilderanerkennung. Neu sind **fünf
+  Kategorien in der Reihenfolge, in der die Fälle auftreten**:
+  **Vor der Ausbildung** (Interesse Gärtner/in und Fachwerker/in,
+  Teilzeitausbildung, Ausbildung mit Kind) · **Ausbildungsbetriebe** (auf
+  Wunsch der Beratung ergänzt: Anerkennung als Ausbildungsbetrieb,
+  Anerkennung als Ausbilder/in, Betriebsbesuch) · **Vertrag &
+  Ausbildungsstart** (Vertragsunterlagen, fehlende Unterlagen) · **Während
+  der Ausbildung** (Vertragsänderung, Berichtsheft, Auflösungsvertrag) ·
+  **Prüfung & Abschluss** (AP-Anmeldung, Externenprüfung, Stellungnahme
+  zum Ausbildungsstand, Nachteilsausgleich, Verlängerung bei
+  Nichtbestehen). `vorlagen.js` steht in derselben Reihenfolge, mit einem
+  Abschnittskommentar je Kategorie. Den Umbau sichert ein Vergleich ab:
+  Text, Betreff, Anlagen und Hinweise der 16 bisherigen Vorlagen sind
+  unverändert, nur Kategorie und Reihenfolge sind neu.
+  **Neue Vorlage „Anerkennung als Ausbildungsbetrieb — Verfahren &
+  Fristen“** (17.) — die Antwort an Betriebe, die erstmals ausbilden wollen:
+  Antrag bis 20. April bzw. 20. September, Begutachtung durch den
+  Gutachterausschuss nach der Eignungsverordnung, wer welche Eignung
+  nachweist, und der Satz, auf den es ankommt: Vor der amtlichen
+  Anerkennung darf kein Ausbildungsverhältnis eingegangen und kein Platz
+  zugesagt werden. Alles aus dem Bestand belegt (RP-Quelle
+  `rp-anerkennung`, Artikel `ausbilder`, Fristenkalender). Anlagen: Antrag
+  auf Anerkennung als Ausbilder/in, GartAusbStEignV, Verfahrensseite der
+  Regierungspräsidien und der Ausbildungsplan der gewählten Fachrichtung.
+  Einen Vordruck für die Betriebsanerkennung selbst kennt das Werkzeug
+  nicht; das Hinweisfeld bittet, ihn nachzureichen, falls das RP einen
+  verwendet.
+  **Durchgängigkeit:** Das Kategorie-Etikett auf den Karten erscheint nur
+  noch unter „Alle“; ist eine Kategorie gewählt, wiederholt es nur den
+  Filter. Dieselbe Regel gilt jetzt in der Wissensdatenbank (Ausnahme
+  „Eigene“, die Themen mischt) und bei Formulare & Quellen (Typ-Etikett).
+  **Alte Lesezeichen:** `?kat=vertrag` und `?kat=pruefung` gibt es weiter;
+  `?kat=beratung` und unbekannte Werte führen auf „Alle“, die Adresse wird
+  bereinigt. Startseite und Modulbeschreibung nennen den neuen Bogen „vom
+  Erstkontakt über Betrieb und Vertrag bis zur Prüfung“.
+  Bestand danach: 17 Vorlagen, Index 682 → 683 Einträge.
+  Tests: `mini_s39` (36), `mini_s38` auf die neue Kategorie angepasst,
+  `mini_s36`/`mini_s37`/`smoke_bestand` grün.
+
 ## Inhaltstranche S38: Anerkennung als Ausbilder/in — Auftrag 30.09.2026
 
 - **S38 Vorlage und Formular „Anerkennung als Ausbilder/in im Gartenbau"** ✅ —

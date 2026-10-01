@@ -17,7 +17,7 @@ window.MODULE = [
     info: "Tabellen und Rechner: Vergütung, Urlaub, Fristen, Arbeitszeit, Noten — dazu Fahrplan und Jahreskreis.",
     extra: "nachschlag tabellen werte rechner uebersicht" },
   { art: "Modul", titel: "E-Mail-Vorlagen", ziel: "#/vorlagen",
-    info: "Anschreiben für Vertrag, Prüfung und Beratungsalltag — Platzhalter ausfüllen, kopieren, versenden.",
+    info: "Anschreiben vom Erstkontakt über Ausbildungsbetrieb, Vertrag und laufende Ausbildung bis zur Prüfung — Platzhalter ausfüllen, kopieren, versenden.",
     extra: "vorlagen anschreiben email muster mustertext brief" },
   { art: "Modul", titel: "Checklisten", ziel: "#/checklisten",
     info: "Arbeitslisten zum Abhaken und Drucken — der Stand bleibt lokal gespeichert.",
