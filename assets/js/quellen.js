@@ -8,7 +8,7 @@
 // (Beruf-ID aus berufe.js). Vorlagen mit `anhaengePlan` hängen darüber den
 // passenden Ausbildungsplan an — neue Pläne brauchen dieses Feld.
 window.QUELLEN = {
-  stand: "30.09.2026",
+  stand: "01.10.2026",
   eintraege: [
 
   /* ---------- Verträge & Anträge (zuständige Stelle, vendored) ------ */
@@ -33,13 +33,6 @@ window.QUELLEN = {
     beschreibung: "Kompakte Erstinformation für Azubis der grünen Berufe zum Ausbildungsstart.",
     stichworte: ["Infoblatt", "Azubi", "Start", "Erstinformation"],
     artikel: ["ausbildungsvertrag", "lernpflicht"] },
-  { id: "antrag-ausbilder-gartenbau", titel: "Antrag auf Anerkennung als Ausbilder/in im Gartenbau",
-    typ: "formular", herausgeber: "RP Freiburg", stand: "12/2016",
-    datei: "formulare/antrag-anerkennung-ausbilder-gartenbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/",
-    beschreibung: "Antrag auf Anerkennung der persönlichen und fachlichen Eignung als Ausbilder/in im Gartenbau. Beizufügen: Meisterprüfungszeugnis bzw. Techniker- oder Hochschulabschluss, aktuelles erweitertes Führungszeugnis, tabellarischer Lebenslauf mit den Betrieben der Praxiszeiten, bei Hochschulabsolventen der Nachweis der Ausbildereignung. Der Vordruck selbst ist online nicht veröffentlicht — der Link führt zur Verfahrensbeschreibung der Regierungspräsidien.",
-    stichworte: ["Ausbilder", "Ausbilderin", "Anerkennung", "Eignung", "Führungszeugnis", "Meister", "Antrag", "Ausbildereignung", "AEVO"],
-    artikel: ["ausbilder", "eintragung"] },
   { id: "bav-abmeldung", titel: "Abmeldung/Auflösung eines Berufsausbildungsverhältnisses",
     typ: "formular", herausgeber: "MLR/Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/bav-abmeldung-aufloesung.pdf",
@@ -124,6 +117,64 @@ window.QUELLEN = {
     beschreibung: "Urlaubsansprüche im GaLaBau nach Alter und Tarif.",
     stichworte: ["Urlaub", "Urlaubstabelle", "GaLaBau"],
     artikel: ["urlaub"] },
+
+  /* ---------- Anerkennung als Ausbildungsbetrieb & Ausbilder/in ------
+     Die Unterlagen, die das RP Freiburg Betrieben schickt, die erstmals
+     ausbilden wollen (Vorlage „anerkennung-ausbildungsbetrieb“). Im Netz
+     steht keiner dieser Vordrucke; die Anträge verlinken deshalb die
+     Verfahrensbeschreibung. Alle Dateien ohne Personenangaben im Dateikopf
+     (tools/pdf_metadaten.py). */
+  { id: "antrag-ausbildungsstaette-gartenbau", titel: "Antrag auf Anerkennung der Ausbildungsstätte im Gartenbau",
+    typ: "formular", herausgeber: "RP Freiburg", stand: "12/2006",
+    datei: "formulare/anerkennung/antrag-anerkennung-ausbildungsstaette-gartenbau.pdf",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/",
+    beschreibung: "Antrag des Betriebs auf Anerkennung als Ausbildungsstätte im Beruf Gärtner/in — Fachrichtung ankreuzen, ausfüllbar. Abgefragt werden Betrieb, Inhaber/in, Ausbilder/in und deren fachliche Eignung, Fachkräfte, Betreuung und Sozialräume, Flächen und Gebäude, Berufsgenossenschaft sowie die Kulturen bzw. Dienstleistungen, in denen ausgebildet wird; dazu die Einverständniserklärung zur Veröffentlichung. Die im Vordruck genannte Berufsgenossenschaft für Gartenbau ist heute die SVLFG. Der Vordruck selbst ist online nicht veröffentlicht — der Link führt zur Verfahrensbeschreibung der Regierungspräsidien.",
+    stichworte: ["Anerkennung", "Ausbildungsstätte", "Ausbildungsbetrieb", "Antrag", "erstmals ausbilden", "Eignung", "Fachrichtung", "Berufsgenossenschaft", "SVLFG"],
+    artikel: ["ausbilder", "eintragung"] },
+  { id: "antrag-ausbilder-gartenbau", titel: "Antrag auf Anerkennung als Ausbilder/in im Gartenbau",
+    typ: "formular", herausgeber: "RP Freiburg", stand: "12/2016",
+    datei: "formulare/antrag-anerkennung-ausbilder-gartenbau.pdf",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/",
+    beschreibung: "Antrag auf Anerkennung der persönlichen und fachlichen Eignung als Ausbilder/in im Gartenbau. Beizufügen: Meisterprüfungszeugnis bzw. Techniker- oder Hochschulabschluss, aktuelles erweitertes Führungszeugnis, tabellarischer Lebenslauf mit den Betrieben der Praxiszeiten, bei Hochschulabsolventen der Nachweis der Ausbildereignung. Der Vordruck selbst ist online nicht veröffentlicht — der Link führt zur Verfahrensbeschreibung der Regierungspräsidien.",
+    stichworte: ["Ausbilder", "Ausbilderin", "Anerkennung", "Eignung", "Führungszeugnis", "Meister", "Antrag", "Ausbildereignung", "AEVO"],
+    artikel: ["ausbilder", "eintragung"] },
+  // Aus der Word-Fassung als PDF erstellt; die persönliche E-Mail-Adresse
+  // im Fuß ist dabei entfallen (keine Personendaten im Repo).
+  { id: "merkblatt-anerkennung-ausbildungsstaette", titel: "Merkblatt: Anerkennung gärtnerischer Ausbildungsstätten",
+    typ: "merkblatt", herausgeber: "RP Freiburg", stand: "08/2010",
+    datei: "formulare/anerkennung/merkblatt-anerkennung-ausbildungsstaette-gartenbau.pdf",
+    url: null,
+    beschreibung: "Was ein Betrieb tun muss, um als Ausbildungsstätte anerkannt zu werden: Antrag, Betriebs- und Baustellenbesichtigung durch den Gutachterausschuss, Anerkennungsbescheid — den Antrag möglichst im ersten Quartal stellen. Dazu §§ 27–30 BBiG und §§ 2–3 der Eignungsverordnung in Kurzform, mit Hinweisen zu den Nachweisen.",
+    stichworte: ["Merkblatt", "Hinweise", "Anerkennung", "Ausbildungsstätte", "Eignungsverordnung", "Gutachterausschuss", "Besichtigung"],
+    artikel: ["ausbilder"] },
+  { id: "bilanzen-bestaetigung-steuerbuero", titel: "Anerkennung als Ausbildungsstätte — Bilanzen bzw. Bestätigung des Steuerbüros",
+    typ: "merkblatt", herausgeber: "RP Freiburg", stand: "02/2018",
+    datei: "formulare/anerkennung/bilanzen-bestaetigung-steuerbuero.pdf",
+    url: null,
+    beschreibung: "Liegen die Bilanzen der letzten drei Jahre nicht vor, genügt eine Bestätigung des Steuerbüros. Das Blatt gibt den Wortlaut vor: Der Betrieb wird nachhaltig wirtschaftlich und nach betriebswirtschaftlichen Grundsätzen geführt, die Ergebnisse werden buchführungsmäßig erfasst und jährlich abgeschlossen, eine Insolvenzgefahr besteht nicht. Hintergrund: § 2 Abs. 2 und 7 GartAusbStEignV.",
+    stichworte: ["Bilanz", "Bilanzen", "Steuerbüro", "Steuerberater", "Bestätigung", "Buchführung", "Jahresabschluss", "Anerkennung", "Ausbildungsstätte"],
+    artikel: ["ausbilder"] },
+  { id: "einverstaendnis-ausbildungsstaettenverzeichnis", titel: "Einverständniserklärung zur Veröffentlichung im Ausbildungsstättenverzeichnis",
+    typ: "formular", herausgeber: "RP Freiburg", stand: "08/2010",
+    datei: "formulare/anerkennung/einverstaendnis-ausbildungsstaettenverzeichnis.pdf",
+    url: null,
+    beschreibung: "Vordruck „Datenschutzerklärung für Ausbildungsstättenverzeichnis Gärtner/-in im Internet“: Der Betrieb willigt ein, dass Angaben zu Betrieb und Ausbilder/in schriftlich und im Internetangebot der Landwirtschaftsverwaltung veröffentlicht werden — freiwillig und jederzeit widerrufbar. Abgefragt werden u. a. Fachrichtung(en), Wirtschaftsweise (etwa ökologisch) und sonstige Angaben wie Endverkauf. Als PDF aus der Word-Fassung des Regierungspräsidiums erstellt.",
+    stichworte: ["Einverständnis", "Einwilligung", "Datenschutzerklärung", "Veröffentlichung", "Ausbildungsstättenverzeichnis", "Verzeichnis", "Internet"],
+    artikel: ["ausbilder"] },
+  { id: "datenschutz-anerkennung-ausbildungsbetrieb", titel: "Datenschutzhinweise zur Anerkennung von Ausbildungsbetrieben und Ausbilder/innen",
+    typ: "merkblatt", herausgeber: "Regierungspräsidien BW", stand: "19.11.2020",
+    datei: "formulare/anerkennung/datenschutzhinweise-anerkennung.pdf",
+    url: null,
+    beschreibung: "Information nach Art. 13/14 DS-GVO der vier Regierungspräsidien für die land- und hauswirtschaftlichen Berufe: Zweck und Rechtsgrundlagen (u. a. §§ 30, 34 BBiG), verarbeitete Daten, Empfänger (Ausbildungsberatung der Landratsämter, Ministerien; mit Einwilligung Berufsverbände und Infodienst des MLR), Speicherdauer in der Regel zehn Jahre, Rechte der Betroffenen.",
+    stichworte: ["Datenschutz", "DS-GVO", "DSGVO", "Datenschutzhinweise", "Information", "Anerkennung", "Ausbildungsbetrieb", "Ausbilder"],
+    artikel: ["ausbilder"] },
+  { id: "gewerbeaufsicht-rb-freiburg", titel: "Gewerbeaufsicht im Regierungsbezirk Freiburg — Anschriften",
+    typ: "merkblatt", herausgeber: "RP Freiburg", stand: "12/2010",
+    datei: "formulare/anerkennung/gewerbeaufsicht-regierungsbezirk-freiburg.pdf",
+    url: "https://gewerbeaufsicht.baden-wuerttemberg.de/kontakt",
+    beschreibung: "Anschriften der Gewerbeaufsicht bei den neun Landratsämtern und der Stadt Freiburg — zuständig für den Arbeits- und Jugendarbeitsschutz im Betrieb. Stand 12/2010: Anschriften und Telefonnummern können sich geändert haben; die aktuellen Kontaktdaten aller Gewerbeaufsichtsbehörden stehen online (Link).",
+    stichworte: ["Gewerbeaufsicht", "Arbeitsschutz", "Jugendarbeitsschutz", "Landratsamt", "Aufsichtsbehörde", "Kontakt", "Anschriften"],
+    artikel: ["ausbilder", "arbeitszeit-jugendliche", "jugendliche"] },
 
   /* ---------- Betriebliche Ausbildungspläne (vendored) -------------- */
   { id: "plan-gaertner-baumschule", titel: "Betrieblicher Ausbildungsplan Gärtner/in — Baumschule",

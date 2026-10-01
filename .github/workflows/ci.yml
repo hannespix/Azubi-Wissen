@@ -18,3 +18,9 @@ jobs:
           python-version: "3.x"
       - name: Auf externe Referenzen prüfen
         run: python3 tools/check_offline.py
+      # Amtliche Vordrucke tragen im Dateikopf oft Namen von Bearbeiterinnen
+      # und Bearbeitern — die gehören nicht ins Repo.
+      - name: PDF-Dateiköpfe ohne Personenangaben
+        run: |
+          pip install --quiet pypdf
+          python3 tools/pdf_metadaten.py

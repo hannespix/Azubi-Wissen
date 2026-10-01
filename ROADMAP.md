@@ -781,6 +781,65 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Inhaltstranche S40: Anerkennungsverfahren als Vorlage — Auftrag 01.10.2026
+
+- **S40 Praxis-E-Mail „Anerkennungsverfahren Ausbildungsbetrieb + Ausbilder“
+  als allgemeine Vorlage** ✅ — die Beratung hat ihre E-Mail an einen Betrieb,
+  der erstmals ausbilden will, samt allen Anlagen geliefert (Outlook-.msg).
+  Daraus wurde die Vorlage `anerkennung-ausbildungsbetrieb`, jetzt
+  **„Anerkennung als Ausbildungsbetrieb & Ausbilder/in — Unterlagen und
+  Verfahren“**. Sie ersetzt den Entwurf aus S39, der mangels Vordruck nur
+  Verfahren und Fristen nannte; zwei fast gleiche Vorlagen hätte niemand
+  auseinanderhalten können. Aufbau wie im Original: (1) Anerkennung als
+  Ausbildungsstätte, (2) Anerkennung als Ausbilder/in, (3) weiterer Ablauf
+  mit Begehung durch den Gutachterausschuss, Bescheiden und erst danach
+  Vertragsunterlagen. Verallgemeinert: Anrede, Beruf und Fachrichtung als
+  Platzhalter, der Ausbildungsplan der gewählten Fachrichtung statt fest
+  GaLaBau. **Keine Namen** aus der E-Mail (Empfänger, Dritte, Firma,
+  Signatur). Ergänzt und belegt: die **Unbedenklichkeitsbescheinigung der
+  Berufsgenossenschaft**, höchstens ein Jahr alt (§ 2 Abs. 6
+  GartAusbStEignV, amtlicher Wortlaut geprüft; auch Nr. 9 des Antrags), die
+  **Bilanzen der letzten drei Jahre** bzw. die Steuerbüro-Bestätigung (Blatt
+  aus den Anlagen), die Antragstermine 20. April / 20. September, „keine
+  Einstellung vor der Anerkennung“ (§ 27 Abs. 1 und 3 BBiG) und die Eintragung
+  unverzüglich nach Vertragsschluss (§ 36 BBiG). Der Abschnitt zur Ausbilderin
+  bzw. zum Ausbilder übernimmt wörtlich die Unterlagenliste und die
+  § 30a-BZRG-Bestätigung aus S38. Das Hinweisfeld sagt, wann Abschnitt 2
+  entfällt, und benennt eine offene Frage: Der Vordruck von 2006 verlangt
+  unter Nr. 9 auch ein Führungszeugnis des Ausbildenden, die Praxis-E-Mail
+  nicht.
+  **Sechs neue Dokumente** unter `formulare/anerkennung/`: Antrag auf
+  Anerkennung der Ausbildungsstätte (ausfüllbar, Stand 12/2006 — endlich der
+  in S39 vermisste Vordruck), Merkblatt zur Anerkennung (08/2010),
+  Bilanzen/Steuerbüro-Bestätigung (02/2018), Einverständniserklärung zur
+  Veröffentlichung im Ausbildungsstättenverzeichnis (08/2010),
+  Datenschutzhinweise der Regierungspräsidien (19.11.2020) und die Anschriften
+  der Gewerbeaufsicht im Regierungsbezirk (12/2010 — die Quelle verlinkt die
+  aktuellen Kontakte der Gewerbeaufsicht BW). Merkblatt und Einverständnis
+  lagen als Word-Datei vor und sind als PDF ausgegeben; im Merkblatt ist
+  dabei die persönliche E-Mail-Adresse im Fuß entfallen. Ausbilder-Antrag und
+  GaLaBau-Plan aus der E-Mail sind mit dem Bestand identisch bzw. textgleich.
+  Im Download-Center stehen alle sieben Unterlagen in der neuen Gruppe
+  **„Anerkennung als Ausbildungsbetrieb & Ausbilder/in“** direkt nach
+  „Verträge & Anträge“ (der Ausbilder-Antrag ist dorthin umgezogen); an der
+  Vorlage hängen sie vorab angehakt, in der Einzeldatei eingebettet.
+  Artikel `ausbilder`: Abschnitt zur Betriebsanerkennung mit § 27 Abs. 3
+  BBiG, Unterlagen, Begehung und Bescheiden; FAQ erweitert, neue FAQ zum
+  Unterlagenpaket. Die Ausbilder-Vorlage verweist auf die Gesamtvorlage.
+  **Datenschutz-Fund:** Alle gelieferten PDFs trugen im Dateikopf (Autor,
+  XMP) Namen oder Benutzerkürzel von Mitarbeitenden — und **zwölf schon
+  eingecheckte Dateien** ebenso, darunter der Ausbilder-Antrag aus S38, die
+  EQ-Unterlagen aus S36 und zwei Fachwerker-Pläne. Neu: `tools/pdf_metadaten.py`
+  prüft alle PDFs und bereinigt einzelne Dateien (Autor und XMP raus, Text,
+  Seiten und Formularfelder nachweislich unverändert, Darstellung
+  pixelgleich geprüft). Alle 72 PDFs sind jetzt sauber; das **CI weist neue
+  Dateien mit Personenangaben im Dateikopf zurück**. Ältere Fassungen bleiben
+  in der Git-Historie.
+  Bestand danach: 136 Quellen, 72 lokale PDFs, 17 Vorlagen, Index 683 → 690
+  Einträge, Einzeldatei 8,5 MB.
+  Tests: `mini_s40` (52), `mini_s38`/`mini_s39` auf Gesamtvorlage und neue
+  Gruppe angepasst, `mini_s36`/`mini_s37`/`smoke_bestand` grün.
+
 ## Inhaltstranche S39: Vorlagen-Kategorien — Auftrag 01.10.2026
 
 - **S39 Vorlagen nach dem Ausbildungsverlauf geordnet** ✅ — die drei alten
