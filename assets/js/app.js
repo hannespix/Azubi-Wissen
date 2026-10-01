@@ -1079,7 +1079,7 @@
       '<a class="schnellkarte" href="#/nachschlag">' + ICON.blitz + "<span><h3>Schnellnachschlag</h3><p>Vergütung, Urlaub nach Alter, Fristen, Arbeitszeit, Fachrichtungen — auf einen Blick.</p></span></a>" +
       '<a class="schnellkarte" href="#/berufe">' + ICON.blatt + "<span><h3>Grüne Berufe</h3><p>Alle Ausbildungsberufe mit Fachrichtungen, Verordnungen und Ansprechseiten.</p></span></a>" +
       '<a class="schnellkarte" href="#/checklisten">' + ICON.check + "<span><h3>Checklisten</h3><p>Erstberatung, Eintragung, Einstiegsqualifizierung, Fehlzeiten, Betriebsbesuch, AP-Anmeldung — abhaken, drucken, ablegen.</p></span></a>" +
-      '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vertrag, Prüfung, Beratungsalltag — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
+      '<a class="schnellkarte" href="#/vorlagen">' + ICON.doc + "<span><h3>E-Mail-Vorlagen</h3><p>Vom Erstkontakt über Betrieb und Vertrag bis zur Prüfung — Platzhalter füllen, kopieren, versenden.</p></span></a>" +
       '<a class="schnellkarte" href="#/downloads">' + ICON.buch + "<span><h3>Download-Center</h3><p>Alle Formulare, Pläne und Gesetze in der Baumansicht — inkl. BAV-Vordruck.</p></span></a>" +
       '<a class="schnellkarte" href="#/glossar">' + ICON.buch + "<span><h3>Glossar</h3><p>Fachbegriffe von 80-Prozent-Regel bis Zwischenprüfung — kurz erklärt und verlinkt.</p></span></a>" +
       '<a class="schnellkarte" href="#/gesetz">' + ICON.buch + "<span><h3>Gesetze &amp; Vorschriften</h3><p>BBiG, JArbSchG & Co. im Volltext — dazu die zentralen VwV des Landes und BIBB-Empfehlungen.</p></span></a>" +
@@ -1179,7 +1179,9 @@
         var th = themaVon(a.thema);
         var recht = (a.recht || []).slice(0, 2).map(function (r) { return '<span class="etikett etikett--recht">' + esc(r.n) + "</span>"; }).join("");
         return '<li class="karte"><a class="karte__link" href="#/artikel/' + a.id + '">' +
-          '<span class="etikett">' + esc(th ? th.titel : "") + "</span>" +
+          // Bei einem Themenfilter trügen alle Karten dasselbe Etikett; „Eigene“
+          // mischt Themen, dort bleibt es.
+          (aktiv && aktiv !== "eigene" ? "" : '<span class="etikett">' + esc(th ? th.titel : "") + "</span>") +
           (a.eigen ? '<span class="etikett etikett--eigen">Eigen</span>' : "") +
           "<h3>" + (q ? S.highlight(a.titel, q) : esc(a.titel)) + "</h3>" +
           "<p>" + (q ? S.highlight(a.kurz, q) : esc(a.kurz)) + "</p>" +
@@ -1458,8 +1460,9 @@
             : '<a class="bw-btn" href="' + esc(z.href) + '" target="_blank">PDF öffnen</a>' +
               (e.url ? ' <a class="chip chip--frage" href="' + esc(e.url) +
                 '" target="_blank" rel="noopener">Quelle online ↗</a>' : "");
-        return '<li class="karte"><span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span>" +
-          '<h3 style="margin-top:var(--bw-space-1)">' + (q ? S.highlight(e.titel, q) : esc(e.titel)) + "</h3>" +
+        return '<li class="karte">' +
+          (aktiv ? "" : '<span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span>") +
+          "<h3" + (aktiv ? "" : ' style="margin-top:var(--bw-space-1)"') + ">" + (q ? S.highlight(e.titel, q) : esc(e.titel)) + "</h3>" +
           "<p>" + esc(e.beschreibung || "") + "</p>" +
           '<p class="bw-klein bw-leise">' + esc(e.herausgeber) + (e.stand ? " · Stand " + esc(e.stand) : "") + "</p>" +
           '<span class="meta">' + aktion + "</span>" +
@@ -1792,7 +1795,7 @@
       if (!v) return platzhalter("Vorlage nicht gefunden", "Zurück zur Übersicht: #/vorlagen");
       return viewVorlageDetail(v);
     }
-    var aktiv = params.kat || "";
+    var aktiv = vorlagenKategorie(params.kat);
     var h = "<h1>E-Mail-Vorlagen</h1>" +
       '<p class="bw-unterzeile">Formulierungsvorlagen für den Alltag der zuständigen Stelle — Platzhalter ausfüllen, kopieren, versenden</p>';
     h += '<ul class="chipzeile" role="group" aria-label="Nach Kategorie filtern">' +
@@ -1806,10 +1809,20 @@
     return h;
   }
 
+  // Kategorien der Vorlagen wurden am 01.10.2026 neu geschnitten. Alte
+  // Lesezeichen (?kat=beratung) oder Tippfehler führen sonst auf eine leere
+  // Liste — deshalb zählt nur eine bekannte Kategorie, alles andere zeigt „Alle“.
+  function vorlagenKategorie(kat) {
+    var V = window.VORLAGEN;
+    return V && kat && V.kategorien.some(function (k) { return k.id === kat; }) ? kat : "";
+  }
+
   function vorlagenVerhalten(root, params) {
     if (params.id) { vorlageDetailVerhalten(root, params); return; }
     var V = window.VORLAGEN;
-    var aktiv = params.kat || "";
+    var aktiv = vorlagenKategorie(params.kat);
+    // Ungültige Kategorie aus der Adresse nehmen, damit das Lesezeichen heilt.
+    if (params.kat && !aktiv) history.replaceState(null, "", "#/vorlagen");
     var liste = $("#vorlagen-liste", root);
     function zeigen() { mitUebergang(zeigenJetzt); }
     function zeigenJetzt() {
@@ -1817,8 +1830,8 @@
       liste.innerHTML = vs.map(function (v) {
         var kat = V.kategorien.filter(function (k) { return k.id === v.kategorie; })[0];
         return '<li class="karte"><a class="karte__link" href="#/vorlagen?id=' + v.id + '">' +
-          '<span class="etikett">' + esc(kat ? kat.titel : "") + "</span>" +
-          '<h3 style="margin-top:var(--bw-space-1)">' + esc(v.titel) + "</h3>" +
+          (aktiv ? "" : '<span class="etikett">' + esc(kat ? kat.titel : "") + "</span>") +
+          "<h3" + (aktiv ? "" : ' style="margin-top:var(--bw-space-1)"') + ">" + esc(v.titel) + "</h3>" +
           "<p>" + esc(v.betreff) + "</p></a></li>";
       }).join("");
     }
