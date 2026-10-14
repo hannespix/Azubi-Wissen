@@ -5,7 +5,7 @@
   "use strict";
 
   window.GLOSSAR = {
-    stand: "15.09.2026",
+    stand: "14.10.2026",
     begriffe: [
       { id: "aevo", b: "AEVO (Ausbilder-Eignungsverordnung)",
         k: "Regelt die berufs- und arbeitspädagogische Eignung der Ausbilder/innen („Ausbilderschein“). Im Gartenbau ist sie in der Meisterprüfung enthalten; andere Qualifikationen weisen sie gesondert nach.",
@@ -107,6 +107,9 @@
       { id: "teilzeitausbildung", b: "Teilzeitausbildung",
         k: "Verkürzung der täglichen oder wöchentlichen Ausbildungszeit auf bis zu 50 % (§ 7a BBiG); die Gesamtdauer verlängert sich entsprechend, höchstens um das Anderthalbfache — kein besonderer Grund mehr nötig.",
         stichworte: ["teilzeit", "kind", "pflege"], artikel: ["teilzeit-verkuerzung"] },
+      { id: "verbundstudium", b: "Verbundstudium (duales Studium)",
+        k: "Kombination aus Berufsausbildung und Bachelorstudium mit zwei Abschlüssen. Im Gartenbau z. B. Landschaftsbau an der HSWT: Gärtner/in GaLaBau nach 3,5, Bachelor of Engineering nach 4,5 Jahren — der Betrieb braucht Anerkennung und Kooperationsvertrag.",
+        stichworte: ["dual", "studium", "hochschule", "hswt"], artikel: ["verbundstudium-landschaftsbau"], quelle: "hswt-landschaftsbau" },
       { id: "ueba", b: "ÜBA (überbetriebliche Ausbildung)",
         k: "Ergänzende Lehrgänge außerhalb des Betriebs, die vorgeschriebene Inhalte sichern (im Gartenbau je nach Fachrichtung); Teilnahme ist Teil der Ausbildung und wird angerechnet.",
         stichworte: ["lehrgang"], artikel: ["ausbildungspflicht"] },

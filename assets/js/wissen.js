@@ -15,7 +15,7 @@
 //  - Detailstufen: kurz+fakten = Stufe 1 (Kurzübersicht); Abschnitte mit d:2
 //    ab Stufe "Standard"; d:3 nur in Stufe "Ausführlich".
 window.WISSEN = {
-  stand: "September 2026",
+  stand: "Oktober 2026",
   hinweis: "Fachinformation der Ausbildungsberatung — sorgfältig geprüft, aber keine Rechtsberatung im Einzelfall. Maßgeblich sind Gesetz, Ausbildungsordnung und Tarifvertrag in der jeweils geltenden Fassung.",
 
   themen: [
@@ -236,6 +236,46 @@ window.WISSEN = {
       { f: "Kann eine EQ auf eine Fachwerkerausbildung vorbereiten?", a: "Ja. § 54a Abs. 2 SGB III lässt die Förderung für Menschen mit Behinderungen ausdrücklich auch zu, wenn die EQ auf eine Ausbildung nach [[fw-grundlagen|§ 66 BBiG]] vorbereitet — im Gartenbau also auf die Fachwerkerausbildung." }
     ],
     verwandt: ["ausbildungsvertrag", "foerderung", "fw-grundlagen"]
+  },
+
+  {
+    id: "verbundstudium-landschaftsbau",
+    thema: "vertrag",
+    titel: "Duales Studium Landschaftsbau — Ausbildung plus Bachelor (HSWT)",
+    kurz: "Die Hochschule Weihenstephan-Triesdorf bietet den Bachelor Landschaftsbau als Verbundstudium an: In 4,5 Jahren entstehen zwei Abschlüsse — Gärtner/in der Fachrichtung Garten- und Landschaftsbau und Bachelor of Engineering. Die betriebliche Ausbildung ist in anerkannten, kooperierenden Betrieben fast aller Bundesländer möglich — auch bei uns; überbetriebliche Ausbildung und berufliche Prüfungen finden in Bayern statt.",
+    stichworte: ["duales Studium", "Verbundstudium", "dual", "HSWT", "Weihenstephan", "Triesdorf", "Hochschule", "Bachelor", "Landschaftsbau", "B.Eng.", "studieren", "Studium", "GaLaBau", "Doppelabschluss", "Kooperationsvertrag"],
+    recht: [
+      { n: "§ 27 Abs. 3 BBiG", t: "Anerkennung der Ausbildungsstätte" },
+      { n: "§§ 34–36 BBiG", t: "Eintragung des Ausbildungsvertrags" }
+    ],
+    fakten: [
+      "**4,5 Jahre, zwei Abschlüsse:** Berufsabschluss Gärtner/in Fachrichtung Garten- und Landschaftsbau **und** Bachelor of Engineering (Verbundstudium).",
+      "**Start am 1. August** mit **14 Monaten Vollzeit-Ausbildung** im Betrieb — das Studium beginnt erst zum 1. Oktober des Folgejahres.",
+      "Der Ausbildungsbetrieb kann in **fast allen Bundesländern** liegen — er muss **anerkannter Ausbildungsbetrieb** sein und einen **Kooperationsvertrag** mit der Hochschule schließen.",
+      "**Überbetriebliche Ausbildung bei der DEULA in Freising, berufliche Prüfungen in Bayern** — nicht an den gewohnten Standorten der zuständigen Stelle.",
+      "Insgesamt **24 Monate praktische Ausbildung** (inkl. überbetrieblicher Ausbildung und Berufsschule): 14 Monate am Stück, dann Semesterferien und das Praxissemester im Betrieb.",
+      "Die **Abschlussprüfung** zur Gärtnerin/zum Gärtner fällt ans **Ende des 5. Studiensemesters** — nach 3,5 Jahren; **kein NC**, das Vorpraktikum entfällt im dualen Modell."
+    ],
+    abschnitte: [
+      { t: "Was das Verbundstudium ist", d: 2, text: "Der Bachelorstudiengang **Landschaftsbau** der Hochschule Weihenstephan-Triesdorf (HSWT) dauert regulär **sieben Semester**: vier Theoriesemester, ein Praxissemester, zwei Schwerpunktsemester (auch als Teilzeitstudium mit 14 Semestern möglich, Beginn immer zum Wintersemester am 1. Oktober). Inhalte sind u. a. Bautechnik, Bauleitung und Kalkulation, Pflanzenverwendung und Vegetationstechnik, Vermessung und CAD, Projektmanagement, Betriebswirtschaft sowie VOB-, Vergabe- und Vertragsrecht.\n\nAls **Verbundstudium (duales Studium)** kombiniert die HSWT dieses Studium mit der Ausbildung zur Gärtnerin/zum Gärtner der Fachrichtung **Garten- und Landschaftsbau**: in insgesamt 4,5 Jahren entstehen der Berufsabschluss **und** der „Bachelor of Engineering“, dazu ein Zertifikat über das duale Studium. Daneben gibt es die Variante **„Dual mit vertiefter Praxis“** — längere Praxisphasen im Betrieb ohne eigenen Berufsabschluss; Einzelheiten dazu bei der HSWT." },
+      { t: "So läuft es ab — Jahr für Jahr", d: 2, text: "1. **Betrieb finden:** Die Bewerberin/der Bewerber organisiert selbst einen **kooperationsbereiten, anerkannten Ausbildungsbetrieb** für den Garten- und Landschaftsbau.\n2. **Online-Bewerbung ab Mai** bei der HSWT — mit Kopie des unterschriebenen, **vom zuständigen Amt bestätigten** Ausbildungsvertrags, dem **Kooperationsvertrag** zwischen Hochschule und Betrieb (zweifach) und der Hochschulzugangsberechtigung. Leitfaden und Vordrucke (u. a. „Berufsausbildungsvertrag dual“) stehen auf der Studiengangsseite.\n3. **Zulassung im August:** Der Bescheid kommt per Post — **gut aufbewahren**, er wird im Folgejahr wieder gebraucht.\n4. **1. August: Ausbildungsbeginn** — zunächst 14 Monate Vollzeit im Betrieb, noch ohne Einschreibung.\n5. **1. Mai bis 1. Juli des Folgejahres:** erneute kurze Bewerbung unter Vorlage des letztjährigen Zulassungsbescheids — damit ist der Studienplatz gesichert.\n6. **September: Einschreibung** — mit dem Nachweis des Betriebs, dass die Berufsausbildung fortgeführt wird; sonst verfällt der Studienplatz.\n7. **1. Oktober: Studienbeginn.** Semesterferien und das 5. Semester (Praxissemester) gehören dem Betrieb.\n8. **Ende des 5. Semesters** (nach 3,5 Jahren): **Abschlussprüfung** zur Gärtnerin/zum Gärtner, Fachrichtung Garten- und Landschaftsbau.\n9. **Nach dem 7. Semester** (4,5 Jahre): **Bachelor of Engineering** plus Zertifikat über das duale Studium." },
+      { t: "Zuständigkeiten: Was für Betriebe aus dem Regierungsbezirk gilt", d: 2, text: "Auch ein Betrieb aus Baden-Württemberg kann Verbundstudierende ausbilden. Drei Dinge unterscheiden sich von der normalen Ausbildung:\n\n- **Betrieb und Vertrag:** Der Betrieb muss [[ausbilder|anerkannter Ausbildungsbetrieb]] sein und zusätzlich den **Kooperationsvertrag** mit der HSWT schließen. Für den Ausbildungsvertrag verwendet die Hochschule einen eigenen Vordruck („Berufsausbildungsvertrag dual“); die Bewerbung braucht ihn **vom zuständigen Amt bestätigt** — die [[eintragung|Eintragung]] also rechtzeitig vor der Bewerbungsfrist anstoßen.\n- **Überbetriebliche Ausbildung und Prüfung:** Die überbetriebliche Ausbildung findet bei der **DEULA in Freising** statt, die beruflichen Prüfungen **in Bayern** — nicht bei der zuständigen Stelle des Betriebssitzes. Bewerberinnen und Bewerber sollten die Wege dorthin bei der Betriebswahl mitbedenken.\n- **Sozialversicherung:** Für die Vergütung während der Studienphasen stellt die HSWT eine Vereinbarung zur **„Verstetigung“** bereit (Download auf der Studiengangsseite).\n\nWie Eintragung, Berufsschule und Prüfungszuständigkeit im Einzelfall zusammenspielen, klären Betrieb und Bewerber/in am besten **vor Vertragsschluss** mit der Ausbildungsberatung und der Studiengangsassistenz der HSWT." },
+      { t: "Für wen sich das Modell eignet", d: 3, text: "Das Verbundstudium richtet sich an Interessierte, die sich **nicht zwischen Ausbildung und Studium entscheiden** wollen: theoretisch tiefgehende Inhalte plus hoher Praxisanteil. Nach dem Abschluss arbeiten Absolventinnen und Absolventen z. B. in **Bauleitung und Projektsteuerung** von GaLaBau-, Tiefbau- und Ingenieurunternehmen, in Landschaftsarchitekturbüros, in der **öffentlichen Verwaltung** (Gartenämter, Naturschutz-, Straßenbau- und Wasserwirtschaftsbehörden) oder in Verbänden und Industrie. Wer entsprechende Sprachkenntnisse mitbringt, kann an der HSWT parallel den **deutsch-französischen Doppelabschluss** erwerben.\n\nEin **Vorpraktikum** ist keine Pflicht; empfohlen wird es trotzdem — im dualen Modell und mit abgeschlossener einschlägiger Ausbildung entfällt es. Eine **Zulassungsbeschränkung (NC)** gibt es nicht." }
+    ],
+    rollen: {
+      azubi: "Du willst beides — Baustelle und Hörsaal? Dann suche dir früh einen anerkannten GaLaBau-Betrieb, der mitzieht: Die Online-Bewerbung läuft ab Mai, dein erster Ausbildungstag ist der 1. August. Bedenke, dass überbetriebliche Lehrgänge in Freising und die Gärtnerprüfung in Bayern stattfinden.",
+      betrieb: "Sie gewinnen eine Nachwuchskraft, die nach 3,5 Jahren den Gärtnerabschluss und nach 4,5 Jahren den Bachelor mitbringt — interessant für künftige Bauleitung. Voraussetzungen: Ihre Anerkennung als Ausbildungsbetrieb, der Kooperationsvertrag mit der HSWT und der bestätigte Ausbildungsvertrag vor der Bewerbungsfrist. Planen Sie die Studienphasen in Ihre Personalplanung ein — Semesterferien und Praxissemester gehören dem Betrieb.",
+      beratung: "Bei Anfragen die Fristenkette im Blick behalten: Bewerbung ab Mai, Zulassung im August, Ausbildungsstart 1. August, erneute Bewerbung 1. Mai–1. Juli des Folgejahres, Einschreibung im September. Der Vertrag läuft über den HSWT-Vordruck „dual“ und braucht die Bestätigung vor der Bewerbung; ÜBA und Prüfungen liegen in Bayern — wie sich das mit der Eintragung beim Betriebssitz verzahnt, im Einzelfall mit der HSWT klären und das Ergebnis vermerken."
+    },
+    faq: [
+      { f: "Kann ein Betrieb aus unserem Regierungsbezirk Verbundstudierende ausbilden?", a: "Ja — die betriebliche Ausbildung ist in anerkannten, kooperierenden Betrieben fast aller Bundesländer möglich. Der Betrieb braucht die Anerkennung als Ausbildungsbetrieb und den Kooperationsvertrag mit der HSWT. Zu bedenken: Die überbetriebliche Ausbildung findet in Freising statt, die beruflichen Prüfungen in Bayern." },
+      { f: "Welche Abschlüsse gibt es im Verbundstudium — und wann?", a: "Nach 3,5 Jahren (Ende des 5. Studiensemesters) die Abschlussprüfung zur Gärtnerin/zum Gärtner, Fachrichtung Garten- und Landschaftsbau; nach 4,5 Jahren der „Bachelor of Engineering“ — dazu ein Zertifikat, das die Kombination aus Studium und Berufsausbildung bescheinigt." },
+      { f: "Wie viel betriebliche Praxis steckt im Verbundstudium?", a: "Insgesamt 24 Monate einschließlich überbetrieblicher Ausbildung und Berufsschule: zuerst 14 Monate Vollzeit ab dem 1. August, danach die Semesterferien und das komplette 5. Semester (Praxissemester) im Betrieb." },
+      { f: "Welche Unterlagen braucht die Bewerbung an der Hochschule?", a: "Die Online-Bewerbung ab Mai braucht die Kopie des unterschriebenen, vom zuständigen Amt bestätigten Ausbildungsvertrags, den Kooperationsvertrag zwischen HSWT und Betrieb in zweifacher Ausführung und die Hochschulzugangsberechtigung. Leitfaden und alle Vordrucke stehen auf der Studiengangsseite der HSWT." },
+      { f: "Was ist der Unterschied zwischen Verbundstudium und „Dual mit vertiefter Praxis“?", a: "Das Verbundstudium führt zu zwei Abschlüssen — Gärtner/in und Bachelor. „Dual mit vertiefter Praxis“ verbindet das Studium mit längeren Praxisphasen im Betrieb, ohne eigenen Berufsabschluss; Einzelheiten erklärt die HSWT." },
+      { f: "Braucht es ein Vorpraktikum oder einen bestimmten Notenschnitt?", a: "Nein. Eine Zulassungsbeschränkung (NC) gibt es nicht, und ein Pflichtpraktikum vor dem Studium ist nicht vorgesehen — empfohlen wird ein Vorpraktikum trotzdem. Im dualen Modell und mit abgeschlossener einschlägiger Ausbildung entfällt es ganz." }
+    ],
+    verwandt: ["ausbilder", "eintragung", "abschlusspruefung"]
   },
 
   {
