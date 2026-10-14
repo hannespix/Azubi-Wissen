@@ -8,7 +8,7 @@
 // (Beruf-ID aus berufe.js). Vorlagen mit `anhaengePlan` hängen darüber den
 // passenden Ausbildungsplan an — neue Pläne brauchen dieses Feld.
 window.QUELLEN = {
-  stand: "01.10.2026",
+  stand: "14.10.2026",
   eintraege: [
 
   /* ---------- Verträge & Anträge (zuständige Stelle, vendored) ------ */
@@ -632,6 +632,12 @@ window.QUELLEN = {
     beschreibung: "Voraussetzungen (Eignung der Ausbildungsstätte nach Fachrichtung, Ausbildereignung) und Antragstermine: bis 20. April bzw. 20. September; vor der Anerkennung darf kein Ausbildungsverhältnis begonnen werden.",
     stichworte: ["Anerkennung", "Ausbildungsbetrieb", "Eignung", "Ausbilder", "Frist", "20. April", "20. September"],
     artikel: ["ausbilder", "eintragung"] },
+  { id: "hswt-landschaftsbau", titel: "HSWT: Duales Studium Landschaftsbau (Verbundstudium)",
+    typ: "link", herausgeber: "Hochschule Weihenstephan-Triesdorf", stand: "abgerufen 10/2026",
+    datei: null, url: "https://www.hswt.de/studium/studienangebot/bachelor/landschaftsbau#dual",
+    beschreibung: "Studiengangsseite des Bachelors Landschaftsbau mit dem Abschnitt zum Verbundstudium: Ablauf und Fristen (Online-Bewerbung ab Mai, Ausbildungsbeginn 1. August, Studienstart 1. Oktober des Folgejahres), Abschlüsse Gärtner/in GaLaBau nach 3,5 und Bachelor of Engineering nach 4,5 Jahren. Dort auch die Vordrucke: Leitfaden zur Bewerbung, Berufsausbildungsvertrag dual, Hinweisblatt, Kooperationsvertrag, Vereinbarung zur Verstetigung in der Sozialversicherung und das Verzeichnis der Ausbildungsbetriebe in Bayern.",
+    stichworte: ["duales Studium", "Verbundstudium", "HSWT", "Weihenstephan", "Landschaftsbau", "Bachelor", "Studium", "Kooperationsvertrag", "dual"],
+    artikel: ["verbundstudium-landschaftsbau"] },
   { id: "gesetz-gartausbsteignv", titel: "Eignungsverordnung Ausbildungsstätte Gärtner (GartAusbStEignV)",
     typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "12.08.1997 (geltend)",
     datei: null, url: "https://www.gesetze-im-internet.de/gartausbsteignv/",

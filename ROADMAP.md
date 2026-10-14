@@ -781,6 +781,48 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Inhaltstranche S41: Duales Studium Landschaftsbau — Auftrag 14.10.2026
+
+- **S41 Duales Studium Landschaftsbau (HSWT) eingepflegt** ✅ — die
+  Studiengangsseite der Hochschule Weihenstephan-Triesdorf (Abschnitt
+  „Landschaftsbau dual studieren“) ist ausgewertet und als neuer Artikel
+  `verbundstudium-landschaftsbau` im Themenbereich „Vertrag &
+  Ausbildungsstart“ eingepflegt — wie die EQ ein Weg in die Ausbildung,
+  nur hochschulseitig. Der Artikel erklärt das **Verbundstudium** (4,5
+  Jahre, zwei Abschlüsse: Gärtner/in Fachrichtung GaLaBau nach 3,5 Jahren
+  am Ende des 5. Studiensemesters, Bachelor of Engineering nach dem 7.),
+  den **Ablauf Jahr für Jahr** (Online-Bewerbung ab Mai; Zulassung im
+  August; Ausbildungsbeginn 1. August mit 14 Monaten Vollzeit; erneute
+  Bewerbung 1. Mai–1. Juli des Folgejahres; Einschreibung im September
+  nur mit Fortführungsnachweis des Betriebs; Studienstart 1. Oktober;
+  Semesterferien und Praxissemester im Betrieb — zusammen 24 Monate
+  Praxis inkl. ÜBA und Berufsschule) und die **Zuständigkeiten**, auf die
+  es in der Beratung ankommt: Der Betrieb kann in fast allen
+  Bundesländern liegen — er braucht die Anerkennung als
+  Ausbildungsbetrieb und den Kooperationsvertrag mit der HSWT, der
+  Vertrag läuft über den HSWT-Vordruck „dual“ und muss **vor der
+  Bewerbung vom zuständigen Amt bestätigt** sein; die überbetriebliche
+  Ausbildung findet bei der **DEULA in Freising** statt, die beruflichen
+  Prüfungen **in Bayern** — nicht bei der zuständigen Stelle des
+  Betriebssitzes. Wie sich das im Einzelfall mit der Eintragung verzahnt,
+  soll die Beratung mit der HSWT klären — der Artikel sagt das offen.
+  Dazu Studienaufbau (7 Semester bzw. Teilzeit, kein NC, Vorpraktikum
+  entfällt im dualen Modell), die Variante „Dual mit vertiefter Praxis“,
+  die Verstetigungs-Vereinbarung zur Sozialversicherung, Rollenhinweise
+  und 6 FAQ. Namen der HSWT-Ansprechpersonen bewusst nicht übernommen.
+  Neu außerdem: Quelle `hswt-landschaftsbau` (Link auf die
+  Studiengangsseite mit allen Vordrucken) und Glossarbegriff
+  **„Verbundstudium (duales Studium)“**.
+  **Nebenbefund des neuen Konsistenztests:** Drei ältere Quellen
+  (`pflanze-bw`, `ihk-fehlzeiten`, `infodienst-gaertner`) erschienen in
+  keiner Gruppe des Download-Baums — jetzt eingeordnet; `smoke_bestand`
+  prüft ab sofort, dass **jede** Quelle im Baum auftaucht, und löst
+  zusätzlich alle Nachbar-Verweise auf. (Die Testsammlung war mit dem
+  Container verloren gegangen und ist als `smoke_bestand` (16) +
+  `mini_s41` (26) neu aufgebaut.)
+  Bestand danach: 42 Artikel, 134 FAQ, 137 Quellen, 39 Glossarbegriffe,
+  Index 690 → 698 Einträge. *(PR #84)*
+
 ## Inhaltstranche S40: Anerkennungsverfahren als Vorlage — Auftrag 01.10.2026
 
 - **S40 Praxis-E-Mail „Anerkennungsverfahren Ausbildungsbetrieb + Ausbilder“

@@ -2451,14 +2451,14 @@
       ] },
       { titel: "Ausbildungsordnungen der grünen Berufe", eintraege: nach(function (e) { return e.id.indexOf("ausbv-") === 0; }) },
       { titel: "Prüfung, Berufsschule & Berichtsheft", eintraege: nach(function (e) {
-        return ["pflanzenlisten", "schule-anmeldungen", "berichtsheft-gaertner", "berichtsheft-galabau"].indexOf(e.id) >= 0; }) },
+        return ["pflanzenlisten", "schule-anmeldungen", "berichtsheft-gaertner", "berichtsheft-galabau", "pflanze-bw", "ihk-fehlzeiten"].indexOf(e.id) >= 0; }) },
       { titel: "Förderung & Arbeitsagentur", eintraege: nach(function (e) { return e.id.indexOf("ba-") === 0; }) },
       { titel: "Arbeitsschutz (SVLFG)", eintraege: nach(function (e) { return e.id.indexOf("svlfg") === 0; }) },
       { titel: "Ausbildungsbetriebe & Platzsuche", eintraege: nach(function (e) {
         return ["betriebe-datenbank", "ausbildung-farm"].indexOf(e.id) >= 0; }) },
       { titel: "Portale der zuständigen Stelle", eintraege: nach(function (e) { return e.id.indexOf("rp-") === 0; }) },
-      { titel: "Weitere öffentliche Stellen (LRA Karlsruhe, BiBB, Bildungsserver)", eintraege: nach(function (e) {
-        return /^(lra-|ka-|bibb-|bildungsserver|lw-)/.test(e.id); }) }
+      { titel: "Weitere öffentliche Stellen (LRA Karlsruhe, BiBB, Bildungsserver, HSWT)", eintraege: nach(function (e) {
+        return /^(lra-|ka-|bibb-|bildungsserver|lw-|hswt-|infodienst-)/.test(e.id); }) }
     ];
     if (EIGENE.dokumente.length) {
       baum.unshift({ titel: "Eigene Dokumente", eintraege: EIGENE.dokumente.slice() });
