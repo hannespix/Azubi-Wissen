@@ -301,7 +301,7 @@ window.QUELLEN = {
 
   /* ---------- Gesetze & Verordnungen (amtliche Fassungen) ----------- */
   { id: "gesetz-bbig", titel: "Berufsbildungsgesetz (BBiG) — Volltext",
-    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "10/2026",
     datei: "formulare/gesetze/bbig.pdf", url: "https://www.gesetze-im-internet.de/bbig_2005/", pdf: "https://www.gesetze-im-internet.de/bbig_2005/BBiG.pdf",
     beschreibung: "Das zentrale Gesetz der Berufsausbildung: Vertrag, Pflichten, Vergütung, Prüfungen, zuständige Stellen.",
     stichworte: ["BBiG", "Berufsbildungsgesetz", "Gesetz", "Volltext", "Paragraf"],

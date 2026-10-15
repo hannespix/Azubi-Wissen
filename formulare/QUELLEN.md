@@ -5,7 +5,7 @@ Amtliche Gesetzestexte, Verordnungen und Verwaltungsvorschriften sind nach
 § 5 UrhG gemeinfrei; BIBB-Hauptausschuss-Empfehlungen sind amtliche
 Verlautbarungen (Veröffentlichung im Bundesanzeiger); Formulare der
 zuständigen Stelle sind zur Verwendung im Ausbildungsverfahren bestimmt.
-Stand der Sammlung: 01.10.2026.
+Stand der Sammlung: 15.10.2026.
 
 | Datei | Titel | Herausgeber | Stand | Quelle |
 |---|---|---|---|---|
@@ -45,7 +45,7 @@ Stand der Sammlung: 01.10.2026.
 | `ausbildungsplaene/fachwerker-obstbau.pdf` | Betrieblicher Ausbildungsplan Fachwerker/in im Gartenbau — Obstbau | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
 | `ausbildungsplaene/fachwerker-staudengaertnerei.pdf` | Betrieblicher Ausbildungsplan Fachwerker/in im Gartenbau — Staudengärtnerei | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
 | `ausbildungsplaene/fachwerker-zierpflanzenbau.pdf` | Betrieblicher Ausbildungsplan Fachwerker/in im Gartenbau — Zierpflanzenbau | Regierungspräsidien BW | aktuell | https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/ |
-| `gesetze/bbig.pdf` | Berufsbildungsgesetz (BBiG) — Volltext | Bund (gesetze-im-internet.de) | aktuelle Fassung | https://www.gesetze-im-internet.de/bbig_2005/ |
+| `gesetze/bbig.pdf` | Berufsbildungsgesetz (BBiG) — Volltext | Bund (gesetze-im-internet.de) | 10/2026 | https://www.gesetze-im-internet.de/bbig_2005/ |
 | `gesetze/jarbschg.pdf` | Jugendarbeitsschutzgesetz (JArbSchG) — Volltext | Bund (gesetze-im-internet.de) | aktuelle Fassung | https://www.gesetze-im-internet.de/jarbschg/ |
 | `gesetze/arbzg.pdf` | Arbeitszeitgesetz (ArbZG) — Volltext | Bund (gesetze-im-internet.de) | aktuelle Fassung | https://www.gesetze-im-internet.de/arbzg/ |
 | `gesetze/burlg.pdf` | Bundesurlaubsgesetz (BUrlG) — Volltext | Bund (gesetze-im-internet.de) | aktuelle Fassung | https://www.gesetze-im-internet.de/burlg/ |
