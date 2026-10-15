@@ -762,3 +762,17 @@ a.chip { display: inline-block; }
   flex: none; font-size: var(--bw-fs-klein); white-space: nowrap;
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.6em;
 }
+
+/* Zugangsschutz der Online-Fassung (S48, assets/js/zugang.js): Solange
+   niemand angemeldet ist, zeigt der Kopf nur Zeichen und Wortmarke — Menü,
+   Suche und Assistent-Störer führen zu Inhalten und bleiben verborgen. */
+.zugang-gesperrt .bw-nav__panel,
+.zugang-gesperrt .bw-nav__actions,
+.zugang-gesperrt .assistent-stoerer { display: none; }
+.zugang { max-width: 36rem; margin-block: var(--bw-space-4); }
+.zugang__formular { margin-block: var(--bw-space-3); }
+.zugang__fehler { color: var(--bw-fehler); font-weight: 700; margin: 0 0 var(--bw-space-2); }
+.zugang__fehler:empty { display: none; }
+.zugang__info { margin: var(--bw-space-2) 0 0; }
+.zugang__formular .bw-btn { min-height: 44px; }
+.zugang__laden { margin-block: var(--bw-space-4); color: var(--bw-text-leise); }

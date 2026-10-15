@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Azubi Wissen</title>
+<meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Wissensdatenbank und Arbeitshilfen für die Ausbildung in den grünen Berufen — Suche, Vorlagen, Checklisten, Nachschlag, lokaler Assistent, komplett offline.">
 
 <!-- Favicons / PWA -->
@@ -96,6 +97,13 @@
 </footer>
 
 <script src="assets/js/nav.js"></script>
+<script src="assets/js/kontakt.js"></script>
+<script src="assets/js/rechtliches.js"></script>
+<script src="assets/js/zugang.js"></script>
+<!-- geschuetzt:anfang — tools/zugang_bauen.py verschlüsselt diese Skripte
+     beim Pages-Deploy zu einem Paket (Zugangsschutz, S48). Neue Skripte mit
+     Inhalten gehören hier hinein; davor steht nur, was ohne Anmeldung
+     laufen muss (Menü, Impressum, Anmeldefenster). -->
 <script src="assets/js/search.js"></script>
 <script src="assets/js/wissen.js"></script>
 <script src="assets/js/berufe.js"></script>
@@ -105,7 +113,6 @@
 <script src="assets/js/checklisten.js"></script>
 <script src="assets/js/glossar.js"></script>
 <script src="assets/js/gesetzestexte.js"></script>
-<script src="assets/js/kontakt.js"></script>
 <script src="assets/js/nachbarn.js"></script>
 <script src="assets/js/ablaufdaten.js"></script>
 <script src="assets/js/pruefstand.js"></script>
@@ -115,6 +122,7 @@
 <script src="assets/js/semantik.js"></script>
 <script src="assets/js/assistent.js"></script>
 <script src="assets/js/export.js"></script>
+<!-- geschuetzt:ende -->
 <script>
 // PWA: Service Worker registrieren (nur über http/https, nicht in der
 // Einzeldatei und nicht unter file:// — dort läuft das Tool auch so offline).

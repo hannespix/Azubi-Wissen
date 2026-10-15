@@ -26,3 +26,9 @@ jobs:
           python3 tools/pdf_metadaten.py
       - name: Prüfwerkzeug der Aktualitätsprüfung (Selbsttest, offline)
         run: python3 tools/aktualitaet_pruefen.py --selbsttest
+      # Zugangsschutz (S48): Verschlüsselung mit Testpasswort durchspielen —
+      # kein Klartext im Seitenordner, alles originalgetreu entschlüsselbar.
+      - name: Zugangsschutz (Selbsttest)
+        run: |
+          pip install --quiet cryptography
+          python3 tools/zugang_bauen.py --selbsttest

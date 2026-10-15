@@ -29,10 +29,20 @@ window.KONTAKT = {
   // Öffentlicher Kontakt- und Rückmeldeweg (Issues im Quell-Repository).
   github: "https://github.com/hannespix/Azubi-Wissen",
 
+  // Zugang zur passwortgeschützten Online-Fassung (S48): Das Anmeldefenster
+  // (zugang.js) nennt diese Personen und diese Adresse für Zugangsanfragen.
+  // Namen auf Wunsch von Hannes Pix (10/2026); eine gemeinsame Adresse statt
+  // dienstlicher Postfächer.
+  zugang: {
+    personen: ["Hannes Pix", "Christoph Zilz"],
+    email: "azubiwissen@pix-el.de"
+  },
+
   // Betreffzeilen, damit Rückmeldungen zuordenbar ankommen.
   betreff: {
     rueckmeldung: "Azubi Wissen — Rückmeldung",
-    barriere: "Azubi Wissen — Barriere melden"
+    barriere: "Azubi Wissen — Barriere melden",
+    zugang: "Azubi Wissen — Zugang anfragen"
   },
 
   // Ziel im Werkzeug, das alle Angaben ausführlich zeigt.

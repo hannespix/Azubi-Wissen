@@ -12,7 +12,9 @@ Requests, keine Cloud, keine Telemetrie.**
 ## Nutzung
 
 **Online (GitHub Pages, nach jedem Merge automatisch aktualisiert):**
-`https://hannespix.github.io/Azubi-Wissen/` — als **PWA installierbar**
+`https://hannespix.github.io/Azubi-Wissen/` — **passwortgeschützt**
+(Zugangspasswort, je Gerät nur einmal einzugeben; Zugang schalten Hannes Pix
+oder Christoph Zilz frei: azubiwissen@pix-el.de). Als **PWA installierbar**
 („Zum Startbildschirm hinzufügen"), danach auch im Flugmodus nutzbar.
 
 **Variante 1 — Einzeldatei (empfohlen für Zero-Trust-Arbeitsplätze):**
@@ -23,6 +25,8 @@ Anlagen erzeugen" hier genauso funktioniert wie online. Ausgenommen sind
 nur die 12 MB betrieblichen Ausbildungspläne: Sie würden die Datei
 verdreifachen und gehen deshalb als amtlicher Link zur RP-Seite mit.
 Notizen, Vermerke und Merkliste bleiben lokal im Browser gespeichert.
+Die Datei aus der Online-Fassung ist ebenfalls verschlüsselt und fragt beim
+ersten Öffnen auf einem Gerät nach dem Zugangspasswort.
 
 **Variante 2 — Repo-Ordner über lokalen Server** (für Entwicklung):
 ```
@@ -126,12 +130,43 @@ Werkzeug selbst ruft nichts aus dem Netz ab (Zero-Trust).
   `--pdf-suchen` (direkte PDF-Adressen für Seiten-Links finden),
   `--selbsttest` (offline, läuft auch in der CI). Braucht node und pypdf.
 
+## Zugangsschutz
+
+Die Online-Fassung ist seit S48 mit einem **Zugangspasswort** geschützt —
+ohne Server: Beim Pages-Deploy verschlüsselt `tools/zugang_bauen.py` alle
+Inhalts- und Programmskripte (als ein Paket), den Suchindex, die Dateien unter
+`formulare/` und die Offline-Datei mit **AES-256-GCM**; den Schlüssel leitet
+PBKDF2-SHA-256 (600 000 Runden) aus dem Passwort ab. `assets/js/zugang.js`
+zeigt das Anmeldefenster, prüft das Passwort lokal und merkt sich den
+Schlüssel im Browser des Geräts — das Passwort ist also **je Gerät nur einmal**
+nötig; „Abmelden“ im Menü löscht ihn. Impressum und Datenschutz
+(`assets/js/rechtliches.js`) bleiben ohne Anmeldung erreichbar.
+
+- **Passwort festlegen/ändern:** GitHub → Settings → Secrets and variables →
+  Actions → Secret **`ZUGANG_PASSWORT`** (mindestens 10 Zeichen, besser eine
+  Passphrase), danach Actions → „GitHub Pages“ → „Run workflow“. Alle Geräte
+  fragen dann einmal das neue Passwort ab. Fehlt das Secret, bricht der
+  Deploy ab — die Seite geht nie unverschlüsselt online.
+- **Zugang anfragen:** Personen und Adresse stehen in `assets/js/kontakt.js`
+  (`zugang`).
+- **Neue Skripte mit Inhalten** in `index.html` zwischen
+  `<!-- geschuetzt:anfang -->` und `<!-- geschuetzt:ende -->` eintragen;
+  davor steht nur, was ohne Anmeldung laufen muss.
+- **Grenze:** Geschützt ist die Website. **Solange dieses Repo öffentlich
+  ist, sind alle Inhalte hier im Quelltext lesbar** — wirksam wird der Schutz
+  erst mit einem privaten Repo (GitHub Pages aus privaten Repos braucht
+  GitHub Pro).
+- **Lokal/Entwicklung** ist der Schutz aus (keine Konfiguration → kein Login).
+  Prüfen: `python3 tools/zugang_bauen.py --selbsttest` (läuft in der CI,
+  braucht `cryptography`).
+
 ## Prüfungen & Build
 
 ```
 python3 tools/check_offline.py              # Offline-/CDN-Gate (läuft im CI)
 python3 tools/pdf_metadaten.py              # keine Namen im PDF-Dateikopf (läuft im CI, braucht pypdf)
 python3 tools/aktualitaet_pruefen.py        # Aktualitätsprüfung (Netz; --selbsttest offline in der CI)
+python3 tools/zugang_bauen.py --selbsttest  # Zugangsschutz durchspielen (läuft im CI, braucht cryptography)
 python3 tools/build_singlefile.py           # dist/index.html (unversioniert)
 python3 tools/build_singlefile.py --release # + azubi-wissen-offline.html
 node tools/nachbarn_bauen.mjs --bericht     # Nachbarn messen, nichts schreiben
@@ -148,6 +183,8 @@ sw.js                          Service Worker (versionierte App-Shell)
 azubi-wissen-offline.html      Einzeldatei-Auslieferung (generiert, versioniert)
 assets/js/wissen.js …          Datenmodule (Inhalte — hier pflegen)
 assets/js/kontakt.js           Anbieter-/Kontaktangaben (eine Quelle für Seite + Assistent)
+assets/js/rechtliches.js       Rechtliches & Impressum (unverschlüsselt, ohne Anmeldung erreichbar)
+assets/js/zugang.js            Anmeldefenster + Entschlüsselung der Online-Fassung (S48)
 assets/js/nachbarn.js          „Passt inhaltlich dazu" (generiert — nicht von Hand ändern)
 assets/js/app.js               Ansichten, Suche, Rechner, Jahreskreis, Merkliste
 assets/js/assistent.js         lokaler KI-Assistent (Retrieval + Synthese)
