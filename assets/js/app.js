@@ -874,7 +874,7 @@
     var r = parseHash();
     var haupt = $("#inhalt");
     var view = r.pfad[0] || "start";
-    var titel = "Azubi Wissen — RP Freiburg";
+    var titel = "Azubi Wissen";
 
     if (view === "artikel" && r.pfad[1] && artikelVon(r.pfad[1])) {
       var a = artikelVon(r.pfad[1]);
@@ -2553,42 +2553,40 @@
     return links.join(" · ");
   }
 
-  // ---------- Rechtliches & Impressum (S12) --------------------------------
+  // ---------- Rechtliches & Impressum (S12, neu gefasst S43) ---------------
   // Anbieterkennzeichnung, Datenschutz, Barrierefreiheit, Lizenzen, Haftung.
   // Alle Kontaktangaben kommen aus assets/js/kontakt.js (window.KONTAKT) —
   // dieselbe Quelle nutzt der Assistent. Nie hier hart eintragen.
-  // Platzhalter in [eckigen Klammern] vor offizieller Freigabe ersetzen und
-  // die Seite mit Pressestelle/Justiziariat abstimmen (Hinweis-Block unten).
+  // Verantwortlich ist Hannes Pix persönlich; Behörden werden nicht als
+  // Anbieter genannt (kein amtliches Angebot).
   function mailtoLink(adresse, betreff) {
+    if (!adresse) return "<em>E-Mail-Kontakt wird ergänzt</em>";
     return '<a href="mailto:' + esc(adresse) + (betreff ? "?subject=" + encodeURIComponent(betreff) : "") + '">' + esc(adresse) + "</a>";
+  }
+  function githubLink(K, text) {
+    return '<a href="' + esc(K.github) + '" target="_blank" rel="noopener">' + esc(text || "GitHub") + ' <span aria-hidden="true">\u2197</span></a>';
   }
   function viewRechtliches() {
     var K = window.KONTAKT || {};
     var E = K.entwickler || {};
     var B = K.betreff || {};
-    var L = K.links || {};
     return "<h1>Rechtliches &amp; Impressum</h1>" +
       '<p class="bw-unterzeile">Anbieter, Datenschutz, Barrierefreiheit und Lizenzen dieses Werkzeugs</p>' +
 
-      '<div class="bw-hinweis"><p><strong>Entwurf im Testbetrieb:</strong> Diese Seite wird vor der offiziellen ' +
-      "Freigabe mit Pressestelle und Justiziariat des Regierungspräsidiums abgestimmt; die Nachnutzungsregel für " +
-      "eigene Inhalte steht noch als [Platzhalter] aus. Verbindlich sind bis dahin die verlinkten offiziellen " +
-      "Seiten des Regierungspräsidiums.</p></div>" +
+      '<div class="bw-hinweis"><p><strong>Entwurf im Testbetrieb:</strong> Einzelne Angaben (E-Mail-Kontakt, ' +
+      "Nachnutzungsregel) stehen noch als Platzhalter aus und werden ergänzt.</p></div>" +
 
       "<h2>Anbieter</h2>" +
-      "<p>" + esc(K.behoerde) + "<br>" + esc(K.bereich) + "<br>" +
-      "Postanschrift: " + esc(K.anschrift) + "<br>Telefon (Zentrale): " + esc(K.telefon) + "<br>" +
-      "Fachlicher Kontakt: " + mailtoLink(E.email) + "<br>" +
-      "Amtlicher Zugang: " + mailtoLink(K.poststelle) + "</p>" +
-      '<p>Verbindliche Anbieterangaben mit Vertretung und Aufsicht: <a href="' + esc(L.impressum) + '" target="_blank" rel="noopener">Impressum des Regierungspräsidiums Freiburg <span aria-hidden="true">↗</span></a></p>' +
+      "<p>Verantwortlich für dieses Werkzeug:<br><strong>" + esc(K.anbieter) + "</strong><br>" +
+      esc(K.einordnung) + "</p>" +
+      "<p>Kontakt: " + mailtoLink(E.email) + "<br>" +
+      "Quellcode und Rückmeldungen: " + githubLink(K, "github.com/hannespix/Azubi-Wissen") + "</p>" +
 
       "<h2>Entwicklung &amp; Änderungswünsche</h2>" +
-      "<p>Das Werkzeug wird in der Ausbildungsberatung selbst entwickelt und laufend gepflegt.</p>" +
       "<ul>" +
-      "<li><strong>" + esc(E.rolle) + ":</strong> " + esc(E.name) + ", " +
-      esc(K.behoerde) + ", " + esc(K.bereich) + ".</li>" +
-      "<li><strong>Änderungswünsche, Fehlermeldungen und Ergänzungsvorschläge</strong> bitte direkt an " +
-      esc(E.name) + ": " + mailtoLink(E.email, B.rueckmeldung) + ". " +
+      "<li><strong>" + esc(E.rolle) + ":</strong> " + esc(E.name) + ".</li>" +
+      "<li><strong>Änderungswünsche, Fehlermeldungen und Ergänzungsvorschläge</strong> gerne über " +
+      githubLink(K, "GitHub-Issues") + (E.email ? " oder per E-Mail: " + mailtoLink(E.email, B.rueckmeldung) : "") + ". " +
       "Eine kurze Beschreibung genügt — bei Darstellungsfehlern hilft ein Bildschirmfoto mit Gerät und Browser.</li>" +
       "<li><strong>Updates:</strong> Die Online-Fassung aktualisiert sich beim nächsten Aufruf von selbst. Die " +
       "heruntergeladene Einzeldatei gelegentlich neu beziehen, damit Inhalte, Tabellen und Gesetzesstände aktuell " +
@@ -2603,45 +2601,45 @@
       "<li><strong>Lokale Speicherung im Browser:</strong> Notizen, Aktenvermerke, Merkliste, Checklisten-Stände " +
       "und eigene Inhalte liegen nur im Browser-Speicher dieses Geräts (localStorage/IndexedDB). Löschen ist " +
       "jederzeit über die Browserdaten oder das Modul „Eigene Inhalte &amp; Sicherung“ möglich.</li>" +
-      "<li><strong>Aufruf über das Internet:</strong> Wird das Werkzeug online aufgerufen (derzeit GitHub Pages, " +
-      "Testbetrieb), verarbeitet der Hoster (GitHub Inc., USA) technisch bedingt Server-Protokolle mit " +
+      "<li><strong>Aufruf über das Internet:</strong> Wird das Werkzeug online aufgerufen (derzeit GitHub Pages), " +
+      "verarbeitet der Hoster (GitHub Inc., USA) technisch bedingt Server-Protokolle mit " +
       "IP-Adressen; darauf hat das Werkzeug keinen Einfluss. Bei der Nutzung als heruntergeladene Einzeldatei " +
       "oder im internen Netz entfällt das vollständig.</li>" +
       "</ul>" +
-      '<p>Allgemeine Datenschutzinformationen der Behörde: <a href="' + esc(L.datenschutz) + '" target="_blank" rel="noopener">Datenschutz beim Regierungspräsidium Freiburg <span aria-hidden="true">↗</span></a></p>' +
 
       "<h2>Barrierefreiheit</h2>" +
       "<p>Das Werkzeug ist auf Barrierefreiheit nach WCAG 2.1 AA ausgelegt: semantisches HTML, vollständige " +
       "Tastaturbedienung mit sichtbarem Fokus, Sprungmarke zum Inhalt, ausreichende Kontraste und Respekt vor " +
       "reduzierter Bewegung (prefers-reduced-motion).</p>" +
       "<p><strong>Bekannte Einschränkungen:</strong> Einzelne ältere PDF-Dokumente im Download-Center " +
-      "(eingescannte Verwaltungsvorschriften) sind nicht voll barrierefrei; die amtlichen Online-Fassungen sind " +
+      "(eingescannte Vorschriften) sind nicht voll barrierefrei; die amtlichen Online-Fassungen sind " +
       "jeweils verlinkt.</p>" +
-      "<p>Barrieren bitte melden an: " + mailtoLink(E.email, B.barriere) + ". " +
-      'Offizielle Erklärung der Behörde: <a href="' + esc(L.barrierefreiheit) + '" target="_blank" rel="noopener">Erklärung zur Barrierefreiheit <span aria-hidden="true">↗</span></a></p>' +
+      "<p>Barrieren bitte melden: über " + githubLink(K, "GitHub-Issues") +
+      (E.email ? " oder an " + mailtoLink(E.email, B.barriere) : "") + ".</p>" +
 
       "<h2>Urheberrecht &amp; Lizenzen</h2>" +
       "<ul>" +
       "<li><strong>Gesetzestexte</strong> sind amtliche Werke und gemeinfrei (§ 5 UrhG); Quelle: " +
       "gesetze-im-internet.de. Maßgeblich ist die jeweilige Verkündungsfassung.</li>" +
-      "<li><strong>Inhalte dieses Werkzeugs</strong> (Artikel, Checklisten, Vorlagen): © Regierungspräsidium " +
-      "Freiburg, Ausbildungsberatung. Nachnutzung [Lizenz bzw. Freigaberegel ergänzen].</li>" +
+      "<li><strong>Inhalte dieses Werkzeugs</strong> (Artikel, Checklisten, Vorlagen): © " + esc(K.anbieter) + ". " +
+      "Nachnutzung [Lizenz bzw. Freigaberegel ergänzen].</li>" +
       "<li><strong>Schriften:</strong> Source Sans 3 und Source Serif 4 (© Adobe, SIL Open Font License 1.1 — " +
       "frei nutzbar; Lizenztexte unter assets/fonts/). Das <strong>Keimling-Zeichen</strong> ist eine eigene " +
-      "Schöpfung dieses Werkzeugs. Landeswappen und RPF-Logo werden hier bewusst nicht verwendet — sie sind " +
+      "Schöpfung dieses Werkzeugs. Landeswappen und Behördenlogos werden hier bewusst nicht verwendet — sie sind " +
       "geschützt und nicht zur Weiterverwendung bestimmt.</li>" +
       "<li><strong>Open-Source-Komponenten</strong> (lokal gebündelt, keine Cloud): transformers.js " +
       "(Apache License 2.0), Sprachmodell multilingual-e5-small (MIT License).</li>" +
-      "<li><strong>Dokumente Dritter</strong> im Download-Center (BIBB, MLR, Bundesagentur für Arbeit u. a.): " +
-      "Rechte bei den jeweiligen Herausgebern, Herkunft je Eintrag vermerkt.</li>" +
+      "<li><strong>Dokumente Dritter</strong> im Download-Center (amtliche Vordrucke, BIBB, MLR, Bundesagentur " +
+      "für Arbeit u. a.): Rechte bei den jeweiligen Herausgebern, Herkunft je Eintrag vermerkt.</li>" +
       "</ul>" +
 
       "<h2>Haftung</h2>" +
-      "<p>Dieses Werkzeug ist eine Fachinformation der Ausbildungsberatung — <strong>keine Rechtsberatung im " +
-      "Einzelfall</strong>. Alle Angaben sind sorgfältig geprüft und mit Stand versehen; verbindlich sind allein " +
-      "die amtlichen Fassungen der Gesetze, Verordnungen und Vorschriften. Für externe Links gilt: Inhalte " +
+      "<p>Dieses Werkzeug ist eine privat gepflegte Fachinformation — <strong>keine Rechtsberatung im " +
+      "Einzelfall und kein amtliches Angebot</strong>. Alle Angaben sind sorgfältig geprüft und mit Stand " +
+      "versehen; verbindlich sind allein die amtlichen Fassungen der Gesetze, Verordnungen und Vorschriften " +
+      "sowie die Auskünfte der jeweils zuständigen Stellen. Für externe Links gilt: Inhalte " +
       "fremder Seiten verantworten deren Anbieter.</p>" +
-      '<p class="stand-hinweis">Stand dieser Seite: 02.08.2026</p>';
+      '<p class="stand-hinweis">Stand dieser Seite: 15.10.2026</p>';
   }
 
   function viewGesetzWerke() {

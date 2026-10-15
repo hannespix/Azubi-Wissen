@@ -2,39 +2,33 @@
  *
  * EINZIGE Quelle für diese Daten: die Rechtliches-Seite (app.js) UND der
  * KI-Assistent (assistent.js) lesen hier — nie an zwei Stellen pflegen.
- * Ändert sich eine Adresse, genügt eine Änderung in dieser Datei.
+ * Ändert sich eine Angabe, genügt eine Änderung in dieser Datei.
  *
- * Pflegehinweis: Domain und Schreibweise der Adressen stammen aus dem
- * amtlichen Impressum des Regierungspräsidiums Freiburg
- * (https://rpf.baden-wuerttemberg.de/impressum/) — Schema
- * Vorname.Nachname@rpf.bwl.de. Keine privaten Adressen eintragen.
+ * WICHTIG (seit 10/2026): Verantwortlich für das Werkzeug ist Hannes Pix
+ * persönlich. Behörden (Regierungspräsidium, Verwaltung) werden hier NICHT
+ * als Anbieter genannt — das Werkzeug ist kein amtliches Angebot. Deshalb
+ * auch keine dienstlichen E-Mail-Adressen oder Behörden-Links eintragen.
  */
 window.KONTAKT = {
-  behoerde: "Regierungspräsidium Freiburg",
-  bereich: "Ausbildungsberatung für die grünen Berufe",
-  anschrift: "79083 Freiburg im Breisgau",
-  telefon: "0761 208-0",
+  anbieter: "Hannes Pix",
+  einordnung: "privat entwickeltes Fachwerkzeug — kein amtliches Angebot",
 
-  // Fachlicher Ansprechpartner = Entwicklung und Pflege des Werkzeugs.
+  // Entwicklung und Pflege des Werkzeugs.
   entwickler: {
     name: "Hannes Pix",
-    email: "Hannes.Pix@rpf.bwl.de",
+    // E-Mail bewusst leer: Welche Adresse öffentlich im Impressum stehen
+    // soll, entscheidet der Anbieter. Bis dahin läuft Kontakt über GitHub.
+    email: "",
     rolle: "Konzeption, Entwicklung und Pflege"
   },
-  // Amtlicher Zugang der Behörde (für förmliche Anliegen).
-  poststelle: "poststelle@rpf.bwl.de",
+
+  // Öffentlicher Kontakt- und Rückmeldeweg (Issues im Quell-Repository).
+  github: "https://github.com/hannespix/Azubi-Wissen",
 
   // Betreffzeilen, damit Rückmeldungen zuordenbar ankommen.
   betreff: {
     rueckmeldung: "Azubi Wissen — Rückmeldung",
     barriere: "Azubi Wissen — Barriere melden"
-  },
-
-  // Amtliche Seiten der Behörde (verbindlich gegenüber dieser Kurzfassung).
-  links: {
-    impressum: "https://rpf.baden-wuerttemberg.de/impressum/",
-    datenschutz: "https://rpf.baden-wuerttemberg.de/datenschutz/",
-    barrierefreiheit: "https://rpf.baden-wuerttemberg.de/erklaerung-zur-barrierefreiheit/"
   },
 
   // Ziel im Werkzeug, das alle Angaben ausführlich zeigt.

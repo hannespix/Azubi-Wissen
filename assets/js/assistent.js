@@ -311,9 +311,13 @@
     var istKontakt = /\b(kontakt|kontaktdaten|e ?mail adresse|emailadresse|erreiche ich|erreichbar|telefonnummer)\b/.test(nqt);
     if (!(istImpressum || istEntwickler || istRueckmeldung || istDatenschutz || istBarriere || istLizenz || istKontakt)) return null;
 
-    var E = K.entwickler || {}, B = K.betreff || {}, L = K.links || {};
+    var E = K.entwickler || {}, B = K.betreff || {};
     function mail(betreff) {
+      if (!E.email) return "<em>E-Mail-Kontakt wird ergänzt</em>";
       return '<a href="mailto:' + A.esc(E.email) + (betreff ? "?subject=" + encodeURIComponent(betreff) : "") + '">' + A.esc(E.email) + "</a>";
+    }
+    function github(text) {
+      return '<a href="' + A.esc(K.github) + '" target="_blank" rel="noopener">' + A.esc(text || "GitHub") + " \u2197</a>";
     }
     var html, titel;
     if (istDatenschutz && !istRueckmeldung) {
@@ -323,34 +327,33 @@
         "<p>Notizen, Aktenvermerke, Merkliste und Checklisten-Stände liegen ausschließlich im Browser-Speicher dieses " +
         "Geräts und lassen sich jederzeit löschen. Beim Online-Aufruf fallen beim Hoster technisch bedingt " +
         "Server-Protokolle an; als heruntergeladene Einzeldatei entfällt auch das.</p>" +
-        '<p>Einzelheiten: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a> im Werkzeug · " +
-        '<a href="' + A.esc(L.datenschutz) + '" target="_blank" rel="noopener">Datenschutz beim ' + A.esc(K.behoerde) + " ↗</a></p>";
+        '<p>Einzelheiten: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a> im Werkzeug.</p>";
     } else if (istBarriere && !istRueckmeldung) {
       titel = "Barrierefreiheit";
       html = "<p>Das Werkzeug ist auf <strong>WCAG 2.1 AA</strong> ausgelegt: semantisches HTML, volle " +
         "Tastaturbedienung mit sichtbarem Fokus, Sprungmarke zum Inhalt, ausreichende Kontraste. Bekannte " +
         "Einschränkung: einzelne eingescannte PDF im Download-Center.</p>" +
-        "<p><strong>Barriere melden:</strong> " + mail(B.barriere) + " (" + A.esc(E.name) + ").</p>" +
-        '<p>Mehr dazu: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a> · " +
-        '<a href="' + A.esc(L.barrierefreiheit) + '" target="_blank" rel="noopener">Erklärung zur Barrierefreiheit ↗</a></p>';
+        "<p><strong>Barriere melden:</strong> über " + github("GitHub-Issues") +
+        (E.email ? " oder an " + mail(B.barriere) : "") + ".</p>" +
+        '<p>Mehr dazu: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a></p>";
     } else if (istLizenz && !istRueckmeldung && !istEntwickler) {
       titel = "Urheberrecht & Lizenzen";
-      html = "<p>Gesetzestexte sind amtliche Werke und gemeinfrei (§ 5 UrhG). Die Inhalte dieses Werkzeugs stammen " +
-        "von der Ausbildungsberatung des " + A.esc(K.behoerde) + "; Schriften und Logo sind lizenziert und nicht zur " +
-        "Weiterverwendung außerhalb dieses Angebots bestimmt.</p>" +
+      html = "<p>Gesetzestexte sind amtliche Werke und gemeinfrei (§ 5 UrhG). Die Inhalte dieses Werkzeugs: " +
+        "© " + A.esc(K.anbieter) + ". Die Schriften (Source Sans 3/Serif 4) stehen unter der freien SIL Open " +
+        "Font License; das Keimling-Zeichen ist eine eigene Schöpfung dieses Werkzeugs.</p>" +
         '<p>Vollständige Angaben: <a href="' + K.seite + '">' + A.esc(K.seitenTitel) + "</a>.</p>";
     } else {
       titel = istRueckmeldung ? "Änderungswünsche & Fehlermeldungen" : "Kontakt & Impressum";
-      html = "<p>Dieses Werkzeug entwickelt und pflegt <strong>" + A.esc(E.name) + "</strong> (" + A.esc(K.bereich) +
-        ", " + A.esc(K.behoerde) + ").</p><ul>" +
-        "<li><strong>Änderungswünsche, Fehler und Vorschläge:</strong> " + mail(B.rueckmeldung) + " — kurze " +
+      html = "<p>Verantwortlich für dieses Werkzeug ist <strong>" + A.esc(K.anbieter) + "</strong> — es ist ein " +
+        A.esc(K.einordnung) + ".</p><ul>" +
+        "<li><strong>Änderungswünsche, Fehler und Vorschläge:</strong> über " + github("GitHub-Issues") +
+        (E.email ? " oder per E-Mail: " + mail(B.rueckmeldung) : "") + " — kurze " +
         "Beschreibung genügt; bei Darstellungsfehlern hilft ein Bildschirmfoto mit Gerät und Browser.</li>" +
-        "<li><strong>Barriere melden:</strong> " + mail(B.barriere) + "</li>" +
-        "<li><strong>Amtlicher Zugang:</strong> " + A.esc(K.poststelle) + " · Telefon (Zentrale) " + A.esc(K.telefon) + "</li>" +
+        "<li><strong>Barriere melden:</strong> ebenfalls über " + github("GitHub-Issues") +
+        (E.email ? " oder an " + mail(B.barriere) : "") + ".</li>" +
         "</ul>" +
         '<p>Alle Angaben (Anbieter, Datenschutz, Barrierefreiheit, Lizenzen): <a href="' + K.seite + '">' +
-        A.esc(K.seitenTitel) + "</a> · " +
-        '<a href="' + A.esc(L.impressum) + '" target="_blank" rel="noopener">Impressum des ' + A.esc(K.behoerde) + " ↗</a></p>";
+        A.esc(K.seitenTitel) + "</a></p>";
     }
     return { html: html, quellen: [{ text: K.seitenTitel, ziel: K.seite }],
       folgefragen: ["Werden meine Daten gespeichert?", "Wie melde ich eine Barriere?", "Wer hat das Tool entwickelt?"],

@@ -781,6 +781,33 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Tranche S43: Verantwortlicher Hannes Pix — Auftrag 15.10.2026
+
+- **S43 Anbieterkennzeichnung auf Hannes Pix umgestellt** ✅ — das
+  Werkzeug tritt als **privat entwickeltes Fachprojekt** auf; das
+  Regierungspräsidium und „die Verwaltung“ werden nirgends mehr als
+  Anbieter genannt. Fachliche Inhalte, die das Regierungspräsidium als
+  **zuständige Stelle beschreiben** (Rechtslage), bleiben unverändert.
+  Umgestellt: `kontakt.js` (einzige Quelle — Anbieter Hannes Pix,
+  Einordnung „kein amtliches Angebot“, Rückmeldeweg GitHub-Issues; die
+  Behördenfelder, die dienstliche E-Mail-Adresse @rpf.bwl.de und die
+  Links auf Impressum/Datenschutz/Barrierefreiheit der Behörde sind
+  entfernt), die komplette **Rechtliches-Seite** (Anbieter, © Hannes
+  Pix, Haftung „privat gepflegte Fachinformation — keine Rechtsberatung,
+  kein amtliches Angebot“), die **Kontakt-Antworten des Assistenten**,
+  der **PDF-Export** (Fußnote und Aktenvermerk-Kopf ohne Behörde,
+  Deckblatt „Wissensdatenbank für die grünen Berufe“), Fenstertitel und
+  `site.webmanifest` („Azubi Wissen“ statt „— RP Freiburg“), Kopfzeile
+  („Ausbildung grüne Berufe“), Fußzeile („kein amtliches Angebot“) und
+  die README.
+  **Offen beim Anbieter:** Welche E-Mail-Adresse öffentlich ins
+  Impressum soll, ist bewusst Platzhalter („E-Mail-Kontakt wird
+  ergänzt“) — bis dahin läuft Kontakt über GitHub-Issues. Die
+  Nachnutzungsregel für eigene Inhalte bleibt ebenfalls Platzhalter.
+  Tests: `mini_s43` (21, u. a. Rechtliches ohne Behördennennung, keine
+  @rpf.bwl.de-Adresse, Manifest/Titel, Einzeldatei), `mini_s42`
+  (Wortmarken-Zeile angepasst), `mini_s41`, `smoke_bestand` grün.
+
 ## Tranche S42: Öffentliches Repo ohne geschützte Inhalte — Auftrag 15.10.2026
 
 - **S42 Geschützte Schriften und Logos ersetzt** ✅ — das Repo ist
