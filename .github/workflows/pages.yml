@@ -1,9 +1,12 @@
 name: GitHub Pages
 
 # Veröffentlicht nach jedem Merge auf main die aktuellen Werkzeuge:
-#   /            → Azubi-Wissen (Browsertool, direkt statisch lauffähig)
+#   /            → Azubi-Wissen (Browsertool, passwortgeschützt — S48)
 #   /navigator/  → Fachwerker-Navigator (Browser-Vorschau, Vite-Build)
-# Voraussetzung in den Repo-Einstellungen: Pages → Source = "GitHub Actions".
+# Voraussetzungen in den Repo-Einstellungen:
+#   - Pages → Source = "GitHub Actions"
+#   - Secrets and variables → Actions → Secret ZUGANG_PASSWORT (Zugangspasswort;
+#     ohne dieses Secret bricht der Lauf ab — nie unverschlüsselt online)
 on:
   push:
     branches: [main]
@@ -28,6 +31,9 @@ jobs:
           node-version: "22"
           cache: npm
           cache-dependency-path: navigator/app/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
 
       - name: Navigator-Vorschau bauen
         working-directory: navigator/app
@@ -45,6 +51,16 @@ jobs:
           cp -r navigator/app/dist/. _site/navigator/
           # Jekyll aus dem Weg — Verzeichnisse mit Unterstrich u. ä. unangetastet lassen
           touch _site/.nojekyll
+
+      # Zugangsschutz (S48): Inhalte, Suchindex, Dateien und Offline-Datei mit
+      # dem Zugangspasswort verschlüsseln (tools/zugang_bauen.py). Passwort
+      # ändern = Secret ändern und diesen Workflow erneut starten.
+      - name: Inhalte verschlüsseln (Zugangsschutz)
+        env:
+          ZUGANG_PASSWORT: ${{ secrets.ZUGANG_PASSWORT }}
+        run: |
+          pip install --quiet cryptography
+          python3 tools/zugang_bauen.py _site
 
       - uses: actions/upload-pages-artifact@v3
         with:

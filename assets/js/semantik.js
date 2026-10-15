@@ -57,9 +57,12 @@
       return Promise.reject(new Error("In der Einzeldatei-Version steht die semantische Suche nicht zur Verfügung — bitte die Ordner-/Serverversion nutzen."));
     }
     fortschritt("Suchindex laden …", 0.03);
-    return fetch(INDEX_URL).then(function (r) {
-      if (!r.ok) throw new Error("Suchindex fehlt (HTTP " + r.status + ")");
-      return r.json();
+    // Über zugang.js: in der geschützten Online-Fassung liegt der Index
+    // verschlüsselt vor.
+    return window.ZUGANG.laden(INDEX_URL).then(function (buf) {
+      return JSON.parse(new TextDecoder().decode(buf));
+    }, function (e) {
+      throw new Error("Suchindex fehlt (" + e.message + ")");
     }).then(function (idx) {
       if (!idx || idx.format !== "azubi-semantik-index" || !idx.eintraege) {
         throw new Error("Suchindex hat ein unerwartetes Format.");

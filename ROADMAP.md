@@ -781,6 +781,34 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Tranche S48: Zugangsschutz — Auftrag 15.10.2026
+
+> „Können wir ein Login-Fenster einführen, damit man nur mit Eingabe eines
+> Passworts in das Tool reinkommt … Ein Hinweis mit einer E-Mail-Adresse an
+> Hannes Pix oder Christoph Zilz, wenn man Zugang braucht. Und der Login soll
+> gespeichert werden, damit das Passwort pro Gerät nur einmal eingegeben
+> werden muss.“
+
+- **S48 Zugangsschutz** ✅ — statischer Hoster, also keine Server-Anmeldung:
+  Die Online-Fassung wird beim Deploy **verschlüsselt** (`tools/zugang_bauen.py`,
+  AES-256-GCM, Schlüssel per PBKDF2-SHA-256 aus dem Secret `ZUGANG_PASSWORT`).
+  Verschlüsselt: alle Inhalts- und Programmskripte als ein Paket
+  (`assets/daten/inhalt.azw`, Klartext-Dateien gelöscht), Suchindex, alle
+  Dateien unter `formulare/`, Offline-Datei (Hülle mit Anmeldefenster).
+  `assets/js/zugang.js`: Anmeldefenster im Landesdesign, Passwortprüfung
+  lokal über eine Probe, Schlüssel je Gerät im localStorage (Passwort nur
+  einmal), „Abmelden“ im Menü, Hinweis bei Passwortwechsel, Dateien im
+  Download-Center und E-Mail-Anlagen werden beim Abruf entschlüsselt.
+  Hinweis „Noch keinen Zugang?“ mit Hannes Pix, Christoph Zilz und
+  azubiwissen@pix-el.de (`kontakt.js` → `zugang`). Impressum ohne Anmeldung
+  (`assets/js/rechtliches.js`, aus app.js herausgelöst; Datenschutz um den
+  Zugangsschutz ergänzt). `noindex` für Suchmaschinen. Lokal/Repo bleibt
+  der Schutz aus. Tests: Selbsttest 11/11 (CI), mini_s48 (28) +
+  mini_s45/s43/s42/s41/smoke_bestand grün.
+  **Grenze:** Solange das Repo öffentlich ist, sind die Inhalte im
+  Quelltext lesbar — wirksam erst mit privatem Repo (Pages braucht dann
+  GitHub Pro).
+
 ## Tranche S45–S47: Aktualitätsprüfung — Auftrag 15.10.2026
 
 - **S45 Prüfwerkzeug und Workflow** ✅ — `tools/aktualitaet_pruefen.py`

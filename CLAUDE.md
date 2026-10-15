@@ -25,12 +25,15 @@ assets/fonts/           ← Source Sans 3/Serif 4 (woff2, SIL OFL — frei)
 assets/logo/            ← Keimling-Zeichen (azubi-wissen-zeichen.svg, eigenes Werk)
 assets/favicons/        ← Favicon-Paket + favicon.ico
 assets/js/nav.js        ← Hamburger-Navigation (a11y)
+assets/js/zugang.js     ← Anmeldefenster/Entschlüsselung der Online-Fassung
+assets/js/rechtliches.js ← Impressum (unverschlüsselt, ohne Login erreichbar)
 assets/js/search.js     ← globale Fuzzy-Suche (In-Memory)
 assets/js/chart.js      ← CI-konforme SVG-Diagramme
 assets/js/db.js         ← PGlite-Datenbankschicht (DB-Tools)
 assets/vendor/pglite/   ← lokal abgelegtes PGlite (kein CDN!) — bei DB-Tools
 site.webmanifest        ← PWA-Manifest
 tools/build_singlefile.py ← erzeugt offline Single-File dist/index.html
+tools/zugang_bauen.py   ← verschlüsselt die Online-Fassung beim Deploy
 CLAUDE.md · AGENTS.md · ROADMAP.md · README.md
 ```
 
@@ -61,6 +64,11 @@ Doppelklick, ohne Netzwerk, ohne Installation. Das ist nicht verhandelbar
 - **DB-Tools** (PGlite/WASM) → Ordner-Bundle mit vendored Abhängigkeiten;
   über internen Webserver oder als entpackter Ordner geöffnet. WASM lässt sich
   nicht sinnvoll in eine Einzeldatei pressen.
+- **Zugangsschutz (S48):** Die Online-Fassung wird beim Pages-Deploy mit dem
+  Zugangspasswort verschlüsselt (`tools/zugang_bauen.py`, Secret
+  `ZUGANG_PASSWORT`). Neue Skripte mit Inhalten in `index.html` zwischen
+  `<!-- geschuetzt:anfang -->` und `<!-- geschuetzt:ende -->`; Dateien über
+  `window.ZUGANG.laden()` holen statt mit `fetch` (entschlüsselt bei Bedarf).
 
 ## 2.1 Stack
 - Vanilla JS oder React 18 (Babel Standalone, **lokal vendored**),
