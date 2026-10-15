@@ -65,7 +65,7 @@
     if (opts.deckblatt) {
       h += '<div class="deckblatt">' +
         '<img src="' + logoSrc + '" alt="">' +
-        "<h1>Azubi Wissen<br>Wissensdatenbank der Ausbildungsberatung</h1>" +
+        "<h1>Azubi Wissen<br>Wissensdatenbank für die grünen Berufe</h1>" +
         '<p class="untertitel">' + A().esc(opts.rolle.untertitel) + "</p>" +
         '<p class="metadaten">Detailgrad: ' + STUFEN[opts.stufe] + "<br>" +
         "Erstellt am " + datumHeute() + " · Stand der Inhalte: " + A().esc(W.stand) + "<br>" +
@@ -82,7 +82,7 @@
         themenMap[t.id].map(function (a) { return artikelHtml(a, opts); }).join("") +
         "</section>";
     });
-    h += '<p class="fussnote">' + A().esc(W.hinweis) + " — Erstellt mit dem Werkzeug „Azubi Wissen“ des Regierungspräsidiums Freiburg, " + datumHeute() + ".</p>";
+    h += '<p class="fussnote">' + A().esc(W.hinweis) + " — Erstellt mit dem Werkzeug „Azubi Wissen“, " + datumHeute() + ".</p>";
     h += "</div>";
     return h;
   }
@@ -93,7 +93,7 @@
       return w ? "<tr><th>" + A().esc(k) + "</th><td>" + A().esc(w) + "</td></tr>" : "";
     }
     var h = '<div class="doku">';
-    h += "<p><strong>Regierungspräsidium Freiburg</strong><br>Ausbildungsberatung — grüne Berufe</p>";
+    h += "<p><strong>Azubi Wissen</strong><br>Arbeitshilfe für die Ausbildungsberatung — grüne Berufe</p>";
     h += "<h1>Aktenvermerk</h1>";
     h += "<table>" +
       zeile("Aktenzeichen", v.az) +

@@ -1,12 +1,12 @@
-# Azubi Wissen — Wissens- und Arbeitstool der Ausbildungsberatung (RP Freiburg)
+# Azubi Wissen — Wissens- und Arbeitstool für die Ausbildung in den grünen Berufen
 
-Offline-Wissensdatenbank und Arbeitswerkzeug der Ausbildungsberatung für
-**alle grünen Berufe** (Gärtner/in, Landwirt/in, Winzer/in, Fischwirt/in,
+Offline-Wissensdatenbank und Arbeitswerkzeug für die Ausbildungsberatung in
+**allen grünen Berufen** (Gärtner/in, Landwirt/in, Winzer/in, Fischwirt/in,
 Tierwirt/in, Forstwirt/in u. v. m. — inkl. der § 66-Fachwerkerausbildung).
 Intelligente Suche, lokaler KI-Assistent, sechs Rechner, Jahreskreis der
 Beratung, automatisierte E-Mail-Vorlagen, PDF-Export und Aktenvermerk-
-Generator — gebaut im Landes-CD Baden-Württemberg auf Basis der
-RPF-Browsertool-Vorlage. **Läuft vollständig offline — keine externen
+Generator. Verantwortlich: **Hannes Pix** — privat entwickeltes
+Fachwerkzeug, **kein amtliches Angebot**. **Läuft vollständig offline — keine externen
 Requests, keine Cloud, keine Telemetrie.**
 
 ## Nutzung
@@ -127,12 +127,13 @@ tools/                         Offline-Check, Single-File-Builder, Index + Nachb
 
 ## Rechtliches
 
-Fachinformation der Ausbildungsberatung — **keine Rechtsberatung im
-Einzelfall**. Das Werkzeug führt unter **`#/rechtliches`** (Link im
-Fußbereich jeder Seite) Anbieterkennzeichnung, Datenschutz-Erklärung
-(alles lokal, keine Übertragung), Erklärung zur Barrierefreiheit und
-Lizenzhinweise; Platzhalter in [eckigen Klammern] vor offizieller
-Freigabe ergänzen und mit Pressestelle/Justiziariat abstimmen.
+Privat gepflegte Fachinformation — **keine Rechtsberatung im
+Einzelfall, kein amtliches Angebot**. Verantwortlich ist **Hannes Pix**
+(Anbieterangaben in `assets/js/kontakt.js`, einzige Quelle). Das Werkzeug
+führt unter **`#/rechtliches`** (Link im Fußbereich jeder Seite)
+Anbieterkennzeichnung, Datenschutz-Erklärung (alles lokal, keine
+Übertragung), Erklärung zur Barrierefreiheit und Lizenzhinweise;
+verbliebene Platzhalter (E-Mail-Kontakt, Nachnutzungsregel) ergänzen.
 Das Repo ist öffentlich — deshalb liegen hier **keine geschützten
 Landes-Assets**: Die Schriften sind Source Sans 3/Source Serif 4 (Adobe,
 SIL OFL 1.1, frei verteilbar), das Zeichen ist der eigene „Keimling“

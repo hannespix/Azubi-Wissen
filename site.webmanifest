@@ -1,7 +1,7 @@
 {
-  "name": "Azubi Wissen — RP Freiburg",
+  "name": "Azubi Wissen",
   "short_name": "Azubi Wissen",
-  "description": "Wissensdatenbank und Arbeitshilfen der Ausbildungsberatung für alle grünen Berufe in Baden-Württemberg.",
+  "description": "Wissensdatenbank und Arbeitshilfen für die Ausbildung in den grünen Berufen in Baden-Württemberg.",
   "lang": "de",
   "start_url": "./index.html",
   "scope": "./",
