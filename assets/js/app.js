@@ -2565,6 +2565,13 @@
       '<div class="bw-flaeche"><strong>' + z.aktuell + "</strong><span>aktuell</span></div></div>" +
       '<p class="bw-klein bw-leise">Letzte Prüfung: ' + deDatum(P.geprueft) +
       (window.EINZELDATEI ? " — Stand dieser Einzeldatei; die Online-Fassung zeigt den neuesten Prüfstand." : "") + "</p>";
+    // Server, die beim Lauf nicht antworteten: Für deren Einträge gilt das
+    // Ergebnis der letzten Prüfung, die durchkam (Datum am Eintrag).
+    var still = Object.keys(P.unerreichbar || {});
+    if (still.length) {
+      h += '<div class="bw-hinweis"><p>Beim letzten Lauf antworteten nicht alle Server (' + esc(still.join(", ")) +
+        "). Für die betroffenen Einträge gilt das Ergebnis der letzten Prüfung, die durchkam — das Datum steht jeweils dabei.</p></div>";
+    }
 
     function punktQuelle(id, e) {
       var q = Q[id] || { titel: id };

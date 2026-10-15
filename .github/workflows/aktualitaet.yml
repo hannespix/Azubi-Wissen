@@ -43,6 +43,9 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       ISSUE_TITEL: "Aktualitätsprüfung"
+      # Netzzeit der Prüfung — manche Behördenserver bremsen Abrufe aus
+      # Rechenzentren aus; danach gilt für den Rest das letzte Ergebnis.
+      PRUEF_BUDGET_MIN: "30"
     steps:
       - uses: actions/checkout@v4
         with:

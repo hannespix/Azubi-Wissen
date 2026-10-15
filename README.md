@@ -121,6 +121,14 @@ Werkzeug selbst ruft nichts aus dem Netz ab (Zero-Trust).
   Offline-Datei neu gebaut), umgezogene Links eintragen. Damit die Action
   PRs öffnen darf: Settings → Actions → General → „Allow GitHub Actions to
   create and approve pull requests“; sonst verlinkt das Issue den Branch.
+- **Langsame oder sperrende Server:** Manche Behördenserver bremsen
+  Abrufe aus Rechenzentren (wie den GitHub-Servern) aus. Jeder Abruf hat
+  deshalb eine feste Gesamtfrist; antwortet ein Server zweimal in Folge
+  nicht, wird er für den Lauf übersprungen; nach 30 Minuten Netzzeit ist
+  Schluss (`PRUEF_BUDGET_MIN`). Für Nicht-Erreichbares gilt das Ergebnis
+  der letzten Prüfung, die durchkam (Datum am Eintrag); Bericht und
+  Prüfstand nennen die betroffenen Server. Vollständig prüfen lässt sich
+  dann lokal (siehe unten) — `pruefstand.js` danach committen.
 - **Pflege-Felder in `quellen.js`:** `pdf` (direkte Adresse der
   Online-Fassung), `erwartet` (Kennwörter), `bestaetigt: "JJJJ-MM"`
   (Vordruck von der Redaktion als noch gültig bestätigt — Erinnerung erst

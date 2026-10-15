@@ -39,6 +39,7 @@ import json
 import os
 import re
 import shutil
+import socket
 import ssl
 import subprocess
 import sys
@@ -57,7 +58,11 @@ JS = ROOT / "assets" / "js"
 PRUEFSTAND = JS / "pruefstand.js"
 UA = ("Mozilla/5.0 (compatible; AzubiWissen-Aktualitaetspruefung/1.0; "
       "+https://github.com/hannespix/Azubi-Wissen)")
-ZEITLIMIT = 25
+ZEITLIMIT = 20                # Sekunden je Verbindungsschritt (Aufbau, jedes Lesen)
+FRIST_SEITE = 45              # Sekunden je Abruf insgesamt — Seiten
+FRIST_DATEI = 150             # … PDFs und Gesetzes-XML
+HOST_AUSFALL_MAX = 2          # so viele Netzfehler in Folge → Host für diesen Lauf überspringen
+BUDGET_MIN = int(os.environ.get("PRUEF_BUDGET_MIN", "30"))   # Netzzeit des ganzen Laufs
 MAX_HTML = 2_000_000
 MAX_PDF = 40_000_000
 INTERN_ALT_JAHRE = 5          # interne Vordrucke: ab diesem Alter erinnern
@@ -138,6 +143,8 @@ class Weiterleitungen(urllib.request.HTTPRedirectHandler):
 
 _host_sperren = {}
 _host_lock = threading.Lock()
+_host_stat = {}               # Host → Abrufe, Fehler, Fehler in Folge, Sekunden, übersprungen
+_START = time.monotonic()
 
 
 def _host_sperre(url: str) -> threading.Lock:
@@ -151,23 +158,62 @@ def url_sicher(url: str) -> str:
     return urllib.parse.quote(url.replace("\ufffd", ""), safe=":/?#[]@!$&'()*+,;=%~")
 
 
+def _lesen(r, max_bytes: int, frist: float) -> bytes:
+    """Liest höchstens max_bytes — und bricht nach der Gesamtfrist ab. Das
+    Zeitlimit von urllib gilt je Leseschritt; ein Server, der tröpfchenweise
+    liefert, hielte den Lauf sonst beliebig lange auf."""
+    teile, n = [], 0
+    while n < max_bytes:
+        if time.monotonic() > frist:
+            raise TimeoutError("Gesamtzeit für den Abruf überschritten")
+        # read1: höchstens ein Lesevorgang — read(n) wartete auf volle n Bytes
+        stueck = r.read1(min(65536, max_bytes - n))
+        if not stueck:
+            break
+        teile.append(stueck)
+        n += len(stueck)
+    return b"".join(teile)
+
+
+def _zeitueberschreitung(e) -> bool:
+    grund = getattr(e, "reason", e)
+    return isinstance(grund, (TimeoutError, socket.timeout)) or "timed out" in str(grund)
+
+
 def abrufen(url: str, max_bytes: int = MAX_HTML) -> dict:
-    """GET mit Weiterleitungskette; nie Exceptions, immer ein Ergebnis-dict."""
+    """GET mit Weiterleitungskette; nie Exceptions, immer ein Ergebnis-dict.
+
+    `netz: True` heißt: von hier aus nicht erreichbar (Zeitüberschreitung,
+    Verbindungsfehler, Host übersprungen, Zeitbudget erschöpft) — über die
+    Quelle selbst sagt das nichts."""
     url = url_sicher(url)
+    host = urllib.parse.urlsplit(url).netloc
     kette = Weiterleitungen()
     opener = urllib.request.build_opener(kette)
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*",
                                                "Accept-Language": "de-DE,de;q=0.9"})
     ergebnis = {"url": url, "status": None, "final": url, "kette": [], "typ": "", "daten": b"",
-                "fehler": ""}
+                "fehler": "", "netz": False}
+    frist_gesamt = FRIST_DATEI if max_bytes > MAX_HTML else FRIST_SEITE
     with _host_sperre(url):            # ein Abruf je Host gleichzeitig — höflich bleiben
+        st = _host_stat.setdefault(host, {"abrufe": 0, "fehler": 0, "folge": 0, "sekunden": 0.0,
+                                          "uebersprungen": 0})
+        if st["folge"] >= HOST_AUSFALL_MAX:
+            st["uebersprungen"] += 1
+            ergebnis.update(fehler="Server antwortet von hier aus nicht — übersprungen", netz=True)
+            return ergebnis
+        if time.monotonic() - _START > BUDGET_MIN * 60:
+            st["uebersprungen"] += 1
+            ergebnis.update(fehler=f"Zeitbudget des Laufs ({BUDGET_MIN} min) erschöpft — übersprungen", netz=True)
+            return ergebnis
+        t0 = time.monotonic()
         for versuch in range(2):
             try:
                 with opener.open(req, timeout=ZEITLIMIT) as r:
                     ergebnis["status"] = r.status
                     ergebnis["final"] = r.geturl()
                     ergebnis["typ"] = r.headers.get("Content-Type", "")
-                    ergebnis["daten"] = r.read(max_bytes)
+                    ergebnis["daten"] = _lesen(r, max_bytes, t0 + frist_gesamt)
                 ergebnis["fehler"] = ""
                 break
             except urllib.error.HTTPError as e:
@@ -179,14 +225,35 @@ def abrufen(url: str, max_bytes: int = MAX_HTML) -> dict:
             except (urllib.error.URLError, http.client.HTTPException, ssl.SSLError,
                     TimeoutError, ConnectionError, OSError) as e:
                 grund = getattr(e, "reason", e)
+                ergebnis["status"] = None
                 ergebnis["fehler"] = f"{type(grund).__name__}: {grund}"[:160]
+                if _zeitueberschreitung(e):     # wer einmal schweigt, schweigt meist auch beim zweiten Mal
+                    break
             except (ValueError, UnicodeError) as e:       # kaputte Adresse — nicht wiederholen
                 ergebnis["fehler"] = f"{type(e).__name__}: {e}"[:160]
                 break
             time.sleep(1.5)
         time.sleep(0.25)
+        st["abrufe"] += 1
+        st["sekunden"] += time.monotonic() - t0
+        if ergebnis["status"] is None and not ergebnis["fehler"].startswith(("ValueError", "UnicodeError")):
+            st["fehler"] += 1
+            st["folge"] += 1
+            ergebnis["netz"] = not re.search(r"Name or service not known|getaddrinfo|nodename nor servname",
+                                             ergebnis["fehler"])
+        else:
+            st["folge"] = 0
     ergebnis["kette"] = kette.kette
     return ergebnis
+
+
+def host_bericht() -> str:
+    """Abrufe je Host mit Zeit und Fehlern — fürs Protokoll des Laufs."""
+    zeilen = []
+    for host, st in sorted(_host_stat.items(), key=lambda x: -x[1]["sekunden"]):
+        zeilen.append(f"  {host}: {st['abrufe']} Abrufe, {st['sekunden']:.0f} s, {st['fehler']} Netzfehler"
+                      + (f", {st['uebersprungen']} übersprungen" if st["uebersprungen"] else ""))
+    return "\n".join(zeilen)
 
 
 def normiere(url: str) -> str:
@@ -225,7 +292,7 @@ def link_pruefen(url: str, erwartet=None) -> dict:
     if st is None:
         if re.search(r"Name or service not known|getaddrinfo|nodename nor servname", r["fehler"]):
             return {"status": "defekt", "hinweis": "Adresse nicht auflösbar: " + r["fehler"]}
-        return {"status": "nicht-pruefbar", "hinweis": "nicht erreichbar: " + r["fehler"]}
+        return {"status": "nicht-pruefbar", "hinweis": "nicht erreichbar: " + r["fehler"], "netz": r["netz"]}
     if st in (404, 410):
         return {"status": "defekt", "hinweis": f"HTTP {st} — Seite gibt es nicht mehr"}
     if st in (401, 403, 429) or st >= 500:
@@ -301,6 +368,8 @@ def pdf_pruefen(quelle: dict) -> dict:
     url = quelle.get("pdf") or quelle.get("url")
     lokal = ROOT / quelle["datei"]
     r = abrufen(url, MAX_PDF)
+    if r["netz"]:
+        return {"status": "nicht-pruefbar", "hinweis": "PDF-Adresse nicht erreichbar: " + r["fehler"], "netz": True}
     if r["status"] is None or r["status"] >= 400:
         st = link_pruefen(url)        # Befund der Adresse selbst
         st["hinweis"] = "PDF-Adresse: " + st["hinweis"]
@@ -331,7 +400,7 @@ def gii_stand(slug: str) -> dict:
     """Stand eines Gesetzes aus dem amtlichen XML (xml.zip) von gesetze-im-internet.de."""
     r = abrufen(f"https://www.gesetze-im-internet.de/{slug}/xml.zip", MAX_PDF)
     if r["status"] != 200 or not r["daten"].startswith(b"PK"):
-        return {"fehler": r["fehler"] or f"HTTP {r['status']}"}
+        return {"fehler": r["fehler"] or f"HTTP {r['status']}", "netz": r["netz"]}
     import xml.etree.ElementTree as ET
     with zipfile.ZipFile(io.BytesIO(r["daten"])) as z:
         name = [n for n in z.namelist() if n.endswith(".xml")][0]
@@ -399,11 +468,29 @@ def links_sammeln(daten: dict) -> list:
 def pruefen(daten: dict, nur: set, vorher: dict) -> dict:
     heute = dt.date.today()
     quellen = {q["id"]: q for q in (daten.get("QUELLEN") or {}).get("eintraege", [])}
-    ergebnis = {"geprueft": heute.isoformat(), "quellen": {}, "links": [], "gesetze": {}, "ablauf": []}
+    ergebnis = {"geprueft": heute.isoformat(), "quellen": {}, "links": [], "gesetze": {}, "ablauf": [],
+                "unerreichbar": {}}
+    # Von hier aus nicht Erreichbares (z. B. Behördenserver, die Cloud-Adressen
+    # ausbremsen) sagt nichts über die Quelle: Dafür gilt das Ergebnis der
+    # letzten Prüfung, die durchkam — mit deren Datum.
+    vorher_datum = vorher.get("geprueft", "")
+    vorher_quellen = vorher.get("quellen") or {}
+    vorher_links = {l["url"]: l for l in (vorher.get("links") or [])}
+
+    def seit(alt):
+        return (alt or {}).get("uebernommen") or vorher_datum
+
+    def de(iso):
+        try:
+            return dt.date.fromisoformat(iso).strftime("%d.%m.%Y")
+        except (TypeError, ValueError):
+            return iso or "?"
 
     def befund_zu_quelle(qid, art, befund):
         e = ergebnis["quellen"].setdefault(qid, {"status": "aktuell", "befunde": []})
         e["befunde"].append({"art": art, **befund})
+        if befund.get("netz") and not befund.get("uebernommen"):
+            return                     # unbekannt — siehe Übernahme am Ende
         if STUFE[befund["status"]] > STUFE[e["status"]]:
             e["status"] = befund["status"]
 
@@ -416,6 +503,11 @@ def pruefen(daten: dict, nur: set, vorher: dict) -> dict:
             for f in cf.as_completed(zukunft):
                 l = zukunft[f]
                 befund = f.result()
+                if befund.get("netz") and not l["quellen"] and vorher_datum:
+                    alt = vorher_links.get(l["url"]) or {}
+                    befund = {"status": alt.get("status", "aktuell"), "netz": True, "uebernommen": seit(alt),
+                              "hinweis": f"von hier aus nicht erreichbar — Ergebnis vom {de(seit(alt))}"
+                              + (f": {alt['hinweis']}" if alt.get("hinweis") else "")}
                 ergebnis["links"].append({**l, **befund})
                 for qid in l["quellen"]:
                     befund_zu_quelle(qid, "link", befund)
@@ -448,8 +540,22 @@ def pruefen(daten: dict, nur: set, vorher: dict) -> dict:
         with cf.ThreadPoolExecutor(max_workers=6) as pool:
             for s, st in zip(slugs, pool.map(gii_stand, list(slugs))):
                 eintrag = {"stand": st.get("stand", ""), "quellen": slugs[s]}
-                if "fehler" in st:
-                    befund = {"status": "nicht-pruefbar", "hinweis": "XML nicht abrufbar: " + st["fehler"]}
+                if "fehler" in st and st.get("netz") and (alt.get(s) or {}).get("stand"):
+                    # Server nicht erreichbar: letzten bekannten Stand übernehmen und
+                    # gegen den hinterlegten Volltext neu vergleichen
+                    eintrag["stand"] = alt[s]["stand"]
+                    uebernommen = seit(alt[s])
+                    if s in vendored:
+                        k, g = vendored[s]
+                        eintrag["volltext"] = k
+                        status = "geaendert" if (g.get("stand") or "") != alt[s]["stand"] else "aktuell"
+                    else:
+                        status = alt[s].get("status", "aktuell")
+                    befund = {"status": status, "netz": True, "uebernommen": uebernommen,
+                              "hinweis": f"von hier aus nicht erreichbar — Stand der Prüfung vom {de(uebernommen)}"}
+                elif "fehler" in st:
+                    befund = {"status": "nicht-pruefbar", "hinweis": "XML nicht abrufbar: " + st["fehler"],
+                              "netz": st.get("netz", False)}
                     eintrag["stand"] = (alt.get(s) or {}).get("stand", "")
                 elif s in vendored:
                     k, g = vendored[s]
@@ -511,6 +617,23 @@ def pruefen(daten: dict, nur: set, vorher: dict) -> dict:
                                        "hinweis": hinweis, "gueltigBis": w["gueltigBis"],
                                        "aufgabe": w.get("aufgabe", ""), "wo": w.get("wo", [])})
         ergebnis["ablauf"].sort(key=lambda x: (-STUFE[x["status"]], x["gueltigBis"]))
+
+    # --- Nicht Erreichbares: Ergebnis der letzten Prüfung -----------------------
+    for qid, e in ergebnis["quellen"].items():
+        if not all(b.get("netz") and not b.get("uebernommen") for b in e["befunde"]):
+            continue
+        alt = vorher_quellen.get(qid)
+        if alt and vorher_datum:
+            e["status"] = alt.get("status", "nicht-pruefbar")
+            e["uebernommen"] = seit(alt)
+            e["befunde"].append({"art": "uebernahme", "status": e["status"], "uebernommen": e["uebernommen"],
+                                 "hinweis": f"von hier aus nicht erreichbar — Ergebnis vom {de(e['uebernommen'])}"
+                                 + (f": {alt['hinweis']}" if alt.get("hinweis") else "")})
+        else:
+            e["status"] = "nicht-pruefbar"
+    for host, st in _host_stat.items():
+        if st["fehler"] or st["uebersprungen"]:
+            ergebnis["unerreichbar"][host] = st["fehler"] + st["uebersprungen"]
     return ergebnis
 
 
@@ -553,6 +676,10 @@ def bericht_markdown(ergebnis: dict, daten: dict) -> str:
             for b in e["befunde"]:
                 if b["status"] not in stati:
                     continue
+                # Netzfehler stehen gesammelt unter „Nicht erreichbar“ — einzeln nur,
+                # wenn über die Quelle sonst nichts bekannt ist
+                if b.get("netz") and not b.get("uebernommen") and e["status"] != "nicht-pruefbar":
+                    continue
                 zeile = f"- [ ] {titel(qid)} — {NAME[b['status']]}: {b.get('hinweis', '')}"
                 if b.get("neueUrl"):
                     zeile += f" → {b['neueUrl']}"
@@ -576,6 +703,13 @@ def bericht_markdown(ergebnis: dict, daten: dict) -> str:
     abschnitt("Zu beachten", BEACHTEN)
     if not handlung and not beachten:
         zeilen.append("Alles aktuell — nichts zu tun. 🌱")
+    if ergebnis.get("unerreichbar"):
+        hosts = ", ".join(f"{h} ({n})" for h, n in sorted(ergebnis["unerreichbar"].items(), key=lambda x: -x[1]))
+        zeilen += ["", "### Nicht erreichbar", "",
+                   f"Von hier aus antworteten nicht (Abrufe): {hosts}. Für die betroffenen Quellen gilt das "
+                   "Ergebnis der letzten Prüfung, die durchkam (Datum steht am Eintrag). Vollständig prüfen: "
+                   "lokal `python3 tools/aktualitaet_pruefen.py --pruefstand` ausführen und "
+                   "`assets/js/pruefstand.js` committen.", ""]
     zeilen += ["", "<sub>Erzeugt von `tools/aktualitaet_pruefen.py`. Maschinell übernehmbare Änderungen "
                "(Gesetzes-Volltexte, neue PDF-Fassungen, umgezogene Links) schlägt der Lauf als "
                "Aktualisierungs-PR vor.</sub>"]
@@ -586,17 +720,23 @@ def pruefstand_schreiben(ergebnis: dict):
     """Kompakte Fassung für das Werkzeug (Download-Center, #/pruefstand)."""
     knapp = {"geprueft": ergebnis["geprueft"], "zaehlung": zaehlen(ergebnis), "quellen": {}, "links": [],
              "gesetze": {s: {"stand": g.get("stand", ""), "status": g["status"], "hinweis": g.get("hinweis", ""),
-                             "quellen": g.get("quellen", [])}
+                             "quellen": g.get("quellen", []),
+                             **({"uebernommen": g["uebernommen"]} if g.get("uebernommen") else {})}
                          for s, g in ergebnis["gesetze"].items()},
-             "ablauf": ergebnis["ablauf"]}
+             "ablauf": ergebnis["ablauf"],
+             "unerreichbar": ergebnis.get("unerreichbar", {})}
     for qid, e in ergebnis["quellen"].items():
         schwer = max(e["befunde"], key=lambda b: STUFE[b["status"]])
         knapp["quellen"][qid] = {"status": e["status"]}
+        if e.get("uebernommen"):
+            knapp["quellen"][qid]["uebernommen"] = e["uebernommen"]
+            schwer = next(b for b in e["befunde"] if b["art"] == "uebernahme")
         if schwer.get("hinweis") and e["status"] != "aktuell":
             knapp["quellen"][qid]["hinweis"] = schwer["hinweis"]
         if schwer.get("neueUrl"):
             knapp["quellen"][qid]["neueUrl"] = schwer["neueUrl"]
-    knapp["links"] = [{"url": l["url"], "wo": l["wo"], "status": l["status"], "hinweis": l.get("hinweis", "")}
+    knapp["links"] = [{"url": l["url"], "wo": l["wo"], "status": l["status"], "hinweis": l.get("hinweis", ""),
+                       **({"uebernommen": l["uebernommen"]} if l.get("uebernommen") else {})}
                       for l in ergebnis["links"] if not l["quellen"] and l["status"] != "aktuell"]
     PRUEFSTAND.write_text(
         "// pruefstand.js — ERZEUGT von tools/aktualitaet_pruefen.py (Aktualitätsprüfung).\n"
@@ -618,7 +758,8 @@ def aktualisieren(ergebnis: dict, daten: dict) -> list:
     qtext = qpfad.read_text(encoding="utf-8")
 
     # 1. Gesetze: Volltext neu importieren, wenn ein hinterlegtes Gesetz geändert ist
-    geaendert = [g for g in ergebnis["gesetze"].values() if g.get("volltext") and g["status"] == "geaendert"]
+    geaendert = [g for g in ergebnis["gesetze"].values()
+                 if g.get("volltext") and g["status"] == "geaendert" and not g.get("uebernommen")]
     if geaendert:
         subprocess.run([sys.executable, str(ROOT / "tools" / "gesetz_import.py")], check=True)
         for g in geaendert:
@@ -772,6 +913,85 @@ def selbsttest() -> int:
     print(f"  {'✓' if gut else '✗'} quellen.js gezielt bearbeitet (url, stand, neues Feld pdf)")
     server.shutdown()
     gesamt = len(faelle) + 2
+
+    # --- Langsame Server: Gesamtfrist, Host überspringen, letztes Ergebnis ----
+    global ZEITLIMIT, FRIST_SEITE, links_sammeln
+    alt_limits = (ZEITLIMIT, FRIST_SEITE)
+    ZEITLIMIT, FRIST_SEITE = 1, 2
+
+    class Schweigt(http.server.BaseHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+        def do_GET(self):
+            time.sleep(3)
+            self.send_response(200); self.end_headers()
+
+    class Troepfelt(Schweigt):
+        def do_GET(self):
+            self.send_response(200); self.send_header("Content-Type", "text/html")
+            self.send_header("Content-Length", "400"); self.end_headers()
+            for _ in range(400):
+                try:
+                    self.wfile.write(b"x"); self.wfile.flush()
+                except OSError:
+                    return
+                time.sleep(0.3)
+
+    langsam = []
+    for H2 in (Schweigt, Troepfelt):
+        srv = socketserver.ThreadingTCPServer(("127.0.0.1", 0), H2)
+        srv.daemon_threads = True
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
+        langsam.append(srv)
+    still = f"http://127.0.0.1:{langsam[0].server_address[1]}"
+    tropf = f"http://127.0.0.1:{langsam[1].server_address[1]}"
+
+    def zaehle(name, gut, extra=""):
+        nonlocal ok, gesamt
+        gesamt += 1
+        ok += bool(gut)
+        print(f"  {'✓' if gut else '✗'} {name}" + ("" if gut else f" — {extra}"))
+
+    r1, r2 = abrufen(still + "/a"), abrufen(still + "/b")
+    t0 = time.monotonic()
+    r3 = abrufen(still + "/c")
+    zaehle("schweigender Server: Zeitüberschreitung ohne zweiten Versuch, Netzfehler markiert",
+           r1["status"] is None and r1["netz"] and r2["netz"], f"{r1['fehler']} / {r2['fehler']}")
+    zaehle(f"nach {HOST_AUSFALL_MAX} Ausfällen wird der Server übersprungen (sofort)",
+           r3["netz"] and "übersprungen" in r3["fehler"] and time.monotonic() - t0 < 0.5, r3["fehler"])
+    t0 = time.monotonic()
+    r4 = abrufen(tropf + "/langsam")
+    zaehle("tröpfelnder Server: Gesamtfrist greift",
+           r4["netz"] and "Gesamtzeit" in r4["fehler"] and time.monotonic() - t0 < FRIST_SEITE + 2, r4["fehler"])
+    zaehle("PDF-Vergleich ruft einen schweigenden Server nicht doppelt ab",
+           pdf_pruefen({"datei": "formulare/praktikantenvertrag.pdf", "pdf": still + "/x.pdf"}).get("netz") is True)
+
+    echt_sammeln = links_sammeln
+    links_sammeln = lambda daten: [
+        {"url": still + "/q1", "wo": ["quellen.js"], "quellen": ["q1"], "erwartet": None},
+        {"url": still + "/q2", "wo": ["quellen.js"], "quellen": ["q2"], "erwartet": None},
+        {"url": still + "/frei", "wo": ["app.js"], "quellen": [], "erwartet": None}]
+    try:
+        erg = pruefen({"QUELLEN": {"eintraege": [{"id": "q1", "titel": "Eins", "url": still + "/q1"},
+                                                  {"id": "q2", "titel": "Zwei", "url": still + "/q2"}]}},
+                      {"links"}, {"geprueft": "2026-10-01",
+                                  "quellen": {"q1": {"status": "alt", "hinweis": "Stand 2010"}},
+                                  "links": [{"url": still + "/frei", "status": "defekt", "hinweis": "HTTP 404"}]})
+    finally:
+        links_sammeln = echt_sammeln
+    q1, q2 = erg["quellen"]["q1"], erg["quellen"]["q2"]
+    frei = erg["links"][[l["url"] for l in erg["links"]].index(still + "/frei")]
+    zaehle("nicht erreichbar: Ergebnis der letzten Prüfung übernommen (mit Datum)",
+           q1["status"] == "alt" and q1.get("uebernommen") == "2026-10-01" and
+           frei["status"] == "defekt" and frei.get("uebernommen") == "2026-10-01", f"{q1} / {frei}")
+    zaehle("ohne frühere Prüfung: nicht prüfbar", q2["status"] == "nicht-pruefbar", str(q2))
+    md = bericht_markdown(erg, {"QUELLEN": {"eintraege": []}})
+    zaehle("Bericht fasst Nicht-Erreichbares zusammen",
+           "### Nicht erreichbar" in md and "127.0.0.1" in md and "Ergebnis vom 01.10.2026" in md, md[-400:])
+    for srv in langsam:
+        srv.shutdown()
+    ZEITLIMIT, FRIST_SEITE = alt_limits
     print(f"\n  {ok}/{gesamt} bestanden")
     return 0 if ok == gesamt else 1
 
@@ -801,6 +1021,7 @@ def main():
         ergebnis = json.loads(Path(arg.aus_json).read_text(encoding="utf-8"))
     else:
         ergebnis = pruefen(daten, set(arg.nur.split(",")), vorher)
+        print("Abrufe je Server:\n" + host_bericht(), file=sys.stderr)
     md = bericht_markdown(ergebnis, daten)
     z = zaehlen(ergebnis)
     if os.environ.get("GITHUB_OUTPUT"):        # Kennzahlen für den Workflow
