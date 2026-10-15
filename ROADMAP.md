@@ -781,6 +781,23 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Tranche S44: Impressum vervollständigt — Auftrag 15.10.2026
+
+- **S44 Anbieterangaben aus pix-el.de übernommen** ✅ — das Impressum
+  der Projektseite pix-el.de ist die Vorlage: Die Rechtliches-Seite nennt
+  jetzt die **Angaben gemäß § 5 DDG** (Hannes Pix, Eisenbahnstraße 19,
+  79241 Ihringen am Kaiserstuhl), die **E-Mail azubiwissen@pix-el.de**
+  (klickbar, auch in den Antworten des Assistenten), den Link auf
+  **pix-el.de**, **redaktionell verantwortlich nach § 18 Abs. 2 MStV**
+  und die Erklärung zur **Verbraucherstreitbeilegung** — Wortlaut wie auf
+  pix-el.de. GitHub-Issues bleiben als zweiter Rückmeldeweg. Alles liegt
+  weiter in `kontakt.js` als einziger Quelle. Bewusst **nicht**
+  übernommen: Umsatzsteuer- und Gewerbeangaben (gehören zu pix·el, nicht
+  zwingend zu diesem Werkzeug). Verbliebener Platzhalter:
+  Nachnutzungsregel für eigene Inhalte.
+  Tests: `mini_s43` (26, u. a. § 5 DDG, Anschrift, mailto-Link, MStV),
+  `mini_s42`, `smoke_bestand` grün.
+
 ## Tranche S43: Verantwortlicher Hannes Pix — Auftrag 15.10.2026
 
 - **S43 Anbieterkennzeichnung auf Hannes Pix umgestellt** ✅ — das
