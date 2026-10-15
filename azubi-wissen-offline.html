@@ -8205,17 +8205,21 @@ window.GESETZESTEXTE = {
  * persönlich. Behörden (Regierungspräsidium, Verwaltung) werden hier NICHT
  * als Anbieter genannt — das Werkzeug ist kein amtliches Angebot. Deshalb
  * auch keine dienstlichen E-Mail-Adressen oder Behörden-Links eintragen.
+ * Anschrift und Strukturdaten entsprechen dem Impressum von pix-el.de.
  */
 window.KONTAKT = {
   anbieter: "Hannes Pix",
   einordnung: "privat entwickeltes Fachwerkzeug — kein amtliches Angebot",
+  // Anbieterangaben nach § 5 DDG — übernommen aus dem Impressum der
+  // Projektseite pix-el.de (dort bereits veröffentlicht).
+  anschrift: ["Eisenbahnstraße 19", "79241 Ihringen am Kaiserstuhl", "Deutschland"],
+  web: "https://pix-el.de",
+  webName: "pix-el.de",
 
   // Entwicklung und Pflege des Werkzeugs.
   entwickler: {
     name: "Hannes Pix",
-    // E-Mail bewusst leer: Welche Adresse öffentlich im Impressum stehen
-    // soll, entscheidet der Anbieter. Bis dahin läuft Kontakt über GitHub.
-    email: "",
+    email: "azubiwissen@pix-el.de",
     rolle: "Konzeption, Entwicklung und Pflege"
   },
 
@@ -11423,14 +11427,19 @@ window.NACHBARN = {
     return "<h1>Rechtliches &amp; Impressum</h1>" +
       '<p class="bw-unterzeile">Anbieter, Datenschutz, Barrierefreiheit und Lizenzen dieses Werkzeugs</p>' +
 
-      '<div class="bw-hinweis"><p><strong>Entwurf im Testbetrieb:</strong> Einzelne Angaben (E-Mail-Kontakt, ' +
-      "Nachnutzungsregel) stehen noch als Platzhalter aus und werden ergänzt.</p></div>" +
+      '<div class="bw-hinweis"><p><strong>Entwurf im Testbetrieb:</strong> Die Nachnutzungsregel für eigene ' +
+      "Inhalte steht noch als Platzhalter aus und wird ergänzt.</p></div>" +
 
       "<h2>Anbieter</h2>" +
-      "<p>Verantwortlich für dieses Werkzeug:<br><strong>" + esc(K.anbieter) + "</strong><br>" +
-      esc(K.einordnung) + "</p>" +
-      "<p>Kontakt: " + mailtoLink(E.email) + "<br>" +
+      "<p>Angaben gemäß § 5 DDG — verantwortlich für dieses Werkzeug:<br><strong>" + esc(K.anbieter) + "</strong><br>" +
+      (K.anschrift || []).map(esc).join("<br>") + "</p>" +
+      "<p>" + esc(K.einordnung) + " — ein Projekt von " +
+      '<a href="' + esc(K.web) + '" target="_blank" rel="noopener">' + esc(K.webName) + ' <span aria-hidden="true">\u2197</span></a>.</p>' +
+      "<p>E-Mail: " + mailtoLink(E.email) + "<br>" +
       "Quellcode und Rückmeldungen: " + githubLink(K, "github.com/hannespix/Azubi-Wissen") + "</p>" +
+      "<p>Redaktionell verantwortlich (§ 18 Abs. 2 MStV): " + esc(K.anbieter) + ", Anschrift wie oben.</p>" +
+      "<p><strong>Verbraucherstreitbeilegung:</strong> Ich bin nicht bereit und nicht verpflichtet, an " +
+      "Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>" +
 
       "<h2>Entwicklung &amp; Änderungswünsche</h2>" +
       "<ul>" +

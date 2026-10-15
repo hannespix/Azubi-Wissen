@@ -8,17 +8,21 @@
  * persönlich. Behörden (Regierungspräsidium, Verwaltung) werden hier NICHT
  * als Anbieter genannt — das Werkzeug ist kein amtliches Angebot. Deshalb
  * auch keine dienstlichen E-Mail-Adressen oder Behörden-Links eintragen.
+ * Anschrift und Strukturdaten entsprechen dem Impressum von pix-el.de.
  */
 window.KONTAKT = {
   anbieter: "Hannes Pix",
   einordnung: "privat entwickeltes Fachwerkzeug — kein amtliches Angebot",
+  // Anbieterangaben nach § 5 DDG — übernommen aus dem Impressum der
+  // Projektseite pix-el.de (dort bereits veröffentlicht).
+  anschrift: ["Eisenbahnstraße 19", "79241 Ihringen am Kaiserstuhl", "Deutschland"],
+  web: "https://pix-el.de",
+  webName: "pix-el.de",
 
   // Entwicklung und Pflege des Werkzeugs.
   entwickler: {
     name: "Hannes Pix",
-    // E-Mail bewusst leer: Welche Adresse öffentlich im Impressum stehen
-    // soll, entscheidet der Anbieter. Bis dahin läuft Kontakt über GitHub.
-    email: "",
+    email: "azubiwissen@pix-el.de",
     rolle: "Konzeption, Entwicklung und Pflege"
   },
 

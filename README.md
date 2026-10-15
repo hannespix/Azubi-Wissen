@@ -133,7 +133,8 @@ Einzelfall, kein amtliches Angebot**. Verantwortlich ist **Hannes Pix**
 führt unter **`#/rechtliches`** (Link im Fußbereich jeder Seite)
 Anbieterkennzeichnung, Datenschutz-Erklärung (alles lokal, keine
 Übertragung), Erklärung zur Barrierefreiheit und Lizenzhinweise;
-verbliebene Platzhalter (E-Mail-Kontakt, Nachnutzungsregel) ergänzen.
+Kontakt: azubiwissen@pix-el.de; Anbieterangaben wie im
+Impressum von pix-el.de. Verbliebener Platzhalter: Nachnutzungsregel.
 Das Repo ist öffentlich — deshalb liegen hier **keine geschützten
 Landes-Assets**: Die Schriften sind Source Sans 3/Source Serif 4 (Adobe,
 SIL OFL 1.1, frei verteilbar), das Zeichen ist der eigene „Keimling“
