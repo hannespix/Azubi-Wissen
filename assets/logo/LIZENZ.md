@@ -1,16 +1,15 @@
-# Logo — Regierungspräsidium Freiburg / Land Baden-Württemberg
+# Zeichen „Keimling“ — Azubi Wissen
 
-Das Landeslogo (drei Löwen) und das RPF-Logo sind geschützt und folgen den
-Vorgaben des Design-Portals (https://design.landbw.de) sowie der „Anleitung –
-Anwendung RPF-Logo".
+Das Zeichen des Werkzeugs (zwei Blätter aus Kreisbogen-Linsen auf gelbem
+Grund, `azubi-wissen-zeichen.svg` und die Favicons) ist eine **eigene
+Schöpfung für dieses Projekt** und darf mit dem Werkzeug frei verteilt
+werden.
 
-**Regeln**
-- Logo **nicht nachbauen, einfärben, verzerren, mit Schatten/Outline absetzen**.
-- Zulässige Versionen: Schwarz auf Weiß/Gelb (`rpf-logo.png`) oder Weiß auf
-  Schwarz (`rpf-logo-negativ.png`). Versionen nicht mischen.
-- `rpf-flag.png` = kompakte Flag-Variante.
-- Verwendung nur für dienstliche Zwecke des RP Freiburg. Repository **privat**
-  halten; bei öffentlichem Repo `assets/logo/` ausschließen.
-
-Dateien sind optimierte Web-Ableitungen der freigestellten Originale
-(`RPF_Logo_freigestellt.png` etc.).
+**Was hier bewusst NICHT liegt:** Das Landeswappen Baden-Württemberg
+(drei Löwen) und das Logo des Regierungspräsidiums Freiburg sind geschützt
+(Design-Portal des Landes, https://design.landbw.de) und dürfen nicht in
+einem öffentlichen Repository verteilt werden. Bis Oktober 2026 enthielt
+dieses Verzeichnis die RPF-Logodateien; sie wurden für die Veröffentlichung
+des Repos entfernt und durch das Keimling-Zeichen mit Wortmarke ersetzt.
+Amtliche Vordrucke unter `formulare/` bleiben unverändert — sie sind zur
+Weitergabe an Betriebe und Auszubildende bestimmt.

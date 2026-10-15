@@ -133,8 +133,12 @@ Fußbereich jeder Seite) Anbieterkennzeichnung, Datenschutz-Erklärung
 (alles lokal, keine Übertragung), Erklärung zur Barrierefreiheit und
 Lizenzhinweise; Platzhalter in [eckigen Klammern] vor offizieller
 Freigabe ergänzen und mit Pressestelle/Justiziariat abstimmen.
-Schriften (BaWue Sans/Serif) und RPF-Logo sind lizenziert →
-`assets/fonts/LIZENZ.md`, `assets/logo/LIZENZ.md`; **Repo privat halten**.
+Das Repo ist öffentlich — deshalb liegen hier **keine geschützten
+Landes-Assets**: Die Schriften sind Source Sans 3/Source Serif 4 (Adobe,
+SIL OFL 1.1, frei verteilbar), das Zeichen ist der eigene „Keimling“
+(`assets/logo/azubi-wissen-zeichen.svg`). Landeswappen, RPF-Logo und die
+BaWue-Schriften dürfen nicht eingecheckt werden → `assets/fonts/LIZENZ.md`,
+`assets/logo/LIZENZ.md`.
 Keine personenbezogenen Echtdaten im Repo; Nutzerdaten (Notizen, Vermerke,
 Merkliste, Sicherungen) verbleiben ausschließlich lokal.
 

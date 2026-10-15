@@ -1,17 +1,16 @@
-# Schriftlizenz — BaWue Sans / BaWue Serif
+# Schriftlizenz — Source Sans 3 / Source Serif 4
 
-Die Schriften **BaWue Sans** und **BaWue Serif** stammen von **Luzi Type**
-(https://luzi-type.ch) und unterliegen der Web-EULA
-(https://luzi-type.ch/source/EULA-Web.pdf). Die Web-Nutzung ist an das im
-Kaufbeleg genannte monatliche Seitenaufruf-Kontingent gebunden.
+Die Schriften **Source Sans 3** und **Source Serif 4** stammen von **Adobe**
+(adobe-fonts auf GitHub) und stehen unter der **SIL Open Font License 1.1**
+— frei verwendbar, einbettbar und weiterverteilbar, auch in öffentlichen
+Repositories. Volltexte: `LICENSE-SourceSans3-OFL.txt` und
+`LICENSE-SourceSerif4-OFL.txt`.
 
-**Wichtig**
-- Diese Webfonts **nicht öffentlich verteilen** (kein öffentliches Repo, kein
-  öffentlicher CDN-Zugang). Repository **privat** halten.
-- Nur im Rahmen der Landeslizenz für dienstliche Zwecke des Landes
-  Baden-Württemberg / RP Freiburg verwenden.
-- Bei öffentlichem Repo: `assets/fonts/` per `.gitignore` ausschließen; das
-  Theme fällt dann automatisch auf die System-Fallbacks zurück.
+Enthalten sind die Web-Formate (woff2, Latin-Umfang mit deutschen
+Anführungszeichen und Umlauten) aus den Fontsource-Paketen
+`@fontsource/source-sans-3` und `@fontsource/source-serif-4` (Version 5.3.1).
 
-Enthalten sind nur die **Web-Formate** (woff2/woff). Desktop-Formate
-(OTF/TTF) liegen im Original-Schriftpaket und gehören nicht ins Web-Repo.
+**Hintergrund:** Bis Oktober 2026 nutzte das Werkzeug die Landes-CD-Schriften
+BaWue Sans/Serif (Luzi Type). Deren Web-EULA erlaubt keine öffentliche
+Verteilung — für das öffentliche Repository wurden sie durch die stilistisch
+nahen, freien Source-Schriften ersetzt.

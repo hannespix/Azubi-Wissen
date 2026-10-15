@@ -2,9 +2,10 @@
    bw-theme.css — Landes-CI Baden-Württemberg für Browsertools (RP Freiburg)
    Single Source of Truth. CI-Quelle: https://design.landbw.de
 
-   Schriften: BaWue Sans/Serif (Luzi Type). Lizenzpflichtig — siehe
-   assets/fonts/LIZENZ.md. Nur in lizenzierten/internen (privaten) Repos
-   ausliefern. Fallbacks greifen, falls die Fonts fehlen.
+   Schriften: Source Sans 3 / Source Serif 4 (Adobe, SIL OFL 1.1 — frei
+   verteilbar, siehe assets/fonts/LIZENZ.md). Sie ersetzen seit 10/2026 die
+   Landes-CD-Schriften BaWue Sans/Serif, deren Web-EULA keine Verteilung in
+   öffentlichen Repos erlaubt. Fallbacks greifen, falls die Fonts fehlen.
 
    FARBWERTE: entsprechen den im RPF verwendeten Tokens + CI-Beschreibung.
    Exakte offizielle Digital-Tokens im Design-Portal gegenchecken und nur
@@ -12,31 +13,23 @@
    ===================================================================== */
 
 /* ===================== Schriften =================================== */
-@font-face{ font-family:"BaWue Serif"; font-weight:400; font-style:normal; font-display:swap;
-  src:url("assets/fonts/BaWueSerifWeb-Regular.woff2") format("woff2"),
-      url("assets/fonts/BaWueSerifWeb-Regular.woff")  format("woff"); }
-@font-face{ font-family:"BaWue Serif"; font-weight:700; font-style:normal; font-display:swap;
-  src:url("assets/fonts/BaWueSerifWeb-Bold.woff2") format("woff2"),
-      url("assets/fonts/BaWueSerifWeb-Bold.woff")  format("woff"); }
+@font-face{ font-family:"Source Serif 4"; font-weight:400; font-style:normal; font-display:swap;
+  src:url("assets/fonts/SourceSerif4-latin-400-normal.woff2") format("woff2"); }
+@font-face{ font-family:"Source Serif 4"; font-weight:700; font-style:normal; font-display:swap;
+  src:url("assets/fonts/SourceSerif4-latin-700-normal.woff2") format("woff2"); }
 
-@font-face{ font-family:"BaWue Sans"; font-weight:400; font-style:normal; font-display:swap;
-  src:url("assets/fonts/BaWueSansWeb-Regular.woff2") format("woff2"),
-      url("assets/fonts/BaWueSansWeb-Regular.woff")  format("woff"); }
-@font-face{ font-family:"BaWue Sans"; font-weight:400; font-style:italic; font-display:swap;
-  src:url("assets/fonts/BaWueSansWeb-RegularItalic.woff2") format("woff2"),
-      url("assets/fonts/BaWueSansWeb-RegularItalic.woff")  format("woff"); }
-@font-face{ font-family:"BaWue Sans"; font-weight:600; font-style:normal; font-display:swap;
-  src:url("assets/fonts/BaWueSansWeb-SemiBold.woff2") format("woff2"),
-      url("assets/fonts/BaWueSansWeb-SemiBold.woff")  format("woff"); }
-@font-face{ font-family:"BaWue Sans"; font-weight:600; font-style:italic; font-display:swap;
-  src:url("assets/fonts/BaWueSansWeb-SemiBoldItalic.woff2") format("woff2"),
-      url("assets/fonts/BaWueSansWeb-SemiBoldItalic.woff")  format("woff"); }
-@font-face{ font-family:"BaWue Sans"; font-weight:700; font-style:normal; font-display:swap;
-  src:url("assets/fonts/BaWueSansWeb-Bold.woff2") format("woff2"),
-      url("assets/fonts/BaWueSansWeb-Bold.woff")  format("woff"); }
-@font-face{ font-family:"BaWue Sans"; font-weight:700; font-style:italic; font-display:swap;
-  src:url("assets/fonts/BaWueSansWeb-BoldItalic.woff2") format("woff2"),
-      url("assets/fonts/BaWueSansWeb-BoldItalic.woff")  format("woff"); }
+@font-face{ font-family:"Source Sans 3"; font-weight:400; font-style:normal; font-display:swap;
+  src:url("assets/fonts/SourceSans3-latin-400-normal.woff2") format("woff2"); }
+@font-face{ font-family:"Source Sans 3"; font-weight:400; font-style:italic; font-display:swap;
+  src:url("assets/fonts/SourceSans3-latin-400-italic.woff2") format("woff2"); }
+@font-face{ font-family:"Source Sans 3"; font-weight:600; font-style:normal; font-display:swap;
+  src:url("assets/fonts/SourceSans3-latin-600-normal.woff2") format("woff2"); }
+@font-face{ font-family:"Source Sans 3"; font-weight:600; font-style:italic; font-display:swap;
+  src:url("assets/fonts/SourceSans3-latin-600-italic.woff2") format("woff2"); }
+@font-face{ font-family:"Source Sans 3"; font-weight:700; font-style:normal; font-display:swap;
+  src:url("assets/fonts/SourceSans3-latin-700-normal.woff2") format("woff2"); }
+@font-face{ font-family:"Source Sans 3"; font-weight:700; font-style:italic; font-display:swap;
+  src:url("assets/fonts/SourceSans3-latin-700-italic.woff2") format("woff2"); }
 
 :root {
   /* --- Hauptfarben ------------------------------------------------- */
@@ -65,8 +58,8 @@
   --bw-fokus:       var(--bw-schwarz);
 
   /* --- Typografie -------------------------------------------------- */
-  --bw-font-serif: "BaWue Serif", "Iowan Old Style", Georgia, "Times New Roman", serif;
-  --bw-font-sans:  "BaWue Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bw-font-serif: "Source Serif 4", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --bw-font-sans:  "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   --bw-fs-titel:   clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
   --bw-fs-h2:      clamp(1.35rem, 1.05rem + 1vw, 1.75rem);
@@ -134,7 +127,12 @@ a:hover { text-decoration: none; }
 
 .bw-header { display: flex; align-items: center; justify-content: space-between; gap: var(--bw-space-3); padding-block: var(--bw-space-2); border-bottom: var(--bw-border); margin-bottom: var(--bw-space-4); }
 .bw-logo { height: 44px; width: auto; display: block; }      /* ~2 Grundeinheiten */
-.bw-logo--neg { display: none; }                              /* Negativ-Logo nur auf dunklem Header */
+/* Wortmarke: Keimling-Zeichen + Textzeilen (nutzt die geladenen Webfonts —
+   Text liegt bewusst NICHT im SVG, damit Schrift und Farben dem Theme folgen). */
+.bw-wortmarke { display: flex; flex-direction: column; margin-left: var(--bw-space-2); line-height: 1.1; color: var(--bw-schwarz); }
+.bw-wortmarke strong { font-family: var(--bw-font-serif); font-size: 1.25rem; letter-spacing: 0.01em; }
+.bw-wortmarke small { font-family: var(--bw-font-sans); font-size: var(--bw-fs-klein); color: var(--bw-grau-700); }
+.bw-wortmarke--neg, .bw-wortmarke--neg small { color: var(--bw-weiss); }
 
 .bw-flaechen { display: grid; gap: var(--bw-space-2); }
 .bw-flaechen.bw-halb    { grid-template-columns: 1fr 1fr; }
@@ -187,7 +185,8 @@ input, select, textarea { font: inherit; width: 100%; padding: 0.5em 0.65em; bac
    Muster aus dem CI: weiße Hauptnav, Logo links, Aktionen (Suche/Menü)
    rechts. Aktiver Link mit gelbem Marker. Mobil: Hamburger -> Panel. */
 .bw-nav { display: flex; align-items: center; gap: var(--bw-space-3); }
-.bw-nav__brand { display: inline-flex; align-items: center; margin-right: auto; }
+.bw-nav__brand { display: inline-flex; align-items: center; margin-right: auto; text-decoration: none; }
+.bw-nav__brand:hover .bw-wortmarke strong { text-decoration: underline; text-underline-offset: 3px; }
 .bw-nav__links { display: flex; gap: var(--bw-space-3); list-style: none; margin: 0; padding: 0; }
 .bw-nav__links a {
   display: inline-block; padding: 0.4em 0; font-weight: 700; font-size: var(--bw-fs-klein);
@@ -297,7 +296,7 @@ mark.bw-treffer { background: var(--bw-gelb); color: var(--bw-schwarz); padding:
   margin-top: var(--bw-space-8); padding: var(--bw-space-3) var(--bw-rand);
 }
 .bw-footer a { color: var(--bw-weiss); }
-.bw-footer .bw-logo--neg { display: block; }
+.bw-footer .bw-logo { height: 32px; }
 
 /* ===================== Barrierefreiheit ========================== */
 :where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 3px solid var(--bw-fokus); outline-offset: 2px; }
