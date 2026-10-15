@@ -781,6 +781,61 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Tranche S45–S47: Aktualitätsprüfung — Auftrag 15.10.2026
+
+- **S45 Prüfwerkzeug und Workflow** ✅ — `tools/aktualitaet_pruefen.py`
+  (nur Standardbibliothek + pypdf) prüft per Abruf, ob alles noch aktuell
+  ist: **96 Links** aus allen Datenmodulen und dem Code (erreichbar,
+  dauerhaft umgezogen, vorübergehend weitergeleitet, Fehlerseite trotz
+  „200 OK“, optionale Kennwörter je Quelle; Startseiten-Weiterleitungen
+  zählen nicht als Umzug), **50 lokale PDFs** gegen ihre Online-Fassung per
+  **Textvergleich** (Seitenfüße herausgefiltert — sonst meldet jede
+  Seitenverschiebung eine „neue Fassung“), **33 Gesetze** über den Stand im
+  amtlichen XML von gesetze-im-internet.de (die 9 hinterlegten Volltexte
+  direkt, die übrigen gegen die letzte Prüfung), **Vordrucke ohne
+  Online-Fassung** nach Alter (5 Jahre) mit Bestätigungsfeld
+  `bestaetigt: "JJJJ-MM"` (12 Monate Ruhe). Für 40 Dokumente, deren Link
+  nur auf eine Übersichtsseite zeigte, hat `--pdf-suchen` die direkte
+  PDF-Adresse gefunden (alle mit 100 % Textgleichheit) — erst damit
+  vergleicht die Prüfung 50 statt 10 Dokumente. Kennwort für die
+  Antragstermine der Betriebsanerkennung („20. April“, „20. September“):
+  ändert das RP die Termine, meldet die Prüfung das.
+  Workflow `aktualitaet.yml`: Knopf „Run workflow“ + montags 04:17 UTC;
+  Selbsttest → Prüfung → Issue „Aktualitätsprüfung“ (Checkliste, Kommentar
+  bei Handlungsbedarf, schließt sich bei „alles aktuell“) →
+  `pruefstand.js` auf main (Pages-Lauf wird ausdrücklich angestoßen, weil
+  Pushes des Workflow-Tokens keine anderen Workflows starten).
+  Selbsttest (12 Fälle gegen einen lokalen Testserver) läuft auch in der CI.
+  **Erster echter Lauf (15.10.2026):** 1 mit Handlungsbedarf — die
+  amtliche BBiG-Fassung enthält einen neuen Hinweis: Mindestvergütung ab
+  1.1.2027 bekannt gemacht (Bek. v. 30.9.2026 I Nr. 287); 6 zu beachten
+  (alte Vordrucke ohne Online-Fassung: Anmeldebogen Externe 2020,
+  Gewerbeaufsicht-Liste 2010, Merkblatt 2010, drei VwV); alle 9 Volltexte
+  auf amtlichem Stand, alle übrigen 49 PDFs textgleich, kein defekter Link.
+- **S46 Aktualisierungs-PRs und Prüfstand im Werkzeug** ✅ —
+  `--aktualisieren` übernimmt, was maschinell geht: Gesetzes-Volltexte neu
+  importieren (`gesetz_import.py`, danach Suchindex neu), neue PDF-Fassungen
+  laden (Dateikopf bereinigt, Stand aus dem PDF nachgezogen), dauerhaft
+  umgezogene Links eintragen. Der Workflow baut danach Herkunftsnachweis
+  und Offline-Datei, prüft Offline-Gate und Dateiköpfe und öffnet den PR
+  (Fallback: Branch + Link im Issue). In einer Repo-Kopie getestet: die
+  neue BBiG-Fassung wird übernommen, Stand „10/2026“.
+  Im Werkzeug: Seite **„Prüfstand“** (#/pruefstand; drei Kennzahlen,
+  Handlungsbedarf, Zu beachten, Gesetzestabelle, Ablaufdaten,
+  Funktionsweise), Prüfzeile und Etiketten im **Download-Center** und in den
+  **Quellenkarten**, Link in der Fußzeile. Die Einzeldatei zeigt den
+  Prüfstand ihres Baudatums und sagt das.
+- **S47 Ablaufdaten** ✅ — `assets/js/ablaufdaten.js` führt zeitgebundene
+  Inhalte mit `gueltigBis` und Fundstellen: MiAV-Tabelle (bis Beginnjahr
+  2026), Infoblatt 2026, Termine der schriftlichen Prüfung Winter 2026/27,
+  GOÄ-Hinweis „frühestens 2027“, angekündigte Verlegung der Winterprüfung
+  ab 2027/28 (samt Fristberechnung in app.js). Die Prüfung meldet 60 Tage
+  vorher „läuft bald ab“, danach „abgelaufen“; die Prüfstand-Seite rechnet
+  das live gegen das heutige Datum.
+  Tests: `mini_s45` (22, u. a. Selbsttest, Workflow-Bausteine, Etiketten,
+  Zeitreise auf den 01.03.2027 → MiAV abgelaufen, Einzeldatei),
+  `mini_s41`–`mini_s43`, `smoke_bestand` grün.
+
 ## Tranche S44: Impressum vervollständigt — Auftrag 15.10.2026
 
 - **S44 Anbieterangaben aus pix-el.de übernommen** ✅ — das Impressum

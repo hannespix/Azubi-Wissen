@@ -94,11 +94,44 @@ in den Dateiköpfen): `wissen.js` (Artikel), `berufe.js`, `quellen.js`,
 - Nach Inhaltsänderungen: `python3 tools/build_singlefile.py --release`
   ausführen und die neue `azubi-wissen-offline.html` mitcommitten.
 
+## Aktualität & Prüfstand
+
+Ob Dokumente, Anträge, Gesetzesquellen und Links noch aktuell sind, prüft
+`tools/aktualitaet_pruefen.py` — **außerhalb** des Werkzeugs, denn das
+Werkzeug selbst ruft nichts aus dem Netz ab (Zero-Trust).
+
+- **Per Knopfdruck:** GitHub → Actions → „Aktualitätsprüfung“ → „Run
+  workflow“ (auch in der GitHub-App). Außerdem läuft sie jeden Montag früh.
+- **Was geprüft wird:** jeder Link aus Datenmodulen und Code (erreichbar,
+  dauerhaft umgezogen, Fehlerseite trotz „200 OK“, Kennwörter je Quelle);
+  jede lokale Datei mit Online-Fassung (Textvergleich — Seitenfüße werden
+  ignoriert); der Stand jedes Gesetzes aus dem amtlichen XML von
+  gesetze-im-internet.de; Vordrucke ohne Online-Fassung nach Alter; Werte
+  mit Ablaufdatum aus `assets/js/ablaufdaten.js`.
+- **Ergebnis:** ein Issue „Aktualitätsprüfung“ mit Checkliste (Kommentar bei
+  Handlungsbedarf = Benachrichtigung, schließt sich, wenn alles aktuell ist),
+  `assets/js/pruefstand.js` auf main (Seite **#/pruefstand** im Werkzeug,
+  Etiketten im Download-Center) und ein **Aktualisierungs-PR** mit allem,
+  was sich maschinell übernehmen lässt: Gesetzes-Volltexte neu importieren,
+  neue PDF-Fassungen übernehmen (Dateikopf bereinigt, Stand nachgezogen,
+  Offline-Datei neu gebaut), umgezogene Links eintragen. Damit die Action
+  PRs öffnen darf: Settings → Actions → General → „Allow GitHub Actions to
+  create and approve pull requests“; sonst verlinkt das Issue den Branch.
+- **Pflege-Felder in `quellen.js`:** `pdf` (direkte Adresse der
+  Online-Fassung), `erwartet` (Kennwörter), `bestaetigt: "JJJJ-MM"`
+  (Vordruck von der Redaktion als noch gültig bestätigt — Erinnerung erst
+  nach 12 Monaten), `pruefung: "ohne-vergleich"`.
+- **Lokal:** `python3 tools/aktualitaet_pruefen.py` (Bericht),
+  `--pruefstand` (Prüfstand schreiben), `--aktualisieren` (Übernahme),
+  `--pdf-suchen` (direkte PDF-Adressen für Seiten-Links finden),
+  `--selbsttest` (offline, läuft auch in der CI). Braucht node und pypdf.
+
 ## Prüfungen & Build
 
 ```
 python3 tools/check_offline.py              # Offline-/CDN-Gate (läuft im CI)
 python3 tools/pdf_metadaten.py              # keine Namen im PDF-Dateikopf (läuft im CI, braucht pypdf)
+python3 tools/aktualitaet_pruefen.py        # Aktualitätsprüfung (Netz; --selbsttest offline in der CI)
 python3 tools/build_singlefile.py           # dist/index.html (unversioniert)
 python3 tools/build_singlefile.py --release # + azubi-wissen-offline.html
 node tools/nachbarn_bauen.mjs --bericht     # Nachbarn messen, nichts schreiben

@@ -608,6 +608,14 @@ kbd.kbd {
 /* ---------- Eigene Inhalte (V3) ---------------------------------- */
 /* Gelb-Regel: gelbe Elemente auf Weiß brauchen eine dunkle Outline. */
 .etikett--eigen { background: var(--bw-gelb); color: var(--bw-schwarz); border: 1px solid var(--bw-schwarz); }
+/* Prüfstand (Aktualitätsprüfung): Handlungsbedarf als Fehler-Akzent, Hinweise als Kontur. */
+.etikett--handlung { background: var(--bw-fehler); color: var(--bw-weiss); }
+.etikett--beachten { background: var(--bw-weiss); color: var(--bw-schwarz); border: 1px solid var(--bw-schwarz); }
+.pruef-zahlen .bw-flaeche { display: flex; flex-direction: column; gap: var(--bw-space-1); }
+.pruef-zahlen strong { font-family: var(--bw-font-serif); font-size: 2rem; line-height: 1; }
+.pruef-liste { padding-left: 1.2em; }
+.pruef-liste li { margin-bottom: var(--bw-space-2); }
+.pruef-zeile { margin-top: calc(-1 * var(--bw-space-2)); }
 
 .abschnitt-kopf { display: flex; align-items: center; justify-content: space-between; gap: var(--bw-space-2); flex-wrap: wrap; margin-top: var(--bw-space-5); }
 .abschnitt-kopf h2 { margin: 0; }
@@ -1163,7 +1171,7 @@ a.chip { display: inline-block; }
     <span class="bw-wortmarke bw-wortmarke--neg" style="flex-direction:row;align-items:center;gap:var(--bw-space-2);margin-left:0">
       <img class="bw-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IkF6dWJpIFdpc3NlbiI+CiAgPCEtLSBaZWljaGVuIOKAnktlaW1saW5n4oCcIGRlcyBXZXJremV1Z3MgQXp1YmkgV2lzc2VuOiB6d2VpIEJsw6R0dGVyIGF1cwogICAgICAgS3JlaXNib2dlbi1MaW5zZW4sIFNjaHdhcnogYXVmIEdlbGIg4oCUIGVpZ2VuZSBTY2jDtnBmdW5nLCBmcmVpCiAgICAgICB2ZXJ0ZWlsYmFyIChzaWVoZSBMSVpFTloubWQpLiBJZGVudGlzY2ggbWl0IGRlbSBGYXZpY29uLU1vdGl2LAogICAgICAgaGllciBtaXQgYWJnZXJ1bmRldGVuIEVja2VuIGbDvHIgS29wZi0gdW5kIEZ1w596ZWlsZS4gLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMDQiIGZpbGw9IiNGRkZDMDAiLz4KICA8IS0tIFN0aWVsIG1pdCBBYnp3ZWlnIC0tPgogIDxwYXRoIGQ9Ik0yNTAgNDQyIEMyNDcgNDAwIDI1MiAzNjYgMjcyIDMxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMkEyNjIzIiBzdHJva2Utd2lkdGg9IjMwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMjU0IDM5NCBDMjQ4IDM4MCAyNDQgMzcwIDIzNCAzNTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJBMjYyMyIgc3Ryb2tlLXdpZHRoPSIyNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPCEtLSBncm/Dn2VzIEJsYXR0IChMaW5zZSBhdXMgendlaSBLcmVpc2LDtmdlbikgLS0+CiAgPHBhdGggZD0iTTI3MiAzMTIgQTE2NiAxNjYgMCAwIDEgNDEyIDE0MCBBMTY2IDE2NiAwIDAgMSAyNzIgMzEyIFoiIGZpbGw9IiMyQTI2MjMiLz4KICA8IS0tIGtsZWluZXMgQmxhdHQgLS0+CiAgPHBhdGggZD0iTTIzNCAzNTYgQTExMiAxMTIgMCAwIDEgMTIwIDI2MCBBMTEyIDExMiAwIDAgMSAyMzQgMzU2IFoiIGZpbGw9IiMyQTI2MjMiLz4KICA8IS0tIE1pdHRlbHJpcHBlbiBhbHMgZ2VsYmUgQXVzc3BhcnVuZyAtLT4KICA8cGF0aCBkPSJNMjgyIDMwMiBMMzk4IDE1NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGQzAwIiBzdHJva2Utd2lkdGg9IjEzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMjI2IDM0OCBMMTM2IDI3MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGQzAwIiBzdHJva2Utd2lkdGg9IjExIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" alt="">
       <strong>Azubi Wissen</strong></span>
-    <span class="bw-klein">Fachinformation, keine Rechtsberatung · kein amtliches Angebot · läuft vollständig offline · <a href="#/rechtliches">Rechtliches &amp; Impressum</a></span>
+    <span class="bw-klein">Fachinformation, keine Rechtsberatung · kein amtliches Angebot · läuft vollständig offline · <a href="#/pruefstand">Prüfstand</a> · <a href="#/rechtliches">Rechtliches &amp; Impressum</a></span>
   </div>
 </footer>
 
@@ -3138,8 +3146,17 @@ window.WISSEN = {
 // `fuer: { beruf, fachrichtung }` ordnet einen Eintrag einer Fachrichtung zu
 // (Beruf-ID aus berufe.js). Vorlagen mit `anhaengePlan` hängen darüber den
 // passenden Ausbildungsplan an — neue Pläne brauchen dieses Feld.
+// AKTUALITÄTSPRÜFUNG (tools/aktualitaet_pruefen.py, Action „Aktualitätsprüfung“):
+//   pdf: "https://…pdf"   direkte Adresse der Online-Fassung einer lokalen Datei —
+//                          die Prüfung vergleicht deren Text mit der Kopie hier
+//   erwartet: "…" | […]   Kennwort(e), die auf der Seite stehen müssen (fängt
+//                          Seiten, die trotz Fehler „200 OK“ melden, und Änderungen
+//                          wie neue Antragstermine)
+//   bestaetigt: "JJJJ-MM" von der Redaktion als noch gültig bestätigt (für Vordrucke
+//                          ohne Online-Fassung) — Erinnerung erst nach 12 Monaten
+//   pruefung: "ohne-vergleich"  lokale Datei bewusst NICHT mit online vergleichen
 window.QUELLEN = {
-  stand: "14.10.2026",
+  stand: "15.10.2026",
   eintraege: [
 
   /* ---------- Verträge & Anträge (zuständige Stelle, vendored) ------ */
@@ -3153,77 +3170,77 @@ window.QUELLEN = {
   { id: "bav-hinweise", titel: "Hinweise zur Einreichung des Berufsausbildungsvertrags",
     typ: "merkblatt", herausgeber: "Regierungspräsidien BW", stand: "09/2024",
     datei: "formulare/bav-hinweise-einreichung.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/gaertner_berufsausbildungsvertrag_hinweise.pdf",
     beschreibung: "Welche Unterlagen gehören zur Eintragung, wie viele Ausfertigungen, typische Fehler.",
     stichworte: ["Hinweise", "Einreichung", "Eintragung", "Unterlagen"],
     artikel: ["ausbildungsvertrag", "eintragung"] },
   { id: "infoblatt-azubi", titel: "Infoblatt für Auszubildende (RP Karlsruhe)",
     typ: "merkblatt", herausgeber: "RP Karlsruhe", stand: "02/2026",
     datei: "formulare/infoblatt-azubis-2026.pdf",
-    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag",
+    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag", pdf: "https://lw.landwirtschaft-bw.de/site/pbs-bw-rebrush2024/get/documents_E-948426434/MLR.LEL/PB5Documents/rpk/Infoblatt_Azubis_2026.pdf",
     beschreibung: "Kompakte Erstinformation für Azubis der grünen Berufe zum Ausbildungsstart.",
     stichworte: ["Infoblatt", "Azubi", "Start", "Erstinformation"],
     artikel: ["ausbildungsvertrag", "lernpflicht"] },
   { id: "bav-abmeldung", titel: "Abmeldung/Auflösung eines Berufsausbildungsverhältnisses",
     typ: "formular", herausgeber: "MLR/Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/bav-abmeldung-aufloesung.pdf",
-    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag",
+    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag", pdf: "https://lw.landwirtschaft-bw.de/site/pbs-bw-rebrush2024/get/documents_E1238386908/MLR.LEL/PB5Documents/mlr/Bildung/Berufsausbildung/Berufsausbildungsvertrag/Abmeldung-Aufl%C3%B6sung%20BAV%20%28ausf%C3%BCllbar%29.pdf",
     beschreibung: "Meldung der vorzeitigen Beendigung an die zuständige Stelle (ausfüllbar).",
     stichworte: ["Abmeldung", "Auflösung", "Kündigung melden", "vorzeitige Beendigung", "Vertragslösung"],
     artikel: ["kuendigung", "aufhebung", "eintragung", "ende-uebernahme"] },
   { id: "bav-aenderung", titel: "Antrag auf Änderung der Eintragung (Verkürzung/Verlängerung u. a.)",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/bav-antrag-aenderung-eintragung.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/Antrag_auf_%C3%84nderung_der_Eintragung_in_das_Verzeichnis_der_BAV_beschreibbar.pdf",
     beschreibung: "Änderungen am laufenden Ausbildungsverhältnis beantragen: Verkürzung, Verlängerung, Teilzeit, Ausbilderwechsel.",
     stichworte: ["Änderung", "Verkürzung", "Verlängerung", "Teilzeit beantragen", "Ausbilderwechsel", "Antrag"],
     artikel: ["teilzeit-verkuerzung", "eintragung", "nichtbestehen"] },
   { id: "praktikantenvertrag", titel: "Praktikantenvertrag (grüne Berufe)",
     typ: "formular", herausgeber: "MLR BW", stand: "aktuell",
     datei: "formulare/praktikantenvertrag.pdf",
-    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag",
+    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag", pdf: "https://lw.landwirtschaft-bw.de/site/pbs-bw-rebrush2024/get/documents_E-1392072320/MLR.LEL/PB5Documents/mlr/Bildung/Berufsausbildung/Praktikantenvertrag.pdf",
     beschreibung: "Vordruck für Praktika vor oder neben der Ausbildung (ausfüllbar).",
     stichworte: ["Praktikum", "Praktikantenvertrag", "Vorpraktikum"],
     artikel: ["ausbildungsvertrag", "fw-weg"] },
   { id: "bav-zusatz-praktikum", titel: "Zusatzvereinbarung zum BAV: Pflichtpraktika in anderen Betrieben",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/bav-zusatzvereinbarung-praktikum.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/zusatzvereinbarung_bav_gaertner_praktikum.pdf",
     beschreibung: "Vereinbarung für betriebsübergreifende Ausbildungsphasen.",
     stichworte: ["Zusatzvereinbarung", "Pflichtpraktikum", "Partnerbetrieb", "Verbund"],
     artikel: ["ausbildungspflicht", "ausbildungsvertrag"] },
   { id: "bav-hilfe-pdf", titel: "Hilfestellung: ausfüllbare BAV-PDF richtig öffnen",
     typ: "merkblatt", herausgeber: "RP Freiburg", stand: "aktuell",
     datei: "formulare/bav-hilfestellung-pdf-vorlage.pdf",
-    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag",
+    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Betrieb+und+Umwelt/Berufsausbildungsvertrag", pdf: "https://lw.landwirtschaft-bw.de/site/pbs-bw-rebrush2024/get/documents_E1308105494/MLR.LEL/PB5Documents/mlr/Bildung/Berufsausbildung/Berufsausbildungsvertrag/Hilfestellung_PDF-Vorlage_BAV_2.0.pdf",
     beschreibung: "Schritt-für-Schritt-Hilfe, wenn sich der Vertragsvordruck nicht ausfüllen lässt.",
     stichworte: ["Hilfe", "PDF öffnen", "ausfüllbar", "Adobe"],
     artikel: ["ausbildungsvertrag"] },
   { id: "koop-erwerbsgartenbau", titel: "Kooperationsvertrag Erwerbsgartenbau",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/kooperationsvertrag-erwerbsgartenbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/kooperationsvertrag_galabau.pdf",
     beschreibung: "Vertragsmuster für die Ausbildungskooperation zwischen Betrieben (Erwerbsgartenbau).",
     stichworte: ["Kooperationsvertrag", "Verbundausbildung", "Erwerbsgartenbau"],
     artikel: ["ausbildungspflicht", "fw-modelle", "fw-betrieb"] },
   { id: "koop-galabau", titel: "Kooperationsvertrag Garten- und Landschaftsbau",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/kooperationsvertrag-galabau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/kooperationsvertrag_galabau.pdf",
     beschreibung: "Vertragsmuster für die Ausbildungskooperation zwischen Betrieben (GaLaBau).",
     stichworte: ["Kooperationsvertrag", "Verbundausbildung", "GaLaBau", "Landschaftsbau"],
     artikel: ["ausbildungspflicht", "fw-modelle", "fw-betrieb"] },
   { id: "ueba-deula", titel: "Anlage zum BAV: Überbetriebliche Ausbildung DEULA (Erwerbsgartenbau)",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/anlage-ueba-deula-erwerbsgartenbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/erwerbsgartenbau_anlage_BAV.pdf",
     beschreibung: "Verpflichtende Anlage für die überbetrieblichen Lehrgänge an der DEULA Baden-Württemberg.",
     stichworte: ["Überbetriebliche Ausbildung", "DEULA", "Anlage", "Lehrgang", "üba"],
     artikel: ["ausbildungspflicht", "fw-inhalte-pruefung"] },
   { id: "ueba-galabau", titel: "Anlage zum BAV: Überbetriebliche Ausbildung GaLaBau",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/anlage-ueba-galabau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/galabau_anlage_ueberbetriebl_ausbildung.pdf",
     beschreibung: "Verpflichtende Anlage für die überbetrieblichen Lehrgänge im Garten- und Landschaftsbau.",
     stichworte: ["Überbetriebliche Ausbildung", "GaLaBau", "Anlage", "Lehrgang", "üba"],
     artikel: ["ausbildungspflicht", "fw-inhalte-pruefung"] },
@@ -3237,14 +3254,14 @@ window.QUELLEN = {
   { id: "urlaub-erwerbsgartenbau", titel: "Urlaubstabelle Erwerbsgartenbau",
     typ: "merkblatt", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/urlaubstabelle-erwerbsgartenbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/urlaubstabelle_erwerbsgartenbau.pdf",
     beschreibung: "Urlaubsansprüche im Erwerbsgartenbau nach Alter und Tarif.",
     stichworte: ["Urlaub", "Urlaubstabelle", "Urlaubstage"],
     artikel: ["urlaub"] },
   { id: "urlaub-galabau", titel: "Urlaubstabelle Garten- und Landschaftsbau",
     typ: "merkblatt", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/urlaubstabelle-galabau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/urlaubstabelle_galabau.pdf",
     beschreibung: "Urlaubsansprüche im GaLaBau nach Alter und Tarif.",
     stichworte: ["Urlaub", "Urlaubstabelle", "GaLaBau"],
     artikel: ["urlaub"] },
@@ -3258,14 +3275,14 @@ window.QUELLEN = {
   { id: "antrag-ausbildungsstaette-gartenbau", titel: "Antrag auf Anerkennung der Ausbildungsstätte im Gartenbau",
     typ: "formular", herausgeber: "RP Freiburg", stand: "12/2006",
     datei: "formulare/anerkennung/antrag-anerkennung-ausbildungsstaette-gartenbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/", bestaetigt: "2026-05",
     beschreibung: "Antrag des Betriebs auf Anerkennung als Ausbildungsstätte im Beruf Gärtner/in — Fachrichtung ankreuzen, ausfüllbar. Abgefragt werden Betrieb, Inhaber/in, Ausbilder/in und deren fachliche Eignung, Fachkräfte, Betreuung und Sozialräume, Flächen und Gebäude, Berufsgenossenschaft sowie die Kulturen bzw. Dienstleistungen, in denen ausgebildet wird; dazu die Einverständniserklärung zur Veröffentlichung. Die im Vordruck genannte Berufsgenossenschaft für Gartenbau ist heute die SVLFG. Der Vordruck selbst ist online nicht veröffentlicht — der Link führt zur Verfahrensbeschreibung der Regierungspräsidien.",
     stichworte: ["Anerkennung", "Ausbildungsstätte", "Ausbildungsbetrieb", "Antrag", "erstmals ausbilden", "Eignung", "Fachrichtung", "Berufsgenossenschaft", "SVLFG"],
     artikel: ["ausbilder", "eintragung"] },
   { id: "antrag-ausbilder-gartenbau", titel: "Antrag auf Anerkennung als Ausbilder/in im Gartenbau",
     typ: "formular", herausgeber: "RP Freiburg", stand: "12/2016",
     datei: "formulare/antrag-anerkennung-ausbilder-gartenbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/", bestaetigt: "2026-05",
     beschreibung: "Antrag auf Anerkennung der persönlichen und fachlichen Eignung als Ausbilder/in im Gartenbau. Beizufügen: Meisterprüfungszeugnis bzw. Techniker- oder Hochschulabschluss, aktuelles erweitertes Führungszeugnis, tabellarischer Lebenslauf mit den Betrieben der Praxiszeiten, bei Hochschulabsolventen der Nachweis der Ausbildereignung. Der Vordruck selbst ist online nicht veröffentlicht — der Link führt zur Verfahrensbeschreibung der Regierungspräsidien.",
     stichworte: ["Ausbilder", "Ausbilderin", "Anerkennung", "Eignung", "Führungszeugnis", "Meister", "Antrag", "Ausbildereignung", "AEVO"],
     artikel: ["ausbilder", "eintragung"] },
@@ -3281,21 +3298,21 @@ window.QUELLEN = {
   { id: "bilanzen-bestaetigung-steuerbuero", titel: "Anerkennung als Ausbildungsstätte — Bilanzen bzw. Bestätigung des Steuerbüros",
     typ: "merkblatt", herausgeber: "RP Freiburg", stand: "02/2018",
     datei: "formulare/anerkennung/bilanzen-bestaetigung-steuerbuero.pdf",
-    url: null,
+    url: null, bestaetigt: "2026-05",
     beschreibung: "Liegen die Bilanzen der letzten drei Jahre nicht vor, genügt eine Bestätigung des Steuerbüros. Das Blatt gibt den Wortlaut vor: Der Betrieb wird nachhaltig wirtschaftlich und nach betriebswirtschaftlichen Grundsätzen geführt, die Ergebnisse werden buchführungsmäßig erfasst und jährlich abgeschlossen, eine Insolvenzgefahr besteht nicht. Hintergrund: § 2 Abs. 2 und 7 GartAusbStEignV.",
     stichworte: ["Bilanz", "Bilanzen", "Steuerbüro", "Steuerberater", "Bestätigung", "Buchführung", "Jahresabschluss", "Anerkennung", "Ausbildungsstätte"],
     artikel: ["ausbilder"] },
   { id: "einverstaendnis-ausbildungsstaettenverzeichnis", titel: "Einverständniserklärung zur Veröffentlichung im Ausbildungsstättenverzeichnis",
     typ: "formular", herausgeber: "RP Freiburg", stand: "08/2010",
     datei: "formulare/anerkennung/einverstaendnis-ausbildungsstaettenverzeichnis.pdf",
-    url: null,
+    url: null, bestaetigt: "2026-05",
     beschreibung: "Vordruck „Datenschutzerklärung für Ausbildungsstättenverzeichnis Gärtner/-in im Internet“: Der Betrieb willigt ein, dass Angaben zu Betrieb und Ausbilder/in schriftlich und im Internetangebot der Landwirtschaftsverwaltung veröffentlicht werden — freiwillig und jederzeit widerrufbar. Abgefragt werden u. a. Fachrichtung(en), Wirtschaftsweise (etwa ökologisch) und sonstige Angaben wie Endverkauf. Als PDF aus der Word-Fassung des Regierungspräsidiums erstellt.",
     stichworte: ["Einverständnis", "Einwilligung", "Datenschutzerklärung", "Veröffentlichung", "Ausbildungsstättenverzeichnis", "Verzeichnis", "Internet"],
     artikel: ["ausbilder"] },
   { id: "datenschutz-anerkennung-ausbildungsbetrieb", titel: "Datenschutzhinweise zur Anerkennung von Ausbildungsbetrieben und Ausbilder/innen",
     typ: "merkblatt", herausgeber: "Regierungspräsidien BW", stand: "19.11.2020",
     datei: "formulare/anerkennung/datenschutzhinweise-anerkennung.pdf",
-    url: null,
+    url: null, bestaetigt: "2026-05",
     beschreibung: "Information nach Art. 13/14 DS-GVO der vier Regierungspräsidien für die land- und hauswirtschaftlichen Berufe: Zweck und Rechtsgrundlagen (u. a. §§ 30, 34 BBiG), verarbeitete Daten, Empfänger (Ausbildungsberatung der Landratsämter, Ministerien; mit Einwilligung Berufsverbände und Infodienst des MLR), Speicherdauer in der Regel zehn Jahre, Rechte der Betroffenen.",
     stichworte: ["Datenschutz", "DS-GVO", "DSGVO", "Datenschutzhinweise", "Information", "Anerkennung", "Ausbildungsbetrieb", "Ausbilder"],
     artikel: ["ausbilder"] },
@@ -3312,7 +3329,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gaertner", fachrichtung: "Baumschule" },
     datei: "formulare/ausbildungsplaene/gaertner-baumschule.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/01_Ausbildungsplan_Baumschule.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Baumschule — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Baumschule", "Gärtner/in", "Plan", "Fachrichtung"],
     artikel: ["ausbildungspflicht", "ausbildungsvertrag"] },
@@ -3320,7 +3337,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gaertner", fachrichtung: "Friedhofsgärtnerei" },
     datei: "formulare/ausbildungsplaene/gaertner-friedhofsgaertnerei.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/ausbildungsplan_friedhofsgaertnerei.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Friedhofsgärtnerei — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Friedhofsgärtnerei", "Gärtner/in", "Plan", "Fachrichtung"],
     artikel: ["ausbildungspflicht", "ausbildungsvertrag"] },
@@ -3328,7 +3345,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gaertner", fachrichtung: "Garten- und Landschaftsbau" },
     datei: "formulare/ausbildungsplaene/gaertner-galabau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/03_Ausbildungsplan_Galabau.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Garten- und Landschaftsbau — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Garten- und Landschaftsbau", "Gärtner/in", "Plan", "Fachrichtung"],
     artikel: ["ausbildungspflicht", "ausbildungsvertrag"] },
@@ -3336,7 +3353,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gaertner", fachrichtung: "Gemüsebau" },
     datei: "formulare/ausbildungsplaene/gaertner-gemuesebau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/05_Ausbildungsplan_Gem%C3%BCsebau.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Gemüsebau — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Gemüsebau", "Gärtner/in", "Plan", "Fachrichtung"],
     artikel: ["ausbildungspflicht", "ausbildungsvertrag"] },
@@ -3344,7 +3361,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gaertner", fachrichtung: "Obstbau" },
     datei: "formulare/ausbildungsplaene/gaertner-obstbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/06_Ausbildungsplan_Obstbau.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Obstbau — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Obstbau", "Gärtner/in", "Plan", "Fachrichtung"],
     artikel: ["ausbildungspflicht", "ausbildungsvertrag"] },
@@ -3352,7 +3369,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gaertner", fachrichtung: "Staudengärtnerei" },
     datei: "formulare/ausbildungsplaene/gaertner-staudengaertnerei.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/07_Ausbildungsplan_Staudeng%C3%A4rtnerei.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Staudengärtnerei — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Staudengärtnerei", "Gärtner/in", "Plan", "Fachrichtung"],
     artikel: ["ausbildungspflicht", "ausbildungsvertrag"] },
@@ -3360,7 +3377,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gaertner", fachrichtung: "Zierpflanzenbau" },
     datei: "formulare/ausbildungsplaene/gaertner-zierpflanzenbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://www.landwirtschaft-bw.de/site/pbs-bw-mlr/get/documents_E1046009574/MLR.LEL/PB5Documents/rpk/Ausbildung/BAV/Gaertner_in/08_Ausbildungsplan-Zierpflanzenbau.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Zierpflanzenbau — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Zierpflanzenbau", "Gärtner/in", "Plan", "Fachrichtung"],
     artikel: ["ausbildungspflicht", "ausbildungsvertrag"] },
@@ -3368,7 +3385,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gartenbaufachwerker", fachrichtung: "Baumschule" },
     datei: "formulare/ausbildungsplaene/fachwerker-baumschule.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/gartenbaufachw_betriebl_ausbildungsplaene/Betrieblicher_Ausbildungsplan_Fachwerker_Baumschule.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Baumschule — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Baumschule", "Fachwerker/in im Gartenbau", "Plan", "Fachrichtung"],
     artikel: ["fw-betrieb", "fw-inhalte-pruefung"] },
@@ -3376,7 +3393,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gartenbaufachwerker", fachrichtung: "Friedhofsgärtnerei" },
     datei: "formulare/ausbildungsplaene/fachwerker-friedhofsgaertnerei.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/gartenbaufachw_betriebl_ausbildungsplaene/Betrieblicher_Ausbildungsplan_Fachwerker_Friedhofsbau.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Friedhofsgärtnerei — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Friedhofsgärtnerei", "Fachwerker/in im Gartenbau", "Plan", "Fachrichtung"],
     artikel: ["fw-betrieb", "fw-inhalte-pruefung"] },
@@ -3384,7 +3401,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gartenbaufachwerker", fachrichtung: "Garten- und Landschaftsbau" },
     datei: "formulare/ausbildungsplaene/fachwerker-galabau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/gartenbaufachw_betriebl_ausbildungsplaene/Betrieblicher_Ausbildungsplan_Fachwerker_GaLaBau.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Garten- und Landschaftsbau — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Garten- und Landschaftsbau", "Fachwerker/in im Gartenbau", "Plan", "Fachrichtung"],
     artikel: ["fw-betrieb", "fw-inhalte-pruefung"] },
@@ -3392,7 +3409,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gartenbaufachwerker", fachrichtung: "Gemüsebau" },
     datei: "formulare/ausbildungsplaene/fachwerker-gemuesebau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/gartenbaufachw_betriebl_ausbildungsplaene/Betrieblicher_Ausbildungsplan_Fachwerker_Gemuesebau.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Gemüsebau — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Gemüsebau", "Fachwerker/in im Gartenbau", "Plan", "Fachrichtung"],
     artikel: ["fw-betrieb", "fw-inhalte-pruefung"] },
@@ -3400,7 +3417,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gartenbaufachwerker", fachrichtung: "Obstbau" },
     datei: "formulare/ausbildungsplaene/fachwerker-obstbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/gartenbaufachw_betriebl_ausbildungsplaene/Betrieblicher_Ausbildungsplan_Fachwerker_Obstbau.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Obstbau — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Obstbau", "Fachwerker/in im Gartenbau", "Plan", "Fachrichtung"],
     artikel: ["fw-betrieb", "fw-inhalte-pruefung"] },
@@ -3408,7 +3425,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gartenbaufachwerker", fachrichtung: "Staudengärtnerei" },
     datei: "formulare/ausbildungsplaene/fachwerker-staudengaertnerei.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/gartenbaufachw_betriebl_ausbildungsplaene/Betrieblicher_Ausbildungsplan_Fachwerker_Staudengaertnerei.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Staudengärtnerei — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Staudengärtnerei", "Fachwerker/in im Gartenbau", "Plan", "Fachrichtung"],
     artikel: ["fw-betrieb", "fw-inhalte-pruefung"] },
@@ -3416,7 +3433,7 @@ window.QUELLEN = {
     typ: "plan", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     fuer: { beruf: "gartenbaufachwerker", fachrichtung: "Zierpflanzenbau" },
     datei: "formulare/ausbildungsplaene/fachwerker-zierpflanzenbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/gartenbaufachw_betriebl_ausbildungsplaene/Betrieblicher_Ausbildungsplan_Fachwerker_Zierpflanzenbau.pdf",
     beschreibung: "Vorlage für den individuellen betrieblichen Ausbildungsplan, Fachrichtung Zierpflanzenbau — gehört zu jedem Vertrag.",
     stichworte: ["Ausbildungsplan", "Zierpflanzenbau", "Fachwerker/in im Gartenbau", "Plan", "Fachrichtung"],
     artikel: ["fw-betrieb", "fw-inhalte-pruefung"] },
@@ -3424,31 +3441,31 @@ window.QUELLEN = {
   /* ---------- Gesetze & Verordnungen (amtliche Fassungen) ----------- */
   { id: "gesetz-bbig", titel: "Berufsbildungsgesetz (BBiG) — Volltext",
     typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
-    datei: "formulare/gesetze/bbig.pdf", url: "https://www.gesetze-im-internet.de/bbig_2005/",
+    datei: "formulare/gesetze/bbig.pdf", url: "https://www.gesetze-im-internet.de/bbig_2005/", pdf: "https://www.gesetze-im-internet.de/bbig_2005/BBiG.pdf",
     beschreibung: "Das zentrale Gesetz der Berufsausbildung: Vertrag, Pflichten, Vergütung, Prüfungen, zuständige Stellen.",
     stichworte: ["BBiG", "Berufsbildungsgesetz", "Gesetz", "Volltext", "Paragraf"],
     artikel: ["ausbildungsvertrag", "lernpflicht", "ausbildungspflicht", "mindestverguetung", "kuendigung", "abschlusspruefung", "probezeit", "ausbildungsmittel", "zeugnis", "ende-uebernahme", "aktenvermerk"] },
   { id: "gesetz-jarbschg", titel: "Jugendarbeitsschutzgesetz (JArbSchG) — Volltext",
     typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
-    datei: "formulare/gesetze/jarbschg.pdf", url: "https://www.gesetze-im-internet.de/jarbschg/",
+    datei: "formulare/gesetze/jarbschg.pdf", url: "https://www.gesetze-im-internet.de/jarbschg/", pdf: "https://www.gesetze-im-internet.de/jarbschg/JArbSchG.pdf",
     beschreibung: "Schutzregeln für unter 18-Jährige: Arbeitszeit, Pausen, Nachtruhe, Wochenende, gefährliche Arbeiten, Untersuchungen. In Betrieben mit Jugendlichen auszulegen (§ 47 JArbSchG).",
     stichworte: ["JArbSchG", "Jugendarbeitsschutz", "Aushang", "Gesetz", "unter 18"],
     artikel: ["arbeitszeit-jugendliche", "jugendliche", "freistellung"] },
   { id: "gesetz-arbzg", titel: "Arbeitszeitgesetz (ArbZG) — Volltext",
     typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
-    datei: "formulare/gesetze/arbzg.pdf", url: "https://www.gesetze-im-internet.de/arbzg/",
+    datei: "formulare/gesetze/arbzg.pdf", url: "https://www.gesetze-im-internet.de/arbzg/", pdf: "https://www.gesetze-im-internet.de/arbzg/ArbZG.pdf",
     beschreibung: "Arbeitszeit, Pausen, Ruhezeiten und Sonn-/Feiertagsregeln für volljährige Beschäftigte.",
     stichworte: ["ArbZG", "Arbeitszeitgesetz", "Gesetz"],
     artikel: ["arbeitszeit-erwachsene", "ueberstunden"] },
   { id: "gesetz-burlg", titel: "Bundesurlaubsgesetz (BUrlG) — Volltext",
     typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
-    datei: "formulare/gesetze/burlg.pdf", url: "https://www.gesetze-im-internet.de/burlg/",
+    datei: "formulare/gesetze/burlg.pdf", url: "https://www.gesetze-im-internet.de/burlg/", pdf: "https://www.gesetze-im-internet.de/burlg/BUrlG.pdf",
     beschreibung: "Mindesturlaub, Urlaubsentgelt, Übertragung und Abgeltung.",
     stichworte: ["BUrlG", "Bundesurlaubsgesetz", "Urlaub", "Gesetz"],
     artikel: ["urlaub"] },
   { id: "gesetz-entgfg", titel: "Entgeltfortzahlungsgesetz (EntgFG) — Volltext",
     typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
-    datei: "formulare/gesetze/entgfg.pdf", url: "https://www.gesetze-im-internet.de/entgfg/",
+    datei: "formulare/gesetze/entgfg.pdf", url: "https://www.gesetze-im-internet.de/entgfg/", pdf: "https://www.gesetze-im-internet.de/entgfg/EntgFG.pdf",
     beschreibung: "Entgeltfortzahlung im Krankheitsfall und an Feiertagen.",
     stichworte: ["EntgFG", "EFZG", "Entgeltfortzahlung", "krank", "Gesetz"],
     artikel: ["krankmeldung", "fortzahlung"] },
@@ -3726,7 +3743,7 @@ window.QUELLEN = {
   { id: "anmeldung-schule-radolfzell", titel: "Anmeldung Haus- und Landwirtschaftliche Schulen Radolfzell",
     typ: "formular", herausgeber: "Regierungspräsidien BW / Schule", stand: "05/2023",
     datei: "formulare/anmeldung-schule-radolfzell.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/unterlagen_ausbildende/AnmeldungTZ-VS_202305_c__1_.pdf",
     beschreibung: "Anmeldeformular für den Berufsschulbesuch an den Haus- und Landwirtschaftlichen Schulen Radolfzell (Teilzeit) — vom Ausbildungsbetrieb zusammen mit dem Vertrag auszufüllen.",
     stichworte: ["Berufsschule", "Anmeldung", "Radolfzell", "Teilzeit", "Schulanmeldung"],
     artikel: ["berufsschulpflicht", "eintragung"] },
@@ -3759,7 +3776,7 @@ window.QUELLEN = {
     artikel: ["ausbildungsvertrag", "eintragung", "ausbildungspflicht"] },
   { id: "rp-anerkennung", titel: "Anerkennung von Ausbildungsbetrieben — Verfahren & Fristen",
     typ: "link", herausgeber: "Regierungspräsidien BW", stand: "laufend",
-    datei: null, url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/",
+    datei: null, url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/anerkennung-ausbildungsbetriebe/", erwartet: ["20. April", "20. September"],
     beschreibung: "Voraussetzungen (Eignung der Ausbildungsstätte nach Fachrichtung, Ausbildereignung) und Antragstermine: bis 20. April bzw. 20. September; vor der Anerkennung darf kein Ausbildungsverhältnis begonnen werden.",
     stichworte: ["Anerkennung", "Ausbildungsbetrieb", "Eignung", "Ausbilder", "Frist", "20. April", "20. September"],
     artikel: ["ausbilder", "eintragung"] },
@@ -3931,7 +3948,7 @@ window.QUELLEN = {
   { id: "vwv-zustaendigkeiten-rp", titel: "Übersicht: Zuständigkeiten der Regierungspräsidien nach §§ 3 und 4 BBiG-ZuVO",
     typ: "vwv", herausgeber: "MLR Baden-Württemberg", stand: "aktuell",
     datei: "formulare/vwv/zustaendigkeiten-rp-bbig-zuvo.pdf",
-    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Rechtsgrundlagen_1/Allgemeines_Berufsbildung",
+    url: "https://lw.landwirtschaft-bw.de/,Lde/Startseite/Rechtsgrundlagen_1/Allgemeines_Berufsbildung", pdf: "https://lw.landwirtschaft-bw.de/site/pbs-bw-rebrush2024/get/documents_E-263621361/MLR.LEL/PB5Documents/mlr/Bildung/Berufsausbildung/Zust%C3%A4ndigkeiten%20der%20Regierungspr%C3%A4sidien%20nach%20%C2%A7%C2%A7%203%20und%204%20BBiG-ZuVO.pdf",
     beschreibung: "Praktische Tabelle: welcher Beruf bei welchem Regierungspräsidium liegt (Stuttgart, Karlsruhe, Freiburg, Tübingen).",
     stichworte: ["Zuständigkeit", "Übersicht", "Regierungspräsidien", "Berufe"],
     artikel: ["zustaendige-stelle"] },
@@ -4045,35 +4062,35 @@ window.QUELLEN = {
   { id: "eq-vertrag-gaertner", titel: "Einstiegsqualifizierungsvertrag Gärtner/in (§ 54a SGB III)",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/einstiegsqualifizierung/eq-vertrag-gaertner.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/Praktikum_betriebl_einstiegsquali/gaertner_einstiegsqualifizierungsvertrag.pdf",
     beschreibung: "Der Vertragsvordruck für die betriebliche Einstiegsqualifizierung zum Beruf Gärtner/in, 3-fach auszufertigen. Enthält Dauer, Probezeit, Vergütung, Qualifizierungszeit, Urlaub, Berufsschulbesuch und die verantwortliche Praktikumsleitung; oben trägt das Regierungspräsidium die Nummer im Verzeichnis der Praktikantenverhältnisse ein.",
     stichworte: ["EQ", "Einstiegsqualifizierung", "54a", "Praktikum", "Vertrag", "Praktikantenverhältnis", "Vordruck"],
     artikel: ["einstiegsqualifizierung", "eintragung"] },
   { id: "eq-bausteine-galabau", titel: "Qualifizierungsbausteine EQ — Garten- und Landschaftsbau",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/einstiegsqualifizierung/eq-bausteine-galabau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/Praktikum_betriebl_einstiegsquali/Qualifizierungsbausteine_-_Garten-_und_LandschaftsbauFormular.pdf",
     beschreibung: "Anlage zum EQ-Vertrag: Aus 20 Bausteinen (Rasenpflege, Pflasterarbeiten, Entwässerung, Gehölzschnitt, Bodenkunde, Staudenverwendung u. a.) sind mindestens drei anzukreuzen.",
     stichworte: ["Qualifizierungsbausteine", "EQ", "GaLaBau", "Anlage", "Rasenpflege", "Pflasterarbeiten"],
     artikel: ["einstiegsqualifizierung"] },
   { id: "eq-bausteine-obstbau", titel: "Qualifizierungsbausteine EQ — Obstbau",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/einstiegsqualifizierung/eq-bausteine-obstbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/Praktikum_betriebl_einstiegsquali/Qualifizierungsbausteine_-_ObstbauFormular.pdf",
     beschreibung: "Anlage zum EQ-Vertrag für die Fachrichtung Obstbau — mindestens drei Bausteine ankreuzen.",
     stichworte: ["Qualifizierungsbausteine", "EQ", "Obstbau", "Anlage"],
     artikel: ["einstiegsqualifizierung"] },
   { id: "eq-bausteine-zierpflanzenbau", titel: "Qualifizierungsbausteine EQ — Zierpflanzenbau",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/einstiegsqualifizierung/eq-bausteine-zierpflanzenbau.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/Praktikum_betriebl_einstiegsquali/Qualifizierungsbausteine_-_ZierpflanzenbauFormular.pdf",
     beschreibung: "Anlage zum EQ-Vertrag für die Fachrichtung Zierpflanzenbau — mindestens drei Bausteine ankreuzen.",
     stichworte: ["Qualifizierungsbausteine", "EQ", "Zierpflanzenbau", "Anlage"],
     artikel: ["einstiegsqualifizierung"] },
   { id: "eq-ausbildungsnachweis", titel: "Ausbildungsnachweis für die Einstiegsqualifizierung (EQ / EQ Plus)",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/einstiegsqualifizierung/eq-ausbildungsnachweis.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/Praktikum_betriebl_einstiegsquali/gaertner_schriftlicher_Ausbildungsnachweis_EQ.pdf",
     beschreibung: "Berichtsheft für die EQ: Infoteil mit den gewählten Qualifizierungsbausteinen und Wochenberichten über die vermittelten Tätigkeiten — die Grundlage für das betriebliche Zeugnis.",
     stichworte: ["Ausbildungsnachweis", "Berichtsheft", "EQ", "Wochenbericht", "Nachweis"],
     artikel: ["einstiegsqualifizierung", "berichtsheft"] },
@@ -4087,7 +4104,7 @@ window.QUELLEN = {
   { id: "praktikantenvertrag-berufsorientierung", titel: "Praktikantenvertrag zur Berufsorientierung (Gärtner/in)",
     typ: "formular", herausgeber: "Regierungspräsidien BW", stand: "aktuell",
     datei: "formulare/einstiegsqualifizierung/praktikantenvertrag-berufsorientierung.pdf",
-    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/",
+    url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/seiten/praktikum-betriebliche-einstiegsqualifizierung/", pdf: "https://rp.baden-wuerttemberg.de/fileadmin/RP-Internet/Themenportal/Schule_und_Bildung/Berufliche_Ausbildung/Landwirtschaftliche_Berufe/Gaertner_Gaertnerin/_DocumentLibraries/Praktikum_betriebl_einstiegsquali/gaertner_berufsorientierung_praktikantenvertrag.pdf",
     beschreibung: "Für das kurze Orientierungspraktikum vor der Ausbildung — die kleine Schwester der Einstiegsqualifizierung, ohne Förderung durch die Agentur für Arbeit.",
     stichworte: ["Praktikum", "Berufsorientierung", "Schnupperpraktikum", "Vertrag", "vor der Ausbildung"],
     artikel: ["einstiegsqualifizierung", "ausbildungsvertrag"] },
@@ -8736,6 +8753,839 @@ window.NACHBARN = {
 
 </script>
 <script>
+// ablaufdaten.js — Werte und Aussagen mit Ablaufdatum.
+//
+// Manche Inhalte veralten zu einem bekannten Zeitpunkt: die Mindestausbildungs-
+// vergütung gilt je Beginnjahr, das Infoblatt trägt eine Jahreszahl, Prüfungs-
+// termine laufen ab. Jeder solche Wert steht hier mit `gueltigBis` und dem Ort,
+// an dem er im Werkzeug vorkommt. Die Aktualitätsprüfung
+// (tools/aktualitaet_pruefen.py) meldet ihn ABLAUF_VORLAUF_TAGE (60) Tage vor
+// Ablauf als „läuft bald ab“ und danach als „abgelaufen“.
+//
+// Pflege: Ist ein Wert erneuert, `gueltigBis` auf das neue Ende setzen (und
+// `wert` nachziehen). Neue zeitgebundene Inhalte gleich hier eintragen.
+window.ABLAUFDATEN = {
+  stand: "15.10.2026",
+  werte: [
+    { id: "miav",
+      was: "Mindestausbildungsvergütung — Tabelle bis Ausbildungsbeginn 2026",
+      wert: "2026: 724,00 € (1. Jahr)",
+      gueltigBis: "2026-12-31",
+      wo: ["Nachschlag-Karte „verguetung“", "Artikel „mindestverguetung“ (Fakten, Abschnitt, FAQ)",
+           "Artikel „fw-geld“"],
+      aufgabe: "Wert für Ausbildungsbeginn 2027 eintragen — er wird bis 1. November im Bundesgesetzblatt bekannt gemacht (§ 17 Abs. 2 BBiG); die Staffel +18/+35/+40 % mitrechnen.",
+      quelle: "gesetz-bbig" },
+    { id: "infoblatt-azubis",
+      was: "Infoblatt für Auszubildende 2026",
+      wert: "formulare/infoblatt-azubis-2026.pdf",
+      gueltigBis: "2026-12-31",
+      wo: ["Download-Center", "Vorlage „vertragsunterlagen“ (Anlage)"],
+      aufgabe: "Infoblatt des Folgejahres von der Landwirtschaftsverwaltung holen und Quelle `infoblatt-azubi` (Datei, Titel, Stand) umstellen.",
+      quelle: "infoblatt-azubi" },
+    { id: "ap-winter-2026-2027",
+      was: "Termine der gemeinsamen schriftlichen Abschlussprüfung Winter 2026/2027",
+      wert: "12./13. Januar 2027, Noteneingang bis 17. Februar 2027",
+      gueltigBis: "2027-02-17",
+      wo: ["Artikel „abschlusspruefung“ (Abschnitt zur gemeinsamen schriftlichen Prüfung)"],
+      aufgabe: "Termine des nächsten Durchgangs aus dem IBBW-Terminplan nachtragen." },
+    { id: "goae-jarbsch",
+      was: "Hinweis: neue Gebührenordnung für Ärzte „frühestens 2027“ (Jugendarbeitsschutzuntersuchung)",
+      wert: "Entwurf 96,90 €, Übergangslösung bis zum Inkrafttreten",
+      gueltigBis: "2026-12-31",
+      wo: ["Artikel „jugendliche“ (Abschnitt zur Vergütung der Untersuchung)"],
+      aufgabe: "Prüfen, ob die neue GOÄ in Kraft ist, und den Abschnitt entsprechend umstellen." },
+    { id: "winterpruefung-2027-2028",
+      was: "Ankündigung: Winterprüfung wandert ab Schuljahr 2027/2028",
+      wert: "neue Lage der Prüfungen Haus- und Landwirtschaft",
+      gueltigBis: "2027-07-31",
+      wo: ["Artikel „abschlusspruefung“", "app.js: fristFuerTermin() (Anmeldeschluss Winter = 1. November des Vorjahres)"],
+      aufgabe: "Text von der Ankündigung auf die geltende Regel umstellen und die Fristberechnung der Vorlagen prüfen." }
+  ]
+};
+
+</script>
+<script>
+// pruefstand.js — ERZEUGT von tools/aktualitaet_pruefen.py (Aktualitätsprüfung).
+// Nicht von Hand bearbeiten. Das Werkzeug liest nur diese Datei — es prüft
+// selbst nichts im Netz (Zero-Trust). Neu erzeugen: siehe README „Aktualität“.
+window.PRUEFSTAND = {
+ "geprueft": "2026-10-15",
+ "zaehlung": {
+  "neue-fassung": 1,
+  "aktuell": 128,
+  "alt": 6,
+  "weitergeleitet": 14
+ },
+ "quellen": {
+  "gesetz-bbig": {
+   "status": "neue-fassung",
+   "hinweis": "Text weicht ab (1 geänderte Zeilen, 100% ähnlich)"
+  },
+  "bav": {
+   "status": "aktuell"
+  },
+  "infoblatt-azubi": {
+   "status": "aktuell"
+  },
+  "bav-abmeldung": {
+   "status": "aktuell"
+  },
+  "praktikantenvertrag": {
+   "status": "aktuell"
+  },
+  "bav-hilfe-pdf": {
+   "status": "aktuell"
+  },
+  "gesetz-jarbschg": {
+   "status": "aktuell"
+  },
+  "gesetz-arbzg": {
+   "status": "aktuell"
+  },
+  "gewerbeaufsicht-rb-freiburg": {
+   "status": "alt",
+   "hinweis": "Stand 12/2010 — keine Online-Fassung zum Vergleich; beim Herausgeber (RP Freiburg) nach einer neueren Fassung fragen"
+  },
+  "gesetz-burlg": {
+   "status": "aktuell"
+  },
+  "bav-hinweise": {
+   "status": "aktuell"
+  },
+  "bav-aenderung": {
+   "status": "aktuell"
+  },
+  "bav-zusatz-praktikum": {
+   "status": "aktuell"
+  },
+  "koop-erwerbsgartenbau": {
+   "status": "aktuell"
+  },
+  "koop-galabau": {
+   "status": "aktuell"
+  },
+  "ueba-deula": {
+   "status": "aktuell"
+  },
+  "ueba-galabau": {
+   "status": "aktuell"
+  },
+  "verguetung-tabelle": {
+   "status": "aktuell"
+  },
+  "urlaub-erwerbsgartenbau": {
+   "status": "aktuell"
+  },
+  "urlaub-galabau": {
+   "status": "aktuell"
+  },
+  "plan-gaertner-baumschule": {
+   "status": "aktuell"
+  },
+  "plan-gaertner-friedhofsgaertnerei": {
+   "status": "aktuell"
+  },
+  "plan-gaertner-galabau": {
+   "status": "aktuell"
+  },
+  "plan-gaertner-gemuesebau": {
+   "status": "aktuell"
+  },
+  "plan-gaertner-obstbau": {
+   "status": "aktuell"
+  },
+  "plan-gaertner-staudengaertnerei": {
+   "status": "aktuell"
+  },
+  "plan-gaertner-zierpflanzenbau": {
+   "status": "aktuell"
+  },
+  "plan-fachwerker-baumschule": {
+   "status": "aktuell"
+  },
+  "plan-fachwerker-friedhofsgaertnerei": {
+   "status": "aktuell"
+  },
+  "plan-fachwerker-galabau": {
+   "status": "aktuell"
+  },
+  "plan-fachwerker-gemuesebau": {
+   "status": "aktuell"
+  },
+  "plan-fachwerker-obstbau": {
+   "status": "aktuell"
+  },
+  "plan-fachwerker-staudengaertnerei": {
+   "status": "aktuell"
+  },
+  "plan-fachwerker-zierpflanzenbau": {
+   "status": "aktuell"
+  },
+  "anmeldung-schule-radolfzell": {
+   "status": "aktuell"
+  },
+  "schule-anmeldungen": {
+   "status": "aktuell"
+  },
+  "rp-unterlagen-ausbildende": {
+   "status": "aktuell"
+  },
+  "gesetz-gbfwvo": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=jlr-NNLBW00007D10&query=JURISLINK%3A%22FWerkGartAusbV+BW%22"
+  },
+  "gesetz-entgfg": {
+   "status": "aktuell"
+  },
+  "gesetz-gaertnausbv": {
+   "status": "aktuell"
+  },
+  "gesetz-dsgvo": {
+   "status": "aktuell"
+  },
+  "gesetz-bgb": {
+   "status": "aktuell"
+  },
+  "antrag-ausbildungsstaette-gartenbau": {
+   "status": "aktuell"
+  },
+  "antrag-ausbilder-gartenbau": {
+   "status": "aktuell"
+  },
+  "rp-anerkennung": {
+   "status": "aktuell"
+  },
+  "gesetz-arbschg": {
+   "status": "aktuell"
+  },
+  "gesetz-kschg": {
+   "status": "aktuell"
+  },
+  "gesetz-betrvg": {
+   "status": "aktuell"
+  },
+  "gesetz-sgb3": {
+   "status": "aktuell"
+  },
+  "gesetz-sgb4": {
+   "status": "aktuell"
+  },
+  "gesetz-sgb9": {
+   "status": "aktuell"
+  },
+  "gesetz-bafoeg": {
+   "status": "aktuell"
+  },
+  "gesetz-aevo": {
+   "status": "aktuell"
+  },
+  "gesetz-tzbfg": {
+   "status": "aktuell"
+  },
+  "ausbv-landwirt": {
+   "status": "aktuell"
+  },
+  "ausbv-winzer": {
+   "status": "aktuell"
+  },
+  "ausbv-fischwirt": {
+   "status": "aktuell"
+  },
+  "ausbv-brenner": {
+   "status": "aktuell"
+  },
+  "ba-bab": {
+   "status": "aktuell"
+  },
+  "ausbv-tierwirt": {
+   "status": "aktuell"
+  },
+  "ausbv-pferdewirt": {
+   "status": "aktuell"
+  },
+  "ba-ausbildungsgeld": {
+   "status": "aktuell"
+  },
+  "ba-berufenet": {
+   "status": "aktuell"
+  },
+  "ausbv-forstwirt": {
+   "status": "aktuell"
+  },
+  "ba-asa": {
+   "status": "aktuell"
+  },
+  "ausbv-agrarservice": {
+   "status": "aktuell"
+  },
+  "ba-berufetv": {
+   "status": "aktuell"
+  },
+  "ausbv-milchtechnologe": {
+   "status": "aktuell"
+  },
+  "ba-reha": {
+   "status": "aktuell"
+  },
+  "berichtsheft-gaertner": {
+   "status": "aktuell"
+  },
+  "ausbv-milchw-laborant": {
+   "status": "aktuell"
+  },
+  "berichtsheft-galabau": {
+   "status": "aktuell"
+  },
+  "pflanzenlisten": {
+   "status": "aktuell"
+  },
+  "ausbv-pflanzentechnologe": {
+   "status": "aktuell"
+  },
+  "svlfg-unterweisung": {
+   "status": "aktuell"
+  },
+  "ba-planetberuf": {
+   "status": "aktuell"
+  },
+  "infodienst-gaertner": {
+   "status": "aktuell"
+  },
+  "ausbv-revierjaeger": {
+   "status": "aktuell"
+  },
+  "pflanze-bw": {
+   "status": "aktuell"
+  },
+  "ausbv-hauswirtschafter": {
+   "status": "aktuell"
+  },
+  "lw-bw-rechtsgrundlagen": {
+   "status": "aktuell"
+  },
+  "bildungsserver-agrar": {
+   "status": "aktuell"
+  },
+  "kmk-rahmenlehrplan": {
+   "status": "aktuell"
+  },
+  "svlfg-checklisten": {
+   "status": "aktuell"
+  },
+  "ausbv-hufbeschlag": {
+   "status": "aktuell"
+  },
+  "lra-ka-infodienst": {
+   "status": "aktuell"
+  },
+  "bibb-ausbildung-gestalten": {
+   "status": "aktuell"
+  },
+  "gesetz-gartausbsteignv": {
+   "status": "aktuell"
+  },
+  "ka-buergerdienst-ap": {
+   "status": "aktuell"
+  },
+  "vwv-berichtsheft": {
+   "status": "alt",
+   "hinweis": "Stand 16.04.2012 (Az. 28-8410.00) — keine Online-Fassung zum Vergleich; beim Herausgeber (MLR Baden-Württemberg) nach einer neueren Fassung fragen"
+  },
+  "vwv-bbil": {
+   "status": "alt",
+   "hinweis": "Stand 21.09.2011 (Az. 28-8412.72) — keine Online-Fassung zum Vergleich; beim Herausgeber (MLR Baden-Württemberg) nach einer neueren Fassung fragen"
+  },
+  "anmeldebogen-extern": {
+   "status": "alt",
+   "hinweis": "Stand 09.06.2020 — keine Online-Fassung zum Vergleich; beim Herausgeber (Regierungspräsidium Freiburg, Referat 31) nach einer neueren Fassung fragen"
+  },
+  "rp-gaertner-portal": {
+   "status": "aktuell"
+  },
+  "lra-ka-faq": {
+   "status": "aktuell"
+  },
+  "hswt-landschaftsbau": {
+   "status": "aktuell"
+  },
+  "vwv-voaplandw": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034591&query=JURISLINK%3AVVBW-MLR-20191122-04-SF"
+  },
+  "vwv-zustaendigkeiten-rp": {
+   "status": "aktuell"
+  },
+  "vwv-arbeitsrichtlinien-ab": {
+   "status": "alt",
+   "hinweis": "Stand 08.08.1977 — keine Online-Fassung zum Vergleich; beim Herausgeber (MLR Baden-Württemberg) nach einer neueren Fassung fragen"
+  },
+  "pruefungsschreiben-winter-2027": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "pruefungsplan-winter-2027": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "besondere-richtlinien-pruefung": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "korrektur-bewertungsrichtlinien": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "korrekturzeichen-deutsch": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "handbuch-abschlusspruefung": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "svlfg-betriebsanweisungen": {
+   "status": "aktuell"
+  },
+  "ha-156": {
+   "status": "aktuell"
+  },
+  "vwv-zwischenpruefung-lw": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034593&query=JURISLINK%3AVVBW-MLR-20191122-05-SF"
+  },
+  "ha-174": {
+   "status": "aktuell"
+  },
+  "gaertnausbv-anlage3a": {
+   "status": "aktuell"
+  },
+  "ausbildung-farm": {
+   "status": "aktuell"
+  },
+  "ha-129": {
+   "status": "aktuell"
+  },
+  "vwv-ausbildungsstaetten-lw": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031680&query=JURISLINK%3AVVBW-MLR-20191122-03-SF"
+  },
+  "gesetz-bzrg": {
+   "status": "aktuell"
+  },
+  "ba-weisung-eq": {
+   "status": "aktuell"
+  },
+  "gesetz-eqfao": {
+   "status": "aktuell"
+  },
+  "ha-120": {
+   "status": "aktuell"
+  },
+  "ihk-fehlzeiten": {
+   "status": "aktuell"
+  },
+  "gesetz-milog": {
+   "status": "aktuell"
+  },
+  "betriebe-datenbank": {
+   "status": "aktuell"
+  },
+  "eq-vertrag-gaertner": {
+   "status": "aktuell"
+  },
+  "eq-bausteine-galabau": {
+   "status": "aktuell"
+  },
+  "eq-bausteine-obstbau": {
+   "status": "aktuell"
+  },
+  "eq-bausteine-zierpflanzenbau": {
+   "status": "aktuell"
+  },
+  "eq-ausbildungsnachweis": {
+   "status": "aktuell"
+  },
+  "eq-betriebliches-zeugnis": {
+   "status": "aktuell"
+  },
+  "praktikantenvertrag-berufsorientierung": {
+   "status": "aktuell"
+  },
+  "vwv-gutachterausschuss-lw": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031679&query=JURISLINK%3AVVBW-MLR-20191122-02-SF"
+  },
+  "ha-096": {
+   "status": "aktuell"
+  },
+  "ha-136": {
+   "status": "aktuell"
+  },
+  "vwv-bbig-zuvo": {
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=jlr-NNLBW00007C37&query=JURISLINK%3A%22BBiGZustV+BW%22"
+  },
+  "ha-154": {
+   "status": "aktuell"
+  },
+  "ha-162": {
+   "status": "aktuell"
+  },
+  "merkblatt-anerkennung-ausbildungsstaette": {
+   "status": "alt",
+   "hinweis": "Stand 08/2010 — keine Online-Fassung zum Vergleich; beim Herausgeber (RP Freiburg) nach einer neueren Fassung fragen"
+  }
+ },
+ "links": [
+  {
+   "url": "https://lw.landwirtschaft-bw.de/",
+   "wo": [
+    "berufe.js"
+   ],
+   "status": "weitergeleitet",
+   "hinweis": "Startseite leitet weiter nach https://lw.landwirtschaft-bw.de/,Lde/Startseite"
+  },
+  {
+   "url": "https://www.bildungsserveragrar.de/bildungswege/ausbildung/rechtliche-regelungen-fuer-die-ausbildung/",
+   "wo": [
+    "app.js"
+   ],
+   "status": "weitergeleitet",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.bildungsserveragrar.de/bildungswege/ausbildung/regelung-fuer-auszubildende/"
+  }
+ ],
+ "gesetze": {
+  "bbig_2005": {
+   "stand": "Neugefasst durch Bek. v. 16.4.2025 I Nr. 117; 2025 I Nr. 129;; geändert durch Art. 9 G v. 28.10.2025 I Nr. 259",
+   "status": "aktuell",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
+   "quellen": [
+    "gesetz-bbig"
+   ]
+  },
+  "jarbschg": {
+   "stand": "Zuletzt geändert durch Art. 53 G v. 23.10.2024 I Nr. 323",
+   "status": "aktuell",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
+   "quellen": [
+    "gesetz-jarbschg"
+   ]
+  },
+  "arbzg": {
+   "stand": "Zuletzt geändert durch Art. 52 G v. 23.10.2024 I Nr. 323",
+   "status": "aktuell",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
+   "quellen": [
+    "gesetz-arbzg"
+   ]
+  },
+  "burlg": {
+   "stand": "Zuletzt geändert durch Art. 3 Abs. 3 G v. 20.4.2013 I 868",
+   "status": "aktuell",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
+   "quellen": [
+    "gesetz-burlg"
+   ]
+  },
+  "entgfg": {
+   "stand": "Zuletzt geändert durch Art. 2 Abs. 7 G v. 12.5.2026 I Nr. 143",
+   "status": "aktuell",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
+   "quellen": [
+    "gesetz-entgfg"
+   ]
+  },
+  "g_rtnausbv": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "gesetz-gaertnausbv",
+    "gaertnausbv-anlage3a"
+   ]
+  },
+  "bgb": {
+   "stand": "Neugefasst durch Bek. v. 2.1.2002 I 42, 2909; 2003, 738;; zuletzt geändert durch Art. 6 G v. 23.7.2026 I Nr. 226",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "gesetz-bgb"
+   ]
+  },
+  "arbschg": {
+   "stand": "Zuletzt geändert durch Art. 7 G v. 22.12.2025 I Nr. 369; Änderung der Inhaltsübersicht durch Art. 1 Nr. 1 V v. 23.10.2013 I 3882 ist nicht ausführbar, da dieses G keine amtliche Inhaltsübersicht hat",
+   "status": "aktuell",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
+   "quellen": [
+    "gesetz-arbschg"
+   ]
+  },
+  "kschg": {
+   "stand": "Neugefasst durch Bek. v. 25.8.1969 I 1317; Zuletzt geändert durch Art. 2 G v. 14.6.2021 I 1762",
+   "status": "aktuell",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
+   "quellen": [
+    "gesetz-kschg"
+   ]
+  },
+  "betrvg": {
+   "stand": "Neugefasst durch Bek. v. 25.9.2001 I 2518; Zuletzt geändert durch Art. 1 G v. 19.7.2024 I Nr. 248",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "gesetz-betrvg"
+   ]
+  },
+  "sgb_3": {
+   "stand": "Zuletzt geändert durch Art. 1a G v. 24.7.2026 I Nr. 228",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "gesetz-sgb3"
+   ]
+  },
+  "sgb_4": {
+   "stand": "Neugefasst durch Bek. v. 12.11.2009 I 3710, 3973; 2011 I 363;; zuletzt geändert durch Art. 2 G v. 24.7.2026 I Nr. 228",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "gesetz-sgb4"
+   ]
+  },
+  "sgb_9_2018": {
+   "stand": "Zuletzt geändert durch Art. 2b G v. 24.7.2026 I Nr. 228",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "gesetz-sgb9"
+   ]
+  },
+  "baf_g": {
+   "stand": "Neugefasst durch Bek. v. 7.12.2010 I 1952; 2012 I 197;; zuletzt geändert durch Art. 11 Abs. 1 G v. 16.4.2026 I Nr. 107",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "gesetz-bafoeg"
+   ]
+  },
+  "ausbeignv_2009": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
+   "quellen": [
+    "gesetz-aevo"
+   ]
+  },
+  "tzbfg": {
+   "stand": "Zuletzt geändert durch Art. 7 G v. 20.7.2022 I 1174",
+   "status": "aktuell",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
+   "quellen": [
+    "gesetz-tzbfg"
+   ]
+  },
+  "lwausbv_1995": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-landwirt"
+   ]
+  },
+  "winzerausbv_1997": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-winzer"
+   ]
+  },
+  "fischwausbv": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-fischwirt"
+   ]
+  },
+  "brennausbv": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-brenner"
+   ]
+  },
+  "twirtausbv_2005": {
+   "stand": "Geändert durch Art. 1 V v. 23.2.2006 I 465",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-tierwirt"
+   ]
+  },
+  "pfwirtausbv_2010": {
+   "stand": "Geändert durch Art. 1 V v. 11.8.2011 I 1723",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-pferdewirt"
+   ]
+  },
+  "forstwiausbv_1998": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-forstwirt"
+   ]
+  },
+  "agrarausbv": {
+   "stand": "Geändert durch Art. 1 V v. 6.5.2013 I 1250",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-agrarservice"
+   ]
+  },
+  "milchtausbv": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-milchtechnologe"
+   ]
+  },
+  "milchlausbv_2013": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-milchw-laborant"
+   ]
+  },
+  "pflanztechnausbv": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-pflanzentechnologe"
+   ]
+  },
+  "revjausbv_2010": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-revierjaeger"
+   ]
+  },
+  "hawiausbv": {
+   "stand": "Ersetzt V 806-21-1-273 v. 30.6.1999 I 1495 (HwirtAusbV 1999)",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-hauswirtschafter"
+   ]
+  },
+  "hufbeschlv": {
+   "stand": "",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "ausbv-hufbeschlag"
+   ]
+  },
+  "gartausbsteignv": {
+   "stand": "Geändert durch Art. 6 Abs. 19 G v. 23.5.2017 I 1228",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "gesetz-gartausbsteignv"
+   ]
+  },
+  "bzrg": {
+   "stand": "Neugefasst durch Bek. v. 21.9.1984 I 1229, 1985 I 195;; zuletzt geändert durch Art. 4 G v. 18.6.2026 I Nr. 183; Änderung durch Art. 15 Abs. 15 G v. 3.7.2026 I Nr. 199 textlich nachgewiesen, dokumentarisch noch nicht abschließend bearbeitet; Mittelbare Änderung durch Art. 154a Nr. 3 Buchst. a G v. 20.11.2019 I 1626 ist nicht ausführbar, da das geänderte G v. 21.6.2019 I 846 zum Zeitpunkt des Inkrafttretens des mittelbaren Änderungsgesetzes bereits zum 1.11.2019 in Kraft getreten war",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "gesetz-bzrg"
+   ]
+  },
+  "milog": {
+   "stand": "Zuletzt geändert durch Art. 8 Abs. 3 G v. 12.5.2026 I Nr. 137",
+   "status": "aktuell",
+   "hinweis": "Stand unverändert",
+   "quellen": [
+    "gesetz-milog"
+   ]
+  }
+ },
+ "ablauf": [
+  {
+   "id": "miav",
+   "was": "Mindestausbildungsvergütung — Tabelle bis Ausbildungsbeginn 2026",
+   "status": "aktuell",
+   "hinweis": "gültig bis 31.12.2026",
+   "gueltigBis": "2026-12-31",
+   "aufgabe": "Wert für Ausbildungsbeginn 2027 eintragen — er wird bis 1. November im Bundesgesetzblatt bekannt gemacht (§ 17 Abs. 2 BBiG); die Staffel +18/+35/+40 % mitrechnen.",
+   "wo": [
+    "Nachschlag-Karte „verguetung“",
+    "Artikel „mindestverguetung“ (Fakten, Abschnitt, FAQ)",
+    "Artikel „fw-geld“"
+   ]
+  },
+  {
+   "id": "infoblatt-azubis",
+   "was": "Infoblatt für Auszubildende 2026",
+   "status": "aktuell",
+   "hinweis": "gültig bis 31.12.2026",
+   "gueltigBis": "2026-12-31",
+   "aufgabe": "Infoblatt des Folgejahres von der Landwirtschaftsverwaltung holen und Quelle `infoblatt-azubi` (Datei, Titel, Stand) umstellen.",
+   "wo": [
+    "Download-Center",
+    "Vorlage „vertragsunterlagen“ (Anlage)"
+   ]
+  },
+  {
+   "id": "goae-jarbsch",
+   "was": "Hinweis: neue Gebührenordnung für Ärzte „frühestens 2027“ (Jugendarbeitsschutzuntersuchung)",
+   "status": "aktuell",
+   "hinweis": "gültig bis 31.12.2026",
+   "gueltigBis": "2026-12-31",
+   "aufgabe": "Prüfen, ob die neue GOÄ in Kraft ist, und den Abschnitt entsprechend umstellen.",
+   "wo": [
+    "Artikel „jugendliche“ (Abschnitt zur Vergütung der Untersuchung)"
+   ]
+  },
+  {
+   "id": "ap-winter-2026-2027",
+   "was": "Termine der gemeinsamen schriftlichen Abschlussprüfung Winter 2026/2027",
+   "status": "aktuell",
+   "hinweis": "gültig bis 17.02.2027",
+   "gueltigBis": "2027-02-17",
+   "aufgabe": "Termine des nächsten Durchgangs aus dem IBBW-Terminplan nachtragen.",
+   "wo": [
+    "Artikel „abschlusspruefung“ (Abschnitt zur gemeinsamen schriftlichen Prüfung)"
+   ]
+  },
+  {
+   "id": "winterpruefung-2027-2028",
+   "was": "Ankündigung: Winterprüfung wandert ab Schuljahr 2027/2028",
+   "status": "aktuell",
+   "hinweis": "gültig bis 31.07.2027",
+   "gueltigBis": "2027-07-31",
+   "aufgabe": "Text von der Ankündigung auf die geltende Regel umstellen und die Fristberechnung der Vorlagen prüfen.",
+   "wo": [
+    "Artikel „abschlusspruefung“",
+    "app.js: fristFuerTermin() (Anmeldeschluss Winter = 1. November des Vorjahres)"
+   ]
+  }
+ ]
+};
+
+</script>
+<script>
 // lokaldb.js — Lokale Datenbank im Browser (IndexedDB, Fallback localStorage).
 // Speichert Nutzerdaten des Werkzeugs: Aktenvermerke, Notizen sowie eigene
 // Artikel und Dokumente. Alles bleibt auf diesem Gerät — keine Übertragung,
@@ -9798,6 +10648,9 @@ window.NACHBARN = {
     } else if (view === "rechtliches") {
       haupt.innerHTML = viewRechtliches();
       titel = "Rechtliches & Impressum — Azubi Wissen";
+    } else if (view === "pruefstand") {
+      haupt.innerHTML = viewPruefstand();
+      titel = "Prüfstand — Azubi Wissen";
     } else if (view === "assistent") {
       if (window.AzubiAssistent) { window.AzubiAssistent.renderView(haupt, r.params); }
       else haupt.innerHTML = platzhalter("KI-Assistent", "Der lokale Assistent wird im nächsten Ausbauschritt eingebaut.");
@@ -10317,6 +11170,7 @@ window.NACHBARN = {
         return '<li class="karte">' +
           (aktiv ? "" : '<span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span>") +
           "<h3" + (aktiv ? "" : ' style="margin-top:var(--bw-space-1)"') + ">" + (q ? S.highlight(e.titel, q) : esc(e.titel)) + "</h3>" +
+          (pruefMarke(e.id) ? "<p>" + pruefMarke(e.id).trim() + "</p>" : "") +
           "<p>" + esc(e.beschreibung || "") + "</p>" +
           '<p class="bw-klein bw-leise">' + esc(e.herausgeber) + (e.stand ? " · Stand " + esc(e.stand) : "") + "</p>" +
           '<span class="meta">' + aktion + "</span>" +
@@ -11344,7 +12198,7 @@ window.NACHBARN = {
       h += '<ul class="baum-liste">' + eintraege.map(function (e) {
         var z = quelleZiel(e);
         return '<li><a href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : ' target="_blank" rel="noopener"') + '>' + esc(e.titel) +
-          (z.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>" +
+          (z.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>" + pruefMarke(e.id) +
           '<span class="bw-klein bw-leise"> — ' + esc(e.herausgeber) + (e.stand ? ", Stand " + esc(e.stand) : "") + "</span></li>";
       }).join("") + "</ul>";
     }
@@ -11352,9 +12206,144 @@ window.NACHBARN = {
     return { html: h, anzahl: anzahl };
   }
 
+  /* ---------------- Prüfstand (Aktualitätsprüfung, S45–S47) -------- */
+  // Ob Dokumente, Anträge, Gesetze und Links noch aktuell sind, prüft
+  // tools/aktualitaet_pruefen.py außerhalb des Werkzeugs (GitHub Action,
+  // wöchentlich und auf Knopfdruck). Hier wird nur das Ergebnis gezeigt
+  // (assets/js/pruefstand.js) — das Werkzeug selbst ruft nichts aus dem Netz
+  // ab. Werte mit Ablaufdatum (ablaufdaten.js) rechnet es dagegen live gegen
+  // das heutige Datum, dafür braucht es keine Prüfung.
+  var PRUEF_NAME = { aktuell: "aktuell", weitergeleitet: "weitergeleitet", "nicht-pruefbar": "nicht prüfbar",
+    alt: "Stand alt", "laeuft-ab": "läuft bald ab", umgezogen: "umgezogen", "neue-fassung": "neue Fassung online",
+    geaendert: "geändert", "inhalt-fehlt": "Inhalt fehlt", abgelaufen: "abgelaufen", defekt: "Link defekt" };
+  var PRUEF_HANDLUNG = { defekt: 1, "inhalt-fehlt": 1, "neue-fassung": 1, geaendert: 1, abgelaufen: 1 };
+  var PRUEF_BEACHTEN = { umgezogen: 1, alt: 1, "laeuft-ab": 1, "nicht-pruefbar": 1 };
+  var ABLAUF_VORLAUF_TAGE = 60;   // wie in tools/aktualitaet_pruefen.py
+
+  function pruefEtikett(status, hinweis) {
+    if (!PRUEF_HANDLUNG[status] && !PRUEF_BEACHTEN[status]) return "";
+    return ' <span class="etikett etikett--' + (PRUEF_HANDLUNG[status] ? "handlung" : "beachten") + '"' +
+      (hinweis ? ' title="' + esc(hinweis) + '"' : "") + ">" + esc(PRUEF_NAME[status] || status) + "</span>";
+  }
+  function pruefMarke(id) {
+    var P = window.PRUEFSTAND, e = P && P.quellen && P.quellen[id];
+    return e ? pruefEtikett(e.status, e.hinweis) : "";
+  }
+  // Ablaufdaten live: abgelaufen / läuft bald ab / gültig — relativ zu heute.
+  function ablaufStatus(w) {
+    var bis = new Date(w.gueltigBis + "T23:59:59"), heute = new Date();
+    var tage = Math.floor((bis - heute) / 86400000);
+    if (tage < 0) return { status: "abgelaufen", text: "abgelaufen seit " + deDatum(w.gueltigBis) };
+    if (tage <= ABLAUF_VORLAUF_TAGE) return { status: "laeuft-ab", text: "läuft in " + tage + " Tagen ab (" + deDatum(w.gueltigBis) + ")" };
+    return { status: "aktuell", text: "gültig bis " + deDatum(w.gueltigBis) };
+  }
+  function pruefZaehlung() {
+    var P = window.PRUEFSTAND || {}, z = { handlung: 0, beachten: 0, aktuell: 0 };
+    function zaehle(st) {
+      if (PRUEF_HANDLUNG[st]) z.handlung++; else if (PRUEF_BEACHTEN[st]) z.beachten++; else z.aktuell++;
+    }
+    Object.keys(P.quellen || {}).forEach(function (id) { zaehle(P.quellen[id].status); });
+    (P.links || []).forEach(function (l) { zaehle(l.status); });
+    ((window.ABLAUFDATEN || {}).werte || []).forEach(function (w) { zaehle(ablaufStatus(w).status); });
+    return z;
+  }
+  function pruefZeile() {
+    var P = window.PRUEFSTAND;
+    if (!P || !P.geprueft) return "";
+    var z = pruefZaehlung();
+    return '<p class="bw-klein pruef-zeile"><strong>Prüfstand vom ' + deDatum(P.geprueft) + ":</strong> " +
+      z.aktuell + " aktuell · " + z.handlung + " mit Handlungsbedarf · " + z.beachten + " zu beachten — " +
+      '<a href="#/pruefstand">zum Prüfstand</a></p>';
+  }
+
+  function viewPruefstand() {
+    var P = window.PRUEFSTAND, Q = {};
+    ((window.QUELLEN || {}).eintraege || []).forEach(function (e) { Q[e.id] = e; });
+    var h = "<h1>Prüfstand</h1>" +
+      '<p class="bw-unterzeile">Sind Dokumente, Anträge, Gesetze und Links noch aktuell? Ergebnis der letzten Aktualitätsprüfung</p>';
+    if (!P || !P.geprueft) {
+      return h + '<div class="bw-hinweis"><p>Für diese Fassung liegt noch kein Prüfergebnis vor.</p></div>';
+    }
+    var z = pruefZaehlung();
+    h += '<div class="bw-flaechen bw-drittel pruef-zahlen">' +
+      '<div class="bw-flaeche"><strong>' + z.handlung + "</strong><span>mit Handlungsbedarf</span></div>" +
+      '<div class="bw-flaeche"><strong>' + z.beachten + "</strong><span>zu beachten</span></div>" +
+      '<div class="bw-flaeche"><strong>' + z.aktuell + "</strong><span>aktuell</span></div></div>" +
+      '<p class="bw-klein bw-leise">Letzte Prüfung: ' + deDatum(P.geprueft) +
+      (window.EINZELDATEI ? " — Stand dieser Einzeldatei; die Online-Fassung zeigt den neuesten Prüfstand." : "") + "</p>";
+
+    function punktQuelle(id, e) {
+      var q = Q[id] || { titel: id };
+      var ziel = q.url ? '<a href="' + esc(q.url) + '" target="_blank" rel="noopener">' + esc(q.titel) + " ↗</a>" : esc(q.titel);
+      return "<li>" + ziel + pruefEtikett(e.status) +
+        '<br><span class="bw-klein">' + esc(e.hinweis || "") +
+        (e.neueUrl ? ' → <a href="' + esc(e.neueUrl) + '" target="_blank" rel="noopener">neue Adresse ↗</a>' : "") + "</span></li>";
+    }
+    function abschnitt(titel, filter, leerText) {
+      var punkte = [];
+      Object.keys(P.quellen || {}).sort().forEach(function (id) {
+        if (filter[P.quellen[id].status]) punkte.push(punktQuelle(id, P.quellen[id]));
+      });
+      (P.links || []).forEach(function (l) {
+        if (filter[l.status]) punkte.push("<li>Link in " + esc((l.wo || []).join(", ")) + ': <a href="' + esc(l.url) +
+          '" target="_blank" rel="noopener">' + esc(l.url) + " ↗</a>" + pruefEtikett(l.status) +
+          '<br><span class="bw-klein">' + esc(l.hinweis || "") + "</span></li>");
+      });
+      ((window.ABLAUFDATEN || {}).werte || []).forEach(function (w) {
+        var a = ablaufStatus(w);
+        if (filter[a.status]) punkte.push("<li><strong>" + esc(w.was) + "</strong>" + pruefEtikett(a.status) +
+          '<br><span class="bw-klein">' + esc(a.text) + " — " + esc(w.aufgabe || "") + "</span></li>");
+      });
+      return "<h2>" + titel + "</h2>" + (punkte.length ? '<ul class="pruef-liste">' + punkte.join("") + "</ul>" :
+        '<p class="bw-klein bw-leise">' + leerText + "</p>");
+    }
+    h += abschnitt("Handlungsbedarf", PRUEF_HANDLUNG, "Nichts zu tun.");
+    h += abschnitt("Zu beachten", PRUEF_BEACHTEN, "Keine Hinweise.");
+
+    // Gesetze: hinterlegte Volltexte zuerst, dann alle verlinkten Werke
+    var G = P.gesetze || {};
+    var gesetze = Object.keys(G).map(function (slug) {
+      var g = G[slug], ids = g.quellen || [];
+      var titel = ids.length && Q[ids[0]] ? Q[ids[0]].titel : slug;
+      return { slug: slug, titel: titel, g: g };
+    }).sort(function (a, b) { return a.titel.localeCompare(b.titel, "de"); });
+    if (gesetze.length) {
+      h += "<h2>Gesetze &amp; Verordnungen</h2>" +
+        '<p class="bw-klein bw-leise">Stand je Werk aus dem amtlichen XML von gesetze-im-internet.de. Bei hinterlegten Volltexten ' +
+        "vergleicht die Prüfung direkt; sonst mit dem Stand der letzten Prüfung.</p>" +
+        '<div class="tabellen-rahmen"><table class="bw-table"><thead><tr><th>Werk</th><th>Stand</th><th>Prüfung</th></tr></thead><tbody>' +
+        gesetze.map(function (x) {
+          return "<tr><td>" + esc(x.titel) + "</td><td class=\"bw-klein\">" + esc((x.g.stand || "—").slice(0, 140)) +
+            "</td><td>" + (pruefEtikett(x.g.status, x.g.hinweis) || '<span class="bw-klein">' + esc(PRUEF_NAME[x.g.status] || x.g.status) + "</span>") + "</td></tr>";
+        }).join("") + "</tbody></table></div>";
+    }
+
+    var werte = (window.ABLAUFDATEN || {}).werte || [];
+    if (werte.length) {
+      h += "<h2>Werte mit Ablaufdatum</h2>" +
+        '<p class="bw-klein bw-leise">Live gegen das heutige Datum gerechnet — Warnung ' + ABLAUF_VORLAUF_TAGE + " Tage vor Ablauf.</p>" +
+        '<div class="tabellen-rahmen"><table class="bw-table"><thead><tr><th>Wert</th><th>Steht in</th><th>Gültigkeit</th></tr></thead><tbody>' +
+        werte.map(function (w) {
+          var a = ablaufStatus(w);
+          return "<tr><td><strong>" + esc(w.was) + "</strong><br><span class=\"bw-klein\">" + esc(w.wert || "") + "</span></td>" +
+            '<td class="bw-klein">' + esc((w.wo || []).join(" · ")) + "</td><td>" + esc(a.text) + pruefEtikett(a.status) + "</td></tr>";
+        }).join("") + "</tbody></table></div>";
+    }
+
+    h += "<h2>So funktioniert die Prüfung</h2><ul>" +
+      "<li><strong>Wann:</strong> jeden Montag automatisch und jederzeit auf Knopfdruck (GitHub → Actions → „Aktualitätsprüfung“ → „Run workflow“, auch in der GitHub-App).</li>" +
+      "<li><strong>Was:</strong> jeder Link (erreichbar, umgezogen, Fehlerseite, Kennwörter), jede lokale Datei mit Online-Fassung (Textvergleich), " +
+      "der Stand jedes Gesetzes und Vordrucke ohne Online-Fassung nach Alter.</li>" +
+      "<li><strong>Ergebnis:</strong> ein GitHub-Issue „Aktualitätsprüfung“ mit Checkliste und — wo es maschinell geht — ein Aktualisierungs-PR " +
+      "(neue Gesetzesfassungen, neue PDF-Fassungen, umgezogene Links), der nur noch übernommen werden muss.</li>" +
+      "<li><strong>Datenschutz:</strong> Das Werkzeug selbst prüft nichts im Netz und überträgt nichts — es zeigt nur das Ergebnis.</li>" +
+      "</ul>";
+    return h;
+  }
+
   function viewDownloads() {
     var h = "<h1>Download-Center</h1>" +
-      '<p class="bw-unterzeile">Alle Dokumente und geprüften Quellen — thematisch sortiert</p>';
+      '<p class="bw-unterzeile">Alle Dokumente und geprüften Quellen — thematisch sortiert</p>' + pruefZeile();
     if (window.EINZELDATEI) {
       h += '<div class="bw-hinweis"><p><strong>Einzeldatei-Version:</strong> Einträge öffnen die jeweilige Online-Quelle; im Ordner-/Intranet-Betrieb liegen die Dateien lokal bei.</p></div>';
     }
