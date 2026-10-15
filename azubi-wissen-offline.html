@@ -3937,7 +3937,7 @@ window.QUELLEN = {
 
   /* ---------- Gesetze & Verordnungen (amtliche Fassungen) ----------- */
   { id: "gesetz-bbig", titel: "Berufsbildungsgesetz (BBiG) — Volltext",
-    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "aktuelle Fassung",
+    typ: "gesetz", herausgeber: "Bund (gesetze-im-internet.de)", stand: "10/2026",
     datei: "formulare/gesetze/bbig.pdf", url: "https://www.gesetze-im-internet.de/bbig_2005/", pdf: "https://www.gesetze-im-internet.de/bbig_2005/BBiG.pdf",
     beschreibung: "Das zentrale Gesetz der Berufsausbildung: Vertrag, Pflichten, Vergütung, Prüfungen, zuständige Stellen.",
     stichworte: ["BBiG", "Berufsbildungsgesetz", "Gesetz", "Volltext", "Paragraf"],
@@ -9264,15 +9264,13 @@ window.ABLAUFDATEN = {
 window.PRUEFSTAND = {
  "geprueft": "2026-10-15",
  "zaehlung": {
-  "neue-fassung": 1,
-  "aktuell": 128,
+  "aktuell": 129,
   "alt": 6,
   "weitergeleitet": 14
  },
  "quellen": {
   "gesetz-bbig": {
-   "status": "neue-fassung",
-   "hinweis": "Text weicht ab (1 geänderte Zeilen, 100% ähnlich)"
+   "status": "aktuell"
   },
   "bav": {
    "status": "aktuell"
@@ -9287,19 +9285,6 @@ window.PRUEFSTAND = {
    "status": "aktuell"
   },
   "bav-hilfe-pdf": {
-   "status": "aktuell"
-  },
-  "gesetz-jarbschg": {
-   "status": "aktuell"
-  },
-  "gesetz-arbzg": {
-   "status": "aktuell"
-  },
-  "gewerbeaufsicht-rb-freiburg": {
-   "status": "alt",
-   "hinweis": "Stand 12/2010 — keine Online-Fassung zum Vergleich; beim Herausgeber (RP Freiburg) nach einer neueren Fassung fragen"
-  },
-  "gesetz-burlg": {
    "status": "aktuell"
   },
   "bav-hinweise": {
@@ -9383,21 +9368,13 @@ window.PRUEFSTAND = {
   "rp-unterlagen-ausbildende": {
    "status": "aktuell"
   },
-  "gesetz-gbfwvo": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=jlr-NNLBW00007D10&query=JURISLINK%3A%22FWerkGartAusbV+BW%22"
-  },
-  "gesetz-entgfg": {
+  "gesetz-jarbschg": {
    "status": "aktuell"
   },
-  "gesetz-gaertnausbv": {
-   "status": "aktuell"
-  },
-  "gesetz-dsgvo": {
-   "status": "aktuell"
-  },
-  "gesetz-bgb": {
-   "status": "aktuell"
+  "gewerbeaufsicht-rb-freiburg": {
+   "status": "alt",
+   "art": "intern",
+   "hinweis": "Stand 12/2010 — keine Online-Fassung zum Vergleich; beim Herausgeber (RP Freiburg) nach einer neueren Fassung fragen"
   },
   "antrag-ausbildungsstaette-gartenbau": {
    "status": "aktuell"
@@ -9406,6 +9383,29 @@ window.PRUEFSTAND = {
    "status": "aktuell"
   },
   "rp-anerkennung": {
+   "status": "aktuell"
+  },
+  "gesetz-arbzg": {
+   "status": "aktuell"
+  },
+  "gesetz-gbfwvo": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=jlr-NNLBW00007D10&query=JURISLINK%3A%22FWerkGartAusbV+BW%22"
+  },
+  "gesetz-burlg": {
+   "status": "aktuell"
+  },
+  "gesetz-entgfg": {
+   "status": "aktuell"
+  },
+  "gesetz-dsgvo": {
+   "status": "aktuell"
+  },
+  "gesetz-gaertnausbv": {
+   "status": "aktuell"
+  },
+  "gesetz-bgb": {
    "status": "aktuell"
   },
   "gesetz-arbschg": {
@@ -9474,58 +9474,60 @@ window.PRUEFSTAND = {
   "ba-berufetv": {
    "status": "aktuell"
   },
-  "ausbv-milchtechnologe": {
+  "ba-reha": {
    "status": "aktuell"
   },
-  "ba-reha": {
+  "ausbv-milchtechnologe": {
    "status": "aktuell"
   },
   "berichtsheft-gaertner": {
    "status": "aktuell"
   },
-  "ausbv-milchw-laborant": {
+  "svlfg-unterweisung": {
    "status": "aktuell"
   },
   "berichtsheft-galabau": {
    "status": "aktuell"
   },
-  "pflanzenlisten": {
-   "status": "aktuell"
-  },
-  "ausbv-pflanzentechnologe": {
-   "status": "aktuell"
-  },
-  "svlfg-unterweisung": {
+  "ausbv-milchw-laborant": {
    "status": "aktuell"
   },
   "ba-planetberuf": {
    "status": "aktuell"
   },
-  "infodienst-gaertner": {
+  "pflanzenlisten": {
    "status": "aktuell"
   },
-  "ausbv-revierjaeger": {
+  "anmeldebogen-extern": {
+   "status": "alt",
+   "art": "intern",
+   "hinweis": "Stand 09.06.2020 — keine Online-Fassung zum Vergleich; beim Herausgeber (Regierungspräsidium Freiburg, Referat 31) nach einer neueren Fassung fragen"
+  },
+  "rp-gaertner-portal": {
+   "status": "aktuell"
+  },
+  "ausbv-pflanzentechnologe": {
+   "status": "aktuell"
+  },
+  "infodienst-gaertner": {
    "status": "aktuell"
   },
   "pflanze-bw": {
    "status": "aktuell"
   },
-  "ausbv-hauswirtschafter": {
-   "status": "aktuell"
-  },
-  "lw-bw-rechtsgrundlagen": {
+  "ausbv-revierjaeger": {
    "status": "aktuell"
   },
   "bildungsserver-agrar": {
    "status": "aktuell"
   },
-  "kmk-rahmenlehrplan": {
+  "lw-bw-rechtsgrundlagen": {
    "status": "aktuell"
   },
   "svlfg-checklisten": {
    "status": "aktuell"
   },
-  "ausbv-hufbeschlag": {
+  "ausbv-hauswirtschafter": {
    "status": "aktuell"
   },
   "lra-ka-infodienst": {
@@ -9534,7 +9536,10 @@ window.PRUEFSTAND = {
   "bibb-ausbildung-gestalten": {
    "status": "aktuell"
   },
-  "gesetz-gartausbsteignv": {
+  "kmk-rahmenlehrplan": {
+   "status": "aktuell"
+  },
+  "hswt-landschaftsbau": {
    "status": "aktuell"
   },
   "ka-buergerdienst-ap": {
@@ -9542,59 +9547,24 @@ window.PRUEFSTAND = {
   },
   "vwv-berichtsheft": {
    "status": "alt",
+   "art": "intern",
    "hinweis": "Stand 16.04.2012 (Az. 28-8410.00) — keine Online-Fassung zum Vergleich; beim Herausgeber (MLR Baden-Württemberg) nach einer neueren Fassung fragen"
   },
   "vwv-bbil": {
    "status": "alt",
+   "art": "intern",
    "hinweis": "Stand 21.09.2011 (Az. 28-8412.72) — keine Online-Fassung zum Vergleich; beim Herausgeber (MLR Baden-Württemberg) nach einer neueren Fassung fragen"
-  },
-  "anmeldebogen-extern": {
-   "status": "alt",
-   "hinweis": "Stand 09.06.2020 — keine Online-Fassung zum Vergleich; beim Herausgeber (Regierungspräsidium Freiburg, Referat 31) nach einer neueren Fassung fragen"
-  },
-  "rp-gaertner-portal": {
-   "status": "aktuell"
   },
   "lra-ka-faq": {
    "status": "aktuell"
-  },
-  "hswt-landschaftsbau": {
-   "status": "aktuell"
-  },
-  "vwv-voaplandw": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034591&query=JURISLINK%3AVVBW-MLR-20191122-04-SF"
   },
   "vwv-zustaendigkeiten-rp": {
    "status": "aktuell"
   },
   "vwv-arbeitsrichtlinien-ab": {
    "status": "alt",
+   "art": "intern",
    "hinweis": "Stand 08.08.1977 — keine Online-Fassung zum Vergleich; beim Herausgeber (MLR Baden-Württemberg) nach einer neueren Fassung fragen"
-  },
-  "pruefungsschreiben-winter-2027": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
-  },
-  "pruefungsplan-winter-2027": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
-  },
-  "besondere-richtlinien-pruefung": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
-  },
-  "korrektur-bewertungsrichtlinien": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
-  },
-  "korrekturzeichen-deutsch": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
-  },
-  "handbuch-abschlusspruefung": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
   },
   "svlfg-betriebsanweisungen": {
    "status": "aktuell"
@@ -9602,45 +9572,71 @@ window.PRUEFSTAND = {
   "ha-156": {
    "status": "aktuell"
   },
-  "vwv-zwischenpruefung-lw": {
+  "vwv-voaplandw": {
    "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034593&query=JURISLINK%3AVVBW-MLR-20191122-05-SF"
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034591&query=JURISLINK%3AVVBW-MLR-20191122-04-SF"
+  },
+  "pruefungsschreiben-winter-2027": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "pruefungsplan-winter-2027": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "besondere-richtlinien-pruefung": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "korrektur-bewertungsrichtlinien": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "korrekturzeichen-deutsch": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
+  },
+  "handbuch-abschlusspruefung": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
   },
   "ha-174": {
    "status": "aktuell"
   },
-  "gaertnausbv-anlage3a": {
+  "vwv-zwischenpruefung-lw": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034593&query=JURISLINK%3AVVBW-MLR-20191122-05-SF"
+  },
+  "ha-129": {
    "status": "aktuell"
   },
   "ausbildung-farm": {
    "status": "aktuell"
   },
-  "ha-129": {
-   "status": "aktuell"
-  },
-  "vwv-ausbildungsstaetten-lw": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031680&query=JURISLINK%3AVVBW-MLR-20191122-03-SF"
-  },
-  "gesetz-bzrg": {
-   "status": "aktuell"
-  },
-  "ba-weisung-eq": {
-   "status": "aktuell"
-  },
-  "gesetz-eqfao": {
-   "status": "aktuell"
-  },
   "ha-120": {
+   "status": "aktuell"
+  },
+  "ha-096": {
    "status": "aktuell"
   },
   "ihk-fehlzeiten": {
    "status": "aktuell"
   },
-  "gesetz-milog": {
+  "ausbv-hufbeschlag": {
    "status": "aktuell"
   },
-  "betriebe-datenbank": {
+  "ha-136": {
+   "status": "aktuell"
+  },
+  "gesetz-gartausbsteignv": {
    "status": "aktuell"
   },
   "eq-vertrag-gaertner": {
@@ -9664,28 +9660,48 @@ window.PRUEFSTAND = {
   "praktikantenvertrag-berufsorientierung": {
    "status": "aktuell"
   },
-  "vwv-gutachterausschuss-lw": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031679&query=JURISLINK%3AVVBW-MLR-20191122-02-SF"
-  },
-  "ha-096": {
+  "ba-weisung-eq": {
    "status": "aktuell"
   },
-  "ha-136": {
+  "gesetz-eqfao": {
    "status": "aktuell"
   },
-  "vwv-bbig-zuvo": {
-   "status": "weitergeleitet",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=jlr-NNLBW00007C37&query=JURISLINK%3A%22BBiGZustV+BW%22"
+  "betriebe-datenbank": {
+   "status": "aktuell"
+  },
+  "gaertnausbv-anlage3a": {
+   "status": "aktuell"
   },
   "ha-154": {
+   "status": "aktuell"
+  },
+  "gesetz-bzrg": {
+   "status": "aktuell"
+  },
+  "gesetz-milog": {
    "status": "aktuell"
   },
   "ha-162": {
    "status": "aktuell"
   },
+  "vwv-ausbildungsstaetten-lw": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031680&query=JURISLINK%3AVVBW-MLR-20191122-03-SF"
+  },
+  "vwv-gutachterausschuss-lw": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031679&query=JURISLINK%3AVVBW-MLR-20191122-02-SF"
+  },
+  "vwv-bbig-zuvo": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=jlr-NNLBW00007C37&query=JURISLINK%3A%22BBiGZustV+BW%22"
+  },
   "merkblatt-anerkennung-ausbildungsstaette": {
    "status": "alt",
+   "art": "intern",
    "hinweis": "Stand 08/2010 — keine Online-Fassung zum Vergleich; beim Herausgeber (RP Freiburg) nach einer neueren Fassung fragen"
   }
  },
@@ -10034,7 +10050,8 @@ window.PRUEFSTAND = {
     "app.js: fristFuerTermin() (Anmeldeschluss Winter = 1. November des Vorjahres)"
    ]
   }
- ]
+ ],
+ "unerreichbar": {}
 };
 
 </script>

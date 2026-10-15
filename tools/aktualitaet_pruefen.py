@@ -540,15 +540,15 @@ def pruefen(daten: dict, nur: set, vorher: dict) -> dict:
         with cf.ThreadPoolExecutor(max_workers=6) as pool:
             for s, st in zip(slugs, pool.map(gii_stand, list(slugs))):
                 eintrag = {"stand": st.get("stand", ""), "quellen": slugs[s]}
-                if "fehler" in st and st.get("netz") and (alt.get(s) or {}).get("stand"):
+                if "fehler" in st and st.get("netz") and s in alt:   # auch Werke ohne Änderungsstand
                     # Server nicht erreichbar: letzten bekannten Stand übernehmen und
                     # gegen den hinterlegten Volltext neu vergleichen
-                    eintrag["stand"] = alt[s]["stand"]
+                    eintrag["stand"] = alt[s].get("stand", "")
                     uebernommen = seit(alt[s])
                     if s in vendored:
                         k, g = vendored[s]
                         eintrag["volltext"] = k
-                        status = "geaendert" if (g.get("stand") or "") != alt[s]["stand"] else "aktuell"
+                        status = "geaendert" if (g.get("stand") or "") != eintrag["stand"] else "aktuell"
                     else:
                         status = alt[s].get("status", "aktuell")
                     befund = {"status": status, "netz": True, "uebernommen": uebernommen,
@@ -619,17 +619,29 @@ def pruefen(daten: dict, nur: set, vorher: dict) -> dict:
         ergebnis["ablauf"].sort(key=lambda x: (-STUFE[x["status"]], x["gueltigBis"]))
 
     # --- Nicht Erreichbares: Ergebnis der letzten Prüfung -----------------------
+    # Je Prüfart: Stammte der frühere Befund aus einer Prüfart, die diesmal nicht
+    # durchkam (z. B. PDF-Vergleich), gilt er weiter — auch wenn andere Prüfarten
+    # derselben Quelle (Link, Gesetzesstand) diesmal geklappt haben. Ältere
+    # Prüfstände ohne `art` gelten für jede nicht erreichte Prüfart.
     for qid, e in ergebnis["quellen"].items():
-        if not all(b.get("netz") and not b.get("uebernommen") for b in e["befunde"]):
+        unbekannt = [b for b in e["befunde"] if b.get("netz") and not b.get("uebernommen")]
+        if not unbekannt:
             continue
+        alles_unbekannt = len(unbekannt) == len(e["befunde"])
         alt = vorher_quellen.get(qid)
-        if alt and vorher_datum:
-            e["status"] = alt.get("status", "nicht-pruefbar")
-            e["uebernommen"] = seit(alt)
-            e["befunde"].append({"art": "uebernahme", "status": e["status"], "uebernommen": e["uebernommen"],
-                                 "hinweis": f"von hier aus nicht erreichbar — Ergebnis vom {de(e['uebernommen'])}"
+        arten = {b["art"] for b in unbekannt}
+        passt = alt and vorher_datum and (alles_unbekannt or (
+            alt.get("status") not in ("aktuell", "nicht-pruefbar", None) and alt.get("art", next(iter(arten))) in arten))
+        if passt:
+            status = alt.get("status", "nicht-pruefbar")
+            e["befunde"].append({"art": "uebernahme", "herkunft": alt.get("art", next(iter(arten))), "status": status,
+                                 "uebernommen": seit(alt),
+                                 "hinweis": f"von hier aus nicht erreichbar — Ergebnis vom {de(seit(alt))}"
                                  + (f": {alt['hinweis']}" if alt.get("hinweis") else "")})
-        else:
+            if alles_unbekannt or STUFE[status] > STUFE[e["status"]]:
+                e["status"] = status
+                e["uebernommen"] = seit(alt)
+        elif alles_unbekannt:
             e["status"] = "nicht-pruefbar"
     for host, st in _host_stat.items():
         if st["fehler"] or st["uebersprungen"]:
@@ -726,11 +738,15 @@ def pruefstand_schreiben(ergebnis: dict):
              "ablauf": ergebnis["ablauf"],
              "unerreichbar": ergebnis.get("unerreichbar", {})}
     for qid, e in ergebnis["quellen"].items():
-        schwer = max(e["befunde"], key=lambda b: STUFE[b["status"]])
+        bekannt = [b for b in e["befunde"] if not (b.get("netz") and not b.get("uebernommen"))] or e["befunde"]
+        schwer = max(bekannt, key=lambda b: STUFE[b["status"]])
         knapp["quellen"][qid] = {"status": e["status"]}
         if e.get("uebernommen"):
             knapp["quellen"][qid]["uebernommen"] = e["uebernommen"]
             schwer = next(b for b in e["befunde"] if b["art"] == "uebernahme")
+        if e["status"] != "aktuell":
+            # aus welcher Prüfart der Befund stammt — für die Übernahme im nächsten Lauf
+            knapp["quellen"][qid]["art"] = schwer.get("herkunft") or schwer["art"]
         if schwer.get("hinweis") and e["status"] != "aktuell":
             knapp["quellen"][qid]["hinweis"] = schwer["hinweis"]
         if schwer.get("neueUrl"):
@@ -911,7 +927,6 @@ def selbsttest() -> int:
            and 'url: "https://b.de/"' in t3)
     ok += gut
     print(f"  {'✓' if gut else '✗'} quellen.js gezielt bearbeitet (url, stand, neues Feld pdf)")
-    server.shutdown()
     gesamt = len(faelle) + 2
 
     # --- Langsame Server: Gesamtfrist, Host überspringen, letztes Ergebnis ----
@@ -971,12 +986,17 @@ def selbsttest() -> int:
     links_sammeln = lambda daten: [
         {"url": still + "/q1", "wo": ["quellen.js"], "quellen": ["q1"], "erwartet": None},
         {"url": still + "/q2", "wo": ["quellen.js"], "quellen": ["q2"], "erwartet": None},
+        {"url": b + "/ok", "wo": ["quellen.js"], "quellen": ["q3", "q4"], "erwartet": None},
+        {"url": still + "/q3", "wo": ["quellen.js"], "quellen": ["q3"], "erwartet": None},
+        {"url": still + "/q4", "wo": ["quellen.js"], "quellen": ["q4"], "erwartet": None},
         {"url": still + "/frei", "wo": ["app.js"], "quellen": [], "erwartet": None}]
     try:
         erg = pruefen({"QUELLEN": {"eintraege": [{"id": "q1", "titel": "Eins", "url": still + "/q1"},
                                                   {"id": "q2", "titel": "Zwei", "url": still + "/q2"}]}},
                       {"links"}, {"geprueft": "2026-10-01",
-                                  "quellen": {"q1": {"status": "alt", "hinweis": "Stand 2010"}},
+                                  "quellen": {"q1": {"status": "alt", "hinweis": "Stand 2010"},
+                                              "q3": {"status": "umgezogen", "art": "link", "hinweis": "dauerhaft"},
+                                              "q4": {"status": "alt", "art": "intern", "hinweis": "Stand 2010"}},
                                   "links": [{"url": still + "/frei", "status": "defekt", "hinweis": "HTTP 404"}]})
     finally:
         links_sammeln = echt_sammeln
@@ -986,10 +1006,14 @@ def selbsttest() -> int:
            q1["status"] == "alt" and q1.get("uebernommen") == "2026-10-01" and
            frei["status"] == "defekt" and frei.get("uebernommen") == "2026-10-01", f"{q1} / {frei}")
     zaehle("ohne frühere Prüfung: nicht prüfbar", q2["status"] == "nicht-pruefbar", str(q2))
+    q3, q4 = erg["quellen"]["q3"], erg["quellen"]["q4"]
+    zaehle("gemischt: früherer Befund der nicht erreichten Prüfart bleibt, andere Prüfart zählt nicht",
+           q3["status"] == "umgezogen" and q3.get("uebernommen") == "2026-10-01" and q4["status"] == "aktuell",
+           f"{q3['status']} / {q4['status']}")
     md = bericht_markdown(erg, {"QUELLEN": {"eintraege": []}})
     zaehle("Bericht fasst Nicht-Erreichbares zusammen",
            "### Nicht erreichbar" in md and "127.0.0.1" in md and "Ergebnis vom 01.10.2026" in md, md[-400:])
-    for srv in langsam:
+    for srv in langsam + [server]:
         srv.shutdown()
     ZEITLIMIT, FRIST_SEITE = alt_limits
     print(f"\n  {ok}/{gesamt} bestanden")
