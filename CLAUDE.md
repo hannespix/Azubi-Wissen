@@ -21,8 +21,8 @@ Theme, nicht im Tool.
 ```
 index.html              ← das Tool (lädt bw-theme.css + assets/)
 bw-theme.css            ← Design-System, Single Source of Truth
-assets/fonts/           ← BaWue Sans/Serif (woff2+woff) — lizenzpflichtig
-assets/logo/            ← RPF-Logo (rpf-logo.png, -negativ.png, rpf-flag.png)
+assets/fonts/           ← Source Sans 3/Serif 4 (woff2, SIL OFL — frei)
+assets/logo/            ← Keimling-Zeichen (azubi-wissen-zeichen.svg, eigenes Werk)
 assets/favicons/        ← Favicon-Paket + favicon.ico
 assets/js/nav.js        ← Hamburger-Navigation (a11y)
 assets/js/search.js     ← globale Fuzzy-Suche (In-Memory)
@@ -78,8 +78,11 @@ Doppelklick, ohne Netzwerk, ohne Installation. Das ist nicht verhandelbar
 - **Gelb-Regel:** Flächen-/Hervorhebungsfarbe, **nie Textfarbe auf Weiß**; Text
   auf Gelb ist Schwarz; gelbe Elemente auf Weiß brauchen dunkle Outline.
 - **Hoher Weißanteil** erwünscht.
-- **Schriften:** Überschriften `--bw-font-serif` (BaWue Serif), Text/UI
-  `--bw-font-sans` (BaWue Sans), per `@font-face` lokal aus `assets/fonts/`.
+- **Schriften:** Überschriften `--bw-font-serif` (Source Serif 4), Text/UI
+  `--bw-font-sans` (Source Sans 3), per `@font-face` lokal aus `assets/fonts/`.
+  Die Landes-CD-Schriften BaWue Sans/Serif sind lizenzpflichtig und dürfen
+  NICHT in dieses öffentliche Repo — die freien Source-Schriften (SIL OFL)
+  sind der verbindliche Ersatz.
   Niemals von externen Diensten laden. Fallbacks sind definiert.
 - **Layout:** max. drei Flächen, gedrittelt/halbiert (nie 75/25); Randabstand
   = 2× Grundeinheit; Logo links.
@@ -166,12 +169,16 @@ sichtbarer Fokus, Skip-Link; `prefers-reduced-motion` respektieren.
 
 ---
 
-## 6. Logo & Recht
-- RPF-Logo aus `assets/logo/` einsetzen (nicht nachbauen/einfärben/verzerren).
-  Auf dunklen/gelben Flächen `rpf-logo-negativ.png` (weiß).
-- Logo-Versionen nicht mischen.
-- Schriften & Logo sind lizenziert/geschützt → siehe `assets/fonts/LIZENZ.md`
-  und `assets/logo/LIZENZ.md`. **Repos privat halten.**
+## 6. Logo & Recht (öffentliches Repo)
+- Dieses Repo ist ÖFFENTLICH. Landeswappen, RPF-Logo und die
+  BaWue-Schriften sind geschützt und dürfen hier **niemals** eingecheckt
+  werden — auch nicht „vorübergehend“ oder hinter einem Schalter.
+- Markenzeichen des Werkzeugs ist das **Keimling-Zeichen**
+  (`assets/logo/azubi-wissen-zeichen.svg`, eigenes Werk) mit der Wortmarke
+  „Azubi Wissen“ als HTML-Text (`.bw-wortmarke`). Nicht verzerren, keine
+  Schatten; Versionen nicht mischen.
+- Lizenz-Nachweise: `assets/fonts/LIZENZ.md` (OFL) und
+  `assets/logo/LIZENZ.md`.
 
 ---
 

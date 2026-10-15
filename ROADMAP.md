@@ -781,6 +781,40 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Tranche S42: Öffentliches Repo ohne geschützte Inhalte — Auftrag 15.10.2026
+
+- **S42 Geschützte Schriften und Logos ersetzt** ✅ — das Repo ist
+  öffentlich, die bisherigen Assets waren es nicht: Die Web-EULA der
+  Landes-CD-Schriften **BaWue Sans/Serif** (Luzi Type) verbietet die
+  öffentliche Verteilung, Landeswappen und RPF-Logo sind geschützt. Ein
+  Umschalter hätte nichts geholfen — die Dateien hätten weiter im Repo
+  gelegen. Deshalb Ersatz statt Schalter:
+  **Schriften:** Source Sans 3 (400/400i/600/600i/700/700i) und Source
+  Serif 4 (400/700) von Adobe, SIL Open Font License 1.1 — frei
+  verteilbar, stilistisch nah am bisherigen Bild (humanistische Sans +
+  kräftige Serif), als woff2 lokal vendored (Latin-Umfang mit deutschen
+  Anführungszeichen), OFL-Volltexte liegen bei. Theme-Variablen und
+  @font-face in `bw-theme.css` umgestellt; die 16 BaWue-Dateien sind
+  gelöscht.
+  **Zeichen:** Das ohnehin eigene Favicon-Motiv „Keimling“ ist jetzt das
+  Zeichen des Werkzeugs (`assets/logo/azubi-wissen-zeichen.svg`,
+  abgerundete Kachel). Kopf- und Fußzeile tragen es mit der Wortmarke
+  „Azubi Wissen“ als HTML-Text (`.bw-wortmarke` — Text bewusst nicht im
+  SVG, damit er die Theme-Schriften nutzt); die drei RPF-Logodateien sind
+  gelöscht. Der PDF-Export übernimmt das Zeichen automatisch.
+  Angepasst: sw.js-Cache, Rechtliches-Seite (OFL-Hinweis statt
+  BaWue/RPF), beide LIZENZ.md, README, CLAUDE.md §1/§3/§6 (neue
+  Dauerregel: geschützte Landes-Assets niemals einchecken, auch nicht
+  hinter einem Schalter).
+  **Wichtig, offen:** Die Git-Historie enthält die geschützten Dateien
+  weiterhin (alle Commits bis #84). Bereinigen hieße Historie neu
+  schreiben (force-push auf main) — nur auf ausdrücklichen Wunsch;
+  Alternative: Repo wieder privat stellen. Amtliche Vordrucke unter
+  `formulare/` bleiben unverändert, sie sind zur Weitergabe bestimmt.
+  Tests: `mini_s42` (19, u. a. Schriften wirklich geladen, keine
+  BaWue-/RPF-Reste in Code und Einzeldatei), `mini_s41`, `smoke_bestand`
+  grün. Einzeldatei 8,1 MB (schlanker: 8 statt 16 Fontdateien).
+
 ## Inhaltstranche S41: Duales Studium Landschaftsbau — Auftrag 14.10.2026
 
 - **S41 Duales Studium Landschaftsbau (HSWT) eingepflegt** ✅ — die

@@ -2626,8 +2626,10 @@
       "gesetze-im-internet.de. Maßgeblich ist die jeweilige Verkündungsfassung.</li>" +
       "<li><strong>Inhalte dieses Werkzeugs</strong> (Artikel, Checklisten, Vorlagen): © Regierungspräsidium " +
       "Freiburg, Ausbildungsberatung. Nachnutzung [Lizenz bzw. Freigaberegel ergänzen].</li>" +
-      "<li><strong>Schriften (BaWue Sans/Serif) und RPF-Logo</strong> sind lizenziert bzw. geschützt und nicht " +
-      "zur Weiterverwendung außerhalb dieses Angebots bestimmt.</li>" +
+      "<li><strong>Schriften:</strong> Source Sans 3 und Source Serif 4 (© Adobe, SIL Open Font License 1.1 — " +
+      "frei nutzbar; Lizenztexte unter assets/fonts/). Das <strong>Keimling-Zeichen</strong> ist eine eigene " +
+      "Schöpfung dieses Werkzeugs. Landeswappen und RPF-Logo werden hier bewusst nicht verwendet — sie sind " +
+      "geschützt und nicht zur Weiterverwendung bestimmt.</li>" +
       "<li><strong>Open-Source-Komponenten</strong> (lokal gebündelt, keine Cloud): transformers.js " +
       "(Apache License 2.0), Sprachmodell multilingual-e5-small (MIT License).</li>" +
       "<li><strong>Dokumente Dritter</strong> im Download-Center (BIBB, MLR, Bundesagentur für Arbeit u. a.): " +

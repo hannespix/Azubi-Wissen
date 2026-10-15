@@ -60,11 +60,11 @@
     // Logo aus dem Kopf übernehmen — funktioniert auch in der
     // Single-File-Fassung, in der Assets als data:-URIs eingebettet sind.
     var kopfLogo = document.querySelector(".bw-nav__brand img");
-    var logoSrc = kopfLogo ? kopfLogo.getAttribute("src") : "assets/logo/rpf-logo.png";
+    var logoSrc = kopfLogo ? kopfLogo.getAttribute("src") : "assets/logo/azubi-wissen-zeichen.svg";
     var h = '<div class="doku">';
     if (opts.deckblatt) {
       h += '<div class="deckblatt">' +
-        '<img src="' + logoSrc + '" alt="Regierungspräsidium Freiburg">' +
+        '<img src="' + logoSrc + '" alt="">' +
         "<h1>Azubi Wissen<br>Wissensdatenbank der Ausbildungsberatung</h1>" +
         '<p class="untertitel">' + A().esc(opts.rolle.untertitel) + "</p>" +
         '<p class="metadaten">Detailgrad: ' + STUFEN[opts.stufe] + "<br>" +
