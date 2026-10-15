@@ -1,0 +1,159 @@
+name: Aktualitätsprüfung
+
+# Prüft, ob Dokumente, Anträge, Gesetzesquellen und Links noch aktuell sind
+# (tools/aktualitaet_pruefen.py). Starten: Actions → „Aktualitätsprüfung“ →
+# „Run workflow“ (auch in der GitHub-App); außerdem jeden Montag früh.
+#
+# Ergebnis:
+#   1. Issue „Aktualitätsprüfung“ mit Checkliste (wird je Lauf aktualisiert;
+#      bei Handlungsbedarf kommt ein Kommentar = Benachrichtigung)
+#   2. assets/js/pruefstand.js auf main — das Werkzeug zeigt daraus den
+#      Prüfstand im Download-Center und unter #/pruefstand (offline, ohne Abruf)
+#   3. Aktualisierungs-PR mit allem, was sich maschinell übernehmen lässt:
+#      Gesetzes-Volltexte, neue PDF-Fassungen, umgezogene Links
+#
+# Damit Schritt 3 einen PR öffnen darf: Settings → Actions → General →
+# „Allow GitHub Actions to create and approve pull requests“ einschalten.
+# Ohne diese Einstellung legt der Lauf den Branch an und verlinkt ihn im Issue.
+
+on:
+  workflow_dispatch:
+    inputs:
+      aktualisieren:
+        description: "Gefundene Aktualisierungen als PR vorschlagen"
+        type: boolean
+        default: true
+  schedule:
+    - cron: "17 4 * * 1"   # montags 04:17 UTC
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: aktualitaet
+  cancel-in-progress: false
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE_TITEL: "Aktualitätsprüfung"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Werkzeuge vorbereiten
+        run: pip install --quiet pypdf
+
+      - name: Selbsttest des Prüfwerkzeugs
+        run: python3 tools/aktualitaet_pruefen.py --selbsttest
+
+      - name: Quellen prüfen
+        id: pruefung
+        run: |
+          python3 tools/aktualitaet_pruefen.py --bericht bericht.md --json bericht.json --pruefstand
+          cat bericht.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Prüfstand veröffentlichen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898333+github-actions[bot]@users.noreply.github.com"
+          git add assets/js/pruefstand.js
+          if ! git diff --cached --quiet; then
+            git commit -m "Prüfstand aktualisiert (Aktualitätsprüfung)"
+            git pull --rebase origin main
+            git push origin HEAD:main
+            # Pushes mit dem Workflow-Token starten keine anderen Workflows —
+            # die Veröffentlichung deshalb ausdrücklich anstoßen.
+            gh workflow run pages.yml --ref main || echo "Pages-Lauf konnte nicht gestartet werden"
+          fi
+
+      - name: Aktualisierungen vorschlagen
+        id: aktualisierung
+        if: github.event_name == 'schedule' || inputs.aktualisieren
+        run: |
+          ZWEIG="aktualisierung/$(date +%Y-%m-%d)"
+          git checkout -B "$ZWEIG"
+          python3 tools/aktualitaet_pruefen.py --aus-json bericht.json --aktualisieren \
+            --aenderungen aenderungen.md --bericht /dev/null
+          if git diff --quiet; then
+            echo "Nichts maschinell zu übernehmen."
+            exit 0
+          fi
+          if ! git diff --quiet -- assets/js/gesetzestexte.js; then
+            # Gesetzestexte fließen in die Bedeutungssuche — Index neu bauen
+            ONNXRUNTIME_NODE_INSTALL_CUDA=skip npm i --no-save @huggingface/transformers
+            node tools/semantik_index_bauen.mjs
+          fi
+          node tools/quellen-md.mjs
+          python3 tools/build_singlefile.py --release
+          python3 tools/check_offline.py
+          python3 tools/pdf_metadaten.py
+          git add -A
+          git commit -m "Aktualisierung aus der Aktualitätsprüfung vom $(date +%d.%m.%Y)"
+          git push --force origin "$ZWEIG"
+          {
+            echo "## Aktualisierung aus der Aktualitätsprüfung vom $(date +%d.%m.%Y)"
+            echo
+            echo "Maschinell übernommen — bitte vor dem Merge kurz durchsehen:"
+            echo
+            cat aenderungen.md
+            echo
+            echo "Im Lauf bereits bestanden: \`check_offline.py\`, \`pdf_metadaten.py\`; Offline-Datei und Herkunftsnachweis neu gebaut."
+            echo "Hinweis: PRs des Workflow-Tokens starten die CI nicht von selbst."
+          } > pr.md
+          if URL=$(gh pr create --base main --head "$ZWEIG" \
+                --title "Aktualisierung vom $(date +%d.%m.%Y)" --body-file pr.md 2>pr.err); then
+            echo "pr=$URL" >> "$GITHUB_OUTPUT"
+          else
+            cat pr.err
+            echo "pr=https://github.com/${GITHUB_REPOSITORY}/compare/main...${ZWEIG}?expand=1" >> "$GITHUB_OUTPUT"
+            echo "pr_fallback=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Issue aktualisieren
+        if: always() && steps.pruefung.outcome == 'success'
+        run: |
+          gh label create aktualitaet --color FFFC00 --description "Aktualitätsprüfung" 2>/dev/null || true
+          {
+            cat bericht.md
+            if [ -n "${{ steps.aktualisierung.outputs.pr }}" ]; then
+              echo
+              if [ -n "${{ steps.aktualisierung.outputs.pr_fallback }}" ]; then
+                echo "### Aktualisierung bereit"
+                echo "Der Branch mit allen maschinell übernehmbaren Änderungen liegt bereit: [PR anlegen](${{ steps.aktualisierung.outputs.pr }})"
+              else
+                echo "### Aktualisierungs-PR"
+                echo "${{ steps.aktualisierung.outputs.pr }}"
+              fi
+            fi
+            echo
+            echo "<sub>Lauf: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}</sub>"
+          } > issue.md
+          NR=$(gh issue list --state open --label aktualitaet --json number,title \
+               --jq ".[] | select(.title==\"$ISSUE_TITEL\") | .number" | head -1)
+          HANDLUNG="${{ steps.pruefung.outputs.handlung }}"
+          BEACHTEN="${{ steps.pruefung.outputs.beachten }}"
+          if [ -z "$NR" ]; then
+            if [ "${HANDLUNG:-0}" != "0" ] || [ "${BEACHTEN:-0}" != "0" ]; then
+              gh issue create --title "$ISSUE_TITEL" --label aktualitaet --body-file issue.md
+            fi
+          else
+            gh issue edit "$NR" --body-file issue.md
+            if [ "${HANDLUNG:-0}" != "0" ]; then
+              gh issue comment "$NR" --body "Neuer Lauf vom $(date +%d.%m.%Y): **${HANDLUNG} mit Handlungsbedarf**, ${BEACHTEN} zu beachten — Checkliste oben aktualisiert."
+            elif [ "${BEACHTEN:-0}" = "0" ]; then
+              gh issue close "$NR" --comment "Lauf vom $(date +%d.%m.%Y): alles aktuell."
+            fi
+          fi

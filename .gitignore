@@ -13,11 +13,8 @@ Thumbs.db
 *.key
 *.pem
 
-# --- Optional bei ÖFFENTLICHEM Repo: lizenzpflichtige Assets ausschließen ---
-# Schriften (Luzi Type) und Logo dürfen nicht öffentlich verteilt werden.
-# Bei public Repo die folgenden Zeilen aktivieren:
-# assets/fonts/
-# assets/logo/
+# Schriften und Zeichen sind seit 10/2026 frei (SIL OFL bzw. eigenes Werk) —
+# lizenzpflichtige Landes-Assets gehören nie ins Repo (CLAUDE.md §6).
 
 # --- Fachwerker-Navigator (navigator/) ---
 navigator/app/node_modules/
@@ -29,3 +26,6 @@ navigator/**/*.db
 
 # Build-Werkzeug für den Semantik-Index (keine Laufzeitabhängigkeit)
 /node_modules/
+
+# Python-Zwischenstände der Werkzeuge
+__pycache__/

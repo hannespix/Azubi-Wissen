@@ -944,6 +944,9 @@
     } else if (view === "rechtliches") {
       haupt.innerHTML = viewRechtliches();
       titel = "Rechtliches & Impressum — Azubi Wissen";
+    } else if (view === "pruefstand") {
+      haupt.innerHTML = viewPruefstand();
+      titel = "Prüfstand — Azubi Wissen";
     } else if (view === "assistent") {
       if (window.AzubiAssistent) { window.AzubiAssistent.renderView(haupt, r.params); }
       else haupt.innerHTML = platzhalter("KI-Assistent", "Der lokale Assistent wird im nächsten Ausbauschritt eingebaut.");
@@ -1463,6 +1466,7 @@
         return '<li class="karte">' +
           (aktiv ? "" : '<span class="etikett">' + esc(TYP_NAME[e.typ] || e.typ) + "</span>") +
           "<h3" + (aktiv ? "" : ' style="margin-top:var(--bw-space-1)"') + ">" + (q ? S.highlight(e.titel, q) : esc(e.titel)) + "</h3>" +
+          (pruefMarke(e.id) ? "<p>" + pruefMarke(e.id).trim() + "</p>" : "") +
           "<p>" + esc(e.beschreibung || "") + "</p>" +
           '<p class="bw-klein bw-leise">' + esc(e.herausgeber) + (e.stand ? " · Stand " + esc(e.stand) : "") + "</p>" +
           '<span class="meta">' + aktion + "</span>" +
@@ -2490,7 +2494,7 @@
       h += '<ul class="baum-liste">' + eintraege.map(function (e) {
         var z = quelleZiel(e);
         return '<li><a href="' + esc(z.href) + '"' + (z.download ? ' download="' + esc(z.download) + '"' : ' target="_blank" rel="noopener"') + '>' + esc(e.titel) +
-          (z.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>" +
+          (z.extern ? ' <span class="bw-leise">↗</span>' : "") + "</a>" + pruefMarke(e.id) +
           '<span class="bw-klein bw-leise"> — ' + esc(e.herausgeber) + (e.stand ? ", Stand " + esc(e.stand) : "") + "</span></li>";
       }).join("") + "</ul>";
     }
@@ -2498,9 +2502,144 @@
     return { html: h, anzahl: anzahl };
   }
 
+  /* ---------------- Prüfstand (Aktualitätsprüfung, S45–S47) -------- */
+  // Ob Dokumente, Anträge, Gesetze und Links noch aktuell sind, prüft
+  // tools/aktualitaet_pruefen.py außerhalb des Werkzeugs (GitHub Action,
+  // wöchentlich und auf Knopfdruck). Hier wird nur das Ergebnis gezeigt
+  // (assets/js/pruefstand.js) — das Werkzeug selbst ruft nichts aus dem Netz
+  // ab. Werte mit Ablaufdatum (ablaufdaten.js) rechnet es dagegen live gegen
+  // das heutige Datum, dafür braucht es keine Prüfung.
+  var PRUEF_NAME = { aktuell: "aktuell", weitergeleitet: "weitergeleitet", "nicht-pruefbar": "nicht prüfbar",
+    alt: "Stand alt", "laeuft-ab": "läuft bald ab", umgezogen: "umgezogen", "neue-fassung": "neue Fassung online",
+    geaendert: "geändert", "inhalt-fehlt": "Inhalt fehlt", abgelaufen: "abgelaufen", defekt: "Link defekt" };
+  var PRUEF_HANDLUNG = { defekt: 1, "inhalt-fehlt": 1, "neue-fassung": 1, geaendert: 1, abgelaufen: 1 };
+  var PRUEF_BEACHTEN = { umgezogen: 1, alt: 1, "laeuft-ab": 1, "nicht-pruefbar": 1 };
+  var ABLAUF_VORLAUF_TAGE = 60;   // wie in tools/aktualitaet_pruefen.py
+
+  function pruefEtikett(status, hinweis) {
+    if (!PRUEF_HANDLUNG[status] && !PRUEF_BEACHTEN[status]) return "";
+    return ' <span class="etikett etikett--' + (PRUEF_HANDLUNG[status] ? "handlung" : "beachten") + '"' +
+      (hinweis ? ' title="' + esc(hinweis) + '"' : "") + ">" + esc(PRUEF_NAME[status] || status) + "</span>";
+  }
+  function pruefMarke(id) {
+    var P = window.PRUEFSTAND, e = P && P.quellen && P.quellen[id];
+    return e ? pruefEtikett(e.status, e.hinweis) : "";
+  }
+  // Ablaufdaten live: abgelaufen / läuft bald ab / gültig — relativ zu heute.
+  function ablaufStatus(w) {
+    var bis = new Date(w.gueltigBis + "T23:59:59"), heute = new Date();
+    var tage = Math.floor((bis - heute) / 86400000);
+    if (tage < 0) return { status: "abgelaufen", text: "abgelaufen seit " + deDatum(w.gueltigBis) };
+    if (tage <= ABLAUF_VORLAUF_TAGE) return { status: "laeuft-ab", text: "läuft in " + tage + " Tagen ab (" + deDatum(w.gueltigBis) + ")" };
+    return { status: "aktuell", text: "gültig bis " + deDatum(w.gueltigBis) };
+  }
+  function pruefZaehlung() {
+    var P = window.PRUEFSTAND || {}, z = { handlung: 0, beachten: 0, aktuell: 0 };
+    function zaehle(st) {
+      if (PRUEF_HANDLUNG[st]) z.handlung++; else if (PRUEF_BEACHTEN[st]) z.beachten++; else z.aktuell++;
+    }
+    Object.keys(P.quellen || {}).forEach(function (id) { zaehle(P.quellen[id].status); });
+    (P.links || []).forEach(function (l) { zaehle(l.status); });
+    ((window.ABLAUFDATEN || {}).werte || []).forEach(function (w) { zaehle(ablaufStatus(w).status); });
+    return z;
+  }
+  function pruefZeile() {
+    var P = window.PRUEFSTAND;
+    if (!P || !P.geprueft) return "";
+    var z = pruefZaehlung();
+    return '<p class="bw-klein pruef-zeile"><strong>Prüfstand vom ' + deDatum(P.geprueft) + ":</strong> " +
+      z.aktuell + " aktuell · " + z.handlung + " mit Handlungsbedarf · " + z.beachten + " zu beachten — " +
+      '<a href="#/pruefstand">zum Prüfstand</a></p>';
+  }
+
+  function viewPruefstand() {
+    var P = window.PRUEFSTAND, Q = {};
+    ((window.QUELLEN || {}).eintraege || []).forEach(function (e) { Q[e.id] = e; });
+    var h = "<h1>Prüfstand</h1>" +
+      '<p class="bw-unterzeile">Sind Dokumente, Anträge, Gesetze und Links noch aktuell? Ergebnis der letzten Aktualitätsprüfung</p>';
+    if (!P || !P.geprueft) {
+      return h + '<div class="bw-hinweis"><p>Für diese Fassung liegt noch kein Prüfergebnis vor.</p></div>';
+    }
+    var z = pruefZaehlung();
+    h += '<div class="bw-flaechen bw-drittel pruef-zahlen">' +
+      '<div class="bw-flaeche"><strong>' + z.handlung + "</strong><span>mit Handlungsbedarf</span></div>" +
+      '<div class="bw-flaeche"><strong>' + z.beachten + "</strong><span>zu beachten</span></div>" +
+      '<div class="bw-flaeche"><strong>' + z.aktuell + "</strong><span>aktuell</span></div></div>" +
+      '<p class="bw-klein bw-leise">Letzte Prüfung: ' + deDatum(P.geprueft) +
+      (window.EINZELDATEI ? " — Stand dieser Einzeldatei; die Online-Fassung zeigt den neuesten Prüfstand." : "") + "</p>";
+
+    function punktQuelle(id, e) {
+      var q = Q[id] || { titel: id };
+      var ziel = q.url ? '<a href="' + esc(q.url) + '" target="_blank" rel="noopener">' + esc(q.titel) + " ↗</a>" : esc(q.titel);
+      return "<li>" + ziel + pruefEtikett(e.status) +
+        '<br><span class="bw-klein">' + esc(e.hinweis || "") +
+        (e.neueUrl ? ' → <a href="' + esc(e.neueUrl) + '" target="_blank" rel="noopener">neue Adresse ↗</a>' : "") + "</span></li>";
+    }
+    function abschnitt(titel, filter, leerText) {
+      var punkte = [];
+      Object.keys(P.quellen || {}).sort().forEach(function (id) {
+        if (filter[P.quellen[id].status]) punkte.push(punktQuelle(id, P.quellen[id]));
+      });
+      (P.links || []).forEach(function (l) {
+        if (filter[l.status]) punkte.push("<li>Link in " + esc((l.wo || []).join(", ")) + ': <a href="' + esc(l.url) +
+          '" target="_blank" rel="noopener">' + esc(l.url) + " ↗</a>" + pruefEtikett(l.status) +
+          '<br><span class="bw-klein">' + esc(l.hinweis || "") + "</span></li>");
+      });
+      ((window.ABLAUFDATEN || {}).werte || []).forEach(function (w) {
+        var a = ablaufStatus(w);
+        if (filter[a.status]) punkte.push("<li><strong>" + esc(w.was) + "</strong>" + pruefEtikett(a.status) +
+          '<br><span class="bw-klein">' + esc(a.text) + " — " + esc(w.aufgabe || "") + "</span></li>");
+      });
+      return "<h2>" + titel + "</h2>" + (punkte.length ? '<ul class="pruef-liste">' + punkte.join("") + "</ul>" :
+        '<p class="bw-klein bw-leise">' + leerText + "</p>");
+    }
+    h += abschnitt("Handlungsbedarf", PRUEF_HANDLUNG, "Nichts zu tun.");
+    h += abschnitt("Zu beachten", PRUEF_BEACHTEN, "Keine Hinweise.");
+
+    // Gesetze: hinterlegte Volltexte zuerst, dann alle verlinkten Werke
+    var G = P.gesetze || {};
+    var gesetze = Object.keys(G).map(function (slug) {
+      var g = G[slug], ids = g.quellen || [];
+      var titel = ids.length && Q[ids[0]] ? Q[ids[0]].titel : slug;
+      return { slug: slug, titel: titel, g: g };
+    }).sort(function (a, b) { return a.titel.localeCompare(b.titel, "de"); });
+    if (gesetze.length) {
+      h += "<h2>Gesetze &amp; Verordnungen</h2>" +
+        '<p class="bw-klein bw-leise">Stand je Werk aus dem amtlichen XML von gesetze-im-internet.de. Bei hinterlegten Volltexten ' +
+        "vergleicht die Prüfung direkt; sonst mit dem Stand der letzten Prüfung.</p>" +
+        '<div class="tabellen-rahmen"><table class="bw-table"><thead><tr><th>Werk</th><th>Stand</th><th>Prüfung</th></tr></thead><tbody>' +
+        gesetze.map(function (x) {
+          return "<tr><td>" + esc(x.titel) + "</td><td class=\"bw-klein\">" + esc((x.g.stand || "—").slice(0, 140)) +
+            "</td><td>" + (pruefEtikett(x.g.status, x.g.hinweis) || '<span class="bw-klein">' + esc(PRUEF_NAME[x.g.status] || x.g.status) + "</span>") + "</td></tr>";
+        }).join("") + "</tbody></table></div>";
+    }
+
+    var werte = (window.ABLAUFDATEN || {}).werte || [];
+    if (werte.length) {
+      h += "<h2>Werte mit Ablaufdatum</h2>" +
+        '<p class="bw-klein bw-leise">Live gegen das heutige Datum gerechnet — Warnung ' + ABLAUF_VORLAUF_TAGE + " Tage vor Ablauf.</p>" +
+        '<div class="tabellen-rahmen"><table class="bw-table"><thead><tr><th>Wert</th><th>Steht in</th><th>Gültigkeit</th></tr></thead><tbody>' +
+        werte.map(function (w) {
+          var a = ablaufStatus(w);
+          return "<tr><td><strong>" + esc(w.was) + "</strong><br><span class=\"bw-klein\">" + esc(w.wert || "") + "</span></td>" +
+            '<td class="bw-klein">' + esc((w.wo || []).join(" · ")) + "</td><td>" + esc(a.text) + pruefEtikett(a.status) + "</td></tr>";
+        }).join("") + "</tbody></table></div>";
+    }
+
+    h += "<h2>So funktioniert die Prüfung</h2><ul>" +
+      "<li><strong>Wann:</strong> jeden Montag automatisch und jederzeit auf Knopfdruck (GitHub → Actions → „Aktualitätsprüfung“ → „Run workflow“, auch in der GitHub-App).</li>" +
+      "<li><strong>Was:</strong> jeder Link (erreichbar, umgezogen, Fehlerseite, Kennwörter), jede lokale Datei mit Online-Fassung (Textvergleich), " +
+      "der Stand jedes Gesetzes und Vordrucke ohne Online-Fassung nach Alter.</li>" +
+      "<li><strong>Ergebnis:</strong> ein GitHub-Issue „Aktualitätsprüfung“ mit Checkliste und — wo es maschinell geht — ein Aktualisierungs-PR " +
+      "(neue Gesetzesfassungen, neue PDF-Fassungen, umgezogene Links), der nur noch übernommen werden muss.</li>" +
+      "<li><strong>Datenschutz:</strong> Das Werkzeug selbst prüft nichts im Netz und überträgt nichts — es zeigt nur das Ergebnis.</li>" +
+      "</ul>";
+    return h;
+  }
+
   function viewDownloads() {
     var h = "<h1>Download-Center</h1>" +
-      '<p class="bw-unterzeile">Alle Dokumente und geprüften Quellen — thematisch sortiert</p>';
+      '<p class="bw-unterzeile">Alle Dokumente und geprüften Quellen — thematisch sortiert</p>' + pruefZeile();
     if (window.EINZELDATEI) {
       h += '<div class="bw-hinweis"><p><strong>Einzeldatei-Version:</strong> Einträge öffnen die jeweilige Online-Quelle; im Ordner-/Intranet-Betrieb liegen die Dateien lokal bei.</p></div>';
     }

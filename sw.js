@@ -31,6 +31,8 @@ var KERN = [
   "./assets/js/gesetzestexte.js",
   "./assets/js/kontakt.js",
   "./assets/js/nachbarn.js",
+  "./assets/js/ablaufdaten.js",
+  "./assets/js/pruefstand.js",
   "./assets/js/lokaldb.js",
   "./assets/js/app.js",
   "./assets/js/module.js",

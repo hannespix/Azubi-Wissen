@@ -275,6 +275,14 @@ kbd.kbd {
 /* ---------- Eigene Inhalte (V3) ---------------------------------- */
 /* Gelb-Regel: gelbe Elemente auf Weiß brauchen eine dunkle Outline. */
 .etikett--eigen { background: var(--bw-gelb); color: var(--bw-schwarz); border: 1px solid var(--bw-schwarz); }
+/* Prüfstand (Aktualitätsprüfung): Handlungsbedarf als Fehler-Akzent, Hinweise als Kontur. */
+.etikett--handlung { background: var(--bw-fehler); color: var(--bw-weiss); }
+.etikett--beachten { background: var(--bw-weiss); color: var(--bw-schwarz); border: 1px solid var(--bw-schwarz); }
+.pruef-zahlen .bw-flaeche { display: flex; flex-direction: column; gap: var(--bw-space-1); }
+.pruef-zahlen strong { font-family: var(--bw-font-serif); font-size: 2rem; line-height: 1; }
+.pruef-liste { padding-left: 1.2em; }
+.pruef-liste li { margin-bottom: var(--bw-space-2); }
+.pruef-zeile { margin-top: calc(-1 * var(--bw-space-2)); }
 
 .abschnitt-kopf { display: flex; align-items: center; justify-content: space-between; gap: var(--bw-space-2); flex-wrap: wrap; margin-top: var(--bw-space-5); }
 .abschnitt-kopf h2 { margin: 0; }
