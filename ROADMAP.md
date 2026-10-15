@@ -863,6 +863,19 @@ immer verlinken; Querlinks zwischen Artikeln.
   Tests: `mini_s45` (22, u. a. Selbsttest, Workflow-Bausteine, Etiketten,
   Zeitreise auf den 01.03.2027 → MiAV abgelaufen, Einzeldatei),
   `mini_s41`–`mini_s43`, `smoke_bestand` grün.
+- **Nachbesserung nach dem ersten Lauf auf GitHub** ✅ — Der erste echte
+  Lauf (15.10.2026) brach nach 60 Minuten ab: Von den GitHub-Servern aus
+  antworteten Behördenserver kaum (Links 31 min, PDFs 10 min, Gesetzes-XML
+  über 20 min). Jetzt hat jeder Abruf eine Gesamtfrist (Seiten 45 s,
+  Dateien 150 s; auch gegen tröpfelnde Server). Nach einer
+  Zeitüberschreitung gibt es keinen zweiten Versuch. Ein Server, der
+  zweimal in Folge schweigt, wird für den Lauf übersprungen. Nach
+  30 Minuten Netzzeit ist Schluss. Für Nicht-Erreichbares gilt das Ergebnis
+  der letzten Prüfung, die durchkam (mit Datum, auch bei Gesetzen, deren
+  Stand gegen den Volltext neu verglichen wird). Bericht, Prüfstand-Seite
+  und Protokoll („Abrufe je Server“) nennen die betroffenen Server.
+  Selbsttest 19/19 (neu: schweigender und tröpfelnder Server, Überspringen,
+  Übernahme, Bericht).
 
 ## Tranche S44: Impressum vervollständigt — Auftrag 15.10.2026
 
