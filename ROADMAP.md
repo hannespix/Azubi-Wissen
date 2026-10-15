@@ -875,7 +875,22 @@ immer verlinken; Querlinks zwischen Artikeln.
   Stand gegen den Volltext neu verglichen wird). Bericht, Prüfstand-Seite
   und Protokoll („Abrufe je Server“) nennen die betroffenen Server.
   Selbsttest 19/19 (neu: schweigender und tröpfelnder Server, Überspringen,
-  Übernahme, Bericht).
+  Übernahme, Bericht). *(PR #90)*
+- **Zweiter Lauf auf GitHub (15.10.2026)** ✅ — Der Lauf brauchte jetzt
+  2 Minuten und legte Issue #91 an. Vom GitHub-Server aus ist
+  **www.gesetze-im-internet.de nicht erreichbar** (72 Abrufe); alles andere
+  antwortet. Dabei fiel eine Lücke auf: Die BBiG-Neufassung (PDF-Vergleich)
+  ging verloren, weil Link und Gesetzesstand derselben Quelle durchkamen.
+  Die Übernahme gilt jetzt **je Prüfart**: Der Prüfstand speichert, aus
+  welcher Prüfart ein Befund stammt (`art`), und dieser Befund bleibt
+  stehen, solange genau diese Prüfart nicht durchkommt. Auch Gesetze ohne
+  Änderungsstand werden übernommen. Selbsttest 20/20; Simulation „Gesetzesserver
+  gesperrt“ hält die BBiG-Neufassung und übernimmt 33/33 Gesetzesstände.
+  Den vollständigen Prüfstand hat ein lokaler Lauf wiederhergestellt; die
+  dabei gefundene **neue BBiG-Fassung** (Hinweis auf die
+  Mindestvergütung ab 1.1.2027) ist übernommen: Dateikopf bereinigt,
+  Stand 10/2026, Herkunftsnachweis und Offline-Datei neu gebaut. Danach:
+  0 mit Handlungsbedarf · 6 zu beachten · 143 aktuell.
 
 ## Tranche S44: Impressum vervollständigt — Auftrag 15.10.2026
 
