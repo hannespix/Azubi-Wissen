@@ -781,6 +781,34 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Tranche S49: Fachliche Ausbildereignung — Auftrag 21.10.2026
+
+> „Bitte in ähnlichem Wortlaut als E-Mail-Vorlage und Information ins Tool
+> übernehmen (ohne Namen natürlich).“ — Grundlage: eine Praxisantwort per
+> E-Mail und zwei Vermerke zur Zuerkennung nach § 30 Abs. 6 BBiG.
+
+- **S49 Ausbilden ohne Meister?** ✅
+  - **E-Mail-Vorlage** `ausbildereignung-ohne-meister` (Kategorie
+    Ausbildungsbetriebe), im Wortlaut der Praxisantwort: LwHwPrüfAnerkV,
+    § 28 und § 30 Abs. 1, 4, 6 BBiG, äußerste Ausnahme nur bei absehbarem
+    Nachholen der Meisterprüfung oder als befristete Härtefall-Übergangslösung.
+    Ohne Namen, Signatur und Anlass. Weiterführende Links auf die
+    Verordnung und die Seite zur Meisterprüfung. „Kurzmeister“ ist durch
+    „Meisterprüfung ablegen“ ersetzt, weil das Angebot nicht belegt ist.
+  - **Wissensartikel** `ausbildereignung-ausnahme`: Warum der Meister die
+    Regel ist (§§ 1–3 LwHwPrüfAnerkV, an der Primärquelle geprüft),
+    Ausnahme nach § 30 Abs. 6, diskutierte Antragskriterien (AEVO,
+    Betriebsführung, Härtefall, Fachgespräch, Befristung), Zuständigkeit und
+    Praxis in BW (Zuständigkeit MLR/RP offen, landeseinheitliche Abstimmung
+    angestrebt), Alternativen (§ 28 Abs. 2 und 3 BBiG). Die Vermerke sind
+    verallgemeinert: keine Personen, keine Termine, keine Positionen
+    einzelner Behörden. Der Artikel „Ausbilder/in & Eignung“ verweist darauf.
+  - **Quellen** LwHwPrüfAnerkV (Aktualitätsprüfung über
+    gesetze-im-internet.de) und Meisterprüfung im Gartenbau. **Glossar**
+    „LwHwPrüfAnerkV“. Suchindex jetzt 706 Einträge, Nachbarn neu.
+  - Tests: mini_s49 (19), smoke_bestand (16; Selbstverweis-Prüfung jetzt
+    mit exakter ID), mini_s41–s45, mini_s48 grün.
+
 ## Tranche S48: Zugangsschutz — Auftrag 15.10.2026
 
 > „Können wir ein Login-Fenster einführen, damit man nur mit Eingabe eines

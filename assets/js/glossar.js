@@ -5,11 +5,14 @@
   "use strict";
 
   window.GLOSSAR = {
-    stand: "14.10.2026",
+    stand: "21.10.2026",
     begriffe: [
       { id: "aevo", b: "AEVO (Ausbilder-Eignungsverordnung)",
         k: "Regelt die berufs- und arbeitspädagogische Eignung der Ausbilder/innen („Ausbilderschein“). Im Gartenbau ist sie in der Meisterprüfung enthalten; andere Qualifikationen weisen sie gesondert nach.",
         stichworte: ["ausbilderschein", "eignung", "paedagogik"], artikel: ["ausbilder"], quelle: "gesetz-aevo" },
+      { id: "lwhwpruefanerkv", b: "LwHwPrüfAnerkV (fachliche Ausbildereignung, grüne Berufe)",
+        k: "Bundesverordnung von 2005: In den Berufen der Landwirtschaft und Hauswirtschaft — auch im Gartenbau — ist zum Ausbilden fachlich nur geeignet, wer eine Meisterprüfung, einen anerkannten Fachschulabschluss (z. B. Techniker/in) oder einen einschlägigen Hochschulabschluss mit Praxis hat. Gesellenbrief und Berufserfahrung reichen nicht; Ausnahmen gibt es nur im Einzelfall nach § 30 Abs. 6 BBiG.",
+        stichworte: ["fachliche eignung", "meister", "ohne meister", "ausbildereignung", "verordnung"], artikel: ["ausbildereignung-ausnahme", "ausbilder"], quelle: "gesetz-lwhwpruefanerkv" },
       { id: "achtzig-prozent-regel", b: "80-Prozent-Regel",
         k: "Nicht tarifgebundene Betriebe dürfen die Ausbildungsvergütung höchstens 20 % unter dem einschlägigen Branchentarif ansetzen — und nie unter der gesetzlichen Mindestvergütung (§ 17 BBiG).",
         stichworte: ["verguetung", "tarif", "80"], artikel: ["mindestverguetung"] },
