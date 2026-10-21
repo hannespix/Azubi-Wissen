@@ -12,7 +12,7 @@
 // der Fall zeitlich ankommt. Die Reihenfolge hier ist die Anzeigereihenfolge.
 // PFLEGE: Texte fachlich prüfen wie Wissensartikel; Stand unten aktualisieren.
 window.VORLAGEN = {
-  stand: "01.10.2026",
+  stand: "21.10.2026",
   kategorien: [
     { id: "vorher",   titel: "Vor der Ausbildung" },
     { id: "betrieb",  titel: "Ausbildungsbetriebe" },
@@ -91,6 +91,16 @@ window.VORLAGEN = {
     anhaenge: ["antrag-ausbilder-gartenbau"],
     stichworte: ["Ausbilder", "Ausbilderin", "Anerkennung", "Eignung", "Führungszeugnis", "Ausbildereignung", "Meister", "Antrag"],
     artikel: ["ausbilder", "eintragung"] },
+
+  { id: "ausbildereignung-ohne-meister",
+    kategorie: "betrieb",
+    titel: "Ausbilden ohne Meister? — fachliche Ausbildereignung",
+    betreff: "Fachliche Ausbildereignung in den Berufen der Landwirtschaft",
+    text: "Sehr geehrte/r [ANREDE_NAME],\n\nvielen Dank für Ihre Anfrage.\n\nDurch die Bundesverordnung LwHwPrüfAnerkV ist es bei uns in den grünen Berufen tatsächlich strenger geregelt als in so manchem Beruf im Handwerk.\n\nNach § 28 BBiG (Berufsbildungsgesetz) darf nur ausbilden, wer persönlich und fachlich geeignet ist. Die persönliche Eignung ist durch die Vorlage eines erweiterten Führungszeugnisses nachzuweisen. Was fachliche Eignung bedeutet, erläutert § 30 Abs. 1 BBiG:\n\n„Fachlich geeignet ist, wer die beruflichen sowie die berufs- und arbeitspädagogischen Fertigkeiten, Kenntnisse und Fähigkeiten besitzt, die für die Vermittlung der Ausbildungsinhalte erforderlich sind.“\n\n§ 30 Abs. 4 BBiG erlaubt dem zuständigen Fachministerium, für einzelne Ausbildungsberufe höhere Mindestanforderungen festzulegen, als § 30 Abs. 2 BBiG sie vorsieht. Davon hat der Verordnungsgeber für den Bereich der Landwirtschaft — der Gartenbau gehört dazu — mit der **LwHwPrüfAnerkV** Gebrauch gemacht (Verordnung über die Anforderung an die fachliche Eignung und die Anerkennung von Prüfungen zum Nachweis der fachlichen Eignung für die Berufsausbildung in den Berufen der Landwirtschaft und der Hauswirtschaft vom 1. August 2005). Inhalt dieser Bundesverordnung ist dem Grunde nach, dass die fachliche Eignung der Ausbildenden in den Berufen der Landwirtschaft nur mit dem **Fortbildungsabschluss Meister/in** erfüllt ist — oder entsprechend mit einem Techniker-, Bachelor- oder Masterabschluss und der Ausbildereignungsprüfung. **Ein Abschluss in einem landwirtschaftlichen Ausbildungsberuf (auch Gärtner/in) und eine anschließende Berufserfahrung genügen nicht** für die Anerkennung der fachlichen Eignung als Ausbilderin oder Ausbilder.\n\nErgänzend dazu gibt es in § 30 Abs. 6 BBiG folgende Regelung:\n\n„Die nach Landesrecht zuständige Behörde kann Personen, die die Voraussetzungen des Absatzes 2, 4 oder 5 nicht erfüllen, die fachliche Eignung nach Anhörung der zuständigen Stelle widerruflich zuerkennen.“\n\nDiese äußerste Ausnahme kommt nur in Betracht — der Meisterabschluss soll ja nicht entwertet werden —, wenn jemand aus nachvollziehbaren Gründen daran gehindert ist, zeitnah eine Meisterprüfung abzulegen, dies aber in einem absehbaren Zeitraum nachholen wird, oder wenn in Härtefällen eine zeitlich begrenzte Übergangslösung gefunden werden muss, um Nachteile für Auszubildende zu vermeiden. Das Vorliegen eines Härtefalls ist glaubhaft und nachvollziehbar darzulegen. Dabei ist insbesondere zu begründen, warum es für die betreffende Person in der Vergangenheit nicht möglich war und warum es auch in Zukunft nicht möglich sein wird, eine Meisterprüfung abzulegen.\n\nIch hoffe, das ist soweit verständlich. Vielleicht besteht bei Ihnen ja noch die Möglichkeit, die Meisterprüfung abzulegen?\n\nMit freundlichen Grüßen",
+    hinweise: "Antwort auf die häufige Frage, ob ohne Meisterprüfung ausgebildet werden darf — etwa von Gesellinnen und Gesellen mit langer Berufserfahrung. Konkrete Anträge auf Zuerkennung nach § 30 Abs. 6 BBiG nicht mit dieser Vorlage beantworten, sondern im Einzelfall prüfen und Zuständigkeit sowie aktuellen Abstimmungsstand mit dem MLR klären. Hintergründe, diskutierte Kriterien und Alternativen (geeignete Ausbilderin bestellen, Mitwirkung nach § 28 Abs. 3 BBiG) stehen im Artikel „Ausbilden ohne Meister?“.",
+    anhaenge: ["gesetz-lwhwpruefanerkv", "rp-meisterpruefung-gartenbau"],
+    stichworte: ["Ausbildereignung", "fachliche Eignung", "ohne Meister", "Meister", "Geselle", "Ausnahme", "§ 30 Abs. 6", "Härtefall", "LwHwPrüfAnerkV", "Ausbilder"],
+    artikel: ["ausbildereignung-ausnahme", "ausbilder"] },
 
   { id: "betriebsbesuch-ankuendigung",
     kategorie: "betrieb",
