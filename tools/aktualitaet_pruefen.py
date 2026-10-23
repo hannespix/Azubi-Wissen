@@ -411,6 +411,23 @@ def gii_stand(slug: str) -> dict:
     return {"stand": stand, "ausfertigung": datum}
 
 
+def beobachten(b) -> str:
+    """Angekündigtes erschienen? Ruft die beobachtete Seite ab und gibt einen
+    Hinweis zurück, sobald das Muster (regulärer Ausdruck) dort auftaucht —
+    sonst "" (auch, wenn die Seite gerade nicht erreichbar ist)."""
+    if not b or not b.get("url") or not b.get("muster"):
+        return ""
+    r = abrufen(b["url"])
+    if r["status"] != 200:
+        return ""
+    seite = html.unescape(text_aus_html(r["daten"], r["typ"]))
+    treffer = re.search(b["muster"], seite, re.I)
+    if not treffer:
+        return ""
+    fund = re.sub(r"<[^>]+>|\s+", " ", treffer.group(0)).strip()[:80]
+    return f"{b.get('was') or 'Beobachtetes'} ist erschienen („{fund}“ auf {b['url']})"
+
+
 def stand_jahr(stand: str):
     """„12/2006“, „19.11.2020“, „2018“, „Stand 08/2010“ → Jahr."""
     jahre = [int(j) for j in re.findall(r"(?<!\d)(19\d\d|20\d\d)(?!\d)", stand or "")]
@@ -613,6 +630,9 @@ def pruefen(daten: dict, nur: set, vorher: dict) -> dict:
                 status, hinweis = "laeuft-ab", f"läuft in {tage} Tagen ab ({bis:%d.%m.%Y})"
             else:
                 status, hinweis = "aktuell", f"gültig bis {bis:%d.%m.%Y}"
+            erschienen = beobachten(w.get("beobachten"))
+            if erschienen:
+                status, hinweis = "geaendert", erschienen
             ergebnis["ablauf"].append({"id": w["id"], "was": w.get("was", w["id"]), "status": status,
                                        "hinweis": hinweis, "gueltigBis": w["gueltigBis"],
                                        "aufgabe": w.get("aufgabe", ""), "wo": w.get("wo", [])})
@@ -871,6 +891,8 @@ def selbsttest() -> int:
         "/neu": (200, "text/html", b"<title>Neue Seite</title>Berufsausbildungsvertrag"),
         "/leer": (200, "text/html", b"<title>Seite nicht gefunden</title>"),
         "/ohne": (200, "text/html", b"<title>Portal</title>Willkommen"),
+        "/unterlagen-neu": (200, "text/html; charset=utf-8",
+                            '<a href="anmeldung_ap.pdf">Anmeldung zur Abschlusspr&uuml;fung</a>'.encode()),
         "/gleich.pdf": (200, "application/pdf", pdf_a),
         "/anders.pdf": (200, "application/pdf", pdf_b),
     }
@@ -908,6 +930,14 @@ def selbsttest() -> int:
         ("403 = nicht prüfbar", link_pruefen(b + "/gesperrt"), "nicht-pruefbar"),
         ("PDF unverändert", pdf_pruefen({"datei": "formulare/praktikantenvertrag.pdf", "pdf": b + "/gleich.pdf"}), "aktuell"),
         ("PDF neue Fassung", pdf_pruefen({"datei": "formulare/praktikantenvertrag.pdf", "pdf": b + "/anders.pdf"}), "neue-fassung"),
+    ]
+    muster = r"Anmelde(bogen|formular)|Anmeld\w*[^.\n]{0,40}Abschlussprüfung"
+    faelle += [
+        ("Beobachtung: angekündigtes Formular erschienen",
+         {"status": "geaendert" if beobachten({"url": b + "/unterlagen-neu", "muster": muster, "was": "Formular"}) else "aktuell"},
+         "geaendert"),
+        ("Beobachtung: noch nicht erschienen",
+         {"status": "geaendert" if beobachten({"url": b + "/ohne", "muster": muster}) else "aktuell"}, "aktuell"),
     ]
     neu = faelle[1][1].get("neueUrl", "")
     ok = 0

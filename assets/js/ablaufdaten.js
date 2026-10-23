@@ -9,8 +9,11 @@
 //
 // Pflege: Ist ein Wert erneuert, `gueltigBis` auf das neue Ende setzen (und
 // `wert` nachziehen). Neue zeitgebundene Inhalte gleich hier eintragen.
+// Optional `beobachten: { url, muster, was }`: Die Aktualitätsprüfung ruft die
+// Seite ab und meldet „geändert“ (Handlungsbedarf), sobald das Muster dort
+// auftaucht — etwa ein angekündigtes Formular.
 window.ABLAUFDATEN = {
-  stand: "15.10.2026",
+  stand: "23.10.2026",
   werte: [
     { id: "miav",
       was: "Mindestausbildungsvergütung — Tabelle bis Ausbildungsbeginn 2026",
@@ -40,10 +43,19 @@ window.ABLAUFDATEN = {
       wo: ["Artikel „jugendliche“ (Abschnitt zur Vergütung der Untersuchung)"],
       aufgabe: "Prüfen, ob die neue GOÄ in Kraft ist, und den Abschnitt entsprechend umstellen." },
     { id: "winterpruefung-2027-2028",
-      was: "Ankündigung: Winterprüfung wandert ab Schuljahr 2027/2028",
-      wert: "neue Lage der Prüfungen Haus- und Landwirtschaft",
-      gueltigBis: "2027-07-31",
-      wo: ["Artikel „abschlusspruefung“", "app.js: fristFuerTermin() (Anmeldeschluss Winter = 1. November des Vorjahres)"],
-      aufgabe: "Text von der Ankündigung auf die geltende Regel umstellen und die Fristberechnung der Vorlagen prüfen." }
+      was: "Ankündigung: Winterprüfung ab 2027/2028 im November, Anmeldeschluss Winter 1. September, neues Anmeldeformular",
+      wert: "Prüfungen Haus- und Landwirtschaft dauerhaft im November; überarbeitetes Anmeldeformular zur Abschlussprüfung (u. a. mit Fehlzeiten, Winter-Anmeldeschluss 1. September) angekündigt — Abstimmung der Regierungspräsidien läuft (Stand 23.10.2026)",
+      gueltigBis: "2027-03-31",
+      wo: ["Artikel „abschlusspruefung“ (Fakten, Abschnitt zur gemeinsamen schriftlichen Prüfung, FAQ)",
+           "Vorlagen „ap-anmeldung“ und „externenpruefung“ (Hinweise)",
+           "Nachschlag Jahreskreis (Anmeldung Winter-Abschlussprüfung)",
+           "app.js: fristFuerTermin() (Anmeldeschluss Winter = 1. November des Vorjahres)"],
+      aufgabe: "Sobald das Formular veröffentlicht ist: ins Download-Center aufnehmen, an die Vorlage „Anmeldung zur Abschlussprüfung“ hängen, Anmeldeschluss und Terminlogik umstellen (Wintertermin im November statt Februar) und die Hinweise „angekündigt“ entfernen.",
+      // Die Aktualitätsprüfung schaut auf dieser Seite nach dem Formular und
+      // meldet Handlungsbedarf, sobald es dort steht (Muster: regulärer Ausdruck).
+      beobachten: {
+        url: "https://rp.baden-wuerttemberg.de/themen/bildung/ausbildung/landwirtschaft/gaertner/unterlagen-ausbildende/",
+        muster: "Anmelde(bogen|formular)|Anmeld\\w*[^.\\n]{0,40}Abschlussprüfung|Abschlussprüfung[^.\\n]{0,40}Anmeld|Prüfungsanmeldung",
+        was: "Anmeldeformular zur Abschlussprüfung" } }
   ]
 };

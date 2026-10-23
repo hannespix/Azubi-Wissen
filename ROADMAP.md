@@ -781,6 +781,28 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Tranche S50: Anmeldung Abschlussprüfung — Hinweis vom 23.10.2026
+
+> Mailverlauf der Regierungspräsidien: Ein überarbeitetes Anmeldeformular zur
+> Abschlussprüfung (u. a. mit Fehlzeiten, Winter-Anmeldeschluss 1.9.) soll auf
+> der Seite „Unterlagen für Ausbildende“ erscheinen, sobald alle RPen
+> zustimmen. Entscheidung: als angekündigt vormerken; das Formular holen,
+> sobald es online ist.
+
+- **S50 Angekündigt vormerken und beobachten** ✅
+  - Hinweis „angekündigt“ im Artikel `abschlusspruefung` (Fakten, Abschnitt
+    zur gemeinsamen schriftlichen Prüfung, FAQ), im Jahreskreis
+    (Nachschlag) und in den Vorlagen `ap-anmeldung` und `externenpruefung`.
+    Die Fristberechnung bleibt beim 1. November, bis Formular und Frist
+    veröffentlicht sind.
+  - Ablaufdaten-Eintrag `winterpruefung-2027-2028` erweitert (Fundstellen,
+    Aufgabe, `gueltigBis` 31.03.2027) und mit **`beobachten`**: Die
+    Aktualitätsprüfung ruft die Seite ab und meldet „geändert“
+    (Handlungsbedarf, Issue-Kommentar), sobald dort ein Anmeldeformular zur
+    Abschlussprüfung steht. Die Prüfstand-Seite zeigt den Fund vor dem
+    Datum an. Das Muster trifft die Seite heute nicht (geprüft).
+  - Selbsttest 22/22 (neu: erschienen / noch nicht erschienen).
+
 ## Tranche S49: Fachliche Ausbildereignung — Auftrag 21.10.2026
 
 > „Bitte in ähnlichem Wortlaut als E-Mail-Vorlage und Information ins Tool
