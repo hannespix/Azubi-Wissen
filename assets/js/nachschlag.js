@@ -126,7 +126,7 @@
             { t: "Freisprechung & Zeugnisse", von: 7, bis: 9, zeit: "Juli–September",
               info: "Prüfungszeugnisse, Freisprechungsfeiern, [[ende-uebernahme|Übernahmegespräche]] — und Nachvermittlung für Unversorgte." },
             { t: "Anmeldung Winter-Abschlussprüfung — Schluss 1. November", von: 9, bis: 11, zeit: "September–1. November (Fixtermin)",
-              info: "**Anmeldeschluss 1. November** für die Winterprüfung — auch für Wiederholende und externe Prüfungsteilnehmende (§ 45 Abs. 2 BBiG)." },
+              info: "**Anmeldeschluss 1. November** für die Winterprüfung — auch für Wiederholende und externe Prüfungsteilnehmende (§ 45 Abs. 2 BBiG). **Angekündigt:** Mit der Verlegung der Winterprüfung in den November soll der Anmeldeschluss auf den **1. September** vorrücken; bis zur Veröffentlichung gilt der 1. November." },
             { t: "Wiederholungs-/Winterprüfungen", von: 11, bis: 1, zeit: "November–Januar (wo angeboten)",
               info: "Wiederholungstermine für [[nichtbestehen|nicht bestandene Prüfungen]] — Verlängerungsverlangen und Anmeldung sicherstellen." },
             { t: "Aufgabenausschüsse", von: 10, bis: 1, zeit: "Oktober–Januar",

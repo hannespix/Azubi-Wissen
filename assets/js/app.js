@@ -2525,6 +2525,12 @@
   }
   // Ablaufdaten live: abgelaufen / läuft bald ab / gültig — relativ zu heute.
   function ablaufStatus(w) {
+    // Hat die Aktualitätsprüfung das Beobachtete (z. B. ein angekündigtes
+    // Formular) gefunden, zählt das vor dem Datum: Handlungsbedarf.
+    var gefunden = (((window.PRUEFSTAND || {}).ablauf) || []).filter(function (a) {
+      return a.id === w.id && a.status === "geaendert";
+    })[0];
+    if (gefunden) return { status: "geaendert", text: gefunden.hinweis || "erschienen" };
     var bis = new Date(w.gueltigBis + "T23:59:59"), heute = new Date();
     var tage = Math.floor((bis - heute) / 86400000);
     if (tage < 0) return { status: "abgelaufen", text: "abgelaufen seit " + deDatum(w.gueltigBis) };

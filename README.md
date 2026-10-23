@@ -129,6 +129,11 @@ Werkzeug selbst ruft nichts aus dem Netz ab (Zero-Trust).
   der letzten Prüfung, die durchkam (Datum am Eintrag); Bericht und
   Prüfstand nennen die betroffenen Server. Vollständig prüfen lässt sich
   dann lokal (siehe unten) — `pruefstand.js` danach committen.
+- **Angekündigtes beobachten:** Ein Eintrag in `assets/js/ablaufdaten.js`
+  kann `beobachten: { url, muster, was }` tragen. Die Prüfung ruft die Seite
+  ab und meldet **Handlungsbedarf**, sobald das Muster dort auftaucht — etwa
+  ein angekündigtes Formular. Derzeit beobachtet: das neue Anmeldeformular
+  zur Abschlussprüfung auf der Seite „Unterlagen für Ausbildende“.
 - **Pflege-Felder in `quellen.js`:** `pdf` (direkte Adresse der
   Online-Fassung), `erwartet` (Kennwörter), `bestaetigt: "JJJJ-MM"`
   (Vordruck von der Redaktion als noch gültig bestätigt — Erinnerung erst
