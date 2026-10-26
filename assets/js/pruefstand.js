@@ -2,11 +2,12 @@
 // Nicht von Hand bearbeiten. Das Werkzeug liest nur diese Datei — es prüft
 // selbst nichts im Netz (Zero-Trust). Neu erzeugen: siehe README „Aktualität“.
 window.PRUEFSTAND = {
- "geprueft": "2026-10-19",
+ "geprueft": "2026-10-26",
  "zaehlung": {
-  "aktuell": 129,
+  "aktuell": 130,
   "weitergeleitet": 14,
-  "alt": 6
+  "alt": 6,
+  "geaendert": 1
  },
  "quellen": {
   "bav": {
@@ -24,24 +25,8 @@ window.PRUEFSTAND = {
   "bav-hilfe-pdf": {
    "status": "aktuell"
   },
-  "antrag-ausbildungsstaette-gartenbau": {
+  "gesetz-arbzg": {
    "status": "aktuell"
-  },
-  "antrag-ausbilder-gartenbau": {
-   "status": "aktuell"
-  },
-  "rp-anerkennung": {
-   "status": "aktuell"
-  },
-  "gesetz-gbfwvo": {
-   "status": "weitergeleitet",
-   "art": "link",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=jlr-NNLBW00007D10&query=JURISLINK%3A%22FWerkGartAusbV+BW%22"
-  },
-  "gewerbeaufsicht-rb-freiburg": {
-   "status": "alt",
-   "art": "intern",
-   "hinweis": "Stand 12/2010 — keine Online-Fassung zum Vergleich; beim Herausgeber (RP Freiburg) nach einer neueren Fassung fragen"
   },
   "bav-hinweise": {
    "status": "aktuell"
@@ -124,25 +109,44 @@ window.PRUEFSTAND = {
   "rp-unterlagen-ausbildende": {
    "status": "aktuell"
   },
-  "gesetz-arbzg": {
+  "gesetz-bbig": {
+   "status": "aktuell"
+  },
+  "gesetz-gbfwvo": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=jlr-NNLBW00007D10&query=JURISLINK%3A%22FWerkGartAusbV+BW%22"
+  },
+  "gewerbeaufsicht-rb-freiburg": {
+   "status": "alt",
+   "art": "intern",
+   "hinweis": "Stand 12/2010 — keine Online-Fassung zum Vergleich; beim Herausgeber (RP Freiburg) nach einer neueren Fassung fragen"
+  },
+  "gesetz-entgfg": {
+   "status": "aktuell"
+  },
+  "antrag-ausbildungsstaette-gartenbau": {
+   "status": "aktuell"
+  },
+  "antrag-ausbilder-gartenbau": {
+   "status": "aktuell"
+  },
+  "rp-anerkennung": {
    "status": "aktuell"
   },
   "gesetz-jarbschg": {
    "status": "aktuell"
   },
-  "gesetz-bbig": {
+  "gesetz-gaertnausbv": {
    "status": "aktuell"
   },
-  "gesetz-bgb": {
+  "gesetz-dsgvo": {
    "status": "aktuell"
   },
   "gesetz-burlg": {
    "status": "aktuell"
   },
-  "gesetz-entgfg": {
-   "status": "aktuell"
-  },
-  "gesetz-gaertnausbv": {
+  "gesetz-bgb": {
    "status": "aktuell"
   },
   "gesetz-arbschg": {
@@ -163,76 +167,69 @@ window.PRUEFSTAND = {
   "gesetz-sgb9": {
    "status": "aktuell"
   },
-  "ausbv-landwirt": {
-   "status": "aktuell"
-  },
-  "ausbv-winzer": {
-   "status": "aktuell"
-  },
-  "gesetz-tzbfg": {
-   "status": "aktuell"
-  },
-  "ausbv-fischwirt": {
+  "gesetz-bafoeg": {
    "status": "aktuell"
   },
   "gesetz-aevo": {
    "status": "aktuell"
   },
-  "gesetz-bafoeg": {
+  "gesetz-tzbfg": {
    "status": "aktuell"
   },
-  "ausbv-pferdewirt": {
+  "ausbv-landwirt": {
+   "status": "geaendert",
+   "art": "gesetz",
+   "hinweis": "seit der letzten Prüfung geändert"
+  },
+  "ausbv-winzer": {
    "status": "aktuell"
   },
-  "ausbv-tierwirt": {
+  "ausbv-fischwirt": {
    "status": "aktuell"
   },
   "ausbv-brenner": {
    "status": "aktuell"
   },
-  "ausbv-forstwirt": {
-   "status": "aktuell"
-  },
-  "ausbv-agrarservice": {
-   "status": "aktuell"
-  },
-  "ausbv-milchw-laborant": {
-   "status": "aktuell"
-  },
-  "ausbv-milchtechnologe": {
-   "status": "aktuell"
-  },
-  "ausbv-pflanzentechnologe": {
-   "status": "aktuell"
-  },
-  "ausbv-revierjaeger": {
-   "status": "aktuell"
-  },
-  "ausbv-hauswirtschafter": {
-   "status": "aktuell"
-  },
-  "ausbv-hufbeschlag": {
-   "status": "aktuell"
-  },
-  "gesetz-dsgvo": {
-   "status": "aktuell"
-  },
-  "ba-berufetv": {
-   "status": "aktuell"
-  },
   "ba-bab": {
    "status": "aktuell"
   },
-  "berichtsheft-gaertner": {
+  "ausbv-tierwirt": {
+   "status": "aktuell"
+  },
+  "ausbv-pferdewirt": {
+   "status": "aktuell"
+  },
+  "ba-ausbildungsgeld": {
+   "status": "aktuell"
+  },
+  "ausbv-forstwirt": {
    "status": "aktuell"
   },
   "ba-berufenet": {
    "status": "aktuell"
   },
-  "berichtsheft-galabau": {
+  "ausbv-agrarservice": {
+   "status": "aktuell"
+  },
+  "ba-asa": {
+   "status": "aktuell"
+  },
+  "ba-berufetv": {
+   "status": "aktuell"
+  },
+  "ausbv-milchtechnologe": {
+   "status": "aktuell"
+  },
+  "ba-reha": {
    "status": "aktuell"
   },
   "svlfg-unterweisung": {
+   "status": "aktuell"
+  },
+  "ausbv-milchw-laborant": {
+   "status": "aktuell"
+  },
+  "berichtsheft-gaertner": {
    "status": "aktuell"
   },
   "anmeldebogen-extern": {
@@ -243,46 +240,55 @@ window.PRUEFSTAND = {
   "rp-gaertner-portal": {
    "status": "aktuell"
   },
-  "pflanzenlisten": {
+  "berichtsheft-galabau": {
    "status": "aktuell"
   },
-  "gesetz-gartausbsteignv": {
-   "status": "aktuell"
-  },
-  "ba-ausbildungsgeld": {
-   "status": "aktuell"
-  },
-  "infodienst-gaertner": {
-   "status": "aktuell"
-  },
-  "pflanze-bw": {
-   "status": "aktuell"
-  },
-  "ba-asa": {
-   "status": "aktuell"
-  },
-  "bibb-ausbildung-gestalten": {
-   "status": "aktuell"
-  },
-  "lw-bw-rechtsgrundlagen": {
-   "status": "aktuell"
-  },
-  "lra-ka-infodienst": {
-   "status": "aktuell"
-  },
-  "kmk-rahmenlehrplan": {
-   "status": "aktuell"
-  },
-  "bildungsserver-agrar": {
-   "status": "aktuell"
-  },
-  "svlfg-checklisten": {
+  "ausbv-pflanzentechnologe": {
    "status": "aktuell"
   },
   "ba-planetberuf": {
    "status": "aktuell"
   },
-  "ka-buergerdienst-ap": {
+  "infodienst-gaertner": {
+   "status": "aktuell"
+  },
+  "pflanzenlisten": {
+   "status": "aktuell"
+  },
+  "ausbv-revierjaeger": {
+   "status": "aktuell"
+  },
+  "pflanze-bw": {
+   "status": "aktuell"
+  },
+  "lw-bw-rechtsgrundlagen": {
+   "status": "aktuell"
+  },
+  "ausbv-hauswirtschafter": {
+   "status": "aktuell"
+  },
+  "rp-meisterpruefung-gartenbau": {
+   "status": "aktuell"
+  },
+  "svlfg-checklisten": {
+   "status": "aktuell"
+  },
+  "bildungsserver-agrar": {
+   "status": "aktuell"
+  },
+  "ausbv-hufbeschlag": {
+   "status": "aktuell"
+  },
+  "kmk-rahmenlehrplan": {
+   "status": "aktuell"
+  },
+  "bibb-ausbildung-gestalten": {
+   "status": "aktuell"
+  },
+  "lra-ka-infodienst": {
+   "status": "aktuell"
+  },
+  "gesetz-gartausbsteignv": {
    "status": "aktuell"
   },
   "vwv-berichtsheft": {
@@ -295,10 +301,18 @@ window.PRUEFSTAND = {
    "art": "intern",
    "hinweis": "Stand 21.09.2011 (Az. 28-8412.72) — keine Online-Fassung zum Vergleich; beim Herausgeber (MLR Baden-Württemberg) nach einer neueren Fassung fragen"
   },
-  "lra-ka-faq": {
+  "ka-buergerdienst-ap": {
    "status": "aktuell"
   },
-  "ba-reha": {
+  "gesetz-lwhwpruefanerkv": {
+   "status": "aktuell"
+  },
+  "vwv-voaplandw": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034591&query=JURISLINK%3AVVBW-MLR-20191122-04-SF"
+  },
+  "lra-ka-faq": {
    "status": "aktuell"
   },
   "vwv-zustaendigkeiten-rp": {
@@ -309,10 +323,8 @@ window.PRUEFSTAND = {
    "art": "intern",
    "hinweis": "Stand 08.08.1977 — keine Online-Fassung zum Vergleich; beim Herausgeber (MLR Baden-Württemberg) nach einer neueren Fassung fragen"
   },
-  "vwv-voaplandw": {
-   "status": "weitergeleitet",
-   "art": "link",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034591&query=JURISLINK%3AVVBW-MLR-20191122-04-SF"
+  "svlfg-betriebsanweisungen": {
+   "status": "aktuell"
   },
   "pruefungsschreiben-winter-2027": {
    "status": "weitergeleitet",
@@ -350,18 +362,12 @@ window.PRUEFSTAND = {
   "ha-156": {
    "status": "aktuell"
   },
-  "svlfg-betriebsanweisungen": {
-   "status": "aktuell"
-  },
   "vwv-zwischenpruefung-lw": {
    "status": "weitergeleitet",
    "art": "link",
    "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034593&query=JURISLINK%3AVVBW-MLR-20191122-05-SF"
   },
   "ha-174": {
-   "status": "aktuell"
-  },
-  "gaertnausbv-anlage3a": {
    "status": "aktuell"
   },
   "ausbildung-farm": {
@@ -372,16 +378,24 @@ window.PRUEFSTAND = {
    "art": "link",
    "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031680&query=JURISLINK%3AVVBW-MLR-20191122-03-SF"
   },
+  "gaertnausbv-anlage3a": {
+   "status": "aktuell"
+  },
   "ha-129": {
    "status": "aktuell"
   },
-  "gesetz-bzrg": {
-   "status": "aktuell"
-  },
-  "gesetz-milog": {
-   "status": "aktuell"
-  },
   "ihk-fehlzeiten": {
+   "status": "aktuell"
+  },
+  "vwv-gutachterausschuss-lw": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031679&query=JURISLINK%3AVVBW-MLR-20191122-02-SF"
+  },
+  "ba-weisung-eq": {
+   "status": "aktuell"
+  },
+  "gesetz-eqfao": {
    "status": "aktuell"
   },
   "eq-vertrag-gaertner": {
@@ -405,10 +419,11 @@ window.PRUEFSTAND = {
   "praktikantenvertrag-berufsorientierung": {
    "status": "aktuell"
   },
-  "vwv-gutachterausschuss-lw": {
-   "status": "weitergeleitet",
-   "art": "link",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031679&query=JURISLINK%3AVVBW-MLR-20191122-02-SF"
+  "gesetz-bzrg": {
+   "status": "aktuell"
+  },
+  "gesetz-milog": {
+   "status": "aktuell"
   },
   "ha-120": {
    "status": "aktuell"
@@ -422,12 +437,6 @@ window.PRUEFSTAND = {
    "status": "aktuell"
   },
   "ha-096": {
-   "status": "aktuell"
-  },
-  "ba-weisung-eq": {
-   "status": "aktuell"
-  },
-  "gesetz-eqfao": {
    "status": "aktuell"
   },
   "ha-136": {
@@ -467,300 +476,275 @@ window.PRUEFSTAND = {
   "bbig_2005": {
    "stand": "Neugefasst durch Bek. v. 16.4.2025 I Nr. 117; 2025 I Nr. 129;; geändert durch Art. 9 G v. 28.10.2025 I Nr. 259",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
    "quellen": [
     "gesetz-bbig"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "jarbschg": {
    "stand": "Zuletzt geändert durch Art. 53 G v. 23.10.2024 I Nr. 323",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
    "quellen": [
     "gesetz-jarbschg"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "arbzg": {
    "stand": "Zuletzt geändert durch Art. 52 G v. 23.10.2024 I Nr. 323",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
    "quellen": [
     "gesetz-arbzg"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "burlg": {
    "stand": "Zuletzt geändert durch Art. 3 Abs. 3 G v. 20.4.2013 I 868",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
    "quellen": [
     "gesetz-burlg"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "entgfg": {
    "stand": "Zuletzt geändert durch Art. 2 Abs. 7 G v. 12.5.2026 I Nr. 143",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
    "quellen": [
     "gesetz-entgfg"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "g_rtnausbv": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "gesetz-gaertnausbv",
     "gaertnausbv-anlage3a"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "bgb": {
    "stand": "Neugefasst durch Bek. v. 2.1.2002 I 42, 2909; 2003, 738;; zuletzt geändert durch Art. 6 G v. 23.7.2026 I Nr. 226",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "gesetz-bgb"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "arbschg": {
    "stand": "Zuletzt geändert durch Art. 7 G v. 22.12.2025 I Nr. 369; Änderung der Inhaltsübersicht durch Art. 1 Nr. 1 V v. 23.10.2013 I 3882 ist nicht ausführbar, da dieses G keine amtliche Inhaltsübersicht hat",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
    "quellen": [
     "gesetz-arbschg"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "kschg": {
    "stand": "Neugefasst durch Bek. v. 25.8.1969 I 1317; Zuletzt geändert durch Art. 2 G v. 14.6.2021 I 1762",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
    "quellen": [
     "gesetz-kschg"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "betrvg": {
    "stand": "Neugefasst durch Bek. v. 25.9.2001 I 2518; Zuletzt geändert durch Art. 1 G v. 19.7.2024 I Nr. 248",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "gesetz-betrvg"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "sgb_3": {
    "stand": "Zuletzt geändert durch Art. 1a G v. 24.7.2026 I Nr. 228",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "gesetz-sgb3"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "sgb_4": {
    "stand": "Neugefasst durch Bek. v. 12.11.2009 I 3710, 3973; 2011 I 363;; zuletzt geändert durch Art. 2 G v. 24.7.2026 I Nr. 228",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "gesetz-sgb4"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "sgb_9_2018": {
    "stand": "Zuletzt geändert durch Art. 2b G v. 24.7.2026 I Nr. 228",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "gesetz-sgb9"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "baf_g": {
    "stand": "Neugefasst durch Bek. v. 7.12.2010 I 1952; 2012 I 197;; zuletzt geändert durch Art. 11 Abs. 1 G v. 16.4.2026 I Nr. 107",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "gesetz-bafoeg"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "ausbeignv_2009": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
    "quellen": [
     "gesetz-aevo"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "tzbfg": {
    "stand": "Zuletzt geändert durch Art. 7 G v. 20.7.2022 I 1174",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Volltext entspricht dem amtlichen Stand",
    "quellen": [
     "gesetz-tzbfg"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "lwausbv_1995": {
-   "stand": "",
-   "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "stand": "V aufgeh. durch § 11 dieser V, dieser idF d. Art. 2 V v. 14.10.2026 I Nr. 311, mit Ablauf des 31.7.2027; Geändert durch Art. 2 V v. 14.10.2026 I Nr. 311; Ersetzt durch V 806-22-1-168 v. 14.10.2026 I Nr. 311 (LwAusbV 2027)",
+   "status": "geaendert",
+   "hinweis": "seit der letzten Prüfung geändert",
    "quellen": [
     "ausbv-landwirt"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "winzerausbv_1997": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-winzer"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "fischwausbv": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-fischwirt"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "brennausbv": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-brenner"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "twirtausbv_2005": {
    "stand": "Geändert durch Art. 1 V v. 23.2.2006 I 465",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-tierwirt"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "pfwirtausbv_2010": {
    "stand": "Geändert durch Art. 1 V v. 11.8.2011 I 1723",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-pferdewirt"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "forstwiausbv_1998": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-forstwirt"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "agrarausbv": {
    "stand": "Geändert durch Art. 1 V v. 6.5.2013 I 1250",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-agrarservice"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "milchtausbv": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-milchtechnologe"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "milchlausbv_2013": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-milchw-laborant"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "pflanztechnausbv": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-pflanzentechnologe"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "revjausbv_2010": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-revierjaeger"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "hawiausbv": {
    "stand": "Ersetzt V 806-21-1-273 v. 30.6.1999 I 1495 (HwirtAusbV 1999)",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-hauswirtschafter"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "hufbeschlv": {
    "stand": "",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "ausbv-hufbeschlag"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "gartausbsteignv": {
    "stand": "Geändert durch Art. 6 Abs. 19 G v. 23.5.2017 I 1228",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "gesetz-gartausbsteignv"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
+  },
+  "lwhwpr_fanerkv": {
+   "stand": "Geändert durch Art. 2 V v. 11.8.2011 I 1723",
+   "status": "aktuell",
+   "hinweis": "Stand erfasst",
+   "quellen": [
+    "gesetz-lwhwpruefanerkv"
+   ]
   },
   "bzrg": {
    "stand": "Neugefasst durch Bek. v. 21.9.1984 I 1229, 1985 I 195;; zuletzt geändert durch Art. 4 G v. 18.6.2026 I Nr. 183; Änderung durch Art. 15 Abs. 15 G v. 3.7.2026 I Nr. 199 textlich nachgewiesen, dokumentarisch noch nicht abschließend bearbeitet; Mittelbare Änderung durch Art. 154a Nr. 3 Buchst. a G v. 20.11.2019 I 1626 ist nicht ausführbar, da das geänderte G v. 21.6.2019 I 846 zum Zeitpunkt des Inkrafttretens des mittelbaren Änderungsgesetzes bereits zum 1.11.2019 in Kraft getreten war",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "gesetz-bzrg"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   },
   "milog": {
    "stand": "Zuletzt geändert durch Art. 8 Abs. 3 G v. 12.5.2026 I Nr. 137",
    "status": "aktuell",
-   "hinweis": "von hier aus nicht erreichbar — Stand der Prüfung vom 15.10.2026",
+   "hinweis": "Stand unverändert",
    "quellen": [
     "gesetz-milog"
-   ],
-   "uebernommen": "2026-10-15"
+   ]
   }
  },
  "ablauf": [
@@ -813,18 +797,18 @@ window.PRUEFSTAND = {
   },
   {
    "id": "winterpruefung-2027-2028",
-   "was": "Ankündigung: Winterprüfung wandert ab Schuljahr 2027/2028",
+   "was": "Ankündigung: Winterprüfung ab 2027/2028 im November, Anmeldeschluss Winter 1. September, neues Anmeldeformular",
    "status": "aktuell",
-   "hinweis": "gültig bis 31.07.2027",
-   "gueltigBis": "2027-07-31",
-   "aufgabe": "Text von der Ankündigung auf die geltende Regel umstellen und die Fristberechnung der Vorlagen prüfen.",
+   "hinweis": "gültig bis 31.03.2027",
+   "gueltigBis": "2027-03-31",
+   "aufgabe": "Sobald das Formular veröffentlicht ist: ins Download-Center aufnehmen, an die Vorlage „Anmeldung zur Abschlussprüfung“ hängen, Anmeldeschluss und Terminlogik umstellen (Wintertermin im November statt Februar) und die Hinweise „angekündigt“ entfernen.",
    "wo": [
-    "Artikel „abschlusspruefung“",
+    "Artikel „abschlusspruefung“ (Fakten, Abschnitt zur gemeinsamen schriftlichen Prüfung, FAQ)",
+    "Vorlagen „ap-anmeldung“ und „externenpruefung“ (Hinweise)",
+    "Nachschlag Jahreskreis (Anmeldung Winter-Abschlussprüfung)",
     "app.js: fristFuerTermin() (Anmeldeschluss Winter = 1. November des Vorjahres)"
    ]
   }
  ],
- "unerreichbar": {
-  "www.gesetze-im-internet.de": 72
- }
+ "unerreichbar": {}
 };
