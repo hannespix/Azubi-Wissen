@@ -64,9 +64,10 @@ Doppelklick, ohne Netzwerk, ohne Installation. Das ist nicht verhandelbar
 - **DB-Tools** (PGlite/WASM) → Ordner-Bundle mit vendored Abhängigkeiten;
   über internen Webserver oder als entpackter Ordner geöffnet. WASM lässt sich
   nicht sinnvoll in eine Einzeldatei pressen.
-- **Zugangsschutz (S48):** Die Online-Fassung wird beim Pages-Deploy mit dem
-  Zugangspasswort verschlüsselt (`tools/zugang_bauen.py`, Secret
-  `ZUGANG_PASSWORT`). Neue Skripte mit Inhalten in `index.html` zwischen
+- **Zugangsschutz (S48, optional):** Ist das Secret
+  `ZUGANG_PASSWORT` gesetzt, wird die Online-Fassung beim Pages-Deploy
+  verschlüsselt (`tools/zugang_bauen.py`); ohne Secret geht sie ohne Login
+  online. Neue Skripte mit Inhalten in `index.html` zwischen
   `<!-- geschuetzt:anfang -->` und `<!-- geschuetzt:ende -->`; Dateien über
   `window.ZUGANG.laden()` holen statt mit `fetch` (entschlüsselt bei Bedarf).
 

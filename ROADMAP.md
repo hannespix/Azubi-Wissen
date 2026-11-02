@@ -781,6 +781,26 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Tranche S52: Login vorerst aus — Auftrag 02.11.2026
+
+> „Aber es soll doch immer automatisch per GitHub Actions einen Page-Deploy
+> machen. Bisher ging es auch ohne Secret!“ — „Lass den Login erstmal weg.“ —
+> später am Tag: „Habe jetzt doch ein Secret vergeben.“
+
+- **S52 Deploy ohne Secret** ✅
+  - Seit S48 brach jeder Pages-Lauf ohne Secret `ZUGANG_PASSWORT` ab
+    (Fehler-Mails ab 19.10., online blieb die Fassung vom 15.10.). Jetzt ist
+    der Zugangsschutz **optional**: Ohne Secret veröffentlicht der Deploy
+    wieder automatisch ohne Login, mit einem Hinweis im Lauf. Mit Secret
+    verschlüsselt er wie in S48.
+  - Der Datenschutzabschnitt nennt den Zugangsschutz nur noch, wenn die
+    Fassung wirklich geschützt ist. README, CLAUDE.md, Workflow- und
+    Werkzeug-Kommentare beschreiben den Login als „optional, derzeit aus“.
+  - Der Login-Mechanismus (`zugang.js`, `zugang_bauen.py`, Selbsttest in der
+    CI) bleibt erhalten; einschalten = Secret anlegen.
+  - Noch am 02.11. wurde das Secret angelegt — der Deploy nach dem Merge
+    schaltet den Login damit ein.
+
 ## Tranche S51: KI-Assistent im Seitenpanel — Auftrag 02.11.2026
 
 > „Kannst du, wenn man im Tool rechts auf die Fahne ‚Fragen' tippt, den
