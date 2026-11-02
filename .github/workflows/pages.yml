@@ -7,7 +7,7 @@ name: GitHub Pages
 #   - Pages → Source = "GitHub Actions"
 #   - optional: Secrets and variables → Actions → Secret ZUGANG_PASSWORT. Ist es
 #     gesetzt, wird die Seite verschlüsselt und braucht ein Passwort (Login,
-#     S48). Ohne Secret geht sie wie bisher ohne Login online (derzeit so).
+#     S48). Ohne Secret geht sie wie bisher ohne Login online.
 on:
   push:
     branches: [main]

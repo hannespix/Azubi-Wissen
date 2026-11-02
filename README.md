@@ -12,9 +12,11 @@ Requests, keine Cloud, keine Telemetrie.**
 ## Nutzung
 
 **Online (GitHub Pages, nach jedem Merge automatisch aktualisiert):**
-`https://hannespix.github.io/Azubi-Wissen/` — derzeit **ohne Login**; ein
-Zugangsschutz per Passwort ist vorbereitet und lässt sich jederzeit
-einschalten (siehe „Zugangsschutz“). Als **PWA installierbar**
+`https://hannespix.github.io/Azubi-Wissen/` — mit **Login per
+Zugangspasswort**, solange das Secret `ZUGANG_PASSWORT` gesetzt ist (je Gerät
+nur einmal einzugeben; Zugang schalten Hannes Pix oder Christoph Zilz frei:
+azubiwissen@pix-el.de); ohne Secret läuft sie ohne Login (siehe
+„Zugangsschutz“). Als **PWA installierbar**
 („Zum Startbildschirm hinzufügen"), danach auch im Flugmodus nutzbar.
 
 **Variante 1 — Einzeldatei (empfohlen für Zero-Trust-Arbeitsplätze):**
@@ -145,7 +147,7 @@ Werkzeug selbst ruft nichts aus dem Netz ab (Zero-Trust).
 
 ## Zugangsschutz
 
-**Optional und derzeit aus.** Ist das Secret `ZUGANG_PASSWORT` gesetzt, ist
+**Optional:** Ist das Secret `ZUGANG_PASSWORT` gesetzt, ist
 die Online-Fassung mit einem **Zugangspasswort** geschützt — ohne Server: Beim Pages-Deploy verschlüsselt `tools/zugang_bauen.py` alle
 Inhalts- und Programmskripte (als ein Paket), den Suchindex, die Dateien unter
 `formulare/` und die Offline-Datei mit **AES-256-GCM**; den Schlüssel leitet

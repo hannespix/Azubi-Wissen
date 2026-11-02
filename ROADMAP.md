@@ -784,7 +784,8 @@ immer verlinken; Querlinks zwischen Artikeln.
 ## Tranche S52: Login vorerst aus — Auftrag 02.11.2026
 
 > „Aber es soll doch immer automatisch per GitHub Actions einen Page-Deploy
-> machen. Bisher ging es auch ohne Secret!“ — „Lass den Login erstmal weg.“
+> machen. Bisher ging es auch ohne Secret!“ — „Lass den Login erstmal weg.“ —
+> später am Tag: „Habe jetzt doch ein Secret vergeben.“
 
 - **S52 Deploy ohne Secret** ✅
   - Seit S48 brach jeder Pages-Lauf ohne Secret `ZUGANG_PASSWORT` ab
@@ -797,6 +798,8 @@ immer verlinken; Querlinks zwischen Artikeln.
     Werkzeug-Kommentare beschreiben den Login als „optional, derzeit aus“.
   - Der Login-Mechanismus (`zugang.js`, `zugang_bauen.py`, Selbsttest in der
     CI) bleibt erhalten; einschalten = Secret anlegen.
+  - Noch am 02.11. wurde das Secret angelegt — der Deploy nach dem Merge
+    schaltet den Login damit ein.
 
 ## Tranche S51: KI-Assistent im Seitenpanel — Auftrag 02.11.2026
 
