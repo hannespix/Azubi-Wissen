@@ -912,13 +912,19 @@
   }
 
   /* ---------------- Oberfläche ------------------------------------- */
-  function renderView(container, params) {
+  // optionen.kompakt: Fassung für das Seitenpanel — ohne Seitenüberschrift
+  // (die trägt der Panelkopf) und mit kurzem Hinweis.
+  function renderView(container, params, optionen) {
     var A = window.AzubiApp;
-    var h = "<h1>KI-Assistent</h1>" +
-      "<p class=\"bw-unterzeile\">Fragen stellen — Antworten mit Quellen aus der Wissensdatenbank</p>" +
-      "<div class=\"bw-hinweis\"><p><strong>Lokal &amp; vertraulich:</strong> Der Assistent antwortet ausschließlich aus der " +
-      "Wissensdatenbank dieses Werkzeugs (Stand " + A.esc(W.stand) + ") und läuft komplett offline — keine Eingabe verlässt dieses Gerät. " +
-      "Er kennt alle Module des Werkzeugs, verlinkt passende Vorlagen, Checklisten und Formulare und ersetzt keine Rechtsberatung im Einzelfall.</p></div>" +
+    var kompakt = !!(optionen && optionen.kompakt);
+    var h = (kompakt
+      ? "<p class=\"bw-klein bw-leise\">Antwortet ausschließlich aus der Wissensdatenbank (Stand " + A.esc(W.stand) + "), " +
+        "komplett offline — keine Eingabe verlässt dieses Gerät. Keine Rechtsberatung im Einzelfall.</p>"
+      : "<h1>KI-Assistent</h1>" +
+        "<p class=\"bw-unterzeile\">Fragen stellen — Antworten mit Quellen aus der Wissensdatenbank</p>" +
+        "<div class=\"bw-hinweis\"><p><strong>Lokal &amp; vertraulich:</strong> Der Assistent antwortet ausschließlich aus der " +
+        "Wissensdatenbank dieses Werkzeugs (Stand " + A.esc(W.stand) + ") und läuft komplett offline — keine Eingabe verlässt dieses Gerät. " +
+        "Er kennt alle Module des Werkzeugs, verlinkt passende Vorlagen, Checklisten und Formulare und ersetzt keine Rechtsberatung im Einzelfall.</p></div>") +
       "<p class=\"bw-klein\" id=\"semantik-zeile\" aria-live=\"polite\"></p>" +
       "<div class=\"chat\">" +
       "  <ul class=\"chat__verlauf\" id=\"chat-verlauf\" aria-live=\"polite\"></ul>" +
@@ -1076,5 +1082,90 @@
     } catch (x) { verlauf = []; }
   })();
 
-  window.AzubiAssistent = { renderView: renderView, antwortBauen: antwortBauen };
+  /* ---------------- Seitenpanel (Fahne „Fragen“) --------------------- */
+  // Die Fahne am rechten Rand öffnet den Assistenten in einem seitlich
+  // einfahrenden Panel; die Seite bleibt abgedunkelt dahinter sichtbar.
+  // Gleiche Oberfläche (renderView) und gleiches Gespräch wie auf
+  // #/assistent — der Verlauf liegt im sessionStorage. Das Menü führt
+  // weiterhin zur ganzen Seite.
+  var panel = null, panelInhalt = null, panelVorherFokus = null;
+  var FOKUSSIERBAR = "a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select, [tabindex]:not([tabindex='-1'])";
+
+  function panelBauen() {
+    panel = document.createElement("div");
+    panel.className = "assistent-panel";
+    panel.innerHTML =
+      "<div class=\"assistent-panel__hintergrund\" data-schliessen></div>" +
+      "<section class=\"assistent-panel__flaeche\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"assistent-panel-titel\">" +
+      "  <header class=\"assistent-panel__kopf\">" +
+      "    <h2 id=\"assistent-panel-titel\">KI-Assistent</h2>" +
+      "    <a class=\"chip\" href=\"#/assistent\">Als Seite öffnen</a>" +
+      "    <button class=\"bw-iconbtn\" type=\"button\" data-schliessen aria-label=\"Assistent schließen\">" +
+      "      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\">" +
+      "<line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\"></line><line x1=\"6\" y1=\"6\" x2=\"18\" y2=\"18\"></line></svg>" +
+      "    </button>" +
+      "  </header>" +
+      "  <div class=\"assistent-panel__inhalt\"></div>" +
+      "</section>";
+    document.body.appendChild(panel);
+    panelInhalt = panel.querySelector(".assistent-panel__inhalt");
+    panel.addEventListener("click", function (e) {
+      if (e.target.closest("[data-schliessen]")) { panelSchliessen(); return; }
+      // Interne Links (Quellen, Vorlagen, „Als Seite öffnen“) zeigen ihr Ziel
+      // auf der Seite — dafür macht das Panel Platz. Externe Links und
+      // Downloads lassen es offen.
+      var a = e.target.closest("a[href]");
+      if (a && (a.getAttribute("href") || "").charAt(0) === "#") panelSchliessen(true);
+    });
+    panel.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { e.preventDefault(); panelSchliessen(); return; }
+      if (e.key !== "Tab") return;
+      var ziele = Array.prototype.filter.call(panel.querySelectorAll(FOKUSSIERBAR), function (el) {
+        return el.getClientRects().length > 0;
+      });
+      if (!ziele.length) return;
+      var erstes = ziele[0], letztes = ziele[ziele.length - 1];
+      if (e.shiftKey && document.activeElement === erstes) { e.preventDefault(); letztes.focus(); }
+      else if (!e.shiftKey && document.activeElement === letztes) { e.preventDefault(); erstes.focus(); }
+    });
+  }
+
+  function panelOffen() { return !!(panel && panel.getAttribute("data-offen") === "true"); }
+
+  function panelOeffnen() {
+    // Auf der Assistent-Seite selbst gibt es nichts aufzuklappen.
+    var seitenFeld = document.querySelector("#inhalt #chat-frage");
+    if (seitenFeld) { seitenFeld.focus(); return; }
+    if (!panel) panelBauen();
+    if (panelOffen()) return;
+    panelVorherFokus = document.activeElement;
+    renderView(panelInhalt, null, { kompakt: true });
+    panel.setAttribute("data-offen", "true");
+    document.documentElement.classList.add("assistent-offen");
+    var feld = panelInhalt.querySelector("#chat-frage");
+    if (feld) feld.focus();
+  }
+
+  function panelSchliessen(ohneFokus) {
+    if (!panelOffen()) return;
+    panel.removeAttribute("data-offen");
+    document.documentElement.classList.remove("assistent-offen");
+    // Leeren, damit die Seite #/assistent keine doppelten IDs vorfindet; das
+    // Gespräch selbst bleibt im Verlauf erhalten.
+    panelInhalt.innerHTML = "";
+    if (wurzel === panelInhalt) wurzel = null;
+    if (!ohneFokus && panelVorherFokus && panelVorherFokus.focus) panelVorherFokus.focus();
+  }
+
+  document.addEventListener("click", function (e) {
+    var fahne = e.target.closest && e.target.closest(".assistent-stoerer");
+    if (!fahne || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    panelOeffnen();
+  });
+  // Seitenwechsel (z. B. Zurück im Browser) schließt das Panel.
+  window.addEventListener("hashchange", function () { panelSchliessen(true); });
+
+  window.AzubiAssistent = { renderView: renderView, antwortBauen: antwortBauen,
+    panelOeffnen: panelOeffnen, panelSchliessen: panelSchliessen };
 })();
