@@ -781,6 +781,38 @@ immer verlinken; Querlinks zwischen Artikeln.
   Checklisten-Punkte verlinken Förderwege und Modelle. Tests: mini_d5
   (14) + smoke_d2/mini_d1/G2/R4 grün. *(PR #29)*
 
+## Tranche S51: KI-Assistent im Seitenpanel — Auftrag 02.11.2026
+
+> „Kannst du, wenn man im Tool rechts auf die Fahne ‚Fragen' tippt, den
+> KI-Assistenten in einem aufklappenden seitlichen Modul einblenden (also
+> ähnlich wie ein Modal statt direkt als Seite zu öffnen)?“
+
+- **S51 Seitenpanel** ✅
+  - **Panel statt Seitenwechsel:** Die Fahne öffnet den Assistenten von
+    rechts. Die Seite bleibt abgedunkelt dahinter, wie bei der Suchpalette
+    (gemeinsamer Hintergrund-Stil). Auf breiten Schirmen nimmt das Panel ein
+    Drittel der Breite ein, mindestens 24rem; unter 640px die volle Breite.
+    Der gelbe Kopf nimmt die Fahne auf und enthält „Als Seite öffnen“ und
+    „Schließen“.
+  - **Gleicher Assistent:** dieselbe Oberfläche (`renderView` mit
+    `kompakt`: ohne Seitenüberschrift, kurzer Hinweis) und derselbe Verlauf
+    wie auf `#/assistent`. Die Eingabe bleibt unten stehen.
+  - **Barrierefreiheit:** modaler Dialog (`role="dialog"`, `aria-modal`,
+    Titel), Fokus ins Fragefeld, Tab-Falle. Escape und Hintergrund-Klick
+    schließen, der Fokus geht zurück zur Fahne; die Fahne trägt
+    `aria-haspopup="dialog"`. Die Seite scrollt nicht mit, reduzierte
+    Bewegung wird beachtet.
+  - **Verhalten:** Interne Links in Antworten und „Als Seite öffnen“
+    schließen das Panel und zeigen das Ziel. Seitenwechsel wie „Zurück“
+    schließen es ebenfalls. Auf der Assistent-Seite fokussiert die Fahne das
+    Fragefeld, statt ein zweites Panel zu öffnen. Das Menü führt weiter zur
+    ganzen Seite. Beim Schließen wird das Panel geleert, damit keine
+    doppelten IDs entstehen.
+  - Tests: mini_s51 (19), Einzeldatei und verschlüsselte Fassung (4),
+    smoke_bestand, mini_s45/s48/s49/s50 grün. mini_s50 läuft jetzt mit
+    fester Uhr, weil die Vorlagen seit dem 1.11. den nächsten Durchgang
+    vorschlagen.
+
 ## Tranche S50: Anmeldung Abschlussprüfung — Hinweis vom 23.10.2026
 
 > Mailverlauf der Regierungspräsidien: Ein überarbeitetes Anmeldeformular zur

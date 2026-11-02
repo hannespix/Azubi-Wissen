@@ -143,7 +143,7 @@ kbd.kbd {
 /* ===================== Suchpalette (Overlay) ====================== */
 .palette { position: fixed; inset: 0; z-index: 50; display: none; }
 .palette[data-offen="true"] { display: block; }
-.palette__hintergrund { position: absolute; inset: 0; background: var(--bw-schwarz); opacity: 0.55; }
+.palette__hintergrund, .assistent-panel__hintergrund { position: absolute; inset: 0; background: var(--bw-schwarz); opacity: 0.55; }
 .palette__panel {
   position: relative; margin: 8vh auto 0; width: min(44rem, calc(100% - 2 * var(--bw-rand)));
   background: var(--bw-weiss); border: 2px solid var(--bw-schwarz); border-radius: var(--bw-radius);
@@ -411,7 +411,7 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
    Suchtreffer und Eingabe brauchen berechenbaren Kontrast, und der
    hängt bei einer durchscheinenden Fläche davon ab, was zufällig
    dahinter liegt. */
-.palette__hintergrund {
+.palette__hintergrund, .assistent-panel__hintergrund {
   background: rgba(42, 38, 35, 0.45);
   opacity: 1;
   -webkit-backdrop-filter: blur(8px) saturate(1.1);
@@ -435,7 +435,7 @@ main > .nachschlag-karte, .chat__verlauf > .blase {
 /* Ohne backdrop-filter-Unterstützung bleibt nur die Abdunklung — dann
    etwas kräftiger, damit das Panel sich weiterhin klar abhebt. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .palette__hintergrund { background: rgba(42, 38, 35, 0.6); }
+  .palette__hintergrund, .assistent-panel__hintergrund { background: rgba(42, 38, 35, 0.6); }
 }
 
 /* --- Weiches Auf-/Zuklappen von details (FAQ, Baum) --------------- */
@@ -724,6 +724,45 @@ a.chip { display: inline-block; }
 .assistent-stoerer:hover { transform: translateX(-3px); box-shadow: var(--schatten-3); }
 .assistent-stoerer:active { transform: translateX(-1px) scale(0.98); }
 @media print { .assistent-stoerer { display: none; } }
+
+/* KI-Assistent im Seitenpanel — die Fahne „Fragen" klappt nach links auf.
+   Gleiche Sprache wie die Suchpalette: abgedunkelter Hintergrund, deckende
+   Fläche. Breite ein Drittel (Landes-CD: gedrittelt), mindestens 24rem;
+   unter 640px volle Breite. Der gelbe Kopf nimmt die Fahne auf. */
+.assistent-panel { position: fixed; inset: 0; z-index: 50; display: none; }
+.assistent-panel[data-offen="true"] { display: block; }
+.assistent-panel__flaeche {
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: max(24rem, 33.333vw); max-width: 100%;
+  display: flex; flex-direction: column;
+  background: var(--bw-weiss); border-left: 1px solid var(--bw-schwarz);
+  animation: panel-seitlich var(--dauer-2) var(--kurve) backwards;
+}
+@keyframes panel-seitlich { from { transform: translateX(100%); } }
+.assistent-panel__kopf {
+  display: flex; align-items: center; gap: var(--bw-space-2);
+  padding: var(--bw-space-1) var(--bw-space-2) var(--bw-space-1) var(--bw-space-3);
+  background: var(--bw-gelb); color: var(--bw-schwarz); border-bottom: 1px solid var(--bw-schwarz);
+}
+.assistent-panel__kopf h2 { margin: 0; margin-right: auto; font-size: var(--bw-fs-h3); }
+.assistent-panel__kopf .chip { background: var(--bw-weiss); }
+.assistent-panel__kopf .bw-iconbtn { color: var(--bw-schwarz); }
+.assistent-panel__inhalt { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: var(--bw-space-3); }
+.assistent-panel__inhalt .chat { max-width: none; }
+.assistent-panel__inhalt .blase { max-width: 92%; }
+/* Eingabe bleibt unten stehen — nach langen Antworten ist die nächste
+   Frage ohne Zurückscrollen möglich. */
+.assistent-panel__inhalt .chat__eingabe {
+  position: sticky; bottom: calc(-1 * var(--bw-space-3)); z-index: 1;
+  margin: 0 calc(-1 * var(--bw-space-3)); padding: var(--bw-space-2) var(--bw-space-3);
+  background: var(--bw-weiss); border-top: var(--bw-border);
+}
+html.assistent-offen, html.assistent-offen body { overflow: hidden; }
+html.assistent-offen .assistent-stoerer { visibility: hidden; }
+@media (max-width: 640px) {
+  .assistent-panel__flaeche { width: 100%; border-left: 0; }
+}
+@media print { .assistent-panel { display: none !important; } }
 
 /* ================== Rechner (R4) ================================== */
 .rechner-form { display: grid; grid-template-columns: 1fr 1fr; gap: var(--bw-space-2); margin: var(--bw-space-2) 0; }
