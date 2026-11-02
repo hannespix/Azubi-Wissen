@@ -23,8 +23,9 @@ assets/js/zugang.js entschlüsselt im Browser mit WebCrypto und merkt sich
 den Schlüssel je Gerät.
 
 Passwort: Umgebungsvariable ZUGANG_PASSWORT (im Pages-Workflow das
-gleichnamige GitHub-Secret). Fehlt es, bricht das Werkzeug ab — die Seite
-wird nie unverschlüsselt veröffentlicht. Passwort ändern = Secret ändern und
+gleichnamige GitHub-Secret). Fehlt es, bricht das Werkzeug ab. Der
+Pages-Workflow ruft es ohne Secret gar nicht erst auf — die Seite geht dann
+ohne Login online (Login ist optional). Passwort ändern = Secret ändern und
 Pages neu laufen lassen; alle Geräte fragen dann einmal das neue Passwort ab.
 
 Aufruf:  ZUGANG_PASSWORT=… python3 tools/zugang_bauen.py _site

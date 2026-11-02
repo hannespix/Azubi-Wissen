@@ -1,12 +1,13 @@
 name: GitHub Pages
 
 # Veröffentlicht nach jedem Merge auf main die aktuellen Werkzeuge:
-#   /            → Azubi-Wissen (Browsertool, passwortgeschützt — S48)
+#   /            → Azubi-Wissen (Browsertool; Login nur mit Secret, siehe unten)
 #   /navigator/  → Fachwerker-Navigator (Browser-Vorschau, Vite-Build)
 # Voraussetzungen in den Repo-Einstellungen:
 #   - Pages → Source = "GitHub Actions"
-#   - Secrets and variables → Actions → Secret ZUGANG_PASSWORT (Zugangspasswort;
-#     ohne dieses Secret bricht der Lauf ab — nie unverschlüsselt online)
+#   - optional: Secrets and variables → Actions → Secret ZUGANG_PASSWORT. Ist es
+#     gesetzt, wird die Seite verschlüsselt und braucht ein Passwort (Login,
+#     S48). Ohne Secret geht sie wie bisher ohne Login online (derzeit so).
 on:
   push:
     branches: [main]
@@ -52,13 +53,20 @@ jobs:
           # Jekyll aus dem Weg — Verzeichnisse mit Unterstrich u. ä. unangetastet lassen
           touch _site/.nojekyll
 
-      # Zugangsschutz (S48): Inhalte, Suchindex, Dateien und Offline-Datei mit
-      # dem Zugangspasswort verschlüsseln (tools/zugang_bauen.py). Passwort
-      # ändern = Secret ändern und diesen Workflow erneut starten.
-      - name: Inhalte verschlüsseln (Zugangsschutz)
+      # Zugangsschutz (S48), optional: Mit Secret ZUGANG_PASSWORT werden
+      # Inhalte, Suchindex, Dateien und Offline-Datei verschlüsselt
+      # (tools/zugang_bauen.py) — die Seite braucht dann ein Passwort. Ohne
+      # Secret geht sie ohne Login online. Einschalten = Secret anlegen,
+      # ändern = Secret ändern; der nächste Deploy übernimmt es.
+      - name: Zugangsschutz (nur mit Secret ZUGANG_PASSWORT)
         env:
           ZUGANG_PASSWORT: ${{ secrets.ZUGANG_PASSWORT }}
         run: |
+          if [ -z "$ZUGANG_PASSWORT" ]; then
+            echo "::notice title=Zugangsschutz aus::Kein Secret ZUGANG_PASSWORT — die Seite geht ohne Login online."
+            echo "Zugangsschutz aus: kein Secret ZUGANG_PASSWORT, die Seite geht ohne Login online." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           pip install --quiet cryptography
           python3 tools/zugang_bauen.py _site
 

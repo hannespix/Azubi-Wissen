@@ -1389,10 +1389,14 @@ window.KONTAKT = {
       "<li><strong>Lokale Speicherung im Browser:</strong> Notizen, Aktenvermerke, Merkliste, Checklisten-Stände " +
       "und eigene Inhalte liegen nur im Browser-Speicher dieses Geräts (localStorage/IndexedDB). Löschen ist " +
       "jederzeit über die Browserdaten oder das Modul „Eigene Inhalte &amp; Sicherung“ möglich.</li>" +
-      "<li><strong>Zugangsschutz:</strong> Die Online-Fassung ist mit einem Zugangspasswort geschützt; ihre " +
-      "Inhalte liegen auf dem Server nur verschlüsselt. Nach der Anmeldung merkt sich der Browser einen aus dem " +
-      "Passwort abgeleiteten Schlüssel im Speicher dieses Geräts (localStorage), damit das Passwort nur einmal " +
-      "nötig ist. Übertragen wird dabei nichts; „Abmelden“ im Menü löscht den Schlüssel.</li>" +
+      // Nur, wenn diese Fassung tatsächlich passwortgeschützt ist (S48 — der
+      // Login ist optional und derzeit aus).
+      (window.ZUGANG && window.ZUGANG.aktiv
+        ? "<li><strong>Zugangsschutz:</strong> Die Online-Fassung ist mit einem Zugangspasswort geschützt; ihre " +
+          "Inhalte liegen auf dem Server nur verschlüsselt. Nach der Anmeldung merkt sich der Browser einen aus dem " +
+          "Passwort abgeleiteten Schlüssel im Speicher dieses Geräts (localStorage), damit das Passwort nur einmal " +
+          "nötig ist. Übertragen wird dabei nichts; „Abmelden“ im Menü löscht den Schlüssel.</li>"
+        : "") +
       "<li><strong>Aufruf über das Internet:</strong> Wird das Werkzeug online aufgerufen (derzeit GitHub Pages), " +
       "verarbeitet der Hoster (GitHub Inc., USA) technisch bedingt Server-Protokolle mit " +
       "IP-Adressen; darauf hat das Werkzeug keinen Einfluss. Bei der Nutzung als heruntergeladene Einzeldatei " +

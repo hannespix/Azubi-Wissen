@@ -12,9 +12,9 @@ Requests, keine Cloud, keine Telemetrie.**
 ## Nutzung
 
 **Online (GitHub Pages, nach jedem Merge automatisch aktualisiert):**
-`https://hannespix.github.io/Azubi-Wissen/` — **passwortgeschützt**
-(Zugangspasswort, je Gerät nur einmal einzugeben; Zugang schalten Hannes Pix
-oder Christoph Zilz frei: azubiwissen@pix-el.de). Als **PWA installierbar**
+`https://hannespix.github.io/Azubi-Wissen/` — derzeit **ohne Login**; ein
+Zugangsschutz per Passwort ist vorbereitet und lässt sich jederzeit
+einschalten (siehe „Zugangsschutz“). Als **PWA installierbar**
 („Zum Startbildschirm hinzufügen"), danach auch im Flugmodus nutzbar.
 
 **Variante 1 — Einzeldatei (empfohlen für Zero-Trust-Arbeitsplätze):**
@@ -145,8 +145,8 @@ Werkzeug selbst ruft nichts aus dem Netz ab (Zero-Trust).
 
 ## Zugangsschutz
 
-Die Online-Fassung ist seit S48 mit einem **Zugangspasswort** geschützt —
-ohne Server: Beim Pages-Deploy verschlüsselt `tools/zugang_bauen.py` alle
+**Optional und derzeit aus.** Ist das Secret `ZUGANG_PASSWORT` gesetzt, ist
+die Online-Fassung mit einem **Zugangspasswort** geschützt — ohne Server: Beim Pages-Deploy verschlüsselt `tools/zugang_bauen.py` alle
 Inhalts- und Programmskripte (als ein Paket), den Suchindex, die Dateien unter
 `formulare/` und die Offline-Datei mit **AES-256-GCM**; den Schlüssel leitet
 PBKDF2-SHA-256 (600 000 Runden) aus dem Passwort ab. `assets/js/zugang.js`
@@ -155,11 +155,12 @@ Schlüssel im Browser des Geräts — das Passwort ist also **je Gerät nur einm
 nötig; „Abmelden“ im Menü löscht ihn. Impressum und Datenschutz
 (`assets/js/rechtliches.js`) bleiben ohne Anmeldung erreichbar.
 
-- **Passwort festlegen/ändern:** GitHub → Settings → Secrets and variables →
+- **Einschalten/Passwort ändern:** GitHub → Settings → Secrets and variables →
   Actions → Secret **`ZUGANG_PASSWORT`** (mindestens 10 Zeichen, besser eine
   Passphrase), danach Actions → „GitHub Pages“ → „Run workflow“. Alle Geräte
-  fragen dann einmal das neue Passwort ab. Fehlt das Secret, bricht der
-  Deploy ab — die Seite geht nie unverschlüsselt online.
+  fragen dann einmal das Passwort ab. **Ohne Secret** veröffentlicht der
+  Deploy wie bisher ohne Login (Hinweis im Lauf); **Ausschalten** = Secret
+  löschen und Pages neu laufen lassen.
 - **Zugang anfragen:** Personen und Adresse stehen in `assets/js/kontakt.js`
   (`zugang`).
 - **Neue Skripte mit Inhalten** in `index.html` zwischen
