@@ -2,12 +2,13 @@
 // Nicht von Hand bearbeiten. Das Werkzeug liest nur diese Datei — es prüft
 // selbst nichts im Netz (Zero-Trust). Neu erzeugen: siehe README „Aktualität“.
 window.PRUEFSTAND = {
- "geprueft": "2026-11-16",
+ "geprueft": "2026-11-23",
  "zaehlung": {
-  "aktuell": 127,
+  "aktuell": 126,
   "weitergeleitet": 14,
   "alt": 6,
   "geaendert": 1,
+  "nicht-pruefbar": 1,
   "laeuft-ab": 3
  },
  "quellen": {
@@ -25,6 +26,25 @@ window.PRUEFSTAND = {
   },
   "bav-hilfe-pdf": {
    "status": "aktuell"
+  },
+  "antrag-ausbildungsstaette-gartenbau": {
+   "status": "aktuell"
+  },
+  "antrag-ausbilder-gartenbau": {
+   "status": "aktuell"
+  },
+  "rp-anerkennung": {
+   "status": "aktuell"
+  },
+  "gesetz-gbfwvo": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=jlr-NNLBW00007D10&query=JURISLINK%3A%22FWerkGartAusbV+BW%22"
+  },
+  "gewerbeaufsicht-rb-freiburg": {
+   "status": "alt",
+   "art": "intern",
+   "hinweis": "Stand 12/2010 — keine Online-Fassung zum Vergleich; beim Herausgeber (RP Freiburg) nach einer neueren Fassung fragen"
   },
   "bav-hinweise": {
    "status": "aktuell"
@@ -107,32 +127,13 @@ window.PRUEFSTAND = {
   "rp-unterlagen-ausbildende": {
    "status": "aktuell"
   },
-  "gesetz-gbfwvo": {
-   "status": "weitergeleitet",
-   "art": "link",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=jlr-NNLBW00007D10&query=JURISLINK%3A%22FWerkGartAusbV+BW%22"
-  },
-  "antrag-ausbildungsstaette-gartenbau": {
+  "gesetz-arbzg": {
    "status": "aktuell"
-  },
-  "antrag-ausbilder-gartenbau": {
-   "status": "aktuell"
-  },
-  "rp-anerkennung": {
-   "status": "aktuell"
-  },
-  "gewerbeaufsicht-rb-freiburg": {
-   "status": "alt",
-   "art": "intern",
-   "hinweis": "Stand 12/2010 — keine Online-Fassung zum Vergleich; beim Herausgeber (RP Freiburg) nach einer neueren Fassung fragen"
   },
   "gesetz-bbig": {
    "status": "aktuell"
   },
   "gesetz-entgfg": {
-   "status": "aktuell"
-  },
-  "gesetz-bgb": {
    "status": "aktuell"
   },
   "gesetz-burlg": {
@@ -141,10 +142,10 @@ window.PRUEFSTAND = {
   "gesetz-jarbschg": {
    "status": "aktuell"
   },
-  "gesetz-arbzg": {
+  "gesetz-gaertnausbv": {
    "status": "aktuell"
   },
-  "gesetz-gaertnausbv": {
+  "gesetz-bgb": {
    "status": "aktuell"
   },
   "gesetz-arbschg": {
@@ -165,9 +166,6 @@ window.PRUEFSTAND = {
   "gesetz-sgb9": {
    "status": "aktuell"
   },
-  "gesetz-bafoeg": {
-   "status": "aktuell"
-  },
   "gesetz-aevo": {
    "status": "aktuell"
   },
@@ -179,10 +177,10 @@ window.PRUEFSTAND = {
   "ausbv-tierwirt": {
    "status": "aktuell"
   },
-  "ausbv-fischwirt": {
+  "ausbv-winzer": {
    "status": "aktuell"
   },
-  "ausbv-pferdewirt": {
+  "gesetz-bafoeg": {
    "status": "aktuell"
   },
   "ausbv-brenner": {
@@ -191,25 +189,25 @@ window.PRUEFSTAND = {
   "gesetz-tzbfg": {
    "status": "aktuell"
   },
-  "ausbv-winzer": {
+  "ausbv-fischwirt": {
+   "status": "aktuell"
+  },
+  "ausbv-pferdewirt": {
    "status": "aktuell"
   },
   "ausbv-forstwirt": {
    "status": "aktuell"
   },
-  "ausbv-milchtechnologe": {
-   "status": "aktuell"
-  },
   "ausbv-agrarservice": {
    "status": "aktuell"
   },
-  "ausbv-milchw-laborant": {
+  "ausbv-milchtechnologe": {
    "status": "aktuell"
   },
   "ausbv-pflanzentechnologe": {
    "status": "aktuell"
   },
-  "ausbv-hufbeschlag": {
+  "ausbv-milchw-laborant": {
    "status": "aktuell"
   },
   "ausbv-revierjaeger": {
@@ -218,31 +216,28 @@ window.PRUEFSTAND = {
   "ausbv-hauswirtschafter": {
    "status": "aktuell"
   },
+  "ausbv-hufbeschlag": {
+   "status": "aktuell"
+  },
   "gesetz-dsgvo": {
-   "status": "aktuell"
-  },
-  "ba-berufetv": {
-   "status": "aktuell"
-  },
-  "ba-reha": {
-   "status": "aktuell"
-  },
-  "berichtsheft-gaertner": {
-   "status": "aktuell"
-  },
-  "berichtsheft-galabau": {
    "status": "aktuell"
   },
   "ba-berufenet": {
    "status": "aktuell"
   },
-  "pflanzenlisten": {
+  "berichtsheft-gaertner": {
    "status": "aktuell"
   },
-  "ba-ausbildungsgeld": {
+  "ba-bab": {
    "status": "aktuell"
   },
-  "svlfg-checklisten": {
+  "berichtsheft-galabau": {
+   "status": "aktuell"
+  },
+  "ba-berufetv": {
+   "status": "aktuell"
+  },
+  "svlfg-unterweisung": {
    "status": "aktuell"
   },
   "anmeldebogen-extern": {
@@ -253,22 +248,30 @@ window.PRUEFSTAND = {
   "rp-gaertner-portal": {
    "status": "aktuell"
   },
+  "pflanzenlisten": {
+   "status": "aktuell"
+  },
+  "infodienst-gaertner": {
+   "status": "aktuell"
+  },
   "gesetz-gartausbsteignv": {
    "status": "aktuell"
   },
   "gesetz-lwhwpruefanerkv": {
    "status": "aktuell"
   },
-  "infodienst-gaertner": {
+  "ba-reha": {
    "status": "aktuell"
   },
   "pflanze-bw": {
    "status": "aktuell"
   },
-  "bildungsserver-agrar": {
-   "status": "aktuell"
+  "hswt-landschaftsbau": {
+   "status": "nicht-pruefbar",
+   "art": "link",
+   "hinweis": "HTTP 401 — Server lässt keine automatische Prüfung zu"
   },
-  "ba-bab": {
+  "bildungsserver-agrar": {
    "status": "aktuell"
   },
   "lw-bw-rechtsgrundlagen": {
@@ -277,16 +280,19 @@ window.PRUEFSTAND = {
   "lra-ka-infodienst": {
    "status": "aktuell"
   },
+  "rp-meisterpruefung-gartenbau": {
+   "status": "aktuell"
+  },
   "bibb-ausbildung-gestalten": {
    "status": "aktuell"
   },
   "kmk-rahmenlehrplan": {
    "status": "aktuell"
   },
-  "rp-meisterpruefung-gartenbau": {
+  "ba-ausbildungsgeld": {
    "status": "aktuell"
   },
-  "ba-asa": {
+  "svlfg-betriebsanweisungen": {
    "status": "aktuell"
   },
   "vwv-berichtsheft": {
@@ -299,10 +305,15 @@ window.PRUEFSTAND = {
    "art": "intern",
    "hinweis": "Stand 21.09.2011 (Az. 28-8412.72) — keine Online-Fassung zum Vergleich; beim Herausgeber (MLR Baden-Württemberg) nach einer neueren Fassung fragen"
   },
-  "svlfg-unterweisung": {
+  "lra-ka-faq": {
    "status": "aktuell"
   },
-  "lra-ka-faq": {
+  "vwv-voaplandw": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034591&query=JURISLINK%3AVVBW-MLR-20191122-04-SF"
+  },
+  "ka-buergerdienst-ap": {
    "status": "aktuell"
   },
   "vwv-zustaendigkeiten-rp": {
@@ -313,12 +324,7 @@ window.PRUEFSTAND = {
    "art": "intern",
    "hinweis": "Stand 08.08.1977 — keine Online-Fassung zum Vergleich; beim Herausgeber (MLR Baden-Württemberg) nach einer neueren Fassung fragen"
   },
-  "vwv-voaplandw": {
-   "status": "weitergeleitet",
-   "art": "link",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034591&query=JURISLINK%3AVVBW-MLR-20191122-04-SF"
-  },
-  "ba-planetberuf": {
+  "ba-asa": {
    "status": "aktuell"
   },
   "pruefungsschreiben-winter-2027": {
@@ -351,16 +357,7 @@ window.PRUEFSTAND = {
    "art": "link",
    "hinweis": "vorübergehend weitergeleitet nach https://lobw.kultus-bw.de/koos/Benutzer/Anmeldung?ReturnUrl=%2Fkoos%2Fhome%2Fuebersicht"
   },
-  "hswt-landschaftsbau": {
-   "status": "aktuell"
-  },
   "ha-156": {
-   "status": "aktuell"
-  },
-  "ka-buergerdienst-ap": {
-   "status": "aktuell"
-  },
-  "svlfg-betriebsanweisungen": {
    "status": "aktuell"
   },
   "vwv-zwischenpruefung-lw": {
@@ -368,19 +365,25 @@ window.PRUEFSTAND = {
    "art": "link",
    "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000034593&query=JURISLINK%3AVVBW-MLR-20191122-05-SF"
   },
-  "ausbildung-farm": {
+  "svlfg-checklisten": {
    "status": "aktuell"
   },
-  "gaertnausbv-anlage3a": {
+  "ba-planetberuf": {
    "status": "aktuell"
   },
   "ha-174": {
+   "status": "aktuell"
+  },
+  "gaertnausbv-anlage3a": {
    "status": "aktuell"
   },
   "vwv-ausbildungsstaetten-lw": {
    "status": "weitergeleitet",
    "art": "link",
    "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031680&query=JURISLINK%3AVVBW-MLR-20191122-03-SF"
+  },
+  "ausbildung-farm": {
+   "status": "aktuell"
   },
   "ha-129": {
    "status": "aktuell"
@@ -391,7 +394,18 @@ window.PRUEFSTAND = {
   "gesetz-milog": {
    "status": "aktuell"
   },
+  "vwv-gutachterausschuss-lw": {
+   "status": "weitergeleitet",
+   "art": "link",
+   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031679&query=JURISLINK%3AVVBW-MLR-20191122-02-SF"
+  },
   "ihk-fehlzeiten": {
+   "status": "aktuell"
+  },
+  "ba-weisung-eq": {
+   "status": "aktuell"
+  },
+  "gesetz-eqfao": {
    "status": "aktuell"
   },
   "eq-vertrag-gaertner": {
@@ -415,21 +429,7 @@ window.PRUEFSTAND = {
   "praktikantenvertrag-berufsorientierung": {
    "status": "aktuell"
   },
-  "ba-weisung-eq": {
-   "status": "aktuell"
-  },
-  "gesetz-eqfao": {
-   "status": "aktuell"
-  },
-  "vwv-gutachterausschuss-lw": {
-   "status": "weitergeleitet",
-   "art": "link",
-   "hinweis": "vorübergehend weitergeleitet nach https://www.landesrecht-bw.de/bsbw/?docId=VVBW-VVBW000031679&query=JURISLINK%3AVVBW-MLR-20191122-02-SF"
-  },
   "ha-120": {
-   "status": "aktuell"
-  },
-  "betriebe-datenbank": {
    "status": "aktuell"
   },
   "vwv-bbig-zuvo": {
@@ -441,6 +441,9 @@ window.PRUEFSTAND = {
    "status": "aktuell"
   },
   "ha-136": {
+   "status": "aktuell"
+  },
+  "betriebe-datenbank": {
    "status": "aktuell"
   },
   "ha-154": {
@@ -787,7 +790,7 @@ window.PRUEFSTAND = {
    "id": "miav",
    "was": "Mindestausbildungsvergütung — Tabelle bis Ausbildungsbeginn 2026",
    "status": "laeuft-ab",
-   "hinweis": "läuft in 45 Tagen ab (31.12.2026)",
+   "hinweis": "läuft in 38 Tagen ab (31.12.2026)",
    "gueltigBis": "2026-12-31",
    "aufgabe": "Wert für Ausbildungsbeginn 2027 eintragen — er wird bis 1. November im Bundesgesetzblatt bekannt gemacht (§ 17 Abs. 2 BBiG); die Staffel +18/+35/+40 % mitrechnen.",
    "wo": [
@@ -800,7 +803,7 @@ window.PRUEFSTAND = {
    "id": "infoblatt-azubis",
    "was": "Infoblatt für Auszubildende 2026",
    "status": "laeuft-ab",
-   "hinweis": "läuft in 45 Tagen ab (31.12.2026)",
+   "hinweis": "läuft in 38 Tagen ab (31.12.2026)",
    "gueltigBis": "2026-12-31",
    "aufgabe": "Infoblatt des Folgejahres von der Landwirtschaftsverwaltung holen und Quelle `infoblatt-azubi` (Datei, Titel, Stand) umstellen.",
    "wo": [
@@ -812,7 +815,7 @@ window.PRUEFSTAND = {
    "id": "goae-jarbsch",
    "was": "Hinweis: neue Gebührenordnung für Ärzte „frühestens 2027“ (Jugendarbeitsschutzuntersuchung)",
    "status": "laeuft-ab",
-   "hinweis": "läuft in 45 Tagen ab (31.12.2026)",
+   "hinweis": "läuft in 38 Tagen ab (31.12.2026)",
    "gueltigBis": "2026-12-31",
    "aufgabe": "Prüfen, ob die neue GOÄ in Kraft ist, und den Abschnitt entsprechend umstellen.",
    "wo": [
